@@ -3,9 +3,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
     <ProjectGuid>{FB9A6400-E1F9-5B3B-88E6-3165ADBB344A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -34,45 +33,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>D:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>D:\Program Files\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\_Scripts\Dialogo\ActivateTextAtLine.cs" />
-     <Compile Include="Assets\_Scripts\Dialogo\TextBoxManager.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\DialgueOption.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogue.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\DialogueNode.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
-     <None Include="Assets\text_dia.xml" />
-     <None Include="Assets\_Texts\example.txt" />
-     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
-     <None Include="Assets\_Texts\NPC.txt" />
-     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
- <Reference Include="UnityEngine.UI">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Networking">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{19C0E063-6EA4-B966-3D72-C58DD2FAE3E0}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <Compile Include="Assets\_Scripts\Dialogo\ActivateTextAtLine.cs" />
+    <Compile Include="Assets\_Scripts\Dialogo\TextBoxManager.cs" />
+    <Compile Include="Assets\_Scripts\Dialogue_Node\DialgueOption.cs" />
+    <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogue.cs" />
+    <Compile Include="Assets\_Scripts\Dialogue_Node\DialogueNode.cs" />
+    <Compile Include="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" />
+    <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
+    <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
+    <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
+    <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
+    <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
+    <None Include="Assets\text_dia.xml" />
+    <None Include="Assets\_Texts\example.txt" />
+    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\_Texts\NPC.txt" />
+    <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>D:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -82,5 +77,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>
