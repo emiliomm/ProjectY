@@ -10,6 +10,8 @@ public class NpcDialogue : MonoBehaviour {
 
 	private Dialogue dia;
 
+	public TP_Controller player; //Controlador del jugador
+
 	private GameObject dialogue_window;
 
 	private GameObject dialog_text;
@@ -42,10 +44,16 @@ public class NpcDialogue : MonoBehaviour {
 
 	public int SizeOfLine; //Tamaño de la linea de texto
 
+	public bool isActive; //la caja de texto está activa o no
+
+	public bool waitForPress;
+
 	// Use this for initialization
 	void Start () {
 
 		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
+
+		player = FindObjectOfType<TP_Controller>();
 		 
 		var canvas = GameObject.Find("Canvas");
 
@@ -81,9 +89,29 @@ public class NpcDialogue : MonoBehaviour {
 
 		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-1);});
 
-		dialogue_window.SetActive(false);
+		if(isActive)
+		{
+			EnableTextBox();
+		}
+		else
+		{
+			DisableTextBox();
+		}
+	}
 
+
+	public void EnableTextBox()
+	{
+		isActive = true;
+		player.canMove = false;
 		RunDialogue();
+	}
+
+	public void DisableTextBox()
+	{
+		isActive = false;
+		dialogue_window.SetActive(false);
+		player.canMove = true;
 	}
 
 	public void RunDialogue()
@@ -94,6 +122,7 @@ public class NpcDialogue : MonoBehaviour {
 	public void SetSelectedOption(int x)
 	{
 		selected_option = x;
+		Debug.Log (x);
 	}
 
 	public IEnumerator run()
@@ -107,15 +136,12 @@ public class NpcDialogue : MonoBehaviour {
 		//input
 		while(node_id != -1)
 		{
-
-
 			display_node_text(dia.Nodes[node_id]);
 			selected_option = node_id;
 			while(selected_option == node_id)
 			{
 				yield return new WaitForSeconds(0.25f);
 			}
-
 
 			if (dia.Nodes[node_id].Options.Count > 0)
 			{
@@ -129,8 +155,7 @@ public class NpcDialogue : MonoBehaviour {
 
 			node_id = selected_option;
 		}
-
-		dialogue_window.SetActive(false);
+		DisableTextBox();
 	}
 
 	//Muestra el nodo de texto del diálogo
@@ -156,7 +181,8 @@ public class NpcDialogue : MonoBehaviour {
 
 		dialog_text.SetActive(true);
 		dialog_text.GetComponentInChildren<Text>().text = node.Text;
-		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);}); //Listener del botón
+		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);
+		}); //Listener del botón
 	}
 
 	//Muestra el nodo de respuestas del dialogo
@@ -277,5 +303,32 @@ public class NpcDialogue : MonoBehaviour {
 
 		// Remove first " " char
 		return result.Substring(1,result.Length-1);
+	}
+
+	//Si colisionamos con el jugador, cargamos el nuevo texto
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.tag == "Player")
+		{
+			waitForPress = true;
+		}
+	}
+
+	//Al salir de la colision, desactivactivamos la variable waitforpress
+	void OnTriggerExit(Collider other)
+	{
+		if(other.tag == "Player")
+		{
+			waitForPress = false;
+		}
+	}
+
+	void Update()
+	{
+		//Si está esperando a pulsar la tecla y pulsamos J,
+		if (waitForPress && Input.GetKeyDown (KeyCode.J))
+		{
+			EnableTextBox();
+		}
 	}
 }
