@@ -8,15 +8,19 @@ using DialogueTree;
 
 public class NpcDialogue : MonoBehaviour {
 
+	public TP_Controller player; //Controlador del jugador
+	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo
+	public string DialogueDataFilePath; //ruta del fichero xml
+	public int SizeOfLine; //Tamaño de la linea de texto antes de un salto de línea
+	public bool isActive; //indica si la caja de texto está activa o no
+	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
+
 	private Dialogue dia;
 
-	public TP_Controller player; //Controlador del jugador
-
 	private GameObject dialogue_window;
-
 	private GameObject dialog_text;
-
 	private GameObject dialog_options;
+	private GameObject exit;
 
 	private GameObject option_1;
 	private GameObject option_2;
@@ -34,19 +38,8 @@ public class NpcDialogue : MonoBehaviour {
 	private GameObject option_14;
 	private GameObject option_15;
 
-	private GameObject exit;
-
 	private int selected_option = -2;
-
-	public string DialogueDataFilePath; //ruta del fichero xml
-
-	public GameObject DialogueWindowPrefab;
-
-	public int SizeOfLine; //Tamaño de la linea de texto
-
-	public bool isActive; //la caja de texto está activa o no
-
-	public bool waitForPress;
+	private bool waitForPress;
 
 	// Use this for initialization
 	void Start () {
@@ -99,7 +92,39 @@ public class NpcDialogue : MonoBehaviour {
 		}
 	}
 
+	//Si colisionamos con el jugador, cargamos el nuevo texto
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Player")
+		{
+			//Si se necesita pulsar el boton,activamos la variable waitfropress
+			if (requiredButtonPress) 
+			{
+				waitForPress = true;
+				return;
+			}
+			EnableTextBox();
+		}
+	}
 
+	//Al salir de la colision, desactivactivamos la variable waitforpress
+	void OnTriggerExit(Collider other)
+	{
+		if(other.tag == "Player")
+		{
+			waitForPress = false;
+		}
+	}
+
+	void Update()
+	{
+		//Si está esperando a pulsar la tecla y pulsamos J,
+		if (waitForPress && Input.GetKeyDown(KeyCode.J) && !isActive)
+		{
+			EnableTextBox();
+		}
+	}
+		
 	public void EnableTextBox()
 	{
 		isActive = true;
@@ -136,7 +161,6 @@ public class NpcDialogue : MonoBehaviour {
 		//input
 		while(node_id != -1)
 		{
-			
 			display_node_text(dia.Nodes[node_id]);
 			selected_option = node_id;
 			while(selected_option == node_id)
@@ -183,7 +207,7 @@ public class NpcDialogue : MonoBehaviour {
 		dialog_text.SetActive(true);
 		dialog_text.GetComponentInChildren<Text>().text = node.Text;
 		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
-		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {Debug.Log("Hola");SetSelectedOption(selected_option+1);}); //Listener del botón
+		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);}); //Listener del botón
 	}
 
 	//Muestra el nodo de respuestas del dialogo
@@ -305,33 +329,5 @@ public class NpcDialogue : MonoBehaviour {
 
 		// Remove first " " char
 		return result.Substring(1,result.Length-1);
-	}
-
-	//Si colisionamos con el jugador, cargamos el nuevo texto
-	void OnTriggerEnter(Collider other)
-	{
-		if(other.tag == "Player")
-		{
-			waitForPress = true;
-		}
-	}
-
-	//Al salir de la colision, desactivactivamos la variable waitforpress
-	void OnTriggerExit(Collider other)
-	{
-		if(other.tag == "Player")
-		{
-			waitForPress = false;
-		}
-	}
-
-	void Update()
-	{
-		//Si está esperando a pulsar la tecla y pulsamos J,
-		if (waitForPress && Input.GetKeyDown(KeyCode.J))
-		{
-			Debug.Log("Update");
-			EnableTextBox();
-		}
 	}
 }

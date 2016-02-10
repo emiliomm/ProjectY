@@ -1,79 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Nodes>
-    <DialogueNode>
+  	<DialogueNode>
       <NodeID>0</NodeID>
-      <Text>Hi, Welcome to the test dialogue.</Text>
+      <Text>Hola, bienvenido al diálogo de prueba</Text>
       <Options></Options>
     </DialogueNode>
+
     <DialogueNode>
-      <NodeID>1</NodeID>
-      <Text>Jejejeje</Text>
+      <NodeID>2</NodeID>
+      <Text>De acuerdo, comencemos</Text>
       <Options>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
+      </Options>
+    </DialogueNode>
+
+    <DialogueNode>
+      <NodeID>4</NodeID>
+      <Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+      <Options>
+      	<DialogueOption>
+          <Text>No</Text>
+          <DestinationNodeID>5</DestinationNodeID>
         </DialogueOption>
         <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
-        </DialogueOption>
-        <DialogueOption>
-          <Text>Exit</Text>
-          <DestinationNodeID>-1</DestinationNodeID>
+          <Text>Sí</Text>
+          <DestinationNodeID>6</DestinationNodeID>
         </DialogueOption>
       </Options>
     </DialogueNode>
     <DialogueNode>
-      <NodeID>2</NodeID>
-      <Text>JAjajaja</Text>
+      <NodeID>5</NodeID>
+      <Text>Ya esta. Puede irse</Text>
       <Options>
+      	<DialogueOption>
+          <Text>[No decir nada]</Text>
+          <DestinationNodeID>-1</DestinationNodeID>
+        </DialogueOption>
         <DialogueOption>
-          <Text>Exit</Text>
+          <Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
           <DestinationNodeID>-1</DestinationNodeID>
         </DialogueOption>
       </Options>

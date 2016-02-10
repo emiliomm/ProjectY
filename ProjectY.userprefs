@@ -1,8 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\text_dia.xml">
     <Files>
-      <File FileName="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" Line="333" Column="24" />
+      <File FileName="Assets\text_dia.xml" Line="44" Column="20" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" Line="155" Column="35" />
       <File FileName="Assets\_Scripts\Dialogo\ActivateTextAtLine.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\Dialogo\TextBoxManager.cs" Line="1" Column="1" />
     </Files>
