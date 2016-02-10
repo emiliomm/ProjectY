@@ -104,6 +104,7 @@ public class NpcDialogue : MonoBehaviour {
 	{
 		isActive = true;
 		player.canMove = false;
+
 		RunDialogue();
 	}
 
@@ -122,7 +123,6 @@ public class NpcDialogue : MonoBehaviour {
 	public void SetSelectedOption(int x)
 	{
 		selected_option = x;
-		Debug.Log (x);
 	}
 
 	public IEnumerator run()
@@ -136,6 +136,7 @@ public class NpcDialogue : MonoBehaviour {
 		//input
 		while(node_id != -1)
 		{
+			
 			display_node_text(dia.Nodes[node_id]);
 			selected_option = node_id;
 			while(selected_option == node_id)
@@ -181,8 +182,8 @@ public class NpcDialogue : MonoBehaviour {
 
 		dialog_text.SetActive(true);
 		dialog_text.GetComponentInChildren<Text>().text = node.Text;
-		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);
-		}); //Listener del botón
+		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
+		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {Debug.Log("Hola");SetSelectedOption(selected_option+1);}); //Listener del botón
 	}
 
 	//Muestra el nodo de respuestas del dialogo
@@ -264,6 +265,7 @@ public class NpcDialogue : MonoBehaviour {
 	{
 		button.SetActive(true);
 		button.GetComponentInChildren<Text>().text = ResolveTextSize(opt.Text, SizeOfLine); //Texto del botón dividido en lineas
+		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DestinationNodeID); }); //Listener del botón
 	}
 	
@@ -326,8 +328,9 @@ public class NpcDialogue : MonoBehaviour {
 	void Update()
 	{
 		//Si está esperando a pulsar la tecla y pulsamos J,
-		if (waitForPress && Input.GetKeyDown (KeyCode.J))
+		if (waitForPress && Input.GetKeyDown(KeyCode.J))
 		{
+			Debug.Log("Update");
 			EnableTextBox();
 		}
 	}
