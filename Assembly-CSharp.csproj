@@ -51,6 +51,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogue.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\DialogueNode.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\TextBox.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
