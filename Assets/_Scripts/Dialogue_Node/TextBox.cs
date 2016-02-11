@@ -9,8 +9,8 @@ using DialogueTree;
 public class TextBox : MonoBehaviour {
 
 	public static TextBox Instance; //Instancia propia de la clase
-
 	public static TP_Controller player; //Controlador del jugador
+
 	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo
 	public string DialogueDataFilePath; //ruta del fichero xml
 	public int SizeOfLine; //Tamaño de la linea de texto antes de un salto de línea
@@ -49,8 +49,6 @@ public class TextBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
-
 		player = FindObjectOfType<TP_Controller>();
 
 		var canvas = GameObject.Find("Canvas");
@@ -103,6 +101,13 @@ public class TextBox : MonoBehaviour {
 		dialogue_window.SetActive(false);
 		player.canMove = true;
 		isActive = false;
+	}
+
+	public void reloadDialogue(string path)
+	{
+		DialogueDataFilePath = path;
+		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
+		EnableTextBox();
 	}
 
 	public void RunDialogue()
