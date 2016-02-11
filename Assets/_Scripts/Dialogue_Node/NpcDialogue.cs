@@ -8,16 +8,10 @@ using DialogueTree;
 
 public class NpcDialogue : MonoBehaviour {
 
-	public static TextBox box; //Nos permite lidiar con la caja de texto
 	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 	public NPC npc; //NPC del cual carga el dialogo
 
 	private bool waitForPress;
-
-	// Use this for initialization
-	void Awake () {
-		box = FindObjectOfType<TextBox>();
-	}
 
 	//Si colisionamos con el jugador, cargamos el nuevo texto
 	void OnTriggerEnter(Collider other)
@@ -30,7 +24,7 @@ public class NpcDialogue : MonoBehaviour {
 				waitForPress = true;
 				return;
 			}
-			if (!box.isActive)
+			if (!TextBox.Instance.isActive)
 				IniciaDialogo();
 		}
 	}
@@ -46,8 +40,8 @@ public class NpcDialogue : MonoBehaviour {
 
 	void Update()
 	{
-		//Si está esperando a pulsar la tecla y pulsamos J,
-		if (waitForPress && Input.GetKeyDown(KeyCode.J) && !box.isActive)
+		//Si está esperando al input y pulsamos click derecho
+		if (waitForPress && Input.GetMouseButtonDown(1) && !TextBox.Instance.isActive)
 		{
 			IniciaDialogo();
 		}
@@ -56,6 +50,6 @@ public class NpcDialogue : MonoBehaviour {
 	//Inicia el dialogo
 	void IniciaDialogo()
 	{
-		box.reloadDialogue (npc.dialogos[npc.indice]);
+		TextBox.Instance.reloadDialogue (npc, npc.dialogos[npc.indice]);
 	}
 }

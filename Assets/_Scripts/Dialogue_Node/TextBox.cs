@@ -9,7 +9,6 @@ using DialogueTree;
 public class TextBox : MonoBehaviour {
 
 	public static TextBox Instance; //Instancia propia de la clase
-	public static TP_Controller player; //Controlador del jugador
 
 	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo
 	public string DialogueDataFilePath; //ruta del fichero xml
@@ -17,6 +16,7 @@ public class TextBox : MonoBehaviour {
 	public bool isActive; //indica si la caja de texto está activa o no
 
 	private Dialogue dia;
+	private NPC npc;
 
 	private GameObject dialogue_window;
 	private GameObject dialog_text;
@@ -49,8 +49,6 @@ public class TextBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = FindObjectOfType<TP_Controller>();
-
 		var canvas = GameObject.Find("Canvas");
 
 		dialogue_window = Instantiate<GameObject>(DialogueWindowPrefab);
@@ -88,9 +86,17 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
+	public void reloadDialogue(NPC npc_dialogo, string path)
+	{
+		npc = npc_dialogo;
+		DialogueDataFilePath = path;
+		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
+		EnableTextBox();
+	}
+
 	public void EnableTextBox()
 	{
-		player.canMove = false;
+		TP_Controller.Instance.canMove = false;
 		isActive = true;
 
 		RunDialogue();
@@ -99,15 +105,8 @@ public class TextBox : MonoBehaviour {
 	public void DisableTextBox()
 	{
 		dialogue_window.SetActive(false);
-		player.canMove = true;
+		TP_Controller.Instance.canMove = true;
 		isActive = false;
-	}
-
-	public void reloadDialogue(string path)
-	{
-		DialogueDataFilePath = path;
-		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
-		EnableTextBox();
 	}
 
 	public void RunDialogue()
@@ -151,6 +150,16 @@ public class TextBox : MonoBehaviour {
 			node_id = selected_option;
 		}
 		DisableTextBox();
+		CheckIfDialogueEnds();
+	}
+
+	private void CheckIfDialogueEnds()
+	{
+		if (npc.indice + 1 < npc.dialogos.Count)
+		{
+			npc.indice++;
+			reloadDialogue (npc, npc.dialogos[npc.indice]);
+		}
 	}
 
 	//Muestra el nodo de texto del diálogo

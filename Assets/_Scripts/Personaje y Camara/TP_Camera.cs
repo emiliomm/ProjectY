@@ -34,15 +34,11 @@ public class TP_Camera : MonoBehaviour
 	private float distanceSmooth = 0f;
 	private float preOccludedDistance = 0f; //almacena la distancia actual de la camara hasta que el jugador cambie el zoom
 
-	public static TP_Controller player; //Instancia propia de la clase
-
 	// Use this when the object is created
 	void Awake ()
 	{
 		//Inicializamos la variable instancia
 		Instance = this;
-
-		player = FindObjectOfType<TP_Controller>();
 	}
 
 	// Use this for initialization
@@ -58,7 +54,7 @@ public class TP_Camera : MonoBehaviour
 	void LateUpdate ()
 	{
 		//Si no miramos a ningun sitio, salimos
-		if(TargetLookAt == null || !player.canMove)
+		if(TargetLookAt == null || !TP_Controller.Instance.canMove)
 			return;
 
 		HandlePlayerInput();
