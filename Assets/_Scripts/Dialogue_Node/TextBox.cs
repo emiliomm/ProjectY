@@ -86,7 +86,7 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-	public void reloadDialogue(NPC npc_dialogo, string path)
+	public void LoadDialogue(NPC npc_dialogo, string path)
 	{
 		npc = npc_dialogo;
 		DialogueDataFilePath = path;
