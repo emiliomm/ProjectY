@@ -92,11 +92,7 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-<<<<<<< HEAD
 	public void StartDialogue(NPC npc_dialogo, string path)
-=======
-	public void LoadDialogue(NPC npc_dialogo, string path)
->>>>>>> origin/master
 	{
 		npc = npc_dialogo;
 		DialogueDataFilePath = path;

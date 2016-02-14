@@ -50,10 +50,6 @@ public class NpcDialogue : MonoBehaviour {
 	//Inicia el dialogo
 	void IniciaDialogo()
 	{
-<<<<<<< HEAD
 		TextBox.Instance.StartDialogue (npc, npc.dialogos[npc.indice]);
-=======
-		TextBox.Instance.LoadDialogue (npc, npc.dialogos[npc.indice]);
->>>>>>> origin/master
 	}
 }
