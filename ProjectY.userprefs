@@ -2,12 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\TextBox.cs">
     <Files>
+<<<<<<< HEAD
       <File FileName="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\Dialogue_Node\TextBox.cs" Line="5" Column="22" />
       <File FileName="Assets\_Scripts\NPC\NPC.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\NPC\Pregunta.cs" Line="1" Column="1" />
       <File FileName="Assets\_Texts\text_dia.xml" Line="1" Column="1" />
       <File FileName="Assets\_Texts\text_dia3.xml" Line="1" Column="1" />
+=======
+      <File FileName="Assets\_Scripts\Dialogue_Node\TextBox.cs" Line="89" Column="15" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" Line="53" Column="21" />
+>>>>>>> origin/master
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
