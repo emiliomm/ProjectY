@@ -53,6 +53,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\TextBox.cs" />
      <Compile Include="Assets\_Scripts\NPC\NPC.cs" />
+     <Compile Include="Assets\_Scripts\NPC\Pregunta.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
@@ -60,6 +61,7 @@
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
      <None Include="Assets\_Texts\text_dia.xml" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+     <None Include="Assets\_Texts\text_dia3.xml" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />

@@ -21,6 +21,7 @@ public class TextBox : MonoBehaviour {
 	private GameObject dialogue_window;
 	private GameObject dialog_text;
 	private GameObject dialog_options;
+	private GameObject change_theme;
 	private GameObject exit;
 
 	private GameObject option_1;
@@ -39,7 +40,10 @@ public class TextBox : MonoBehaviour {
 	private GameObject option_14;
 	private GameObject option_15;
 
-	private int selected_option = -2;
+	private int selected_option = 0;
+
+	enum GameState {Entrante_Texto, Entrante_Elegir, Respuestas_Mostrar, Respuestas_Texto, Respuestas_Elegir};
+	GameState current;
 
 	// Use this when the object is created
 	void Awake ()
@@ -79,19 +83,28 @@ public class TextBox : MonoBehaviour {
 		option_14 = GameObject.Find("Button_Option14");
 		option_15 = GameObject.Find("Button_Option15");
 
+		change_theme = GameObject.Find("Button_ChangeTheme");
 		exit = GameObject.Find("Button_End");
 
-		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-1);});
+		change_theme.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
+		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-3);});
 
 		DisableTextBox();
 	}
 
-	public void reloadDialogue(NPC npc_dialogo, string path)
+	public void StartDialogue(NPC npc_dialogo, string path)
 	{
 		npc = npc_dialogo;
 		DialogueDataFilePath = path;
 		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
 		EnableTextBox();
+	}
+
+	public void UpdateDialogue(NPC npc_dialogo, string path)
+	{
+		npc = npc_dialogo;
+		DialogueDataFilePath = path;
+		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
 	}
 
 	public void EnableTextBox()
@@ -125,41 +138,154 @@ public class TextBox : MonoBehaviour {
 
 		// create a indexer, set it to 0 - the dialogues Start node.
 		int node_id = 0; //principio del dialogo
+		bool conversacion_activa = true;
+		current = GameState.Entrante_Texto;
 
-		//while the next node is not an exit node, traverse the dialogue tree based on the user
-		//input
-		while(node_id != -1)
+		while(conversacion_activa)
 		{
-			display_node_text(dia.Nodes[node_id]);
-			selected_option = node_id;
-			while(selected_option == node_id)
+			Debug.Log(current);
+			switch(current)
 			{
-				yield return new WaitForSeconds(0.25f);
-			}
+			case GameState.Entrante_Texto:
+				display_node_text(dia.Nodes[node_id]);
+				selected_option = node_id;
 
-			if (dia.Nodes[node_id].Options.Count > 0)
-			{
-				display_node_answers(dia.Nodes[node_id]);
-				selected_option = -2;
-				while(selected_option == -2)
+				while(selected_option == node_id)
 				{
 					yield return new WaitForSeconds(0.25f);
 				}
+
+				if(selected_option == -2)
+				{
+					current = GameState.Respuestas_Mostrar;
+				}
+				else if(selected_option == -3)
+				{
+					conversacion_activa = false;
+				}
+				else if(dia.Nodes[node_id].Options.Count > 0)
+				{
+					current = GameState.Entrante_Elegir;
+				}
+				else if (selected_option == -1 && npc.indice + 1 < npc.dialogos.Count)
+				{
+					npc.indice++;
+					UpdateDialogue (npc, npc.dialogos[npc.indice]);
+					node_id = 0;
+				}
+				else
+					node_id = selected_option;
+
+				break;
+			case GameState.Entrante_Elegir:
+				display_node_answers(dia.Nodes[node_id]);
+				selected_option = -4;
+
+				while(selected_option == -4)
+				{
+					yield return new WaitForSeconds(0.25f);
+				}
+				node_id = selected_option;
+
+				if(node_id == -1)
+				{
+					if (npc.indice + 1 < npc.dialogos.Count)
+					{
+						npc.indice++;
+						UpdateDialogue (npc, npc.dialogos[npc.indice]);
+						node_id = 0;
+						current = GameState.Entrante_Texto;
+					}
+					else
+					{
+						current = GameState.Respuestas_Mostrar;
+					}
+				}
+				else if(node_id == -2)
+				{
+					current = GameState.Respuestas_Mostrar;
+				}
+				else if(node_id == -3)
+				{
+					conversacion_activa = false;
+				}
+				else
+					current = GameState.Entrante_Texto;
+
+				break;
+			case GameState.Respuestas_Mostrar:
+				display_npc_questions();
+				selected_option = -4;
+				while(selected_option == -4)
+				{
+					yield return new WaitForSeconds(0.25f);
+				}
+				node_id = selected_option;
+
+				if (node_id > -2)
+				{
+					UpdateDialogue (npc, npc.preguntas[node_id].dialogue_path);
+					node_id = 0;
+					current = GameState.Respuestas_Texto;
+				}
+				else
+					conversacion_activa = false;
+
+				break;
+			case GameState.Respuestas_Texto:
+				display_node_text(dia.Nodes[node_id]);
+				selected_option = node_id;
+
+				while(selected_option == node_id)
+				{
+					yield return new WaitForSeconds(0.25f);
+				}
+
+
+				if(selected_option == -2 || selected_option == -1)
+				{
+					current = GameState.Respuestas_Mostrar;
+				}
+				else if(selected_option == -3)
+				{
+					conversacion_activa = false;
+				}
+				else if(dia.Nodes[node_id].Options.Count > 0)
+				{
+					current = GameState.Respuestas_Elegir;
+				}
+				else
+				{
+					node_id = selected_option;
+				}
+
+				break;
+			case GameState.Respuestas_Elegir:
+				display_node_answers(dia.Nodes[node_id]);
+				selected_option = -4;
+
+				while(selected_option == -4)
+				{
+					yield return new WaitForSeconds(0.25f);
+				}
+				node_id = selected_option;
+
+				if(node_id == -1 || node_id == -2)
+				{
+					current = GameState.Respuestas_Mostrar;
+				}
+				else if(node_id == -3)
+				{
+					conversacion_activa = false;
+				}
+				else
+					current = GameState.Respuestas_Texto;
+				
+				break;
 			}
-
-			node_id = selected_option;
 		}
+
 		DisableTextBox();
-		CheckIfDialogueEnds();
-	}
-
-	private void CheckIfDialogueEnds()
-	{
-		if (npc.indice + 1 < npc.dialogos.Count)
-		{
-			npc.indice++;
-			reloadDialogue (npc, npc.dialogos[npc.indice]);
-		}
 	}
 
 	//Muestra el nodo de texto del diálogo
@@ -181,7 +307,7 @@ public class TextBox : MonoBehaviour {
 		option_13.SetActive(false);
 		option_14.SetActive(false);
 		option_15.SetActive(false);
-		exit.SetActive(false);
+		change_theme.SetActive(true);
 
 		dialog_text.SetActive(true);
 		dialog_text.GetComponentInChildren<Text>().text = node.Text;
@@ -194,6 +320,7 @@ public class TextBox : MonoBehaviour {
 	{
 		dialog_options.SetActive(true);
 		dialog_text.SetActive(false);
+		change_theme.SetActive(true);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
 		option_3.SetActive(false);
@@ -209,7 +336,6 @@ public class TextBox : MonoBehaviour {
 		option_13.SetActive(false);
 		option_14.SetActive(false);
 		option_15.SetActive(false);
-		exit.SetActive(false);
 
 		for(int i = 0; i < node.Options.Count && i < 14; i++)
 		{
@@ -264,6 +390,80 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
+	private void display_npc_questions()
+	{
+		dialog_options.SetActive(true);
+		dialog_text.SetActive(false);
+		change_theme.SetActive(false);
+		option_1.SetActive(false);
+		option_2.SetActive(false);
+		option_3.SetActive(false);
+		option_4.SetActive(false);
+		option_5.SetActive(false);
+		option_6.SetActive(false);
+		option_7.SetActive(false);
+		option_8.SetActive(false);
+		option_9.SetActive(false);
+		option_10.SetActive(false);
+		option_11.SetActive(false);
+		option_12.SetActive(false);
+		option_13.SetActive(false);
+		option_14.SetActive(false);
+		option_15.SetActive(false);
+
+		for(int i = 0; i < npc.preguntas.Count && i < 14; i++)
+		{
+			switch(i)
+			{
+			case 0:
+				set_question_button(option_1,npc.preguntas[i], i);
+				break;
+			case 1:
+				set_question_button(option_2, npc.preguntas[i], i);
+				break;
+			case 2:
+				set_question_button(option_3, npc.preguntas[i], i);
+				break;
+			case 3:
+				set_question_button(option_4, npc.preguntas[i], i);
+				break;
+			case 4:
+				set_question_button(option_5, npc.preguntas[i], i);
+				break;
+			case 5:
+				set_question_button(option_6, npc.preguntas[i], i);
+				break;
+			case 6:
+				set_question_button(option_7, npc.preguntas[i], i);
+				break;
+			case 7:
+				set_question_button(option_8, npc.preguntas[i], i);
+				break;
+			case 8:
+				set_question_button(option_9, npc.preguntas[i], i);
+				break;
+			case 9:
+				set_question_button(option_10, npc.preguntas[i], i);
+				break;
+			case 10:
+				set_question_button(option_11, npc.preguntas[i], i);
+				break;
+			case 11:
+				set_question_button(option_12, npc.preguntas[i], i);
+				break;
+			case 12:
+				set_question_button(option_13, npc.preguntas[i], i);
+				break;
+			case 13:
+				set_question_button(option_14, npc.preguntas[i], i);
+				break;
+			case 14:
+				set_question_button(option_15, npc.preguntas[i], i);
+				break;
+			}
+		}
+	}
+
 	private void set_option_button(GameObject button, DialogueOption opt)
 	{
 		button.SetActive(true);
@@ -271,6 +471,15 @@ public class TextBox : MonoBehaviour {
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DestinationNodeID); }); //Listener del botón
 	}
+
+	private void set_question_button(GameObject button, Pregunta pre, int num)
+	{
+		button.SetActive(true);
+		button.GetComponentInChildren<Text>().text = ResolveTextSize(pre.texto, SizeOfLine); //Texto del botón dividido en lineas
+		button.GetComponent<Button>().onClick.RemoveAllListeners();
+		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(num); }); //Listener del botón
+	}
+
 
 	// Divide el texto por tamaño de línea
 	private string ResolveTextSize(string input, int lineLength){
