@@ -6,11 +6,18 @@ public class TP_Camera : MonoBehaviour
 	public static TP_Camera Instance;
 
 	public Transform TargetLookAt;
+
 	public float Distance = 5f;
 	public float DistanceMin = 3f;
 	public float DistanceMax = 10f;
-	public float DistanceSmooth = 0.05f;
-	public float DistanceResumeSmooth = 1f;////Distancia antes de que la camara cambiara de posicion por un obstaculo
+	public float DistanceSmooth = 0.05f; //Intervalos a los que se debe mover el smooth de la Distance
+	public float DistanceResumeSmooth = 1f;//Distancia antes de que la camara cambiara de posicion por un obstaculo
+
+	public float LookAtMinY = 0f; //posicion y del lookAt cuando la distancia es alta
+	public float LookAtMaxY = 1.5f; //posicion y del lookAt cuando la distancia es baja
+	public float LookAtSmooth = 0.3f; //Intervalos a los que se debe mover el smooth de la velLookAt
+	public float LookAtResumeSmooth = 2f; //Distancia a la que el LookAt se situa encima de la cabeza
+
 	public float X_MouseSensitivity = 5f;
 	public float Y_MouseSensitivity = 5f;
 	public float MouseWheelSentitivity = 15f;
@@ -18,6 +25,7 @@ public class TP_Camera : MonoBehaviour
 	public float Y_Smooth = 0.1f;
 	public float Y_MinLimit = -40f;
 	public float Y_MaxLimit = 80f;
+
 	public float OcclusionDistanceStep = 0.5f;
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
 
@@ -26,7 +34,8 @@ public class TP_Camera : MonoBehaviour
 	private float velX = 0f;
 	private float velY = 0f;
 	private float velZ = 0f;
-	private float velDistance = 0f;
+	private float velDistance = 0f; //almacena el valor temporal de la velocidad al cambiar la distancia con la rueda del raton para usar la funcion smooth
+	private float velLookAt = 0f; //almacena el valor temporal de la velocidad al cambiar el lookat para usar la funcion smooth
 	private float startDistance = 0f;
 	private Vector3 position = Vector3.zero;
 	private Vector3 desiredPosition = Vector3.zero;
@@ -96,7 +105,7 @@ public class TP_Camera : MonoBehaviour
 
 			//Almacenamos la distancia de la camara al cambiar el zoom
 			preOccludedDistance = desiredDistance;
-			//Asignamos la fluidez habitual, ya que no vamos a cambiarla a ResumeSmooth
+			//Asignamos la fluidez habitual, ya que no vamos a cambiarla a DistanceResumeSmooth
 			distanceSmooth = DistanceSmooth;
 
 		}
@@ -108,6 +117,21 @@ public class TP_Camera : MonoBehaviour
 		ResetDesiredDistance();
 		Distance = Mathf.SmoothDamp(Distance, desiredDistance, ref velDistance, distanceSmooth);
 
+		//Si la distancia es menor que la establecida (está muy cerca)
+		//El lookAt se mueve hacia arriba en el eje y
+		if(Distance < LookAtResumeSmooth)
+		{
+			Vector3 localPos = TargetLookAt.transform.localPosition;
+			localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMaxY, ref velLookAt, LookAtSmooth);
+			TargetLookAt.transform.localPosition = localPos;
+		}
+		else
+		{
+			Vector3 localPos = TargetLookAt.transform.localPosition;
+			localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMinY, ref velLookAt, LookAtSmooth);
+			TargetLookAt.transform.localPosition = localPos;
+		}
+
 		//Calculamos la posicion deseada
 		desiredPosition = CalculatePosition(mouseY, mouseX, Distance);
 	}
@@ -116,6 +140,7 @@ public class TP_Camera : MonoBehaviour
 	{
 		Vector3 direction = new Vector3(0, 0, -distance);
 		Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
+
 		return TargetLookAt.position + rotation * direction;
 	}
 
@@ -239,7 +264,6 @@ public class TP_Camera : MonoBehaviour
 		transform.position = position;
 
 		transform.LookAt(TargetLookAt);
-
 	}
 
 	//establece las variables a valores predeterminados
