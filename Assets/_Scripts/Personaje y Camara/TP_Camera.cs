@@ -100,7 +100,7 @@ public class TP_Camera : MonoBehaviour
 		//Limitamos el valor de mouseY
 		mouseY = Helper.ClampAngle(mouseY, Y_MinLimit, Y_MaxLimit);
 
-		//Si el raton se encuentra fuera de la zona muerta
+		//Si el raton se encuentra fuera de la zona muerta, es decir, permitimos el movimiento
 		if (Input.GetAxis("Mouse ScrollWheel") < -deadZone || Input.GetAxis("Mouse ScrollWheel") > deadZone)
 		{
 			//Movemos la distancia de la camara entre los valores min y max al usar la rueda del raton
@@ -116,37 +116,35 @@ public class TP_Camera : MonoBehaviour
 	void CalculateDesiredPosition()
 	{
 		//Calculamos la distancia necesaria para llegar hasta el punto que queremos con la velocidad y fluidez deseadas
-//		ResetDesiredDistance();
+		ResetDesiredDistance();
 		Distance = Mathf.SmoothDamp(Distance, desiredDistance, ref velDistance, distanceSmooth);
 
 		//Calculamos la posicion deseada
 		desiredPosition = CalculatePosition(mouseY, mouseX, Distance);
 	}
 
-	void updateTargetLookAt()
+	void UpdateTargetLookAt()
 	{
-//		//Si la distancia es menor que la establecida (está muy cerca)
-//		//El lookAt se mueve hacia arriba en el eje y
-//		if(Distance < LookAtResumeSmooth)
-//		{
-//			//Vector3 localPos = TargetLookAt.localPosition;
-//			//localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMaxY, ref velLookAt, LookAtSmooth);
-//			//TargetLookAt.localPosition = localPos;
-//
-//			offset = Mathf.SmoothDamp(offset, 0f, ref offset_value, LookAtSmooth);
-//
-//
-//		}
-//		else
-//		{
-//			//Vector3 localPos = TargetLookAt.localPosition;
-//			//localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMinY, ref velLookAt, LookAtSmooth);
-//			//TargetLookAt.localPosition = localPos;
-//
-//			offset = Mathf.SmoothDamp(offset, 2f, ref offset_value, LookAtSmooth);
-//		}
+		//Si la distancia es menor que la establecida (está muy cerca)
+		//El lookAt se mueve hacia arriba en el eje y
+		if(Distance < LookAtResumeSmooth)
+		{
+			//Vector3 localPos = TargetLookAt.localPosition;
+			//localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMaxY, ref velLookAt, LookAtSmooth);
+			//TargetLookAt.localPosition = localPos;
 
-		offset = Mathf.SmoothDamp(offset, 0f, ref offset_value, LookAtSmooth);
+			offset = Mathf.SmoothDamp(offset, 0f, ref offset_value, LookAtSmooth);
+
+
+		}
+		else
+		{
+			//Vector3 localPos = TargetLookAt.localPosition;
+			//localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMinY, ref velLookAt, LookAtSmooth);
+			//TargetLookAt.localPosition = localPos;
+
+			offset = Mathf.SmoothDamp(offset, 2f, ref offset_value, LookAtSmooth);
+		}
 	}
 
 	Vector3 CalculatePosition(float rotationX, float rotationY, float distance)
@@ -154,8 +152,10 @@ public class TP_Camera : MonoBehaviour
 		Vector3 direction = new Vector3(0, 0, -distance);
 		Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
 
-//		return TargetLookAt.position + rotation * direction + transform.right * offset;
-		return TargetLookAtOffset.position + rotation * direction;
+		return TargetLookAt.position + rotation * direction + transform.right * LookAt_Controller.Instance.offset;
+//		return TargetLookAtOffset.position + rotation * direction;
+//		return TargetLookAt.position + rotation * direction;
+//		return LookAt_Controller.Instance.transform.position + rotation*direction;
 	}
 
 	//count = numero de veces que hemos comprobado hasta el momento
@@ -163,7 +163,8 @@ public class TP_Camera : MonoBehaviour
 	{
 		var isOccluded = false;
 
-		var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, desiredPosition);
+		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
+//		var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, desiredPosition);
 
 		//Si le hemos dado a algo
 		if (nearestDistance != -1)
@@ -187,9 +188,9 @@ public class TP_Camera : MonoBehaviour
 			desiredDistance = Distance; //moveremos la camara hacia el punto indicado
 			distanceSmooth = DistanceResumeSmooth; //La camara ya no esta bloqueada por ningun objeto, asignamos la fluidez de salida
 
-//			updateTargetLookAt();
+//			UpdateTargetLookAt();
 		}
-
+			
 		return isOccluded;
 	}
 
@@ -257,7 +258,8 @@ public class TP_Camera : MonoBehaviour
 		{
 			//Calculamos la nueva posicion y distancia ahora que el objeto ya no la obstruye
 			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
-			var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, pos);
+			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
+//			var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, pos);
 
 			//No se han detectado nuevas colisiones y la distancia anterior es mayor que la actual
 			//Movemos la camara hacia atras todo lo que podemos
@@ -280,15 +282,20 @@ public class TP_Camera : MonoBehaviour
 		//Asignamos la posicion actual con la posicion suavizada
 		transform.position = position;
 
-		var lookatoffset = TargetLookAt.position + transform.right * offset;
+		//var lookatoffset = TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset;
+		LookAt_Controller.Instance.UpdatePosition(TargetLookAt.position, transform, TargetLookAt.transform);
+
 //		transform.LookAt(lookatoffset);
 
-		LookAtOffset.Instance.checkCollision (TargetLookAt.position + transform.right * offset);
+//		TargetLookAtOffset.transform.position = lookatoffset;
+//		TargetLookAtOffset.transform.rotation = transform.rotation;
 
-//		TargetLookAtOffset.position = lookatoffset;
+//		TargetLookAtOffset.transform.position = LookAt_Controller.Instance.transform.position;
+//		TargetLookAtOffset.transform.rotation = transform.rotation;
 
 //		transform.LookAt(TargetLookAt);
-		transform.LookAt(TargetLookAtOffset);
+//		transform.LookAt(TargetLookAtOffset);
+		transform.LookAt(LookAt_Controller.Instance.transform);
 	}
 
 	//establece las variables a valores predeterminados
