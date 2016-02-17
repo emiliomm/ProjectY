@@ -27,7 +27,7 @@ public class LookAt_Controller : MonoBehaviour {
 	{
 		//Inicializamos la variable instancia
 		Instance = this;
-		backToNormal = false;
+		backToNormal = true;
 		collider = GetComponent("CapsuleCollider") as CapsuleCollider;
 		rigid = GetComponent("Rigidbody") as Rigidbody; 
 
@@ -63,24 +63,25 @@ public class LookAt_Controller : MonoBehaviour {
 //			}
 //		}
 
-		Debug.DrawLine(transformLookAt.position, transformLookAt.position + transform.right, Color.blue);
-		if(Physics.Linecast(transformLookAt.position, transformLookAt.position + transform.right, out hit))
-		{
-			backToNormal = true;
-		}
-		else
+		Debug.DrawLine(transformLookAt.position, transform.position, Color.blue);
+		if(Physics.Linecast(transformLookAt.position, transform.position, out hit))
 		{
 			backToNormal = false;
 		}
-
-		if (backToNormal)
-		{
-			offset = Mathf.SmoothDamp(offset, min_offset, ref offset_value, offsetSmooth);
-		}
 		else
 		{
-			offset = Mathf.SmoothDamp(offset, max_offset, ref offset_value, offsetSmooth);
+			Debug.Log ("Hola");
+			backToNormal = true;
 		}
+
+//		if (backToNormal)
+//		{
+//			offset = Mathf.SmoothDamp(offset, max_offset, ref offset_value, offsetSmooth);
+//		}
+//		else
+//		{
+//			offset = Mathf.SmoothDamp(offset, min_offset, ref offset_value, offsetSmooth);
+//		}
 	}
 
 //	void OnTriggerEnter(Collider other)
