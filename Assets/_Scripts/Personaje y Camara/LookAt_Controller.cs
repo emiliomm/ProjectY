@@ -7,13 +7,11 @@ public class LookAt_Controller : MonoBehaviour {
 
 	public Vector3 lookAtPosition;
 	public Transform transformRightCamera;
-	public Transform transformLookAt;
-	public static CapsuleCollider collider; //Nos permite lidiar con colisiones sin RigidBody
-	public Rigidbody rigid;
-	public RaycastHit hit;
-	public float collisionCheckDistance;
+	public RaycastHit hit_blue;
+	public RaycastHit hit_red;
 
 	public float offsetSmooth = 0.4f;
+	public float offsetSmoothEmergency = 0.1f;
 
 	public float offset = 0f;
 	public float offset_value = 0f;
@@ -28,85 +26,78 @@ public class LookAt_Controller : MonoBehaviour {
 		//Inicializamos la variable instancia
 		Instance = this;
 		backToNormal = true;
-		collider = GetComponent("CapsuleCollider") as CapsuleCollider;
-		rigid = GetComponent("Rigidbody") as Rigidbody; 
 
 		offset = max_offset;
 	}
 
-	public void UpdatePosition(Vector3 lookatposition, Transform transformcamera, Transform b)
+	void Update()
 	{
-		lookAtPosition = lookatposition;
-		transformRightCamera = transformcamera;
-		transformLookAt = b;
-		transform.position = lookAtPosition + transformRightCamera.right * offset;
-		transform.rotation = transformRightCamera.rotation;
-	}
+		offset = Mathf.Clamp(offset, min_offset, max_offset);
 
-	void LateUpdate()
-	{
-		transform.position = lookAtPosition + transformRightCamera.right * offset;
-		transform.rotation = transformRightCamera.rotation;
+		lookAtPosition = TP_Camera.Instance.TargetLookAt.transform.position;
+		transformRightCamera = TP_Camera.Instance.transform;
 
-//		if (rigid.SweepTest (transformRightCamera.right, out hit, max_offset)) {
-//			
-//			if (hit.collider.tag != "player")
-//			{
-//				Debug.Log("HOla");
-//				backToNormal = false;
-//				var distanceToCollision = hit.distance;
-//
-//				if (distanceToCollision > 2)
-//				{
-//					backToNormal = true;
-//				}
-//			}
+		transform.position = lookAtPosition + transformRightCamera.right * offset;
+
+		Debug.DrawLine(lookAtPosition, lookAtPosition + transformRightCamera.right * max_offset, Color.blue);
+		Debug.DrawLine(lookAtPosition, lookAtPosition - transformRightCamera.right * max_offset, Color.red);
+
+//		if(Physics.Linecast(lookAtPosition, lookAtPosition + transformRightCamera.right * max_offset, out hit_blue))
+//		{
+//			backToNormal = false;
 //		}
+//		else if(Physics.Linecast(lookAtPosition, lookAtPosition - transformRightCamera.right * max_offset, out hit_red))
+//		{
+//			backToNormal = false;
+//		}
+//		else
+//		{
+//			if (TP_Camera.Instance.Distance > 0.5f)
+//				backToNormal = true;
+//		}
+//
 
-		Debug.DrawLine(transformLookAt.position, transform.position, Color.blue);
-		if(Physics.Linecast(transformLookAt.position, transform.position, out hit))
-		{
-			backToNormal = false;
-		}
-		else
-		{
-			Debug.Log ("Hola");
-			backToNormal = true;
-		}
-
+//		Debug.Log(hit_red.distance);
+//		Debug.Log("--------------------------");
+//
 //		if (backToNormal)
 //		{
 //			offset = Mathf.SmoothDamp(offset, max_offset, ref offset_value, offsetSmooth);
 //		}
 //		else
 //		{
-//			offset = Mathf.SmoothDamp(offset, min_offset, ref offset_value, offsetSmooth);
+//			
+//			if (offset < 0.001)
+//			{
+//				offset = min_offset;
+//			}
+//			else
+//				offset = Mathf.SmoothDamp(offset, min_offset, ref offset_value, offsetSmooth);
 //		}
-	}
 
-//	void OnTriggerEnter(Collider other)
-//	{
-//		if (other.tag != "Player")
+
+//		if(Physics.Linecast(lookAtPosition, lookAtPosition + transformRightCamera.right * max_offset, out hit_blue))
 //		{
-//			print("Collision detected with trigger object " + other.name);
-//			backToNormal = false;
+//			if (offset > hit_blue.distance - 0.4f)
+//			{
+//				offset = hit_blue.distance - 0.4f;
+//			}
+//			if (offset <= 0.03f)
+//				offset = min_offset;
 //		}
-//	}
+//		else{
+//			if(TP_Camera.Instance.Distance > 0.25f)
+//				offset = Mathf.SmoothDamp(offset, max_offset, ref offset_value, offsetSmooth);
+//		}
 //
-//	void OnTriggerExit(Collider other)
-//	{
-//		if (other.tag != "Player")
+//		if(TP_Camera.Instance.Distance < 0.50f)
 //		{
-//			print(gameObject.name + " and trigger object " + other.name + " are no longer colliding");
+//			do{
+//				offset = Mathf.SmoothDamp(offset, min_offset, ref offset_value, offsetSmooth);
+//				if (offset < 0)
+//					offset = 0;
+//			}while(TP_Camera.Instance.Distance >= 0.50f);
 //		}
-//	}
-//
-//	void OnTriggerStay(Collider other)
-//	{
-//		if (other.tag != "Player")
-//		{
-//			print("Still colliding with trigger object " + other.name);
-//			backToNormal = false;
-//		}
-//	}
+
+	}
 }

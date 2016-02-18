@@ -122,30 +122,6 @@ public class TP_Camera : MonoBehaviour
 		desiredPosition = CalculatePosition(mouseY, mouseX, Distance);
 	}
 
-	void UpdateTargetLookAt()
-	{
-		//Si la distancia es menor que la establecida (está muy cerca)
-		//El lookAt se mueve hacia arriba en el eje y
-		if(Distance < LookAtResumeSmooth)
-		{
-			//Vector3 localPos = TargetLookAt.localPosition;
-			//localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMaxY, ref velLookAt, LookAtSmooth);
-			//TargetLookAt.localPosition = localPos;
-
-			offset = Mathf.SmoothDamp(offset, 0f, ref offset_value, LookAtSmooth);
-
-
-		}
-		else
-		{
-			//Vector3 localPos = TargetLookAt.localPosition;
-			//localPos.y = Mathf.SmoothDamp(localPos.y, LookAtMinY, ref velLookAt, LookAtSmooth);
-			//TargetLookAt.localPosition = localPos;
-
-			offset = Mathf.SmoothDamp(offset, 2f, ref offset_value, LookAtSmooth);
-		}
-	}
-
 	Vector3 CalculatePosition(float rotationX, float rotationY, float distance)
 	{
 		Vector3 direction = new Vector3(0, 0, -distance);
@@ -153,8 +129,8 @@ public class TP_Camera : MonoBehaviour
 
 //		return TargetLookAt.position + rotation * direction + transform.right * LookAt_Controller.Instance.offset;
 //		return TargetLookAtOffset.position + rotation * direction;
-		return TargetLookAt.position + rotation * direction;
-//		return LookAt_Controller.Instance.transform.position + rotation*direction;
+//		return TargetLookAt.position + rotation * direction;
+		return LookAt_Controller.Instance.transform.position + rotation*direction;
 	}
 
 	//count = numero de veces que hemos comprobado hasta el momento
@@ -162,9 +138,9 @@ public class TP_Camera : MonoBehaviour
 	{
 		var isOccluded = false;
 
-		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
+//		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
 //		var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, desiredPosition);
-//		var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, desiredPosition);
+		var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, desiredPosition);
 //		var nearestDistance = CheckCameraPoints(TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset, desiredPosition);
 
 
@@ -260,9 +236,9 @@ public class TP_Camera : MonoBehaviour
 		{
 			//Calculamos la nueva posicion y distancia ahora que el objeto ya no la obstruye
 			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
-			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
+//			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
 //			var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, pos);
-//			var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, pos);
+			var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, pos);
 //			var nearestDistance = CheckCameraPoints(TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset, pos);
 
 			//No se han detectado nuevas colisiones y la distancia anterior es mayor que la actual
@@ -285,9 +261,6 @@ public class TP_Camera : MonoBehaviour
 
 		//Asignamos la posicion actual con la posicion suavizada
 		transform.position = position;
-
-//		//var lookatoffset = TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset;
-		LookAt_Controller.Instance.UpdatePosition(TargetLookAt.position, transform, TargetLookAt.transform);
 
 //		transform.LookAt(lookatoffset);
 
