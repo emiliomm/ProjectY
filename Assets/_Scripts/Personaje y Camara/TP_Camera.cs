@@ -138,9 +138,9 @@ public class TP_Camera : MonoBehaviour
 	{
 		var isOccluded = false;
 
-//		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
+		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
 //		var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, desiredPosition);
-		var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, desiredPosition);
+//		var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, desiredPosition);
 //		var nearestDistance = CheckCameraPoints(TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset, desiredPosition);
 
 
@@ -236,9 +236,9 @@ public class TP_Camera : MonoBehaviour
 		{
 			//Calculamos la nueva posicion y distancia ahora que el objeto ya no la obstruye
 			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
-//			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
+			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
 //			var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, pos);
-			var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, pos);
+//			var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, pos);
 //			var nearestDistance = CheckCameraPoints(TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset, pos);
 
 			//No se han detectado nuevas colisiones y la distancia anterior es mayor que la actual
@@ -270,9 +270,9 @@ public class TP_Camera : MonoBehaviour
 //		TargetLookAtOffset.transform.position = LookAt_Controller.Instance.transform.position;
 //		TargetLookAtOffset.transform.rotation = transform.rotation;
 
-//		transform.LookAt(TargetLookAt);
+		transform.LookAt(TargetLookAt);
 //		transform.LookAt(TargetLookAtOffset);
-		transform.LookAt(LookAt_Controller.Instance.transform);
+//		transform.LookAt(LookAt_Controller.Instance.transform);
 	}
 
 	//establece las variables a valores predeterminados

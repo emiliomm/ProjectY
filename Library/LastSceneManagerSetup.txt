@@ -1,4 +1,4 @@
 sceneSetups:
-- path: D:/Emilio/Escritorio/UnityThirdPersonTutorial-master/Assets/Scenes/FairyForest.unity
+- path: Assets/_Scenes/Demo.unity
   isLoaded: 1
   isActive: 1
