@@ -6,26 +6,24 @@ public class TP_Camera : MonoBehaviour
 	public static TP_Camera Instance;
 
 	public Transform TargetLookAt;
-	public Transform TargetLookAtOffset;
 
 	public float Distance = 3.5f;
 	public float DistanceMin = 2f;
-	public float DistanceMax = 3.5f;
+	public float DistanceMax = 5f;
 	public float DistanceSmooth = 0.05f; //Intervalos a los que se debe mover el smooth de la Distance
 	public float DistanceResumeSmooth = 0.4f; //Velocidad a la que la cámara vuelve a la posición original tras no detectar obstáculos
-
-	public float LookAtMinY = 0f; //posicion y del lookAt cuando la distancia es alta
-	public float LookAtMaxY = 1.5f; //posicion y del lookAt cuando la distancia es baja
-	public float LookAtSmooth = 0.4f; //Intervalos a los que se debe mover el smooth de la velLookAt
-	public float LookAtResumeSmooth = 2f; //Distancia a la que el LookAt se situa encima de la cabeza
 
 	public float X_MouseSensitivity = 5f;
 	public float Y_MouseSensitivity = 5f;
 	public float X_Smooth = 0.05f;
 	public float Y_Smooth = 0.1f;
-	public float Y_MinLimit = -15f;
+	public float Y_MinLimit = -40f;
 	public float Y_MaxLimit = 80f;
 	public float MouseWheelSentitivity = 15f;
+
+	public float Qx = 0;
+	public float Qy = 30;
+	public float Qz = 5;
 
 	public float OcclusionDistanceStep = 0.5f;
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
@@ -79,7 +77,7 @@ public class TP_Camera : MonoBehaviour
 		{
 			CalculateDesiredPosition();
 			count++;
-		}while (CheckIfOccluded(count));
+		}while(CheckIfOccluded(count));
 
 		//Actualizamos la posicion
 		UpdatePosition();
@@ -127,10 +125,7 @@ public class TP_Camera : MonoBehaviour
 		Vector3 direction = new Vector3(0, 0, -distance);
 		Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
 
-//		return TargetLookAt.position + rotation * direction + transform.right * LookAt_Controller.Instance.offset;
-//		return TargetLookAtOffset.position + rotation * direction;
-//		return TargetLookAt.position + rotation * direction;
-		return LookAt_Controller.Instance.transform.position + rotation*direction;
+		return TargetLookAt.position + rotation * direction;
 	}
 
 	//count = numero de veces que hemos comprobado hasta el momento
@@ -139,9 +134,6 @@ public class TP_Camera : MonoBehaviour
 		var isOccluded = false;
 
 		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
-//		var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, desiredPosition);
-//		var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, desiredPosition);
-//		var nearestDistance = CheckCameraPoints(TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset, desiredPosition);
 
 
 		//Si le hemos dado a algo
@@ -237,9 +229,6 @@ public class TP_Camera : MonoBehaviour
 			//Calculamos la nueva posicion y distancia ahora que el objeto ya no la obstruye
 			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
 			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
-//			var nearestDistance = CheckCameraPoints(TargetLookAtOffset.position, pos);
-//			var nearestDistance = CheckCameraPoints(LookAt_Controller.Instance.transform.position, pos);
-//			var nearestDistance = CheckCameraPoints(TargetLookAt.position + transform.right * LookAt_Controller.Instance.offset, pos);
 
 			//No se han detectado nuevas colisiones y la distancia anterior es mayor que la actual
 			//Movemos la camara hacia atras todo lo que podemos
@@ -262,17 +251,10 @@ public class TP_Camera : MonoBehaviour
 		//Asignamos la posicion actual con la posicion suavizada
 		transform.position = position;
 
-//		transform.LookAt(lookatoffset);
-
-//		TargetLookAtOffset.transform.position = lookatoffset;
-//		TargetLookAtOffset.transform.rotation = transform.rotation;
-
-//		TargetLookAtOffset.transform.position = LookAt_Controller.Instance.transform.position;
-//		TargetLookAtOffset.transform.rotation = transform.rotation;
-
+		//Aplicamos el LookAt
 		transform.LookAt(TargetLookAt);
-//		transform.LookAt(TargetLookAtOffset);
-//		transform.LookAt(LookAt_Controller.Instance.transform);
+		//Aplicamos el offset
+		transform.rotation*=Quaternion.Euler(Qx, Qy, Qz);
 	}
 
 	//establece las variables a valores predeterminados
@@ -321,18 +303,5 @@ public class TP_Camera : MonoBehaviour
 
 		//ponemos la variable targetLookAt encontrada o creada en la clase
 		myCamera.TargetLookAt = targetLookAt.transform;
-
-		targetLookAt = GameObject.Find("targetLookAtOffset") as GameObject;
-
-		//si no hemos encontrado el gameobject targetLookAt (el objeto al que debemos mirar), lo creamos
-		if (targetLookAt == null)
-		{
-			//Lo creamos y lo posicionamos en 0,0,0
-			targetLookAt = new GameObject("targetLookAtOffset");
-			targetLookAt.transform.position = Vector3.zero;
-		}
-
-		//ponemos la variable targetLookAt encontrada o creada en la clase
-		myCamera.TargetLookAtOffset = targetLookAt.transform;
 	}
 }
