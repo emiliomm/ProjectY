@@ -57,7 +57,7 @@ public class TextBox : MonoBehaviour {
 
 		dialogue_window = Instantiate<GameObject>(DialogueWindowPrefab);
 
-		dialogue_window.transform.parent = canvas.transform;
+		dialogue_window.transform.SetParent(canvas.transform);
 
 		RectTransform dia_window_transform = (RectTransform) dialogue_window.transform;
 
