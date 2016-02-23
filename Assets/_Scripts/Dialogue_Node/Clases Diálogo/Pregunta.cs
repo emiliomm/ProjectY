@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using DialogueTree;
+
 public class Pregunta{
 
 	public string texto;
-	public string dialogue_path;
+	public Dialogue dia;
 
 	public Pregunta()
 	{
 		texto = "";
-		dialogue_path= "";
+		dia = null;
 	}
 
-	public Pregunta(string t, string d)
-	{
-		texto = t;
-		dialogue_path= d;
-	}
+//	public Pregunta(string t, string d)
+//	{
+//		texto = t;
+//		dia = null;
+//	}
 }

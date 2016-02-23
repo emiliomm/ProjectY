@@ -4,12 +4,10 @@ using System.Collections.Generic;
 
 using UnityEngine.UI;
 
-using DialogueTree;
-
-public class NpcDialogue : MonoBehaviour {
+public class NPC : MonoBehaviour {
 
 	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
-	public NPC npc; //NPC del cual carga el dialogo
+	public NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
 
 	private bool waitForPress;
 
@@ -50,6 +48,6 @@ public class NpcDialogue : MonoBehaviour {
 	//Inicia el dialogo
 	void IniciaDialogo()
 	{
-		TextBox.Instance.StartDialogue (npc, npc.dialogos[npc.indice]);
+		TextBox.Instance.StartDialogue(npc_diag);
 	}
 }

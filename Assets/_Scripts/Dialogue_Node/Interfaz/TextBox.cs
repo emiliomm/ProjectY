@@ -15,8 +15,7 @@ public class TextBox : MonoBehaviour {
 	public int SizeOfLine; //Tamaño de la linea de texto antes de un salto de línea
 	public bool isActive; //indica si la caja de texto está activa o no
 
-	private Dialogue dia;
-	private NPC npc;
+	private NPC_Dialogo dia;
 
 	private GameObject dialogue_window;
 	private GameObject dialog_text;
@@ -57,7 +56,7 @@ public class TextBox : MonoBehaviour {
 
 		dialogue_window = Instantiate<GameObject>(DialogueWindowPrefab);
 
-		dialogue_window.transform.SetParent(canvas.transform);
+		dialogue_window.transform.SetParent(canvas.transform, false);
 
 		RectTransform dia_window_transform = (RectTransform) dialogue_window.transform;
 
@@ -92,11 +91,10 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-	public void StartDialogue(NPC npc_dialogo, string path)
+	public void StartDialogue(NPC_Dialogo npc_dialogo)
 	{
-		npc = npc_dialogo;
-		DialogueDataFilePath = path;
-		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
+		dia  = npc_dialogo;
+		
 		EnableTextBox();
 	}
 
@@ -139,15 +137,18 @@ public class TextBox : MonoBehaviour {
 		// create a indexer, set it to 0 - the dialogues Start node.
 		int node_id = 0; //principio del dialogo
 		bool conversacion_activa = true;
-		current = GameState.Entrante_Texto;
+
+		if (dia == null)
+			current = GameState.Respuestas_Mostrar;
+		else
+			current = GameState.Entrante_Texto;
 
 		while(conversacion_activa)
 		{
-			Debug.Log(current);
 			switch(current)
 			{
 			case GameState.Entrante_Texto:
-				display_node_text(dia.Nodes[node_id]);
+				display_node_text(dia.DevuelveNodo(node_id));
 				selected_option = node_id;
 
 				while(selected_option == node_id)
@@ -163,11 +164,11 @@ public class TextBox : MonoBehaviour {
 				{
 					conversacion_activa = false;
 				}
-				else if(dia.Nodes[node_id].Options.Count > 0)
+				else if(dia.DevuelveNumeroOpcionesNodo(node_id) > 0)
 				{
 					current = GameState.Entrante_Elegir;
 				}
-				else if (selected_option == -1 && npc.indice + 1 < npc.dialogos.Count)
+				else if (selected_option == -1 && dia.HayMasDialogos())
 				{
 					npc.indice++;
 					UpdateDialogue (npc, npc.dialogos[npc.indice]);
@@ -178,7 +179,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Entrante_Elegir:
-				display_node_answers(dia.Nodes[node_id]);
+				display_node_answers(dia.DevuelveNodo(node_id));
 				selected_option = -4;
 
 				while(selected_option == -4)
@@ -214,33 +215,36 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Respuestas_Mostrar:
-				display_npc_questions();
-				selected_option = -4;
-				while(selected_option == -4)
+				if (npc.preguntas.Count != 0)
 				{
-					yield return new WaitForSeconds(0.25f);
-				}
-				node_id = selected_option;
+					display_npc_questions ();
+					selected_option = -4;
+					while (selected_option == -4) {
+						yield return new WaitForSeconds (0.25f);
+					}
+					node_id = selected_option;
 
-				if (node_id > -2)
-				{
-					UpdateDialogue (npc, npc.preguntas[node_id].dialogue_path);
-					node_id = 0;
-					current = GameState.Respuestas_Texto;
+					if (node_id > -2) {
+						UpdateDialogue (npc, npc.preguntas [node_id].dialogue_path);
+						node_id = 0;
+						current = GameState.Respuestas_Texto;
+					} else
+						conversacion_activa = false;
 				}
 				else
+				{
 					conversacion_activa = false;
+				}
 
 				break;
 			case GameState.Respuestas_Texto:
-				display_node_text(dia.Nodes[node_id]);
+				display_node_text(dia.DevuelveNodo(node_id));
 				selected_option = node_id;
 
 				while(selected_option == node_id)
 				{
 					yield return new WaitForSeconds(0.25f);
 				}
-
 
 				if(selected_option == -2 || selected_option == -1)
 				{
@@ -250,7 +254,7 @@ public class TextBox : MonoBehaviour {
 				{
 					conversacion_activa = false;
 				}
-				else if(dia.Nodes[node_id].Options.Count > 0)
+				else if(dia.DevuelveNumeroOpcionesNodo(node_id) > 0)
 				{
 					current = GameState.Respuestas_Elegir;
 				}
@@ -261,7 +265,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Respuestas_Elegir:
-				display_node_answers(dia.Nodes[node_id]);
+				display_node_answers(dia.DevuelveNodo(node_id));
 				selected_option = -4;
 
 				while(selected_option == -4)
@@ -481,6 +485,7 @@ public class TextBox : MonoBehaviour {
 	}
 
 
+	//CAMBIAR POR TEXTO QUE SE AUTOREDIMENSIONA CON EL BOTON
 	// Divide el texto por tamaño de línea
 	private string ResolveTextSize(string input, int lineLength){
 

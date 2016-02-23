@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 
+using UnityEngine;
+
 namespace DialogueTree
 {
-    public class Dialogue
+	public class Dialogue
     {
         public List<DialogueNode> Nodes;
 

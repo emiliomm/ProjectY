@@ -45,15 +45,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\_Scripts\Dialogo\ActivateTextAtLine.cs" />
-     <Compile Include="Assets\_Scripts\Dialogo\TextBoxManager.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\DialgueOption.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogue.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\DialogueNode.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\NpcDialogue.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\TextBox.cs" />
-     <Compile Include="Assets\_Scripts\NPC\NPC.cs" />
-     <Compile Include="Assets\_Scripts\NPC\Pregunta.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialgueOption.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Pregunta.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogo_antiguo\ActivateTextAtLine.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogo_antiguo\TextBoxManager.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\NPC.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />

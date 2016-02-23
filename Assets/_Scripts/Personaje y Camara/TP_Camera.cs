@@ -4,48 +4,43 @@ using System.Collections;
 public class TP_Camera : MonoBehaviour
 {
 	public static TP_Camera Instance;
-
 	public Transform TargetLookAt;
+
 	public float Distance = 5f;
 	public float DistanceMin = 3f;
 	public float DistanceMax = 10f;
-	public float DistanceSmooth = 0.05f;
-	public float DistanceResumeSmooth = 0.05f;
+	public float DistanceSmooth = 0.05f; //Tiempo que tarda en variar la distancia al encontrar un obstaculo (mayor = mas lento)
+	public float DistanceResumeSmooth = 0.05f; //Tiempo que tarda en variar la distancia al no encontrar ningún obstáculo(mayor = mas lento)
 	public float X_MouseSensitivity = 5f;
 	public float Y_MouseSensitivity = 5f;
 	public float MouseWheelSentitivity = 15f;
-	public float X_Smooth = 0.05f;
-	public float Y_Smooth = 0.1f;
-	public float Y_MinLimit = -40f;
-	public float Y_MaxLimit = 80f;
-	public float OcclusionDistanceStep = 0.5f;
+	public float X_Smooth = 0.05f; //Tiempo que tarda en moverse la camara en su posicion en el ejeX
+	public float Y_Smooth = 0.1f; //Tiempo que tarda en moverse la camara en su posicion en el ejeY
+	public float Y_MinLimit = -40f; //Ángulo máximo inferior del ejeY en el que se mueve la cámara
+	public float Y_MaxLimit = 80f; //Ángulo máximo superior del ejeY en el que se mueve la cámara
+	public float OcclusionDistanceStep = 0.5f; //Distancia minima que se acerca la camara al encontrar un obstáculo
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
 
-	private float mouseX = 0f;
-	private float mouseY = 0f;
+	private float mouseX = 0f; //Ängulo de giro del ratón en el ejeX
+	private float mouseY = 0f; //Ängulo de giro del ratón en el ejeY
 	private float velX = 0f;
 	private float velY = 0f;
 	private float velZ = 0f;
 	private float velDistance = 0f;
 	private float startDistance = 0f;
-	private Vector3 position = Vector3.zero;
-	private Vector3 desiredPosition = Vector3.zero;
+	private Vector3 position = Vector3.zero; //Vector de posición actual
+	private Vector3 desiredPosition = Vector3.zero; //Vector de posición donde queremos estar
 	private float desiredDistance = 0f;
 	private float distanceSmooth = 0f;
 	private float preOccludedDistance = 0f; //almacena la distancia actual de la camara hasta que el jugador cambie el zoom
 
+	//Valores del offset
 	public float offset = 1f;
 	public float offset_smooth = 0.5f;
-	private float offset_value = 0f;
 	public float offset_min = 0f;
 	public float offset_max = 2f;
 	public bool offset_active = true;
-
-	public float Qx = 0;
-	public float Qy = 30;
-	public float Qz = 5;
-	public float Qz_Smooth = 0.1f;
-	public float VelQz = 0f;
+	private float offset_value = 0f;
 
 	// Use this when the object is created
 	void Awake ()
@@ -67,9 +62,10 @@ public class TP_Camera : MonoBehaviour
 	void LateUpdate ()
 	{
 		//Si no miramos a ningun sitio, salimos
-		if(TargetLookAt == null)
+		if(TargetLookAt == null || !TP_Controller.Instance.canMove)
 			return;
 
+		//Maneja los controles de la cámara
 		HandlePlayerInput();
 
 		var count = 0;
@@ -91,7 +87,6 @@ public class TP_Camera : MonoBehaviour
 		var deadZone = 0.01f;
 
 		//Movemos las coordenadas del raton segun el movimiento
-
 		//Cogemos el eje X del Input del raton multiplicada por la sensibilidad
 		mouseX += Input.GetAxis ("Mouse X") * X_MouseSensitivity;
 
@@ -101,7 +96,7 @@ public class TP_Camera : MonoBehaviour
 		//Limitamos el valor de mouseY
 		mouseY = Helper.ClampAngle(mouseY, Y_MinLimit, Y_MaxLimit);
 
-		//Si el raton se encuentra fuera de la zona muerta
+		//Si el movimiento de la rueda del ratón se encuentra fuera de la zona muerta, cambiamos el zoom
 		if (Input.GetAxis("Mouse ScrollWheel") < -deadZone || Input.GetAxis("Mouse ScrollWheel") > deadZone)
 		{
 			//Movemos la distancia de la camara entre los valores min y max al usar la rueda del raton
@@ -116,13 +111,15 @@ public class TP_Camera : MonoBehaviour
 
 	void CalculateDesiredPosition()
 	{
+		//Comprobamos si ya no hay obstáculos
 		ResetDesiredDistance();
+
 		Distance = Mathf.SmoothDamp(Distance, desiredDistance, ref velDistance, distanceSmooth);
 
 		//Calculamos la posicion deseada
 		desiredPosition = CalculatePosition(mouseY, mouseX, Distance);
 	}
-
+		
 	Vector3 CalculatePosition(float rotationX, float rotationY, float distance)
 	{
 		Vector3 direction = new Vector3(0, 0, -distance);
@@ -135,13 +132,17 @@ public class TP_Camera : MonoBehaviour
 	{
 		var isOccluded = false;
 
+		//Comprueba la distancia con el objeto con el que hemos colisionado más cercano
+		//-1 si no hemos chocado con ninguno
 		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
 
 		//Si le hemos dado a algo
 		if (nearestDistance != -1)
 		{
+			//Desactivamos el offset
 			offset_active = false;
-			//Si aun no nos hemos pasado con el tope de comprobaciones, movemos la camara hacia delante
+
+			//Si aun no nos hemos pasado con el tope de comprobaciones, acercamos la cámara hacia el personaje
 			if (count < MaxOcclusionChecks)
 			{
 				isOccluded = true;
@@ -160,15 +161,13 @@ public class TP_Camera : MonoBehaviour
 			desiredDistance = Distance; //moveremos la camara hacia el punto indicado
 			distanceSmooth = DistanceResumeSmooth; //La camara ya no esta bloqueada por ningun objeto, asignamos la fluidez de salida
 		}
-
-
+			
 		return isOccluded;
 	}
 
 	//calculamos los puntos que la camara necesita para moverse si un objeto tapa la vista
 	//devuelve la distancia mas cercana de lo que hemos chocado, si hemos chocado con algo
 	//sino, devuelve negativo
-
 	/*
 	 * Para que un objeto no afecte a la cámara y lo pueda atravesar podemos poner
 	 * en el Inspector > Layer > Ignore Raycast
@@ -182,13 +181,14 @@ public class TP_Camera : MonoBehaviour
 
 		Helper.ClipPlanePoints clipPlanePoints = Helper.ClipPlaneAtNear(to); //cogemos el rectangulo de vision
 
-		//Dibujamos lineas en el editor para que sea mas facil visualizarlo
+		//Dibujamos 4 lineas que van desde el lookAt hasta ĺos 4 puntos de la cámara
 		Debug.DrawLine(from, to + transform.forward * -Camera.main.nearClipPlane, Color.red); //linea situada detras de la camara desde el centro
 		Debug.DrawLine(from, clipPlanePoints.UpperLeft);
 		Debug.DrawLine(from, clipPlanePoints.LowerLeft);
 		Debug.DrawLine(from, clipPlanePoints.UpperRight);
 		Debug.DrawLine(from, clipPlanePoints.LowerRight);
 
+		//Dibujamos el rectángulo de visión de la cámara
 		Debug.DrawLine(clipPlanePoints.UpperLeft, clipPlanePoints.UpperRight);
 		Debug.DrawLine(clipPlanePoints.UpperRight, clipPlanePoints.LowerRight);
 		Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft);
@@ -219,6 +219,7 @@ public class TP_Camera : MonoBehaviour
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
+		//Si le hemos dado a algún objeto, reducimos el offset
 		if (nearestDistance != -1)
 			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
 
@@ -227,7 +228,8 @@ public class TP_Camera : MonoBehaviour
 
 	void ResetDesiredDistance()
 	{
-		//ya no hay ningun objeto que obstruya a la camara
+		//La distancia en la que la cámara estaba obstruida ahora es mayor, podemos moverla hacia
+		//afuera
 		if (desiredDistance < preOccludedDistance)
 		{
 			//Calculamos la nueva posicion y distancia ahora que el objeto ya no la obstruye
@@ -255,19 +257,16 @@ public class TP_Camera : MonoBehaviour
 		//Asignamos la posicion actual con la posicion suavizada
 		transform.position = position;
 
+		//Asignamos el lookAt
 		transform.LookAt(TargetLookAt);
 
+		//Aplicamos el offset
 		if (offset_active)
 			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth);
 		else
 			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
 
 		transform.LookAt(TargetLookAt.position+transform.right*offset);
-
-		//Aplicamos el offset
-//		Qz = Mathf.SmoothDamp(Qz,-0.5591f * mouseY + 0.2843f, ref VelQz, Qz_Smooth);
-//		transform.rotation*= Quaternion.Euler(Qx, Qy, Qz);
-
 	}
 
 	//establece las variables a valores predeterminados
