@@ -20,10 +20,11 @@ namespace DialogueTree
         // parameterless constructor for serialization
         public DialogueOption() { }
 
-        public DialogueOption(string text, int dest)
-        {
-            this.Text = text;
-            this.DestinationNodeID = dest;
-        }
+		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
+//        public DialogueOption(string text, int dest)
+//        {
+//            this.Text = text;
+//            this.DestinationNodeID = dest;
+//        }
     }
 }

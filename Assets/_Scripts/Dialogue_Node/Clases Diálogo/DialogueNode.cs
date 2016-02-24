@@ -17,10 +17,11 @@ namespace DialogueTree
             Options = new List<DialogueOption>();
         }
 
-        public DialogueNode(string text)
-        {
-            Text = text;
-            Options = new List<DialogueOption>();
-        }
+		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
+//        public DialogueNode(string text)
+//        {
+//            Text = text;
+//            Options = new List<DialogueOption>();
+//        }
     }
 }

@@ -38,14 +38,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialgueOption.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogoEntrante.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" />
@@ -53,7 +54,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogo_antiguo\ActivateTextAtLine.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogo_antiguo\TextBoxManager.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\NPC.cs" />
+     <Compile Include="Assets\_Scripts\NPC\NPC.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
@@ -68,10 +69,10 @@
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
      <None Include="Assets\_Texts\text_dia2.xml" />
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

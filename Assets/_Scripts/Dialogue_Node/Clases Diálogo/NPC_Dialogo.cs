@@ -6,26 +6,34 @@ using DialogueTree;
 
 public class NPC_Dialogo{
 
-	//Los dialogos deben estar ordenados por prioridad
-
-	private List<Dialogue> dialogos = new List<Dialogue>();
+	private List<DialogoEntrante> dialogos = new List<DialogoEntrante>();
 	private List<Pregunta> preguntas = new List<Pregunta>();
 
 	private int indice_dialogo = 0; //Indice actual del indice de dialogos
 
 	public NPC_Dialogo()
 	{
-		Dialogue d = Dialogue.LoadDialogue ("Assets/_Texts/" + "text_dia.xml");
-		Dialogue d2 = Dialogue.LoadDialogue ("Assets/_Texts/" + "text_dia2.xml");
+		DialogoEntrante d = new DialogoEntrante("text_dia.xml");
+		DialogoEntrante d2 = new DialogoEntrante("text_dia2.xml");
 
-//		dialogos.Add (d);
-//		dialogos.Add (d2);
+		d2.prioridad = 5;
+
+		AnyadirDialogo (d);
+		AnyadirDialogo (d2);
 
 		for(int i = 0; i < 5; i++)
 		{
 			preguntas.Add(new Pregunta("Opcion " + i.ToString(),"text_dia3.xml"));
 		}
 	}
+
+	public void AnyadirDialogo(Dialogue d)
+	{
+		dialogos.Add (d);
+		dialogos.Sort ();
+	}
+
+
 
 	public bool HayMasDialogos()
 	{
@@ -63,7 +71,7 @@ public class NPC_Dialogo{
 
 	public DialogueNode DevuelveNodoDialogoDialogo(int node_id)
 	{
-		return dialogos[indice_dialogo].Nodes[node_id];
+		return dialogos[indice_dialogo].dia.Nodes[node_id];
 	}
 
 	public DialogueNode DevuelveNodoDialogoPregunta(int node_id)
@@ -78,7 +86,7 @@ public class NPC_Dialogo{
 
 	public int DevuelveNumeroOpcionesNodoDialogo (int node_id)
 	{
-		return dialogos[indice_dialogo].Nodes[node_id].Options.Count;
+		return dialogos[indice_dialogo].dia.Nodes[node_id].Options.Count;
 	}
 
 	public int DevuelveNumeroOpcionesNodoPregunta (int node_id)
