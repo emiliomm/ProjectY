@@ -98,13 +98,6 @@ public class TextBox : MonoBehaviour {
 		EnableTextBox();
 	}
 
-	public void UpdateDialogue(NPC npc_dialogo, string path)
-	{
-		npc = npc_dialogo;
-		DialogueDataFilePath = path;
-		dia = Dialogue.LoadDialogue("Assets/" + DialogueDataFilePath);
-	}
-
 	public void EnableTextBox()
 	{
 		TP_Controller.Instance.canMove = false;
@@ -138,7 +131,7 @@ public class TextBox : MonoBehaviour {
 		int node_id = 0; //principio del dialogo
 		bool conversacion_activa = true;
 
-		if (dia == null)
+		if (dia.DevuelveNumeroDialogos() == 0)
 			current = GameState.Respuestas_Mostrar;
 		else
 			current = GameState.Entrante_Texto;
@@ -148,7 +141,7 @@ public class TextBox : MonoBehaviour {
 			switch(current)
 			{
 			case GameState.Entrante_Texto:
-				display_node_text(dia.DevuelveNodo(node_id));
+				display_node_text(dia.DevuelveNodoDialogoDialogo(node_id));
 				selected_option = node_id;
 
 				while(selected_option == node_id)
@@ -164,14 +157,13 @@ public class TextBox : MonoBehaviour {
 				{
 					conversacion_activa = false;
 				}
-				else if(dia.DevuelveNumeroOpcionesNodo(node_id) > 0)
+				else if(dia.DevuelveNumeroOpcionesNodoDialogo(node_id) > 0)
 				{
 					current = GameState.Entrante_Elegir;
 				}
 				else if (selected_option == -1 && dia.HayMasDialogos())
 				{
-					npc.indice++;
-					UpdateDialogue (npc, npc.dialogos[npc.indice]);
+					dia.AvanzaDialogo();
 					node_id = 0;
 				}
 				else
@@ -179,7 +171,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Entrante_Elegir:
-				display_node_answers(dia.DevuelveNodo(node_id));
+				display_node_answers(dia.DevuelveNodoDialogoDialogo(node_id));
 				selected_option = -4;
 
 				while(selected_option == -4)
@@ -190,10 +182,9 @@ public class TextBox : MonoBehaviour {
 
 				if(node_id == -1)
 				{
-					if (npc.indice + 1 < npc.dialogos.Count)
+					if (dia.HayMasDialogos())
 					{
-						npc.indice++;
-						UpdateDialogue (npc, npc.dialogos[npc.indice]);
+						dia.AvanzaDialogo();
 						node_id = 0;
 						current = GameState.Entrante_Texto;
 					}
@@ -215,9 +206,9 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Respuestas_Mostrar:
-				if (npc.preguntas.Count != 0)
+				if (dia.DevuelveNumeroPreguntas() != 0)
 				{
-					display_npc_questions ();
+					display_npc_questions();
 					selected_option = -4;
 					while (selected_option == -4) {
 						yield return new WaitForSeconds (0.25f);
@@ -225,9 +216,9 @@ public class TextBox : MonoBehaviour {
 					node_id = selected_option;
 
 					if (node_id > -2) {
-						UpdateDialogue (npc, npc.preguntas [node_id].dialogue_path);
-						node_id = 0;
 						current = GameState.Respuestas_Texto;
+						dia.PonerIndice(node_id);
+						node_id = 0;
 					} else
 						conversacion_activa = false;
 				}
@@ -238,7 +229,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Respuestas_Texto:
-				display_node_text(dia.DevuelveNodo(node_id));
+				display_node_text(dia.DevuelveNodoPregunta(node_id));
 				selected_option = node_id;
 
 				while(selected_option == node_id)
@@ -254,7 +245,7 @@ public class TextBox : MonoBehaviour {
 				{
 					conversacion_activa = false;
 				}
-				else if(dia.DevuelveNumeroOpcionesNodo(node_id) > 0)
+				else if(dia.DevuelveNumeroOpcionesNodoPregunta(node_id) > 0)
 				{
 					current = GameState.Respuestas_Elegir;
 				}
@@ -265,7 +256,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Respuestas_Elegir:
-				display_node_answers(dia.DevuelveNodo(node_id));
+				display_node_answers(dia.DevuelveNodoDialogoPregunta(node_id));
 				selected_option = -4;
 
 				while(selected_option == -4)
@@ -283,7 +274,9 @@ public class TextBox : MonoBehaviour {
 					conversacion_activa = false;
 				}
 				else
+				{
 					current = GameState.Respuestas_Texto;
+				}
 				
 				break;
 			}
@@ -415,54 +408,54 @@ public class TextBox : MonoBehaviour {
 		option_14.SetActive(false);
 		option_15.SetActive(false);
 
-		for(int i = 0; i < npc.preguntas.Count && i < 14; i++)
+		for(int i = 0; i < dia.DevuelveNumeroPreguntas() && i < 14; i++)
 		{
 			switch(i)
 			{
 			case 0:
-				set_question_button(option_1,npc.preguntas[i], i);
+				set_question_button(option_1,dia.DevuelvePregunta(i), i);
 				break;
 			case 1:
-				set_question_button(option_2, npc.preguntas[i], i);
+				set_question_button(option_2,dia.DevuelvePregunta(i), i);
 				break;
 			case 2:
-				set_question_button(option_3, npc.preguntas[i], i);
+				set_question_button(option_3, dia.DevuelvePregunta(i), i);
 				break;
 			case 3:
-				set_question_button(option_4, npc.preguntas[i], i);
+				set_question_button(option_4, dia.DevuelvePregunta(i), i);
 				break;
 			case 4:
-				set_question_button(option_5, npc.preguntas[i], i);
+				set_question_button(option_5, dia.DevuelvePregunta(i), i);
 				break;
 			case 5:
-				set_question_button(option_6, npc.preguntas[i], i);
+				set_question_button(option_6, dia.DevuelvePregunta(i), i);
 				break;
 			case 6:
-				set_question_button(option_7, npc.preguntas[i], i);
+				set_question_button(option_7, dia.DevuelvePregunta(i), i);
 				break;
 			case 7:
-				set_question_button(option_8, npc.preguntas[i], i);
+				set_question_button(option_8, dia.DevuelvePregunta(i), i);
 				break;
 			case 8:
-				set_question_button(option_9, npc.preguntas[i], i);
+				set_question_button(option_9, dia.DevuelvePregunta(i), i);
 				break;
 			case 9:
-				set_question_button(option_10, npc.preguntas[i], i);
+				set_question_button(option_10, dia.DevuelvePregunta(i), i);
 				break;
 			case 10:
-				set_question_button(option_11, npc.preguntas[i], i);
+				set_question_button(option_11, dia.DevuelvePregunta(i), i);
 				break;
 			case 11:
-				set_question_button(option_12, npc.preguntas[i], i);
+				set_question_button(option_12, dia.DevuelvePregunta(i), i);
 				break;
 			case 12:
-				set_question_button(option_13, npc.preguntas[i], i);
+				set_question_button(option_13, dia.DevuelvePregunta(i), i);
 				break;
 			case 13:
-				set_question_button(option_14, npc.preguntas[i], i);
+				set_question_button(option_14, dia.DevuelvePregunta(i), i);
 				break;
 			case 14:
-				set_question_button(option_15, npc.preguntas[i], i);
+				set_question_button(option_15, dia.DevuelvePregunta(i), i);
 				break;
 			}
 		}

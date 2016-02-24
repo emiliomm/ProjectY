@@ -11,6 +11,11 @@ public class NPC : MonoBehaviour {
 
 	private bool waitForPress;
 
+	void Start()
+	{
+		npc_diag = new NPC_Dialogo();
+	}
+
 	//Si colisionamos con el jugador, cargamos el nuevo texto
 	void OnTriggerEnter(Collider other)
 	{

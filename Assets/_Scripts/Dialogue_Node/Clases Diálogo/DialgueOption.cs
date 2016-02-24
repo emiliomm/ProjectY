@@ -9,6 +9,14 @@ namespace DialogueTree
         public string Text;
         public int DestinationNodeID;
 
+		/* 
+		 * Valor
+		 * -1 : Acaba dialogo cargado
+		 * -2 : Va a las respuestas
+		 * -3: Acaba la conversación
+		 * Otro: Va al nodo indicado
+	     */
+
         // parameterless constructor for serialization
         public DialogueOption() { }
 

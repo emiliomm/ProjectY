@@ -14,9 +14,9 @@ public class Pregunta{
 		dia = null;
 	}
 
-//	public Pregunta(string t, string d)
-//	{
-//		texto = t;
-//		dia = null;
-//	}
+	public Pregunta(string t, string d)
+	{
+		texto = t;
+		dia = Dialogue.LoadDialogue ("Assets/_Texts/" + d);
+	}
 }
