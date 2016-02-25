@@ -141,7 +141,70 @@ public class TextBox : MonoBehaviour {
 			switch(current)
 			{
 			case GameState.Entrante_Texto:
-				display_node_text(dia.DevuelveNodoDialogoDialogo(node_id));
+				display_node_text (dia.DevuelveNodoDialogoDialogo (node_id));
+				selected_option = node_id;
+
+				while (selected_option == node_id) {
+					yield return new WaitForSeconds (0.25f);
+				}
+
+//				if(selected_option == -2)
+//				{
+//					current = GameState.Respuestas_Mostrar;
+//				}
+//				else if(selected_option == -3)
+//				{
+//					conversacion_activa = false;
+//				}
+//				else if(dia.DevuelveNumeroOpcionesNodoDialogo(node_id) > 0)
+//				{
+//					current = GameState.Entrante_Elegir;
+//				}
+//				else if (selected_option == -1 && dia.HayMasDialogos())
+//				{
+//					dia.AvanzaDialogo();
+//					node_id = 0;
+//				}
+//				else
+//					node_id = selected_option;
+
+				switch(selected_option)
+				{
+				case -3: //La conversación acaba
+					conversacion_activa = false;
+					break;
+				case -2: //Se muestran las respuestas
+					current = GameState.Respuestas_Mostrar;
+					break;
+				case -1: //Acaba el dialogo actual
+					//Si hay más dialogos, vamos al siguiente dialogo
+					if (dia.HayMasDialogos ())
+					{
+						dia.AvanzaDialogo();
+						node_id = 0;
+					}
+					//Sino, se muestran las respuestas
+					else
+					{
+						current = GameState.Respuestas_Mostrar;
+					}
+					break;
+				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
+					if(dia.DevuelveNumeroOpcionesNodoDialogo(node_id) > 0)
+					{
+						current = GameState.Entrante_Elegir;
+					}
+					else //CAMBIAR LISTENER
+					{
+						node_id++;
+					}
+					break;
+				}
+
+
+				break;
+			case GameState.Entrante_Elegir:
+				display_node_answers(dia.DevuelveNodoDialogoDialogo(node_id));
 				selected_option = node_id;
 
 				while(selected_option == node_id)
@@ -149,60 +212,57 @@ public class TextBox : MonoBehaviour {
 					yield return new WaitForSeconds(0.25f);
 				}
 
-				if(selected_option == -2)
+				switch(selected_option)
 				{
-					current = GameState.Respuestas_Mostrar;
-				}
-				else if(selected_option == -3)
-				{
+				case -3: //La conversación acaba
 					conversacion_activa = false;
-				}
-				else if(dia.DevuelveNumeroOpcionesNodoDialogo(node_id) > 0)
-				{
-					current = GameState.Entrante_Elegir;
-				}
-				else if (selected_option == -1 && dia.HayMasDialogos())
-				{
-					dia.AvanzaDialogo();
-					node_id = 0;
-				}
-				else
-					node_id = selected_option;
-
-				break;
-			case GameState.Entrante_Elegir:
-				display_node_answers(dia.DevuelveNodoDialogoDialogo(node_id));
-				selected_option = -4;
-
-				while(selected_option == -4)
-				{
-					yield return new WaitForSeconds(0.25f);
-				}
-				node_id = selected_option;
-
-				if(node_id == -1)
-				{
+					break;
+				case -2: //Se muestran las respuestas
+					current = GameState.Respuestas_Mostrar;
+					break;
+				case -1: //Acaba el dialogo actual
+					//Si hay más dialogos, vamos al siguiente dialogo
 					if (dia.HayMasDialogos())
 					{
 						dia.AvanzaDialogo();
 						node_id = 0;
 						current = GameState.Entrante_Texto;
 					}
+					//Sino, se muestran las respuestas
 					else
 					{
 						current = GameState.Respuestas_Mostrar;
 					}
-				}
-				else if(node_id == -2)
-				{
-					current = GameState.Respuestas_Mostrar;
-				}
-				else if(node_id == -3)
-				{
-					conversacion_activa = false;
-				}
-				else
+					break;
+				default: //Se sigue con la conversación, donde el nodo indique
+					node_id = selected_option;
 					current = GameState.Entrante_Texto;
+					break;
+				}
+
+//				if(node_id == -1)
+//				{
+//					if (dia.HayMasDialogos())
+//					{
+//						dia.AvanzaDialogo();
+//						node_id = 0;
+//						current = GameState.Entrante_Texto;
+//					}
+//					else
+//					{
+//						current = GameState.Respuestas_Mostrar;
+//					}
+//				}
+//				else if(node_id == -2)
+//				{
+//					current = GameState.Respuestas_Mostrar;
+//				}
+//				else if(node_id == -3)
+//				{
+//					conversacion_activa = false;
+//				}
+//				else
+//					current = GameState.Entrante_Texto;
 
 				break;
 			case GameState.Respuestas_Mostrar:
@@ -213,14 +273,30 @@ public class TextBox : MonoBehaviour {
 					while (selected_option == -4) {
 						yield return new WaitForSeconds (0.25f);
 					}
-					node_id = selected_option;
+//					node_id = selected_option;
+//
+//					if (node_id > -2) {
+//						current = GameState.Respuestas_Texto;
+//						dia.PonerIndice(node_id);
+//						node_id = 0;
+//					} else
+//						conversacion_activa = false;
 
-					if (node_id > -2) {
-						current = GameState.Respuestas_Texto;
-						dia.PonerIndice(node_id);
-						node_id = 0;
-					} else
+					switch(selected_option)
+					{
+					//Salimos del dialogo
+					case -1:
+					case -2:
+					case -3:
 						conversacion_activa = false;
+						break;
+					//Cargamos el dialogo escogido
+					default:
+						current = GameState.Respuestas_Texto;
+						dia.PonerIndice(selected_option);
+						node_id = 0;
+						break;
+					}
 				}
 				else
 				{
@@ -236,6 +312,29 @@ public class TextBox : MonoBehaviour {
 				{
 					yield return new WaitForSeconds(0.25f);
 				}
+
+				//ME HE QUEDADO AQUI
+				//JUNTAR PREGUNTA Y DIALOGO ENTRANTE ¿?
+
+				switch(selected_option)
+				{
+				case -3: //La conversación acaba
+					conversacion_activa = false;
+					break;
+				case -2: //Se muestran las respuestas
+				case -1: //Acaba el dialogo actual
+					current = GameState.Respuestas_Mostrar;
+					break;
+				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
+					if(dia.DevuelveNumeroOpcionesNodoDialogo(node_id) > 0)
+					{
+						current = GameState.Entrante_Elegir;
+					}
+					else //CAMBIAR LISTENER
+					{
+						node_id++;
+					}
+					break;
 
 				if(selected_option == -2 || selected_option == -1)
 				{
@@ -464,7 +563,7 @@ public class TextBox : MonoBehaviour {
 	private void set_option_button(GameObject button, DialogueOption opt)
 	{
 		button.SetActive(true);
-		button.GetComponentInChildren<Text>().text = ResolveTextSize(opt.Text, SizeOfLine); //Texto del botón dividido en lineas
+		button.GetComponentInChildren<Text>().text = opt.Text; //Texto del botón dividido en lineas
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DestinationNodeID); }); //Listener del botón
 	}
@@ -472,48 +571,8 @@ public class TextBox : MonoBehaviour {
 	private void set_question_button(GameObject button, Pregunta pre, int num)
 	{
 		button.SetActive(true);
-		button.GetComponentInChildren<Text>().text = ResolveTextSize(pre.texto, SizeOfLine); //Texto del botón dividido en lineas
+		button.GetComponentInChildren<Text>().text = pre.texto; //Texto del botón dividido en lineas
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(num); }); //Listener del botón
-	}
-
-
-	//CAMBIAR POR TEXTO QUE SE AUTOREDIMENSIONA CON EL BOTON
-	// Divide el texto por tamaño de línea
-	private string ResolveTextSize(string input, int lineLength){
-
-		// Split string by char " "         
-		string[] words = input.Split(" "[0]);
-
-		// Prepare result
-		string result = "";
-
-		// Temp line string
-		string line = "";
-
-		// for each all words        
-		foreach(string s in words){
-			// Append current word into line
-			string temp = line + " " + s;
-
-			// If line length is bigger than lineLength
-			if(temp.Length > lineLength){
-
-				// Append current line into result
-				result += line + "\n";
-				// Remain word append into new line
-				line = s;
-			}
-			// Append current word into current line
-			else {
-				line = temp;
-			}
-		}
-
-		// Append last line into result        
-		result += line;
-
-		// Remove first " " char
-		return result.Substring(1,result.Length-1);
 	}
 }

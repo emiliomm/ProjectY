@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
-using System.Text;
 
 using UnityEngine;
 
@@ -60,9 +59,6 @@ namespace DialogueTree
 
 			Dialogue dia = (Dialogue)serz.Deserialize(reader);
 
-			if (path == "Assets/_Texts/text_dia.xml")
-				Debug.Log(dia.Nodes[1].Options[0].AddPregunta[0]);
-
 			//Añadir funcion para transformar los numeros en strings
 			dia.RecorrerDialogo();
 
@@ -78,57 +74,10 @@ namespace DialogueTree
 				{
 					for(int k = 0; k < Nodes[i].Options[j].AddDialogo.Count; k++)
 					{
-						ConvertirATexto(Nodes[i].Options[j].AddDialogo[k].Valor);
+						Nodes[i].Options [j].AddDialogo [k].ConvertirATexto();
+						Nodes[i].Options [j].AddPregunta [k].ConvertirATexto();
 					}
 				}
-			}
-		}
-
-		private void ConvertirATexto(int valor)
-		{
-			string fileName = "Assets/_Data/dialoguecodes.txt";
-			// Handle any problems that might arise when reading the text
-			try
-			{
-				string line;
-				// Create a new StreamReader, tell it which file to read and what encoding the file
-				// was saved as
-				StreamReader theReader = new StreamReader(fileName, Encoding.Default);
-
-				// Immediately clean up the reader after this block of code is done.
-				// You generally use the "using" statement for potentially memory-intensive objects
-				// instead of relying on garbage collection.
-				// (Do not confuse this with the using directive for namespace at the 
-				// beginning of a class!)
-				using (theReader)
-				{
-					var i = 0;
-					// While there's lines left in the text file, do this:
-					do
-					{
-						line = theReader.ReadLine();
-
-						if (line != null && i == valor)
-						{
-							// Do whatever you need to do with the text line, it's a string now
-							//dia.
-						}
-						i++;
-					}
-					while (line != null);
-
-					// Done reading, close the reader and return true to broadcast success    
-					theReader.Close();
-					return true;
-				}
-			}
-
-			// If anything broke in the try block, we throw an exception with information
-			// on what didn't work
-			catch (Exception e)
-			{
-				Console.WriteLine("{0}\n", e.Message);
-				return false;
 			}
 		}
     }
