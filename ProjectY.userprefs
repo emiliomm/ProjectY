@@ -1,16 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs">
     <Files>
-      <File FileName="Assets\_Texts\text_dia.xml" Line="3" Column="16" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\PreguntaTexto.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogoEntrante.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\NPC\NPC.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="22" Column="23" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogoEntrante.cs" Line="20" Column="17" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Pregunta.cs" Line="8" Column="22" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" Line="15" Column="63" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" Line="20" Column="63" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialgueOption.cs" Line="28" Column="12" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Pregunta.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" Line="81" Column="7" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialgueOption.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogoTexto.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Texts\text_dia.xml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

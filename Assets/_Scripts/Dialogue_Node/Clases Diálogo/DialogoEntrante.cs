@@ -3,11 +3,12 @@ using System.Collections;
 
 using DialogueTree;
 
-public class DialogoEntrante{
+//Implementa la interfaz System.IComparable para que funcione el metodo compareTo
+public class DialogoEntrante : System.IComparable<DialogoEntrante>{
 
 	public Dialogue dia;
 	public int prioridad;
-	public int indice_inicial { get; set; }
+	public int indice_inicial;
 
 	public DialogoEntrante()
 	{
@@ -21,15 +22,12 @@ public class DialogoEntrante{
 		indice_inicial = 0;
 	}
 
-	// Default comparer for DialogueEntrante type
-	//Para el metodo Sort de List
-	public int CompareTo(DialogoEntrante comparePart)
+	//Método utilizado para la comparación entre elementos funcione con el método Sort() de una lista DialogoEntrante
+	public int CompareTo(DialogoEntrante otro)
 	{
-		// A null value means that this object is greater.
-		if (DialogoEntrante == null)
-			return 1;
+		if (otro == null) return 1;
 
-		else
-			return this.indice_inicial.CompareTo(DialogoEntrante.indice_inicial);
+		//orden descendente
+		return -1 * prioridad.CompareTo(otro.prioridad);
 	}
 }

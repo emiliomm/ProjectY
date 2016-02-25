@@ -1,0 +1,3 @@
+text_dia.xml
+text_dia2.xml
+text_dia3.xml

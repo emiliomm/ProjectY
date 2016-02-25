@@ -27,12 +27,22 @@ public class NPC_Dialogo{
 		}
 	}
 
-	public void AnyadirDialogo(Dialogue d)
+	public void AnyadirDialogo(DialogoEntrante d)
 	{
 		dialogos.Add (d);
 		dialogos.Sort ();
+//		dialogos.Sort (CompareTo);
 	}
-
+		
+	//Método para usar Sort de List
+	public int CompareTo(DialogoEntrante d1, DialogoEntrante d2)
+	{
+		if (d1.prioridad == d2.prioridad) return 0;
+		if (d1.prioridad == 0) return +1;
+		if (d2.prioridad == 0) return -1;
+		// otherwise compare normally
+		return d2.prioridad-d1.prioridad;
+	}
 
 
 	public bool HayMasDialogos()

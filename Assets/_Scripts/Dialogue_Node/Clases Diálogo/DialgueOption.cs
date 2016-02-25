@@ -8,7 +8,6 @@ namespace DialogueTree
     {
         public string Text;
         public int DestinationNodeID;
-
 		/* 
 		 * Valor
 		 * -1 : Acaba dialogo cargado
@@ -17,8 +16,14 @@ namespace DialogueTree
 		 * Otro: Va al nodo indicado
 	     */
 
+		public List<DialogoTexto> AddDialogo;
+		public List<PreguntaTexto> AddPregunta;
+
         // parameterless constructor for serialization
-        public DialogueOption() { }
+        public DialogueOption() {
+			AddDialogo = new List<DialogoTexto>();
+			AddPregunta = new List<PreguntaTexto>();
+		}
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
 //        public DialogueOption(string text, int dest)
