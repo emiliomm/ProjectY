@@ -38,20 +38,20 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialgueOption.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogoEntrante.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogoTexto.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Intro.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Mensaje.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Pregunta.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\PreguntaTexto.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogo_antiguo\ActivateTextAtLine.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Dialogo_antiguo\TextBoxManager.cs" />
@@ -62,6 +62,7 @@
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
+     <None Include="Assets\SaveData.xml" />
      <None Include="Assets\_Data\dialoguecodes.txt" />
      <None Include="Assets\_Texts\text_dia.xml" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
@@ -72,10 +73,10 @@
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
      <None Include="Assets\_Texts\text_dia2.xml" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

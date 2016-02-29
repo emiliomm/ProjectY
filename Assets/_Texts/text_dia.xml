@@ -6,6 +6,16 @@
       <NodeID>0</NodeID>
       <Text>Hola, bienvenido al diálogo de prueba</Text>
       <Options></Options>
+      <AddDialogo>
+      	<DialogoTexto>
+      		<Valor>1</Valor>
+      	</DialogoTexto>
+      </AddDialogo>
+      <AddPregunta>
+      	<PreguntaTexto>
+      		<Valor>0</Valor>
+      	</PreguntaTexto>
+      </AddPregunta>
     </DialogueNode>
     <DialogueNode>
       <NodeID>1</NodeID>
@@ -14,12 +24,6 @@
       	<DialogueOption>
           <Text>Sí</Text>
           <DestinationNodeID>2</DestinationNodeID>
-          <AddDialogo>
-          	<DialogoTexto><Valor>1</Valor></DialogoTexto>
-          </AddDialogo>
-          <AddPregunta>
-          	<PreguntaTexto><Valor>2</Valor></PreguntaTexto>
-          </AddPregunta>
         </DialogueOption>
         <DialogueOption>
           <Text>No, es bastante dificil de entender, la verdad</Text>

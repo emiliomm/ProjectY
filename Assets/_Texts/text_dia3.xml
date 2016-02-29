@@ -6,6 +6,16 @@
       <NodeID>0</NodeID>
       <Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
       <Options></Options>
+      <AddDialogo>
+      	<DialogoTexto>
+      		<Valor>1</Valor>
+      	</DialogoTexto>
+      </AddDialogo>
+      <AddPregunta>
+      	<PreguntaTexto>
+      		<Valor>0</Valor>
+      	</PreguntaTexto>
+      </AddPregunta>
     </DialogueNode>
     <DialogueNode>
       <NodeID>1</NodeID>

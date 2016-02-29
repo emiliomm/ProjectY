@@ -9,8 +9,9 @@ namespace DialogueTree
 {
 	public class Dialogue
     {
-        public List<DialogueNode> Nodes;
+		private string ruta;
 		public bool Autodestruye; // 0 --> falso, 1 --> verdadero
+        public List<DialogueNode> Nodes;
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
 
@@ -59,26 +60,42 @@ namespace DialogueTree
 
 			Dialogue dia = (Dialogue)serz.Deserialize(reader);
 
+			//CORREGIR BUG
+			Debug.Log(path);
+
+			dia.ruta = path.Replace("Assets/_Texts", "_Data");
+
 			//Añadir funcion para transformar los numeros en strings
-			dia.RecorrerDialogo();
+//			dia.RecorrerDialogo();
 
 			return dia;
 		}
 
-		//Transforma los enteros de AddDialogo y AddPregunta a strings con el nombre del archivo de texto
-		private void RecorrerDialogo()
+		public DialogueNode DevuelveNodo(int node_id)
 		{
-			for(int i = 0; i < Nodes.Count; i++)
-			{
-				for(int j = 0; j < Nodes[i].Options.Count; j++)
-				{
-					for(int k = 0; k < Nodes[i].Options[j].AddDialogo.Count; k++)
-					{
-						Nodes[i].Options [j].AddDialogo [k].ConvertirATexto();
-						Nodes[i].Options [j].AddPregunta [k].ConvertirATexto();
-					}
-				}
-			}
+			return Nodes[node_id];
 		}
+
+//		public string DevolverRuta()
+//		{
+//			return ruta;
+//		}
+//
+//		//Transforma los enteros de AddDialogo y AddPregunta a strings con el nombre del archivo de texto
+//		private void RecorrerDialogo()
+//		{
+//			for(int i = 0; i < Nodes.Count; i++)
+//			{
+//				for(int j = 0; j < Nodes[i].AddDialogo.Count; j++)
+//				{
+//					Nodes[i].AddDialogo[j].ConvertirATexto();
+//				}
+//				for(int k = 0; k < Nodes[i].AddPregunta.Count; k++)
+//				{
+//					Nodes[i].AddPregunta[k].ConvertirATexto();
+//				}
+//			}
+//		}
     }
 }
+

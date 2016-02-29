@@ -6,90 +6,162 @@ using DialogueTree;
 
 public class NPC_Dialogo{
 
-	private List<DialogoEntrante> dialogos = new List<DialogoEntrante>();
-	private List<Pregunta> preguntas = new List<Pregunta>();
-
-	private int indice_dialogo = 0; //Indice actual del indice de dialogos
+	private List<Intro> intros = new List<Intro>();
+	private List<Mensaje> mensajes = new List<Mensaje>();
 
 	public NPC_Dialogo()
 	{
-		DialogoEntrante d = new DialogoEntrante("text_dia.xml");
-		DialogoEntrante d2 = new DialogoEntrante("text_dia2.xml");
+		Intro d = new Intro("text_dia.xml");
+		Intro d2 = new Intro("text_dia2.xml");
 
-		d2.prioridad = 5;
+		d.prioridad = 5;
 
 		AnyadirDialogo (d);
 		AnyadirDialogo (d2);
 
 		for(int i = 0; i < 5; i++)
 		{
-			preguntas.Add(new Pregunta("Opcion " + i.ToString(),"text_dia3.xml"));
+			mensajes.Add(new Mensaje("Opcion " + i.ToString(),"text_dia3.xml"));
 		}
 	}
 
-	public void AnyadirDialogo(DialogoEntrante d)
+	public void AnyadirDialogo(Intro d)
 	{
-		dialogos.Add (d);
-		dialogos.Sort ();
+		intros.Add (d);
+		intros.Sort ();
 	}
 
-
-	public bool HayMasDialogos()
+	public int DevuelveNumeroIntros()
 	{
-		bool mas = false;
-		if (indice_dialogo + 1 < dialogos.Count)
-			mas = true;
-
-		return mas;
+		return intros.Count;
 	}
 
-	public void AvanzaDialogo()
+	public int DevuelveNumeroMensajes()
 	{
-		indice_dialogo++;
+		return mensajes.Count;
 	}
 
-	public void PonerIndice(int num)
+	public Dialogue DevuelveDialogoIntro(int num_intro)
 	{
-		indice_dialogo = num;
+		return intros[num_intro].DevuelveDialogo();
 	}
 
-	public int DevuelveNumeroDialogos()
+	public Dialogue DevuelveDialogoMensajes(int num_mensaje)
 	{
-		return dialogos.Count;
+		return mensajes[num_mensaje].DevuelveDialogo();
 	}
 
-	public int DevuelveNumeroPreguntas()
+	public string DevuelveTextoMensaje(int num_mensaje)
 	{
-		return preguntas.Count;
+		return mensajes[num_mensaje].DevuelveTexto();
 	}
 
-	public Pregunta DevuelvePregunta(int num_pre)
+	public bool AvanzaIntro(int num_intro)
 	{
-		return preguntas[num_pre];
+		bool avanza = false;
+		if (num_intro + 1 < intros.Count)
+			avanza = true;
+
+		return avanza;
 	}
 
-	public DialogueNode DevuelveNodoDialogoDialogo(int node_id)
-	{
-		return dialogos[indice_dialogo].dia.Nodes[node_id];
-	}
-
-	public DialogueNode DevuelveNodoDialogoPregunta(int node_id)
-	{
-		return preguntas[indice_dialogo].dia.Nodes[node_id];
-	}
-
-	public DialogueNode DevuelveNodoPregunta(int node_id)
-	{
-		return preguntas[indice_dialogo].dia.Nodes[node_id];
-	}
-
-	public int DevuelveNumeroOpcionesNodoDialogo (int node_id)
-	{
-		return dialogos[indice_dialogo].dia.Nodes[node_id].Options.Count;
-	}
-
-	public int DevuelveNumeroOpcionesNodoPregunta (int node_id)
-	{
-		return preguntas[indice_dialogo].dia.Nodes[node_id].Options.Count;
-	}
+//	public bool HayMasDialogos(int num_dialog)
+//	{
+//		bool mas = false;
+//		if (num_dialog + 1 < dialogos.Count)
+//			mas = true;
+//
+//		return mas;
+//	}
+//
+//	public int DevuelveNumeroDialogos()
+//	{
+//		return dialogos.Count;
+//	}
+//
+//	public int DevuelveNumeroPreguntas()
+//	{
+//		return preguntas.Count;
+//	}
+//
+//	public Pregunta DevuelvePregunta(int num_pre)
+//	{
+//		return preguntas[num_pre];
+//	}
+//
+//	public Dialogue DevuelveDialogoDialogo(int num_dialog)
+//	{
+//		return dialogos[num_dialog].dia;
+//	}
+//
+//	public Dialogue DevuelveDialogoPregunta(int num_dialog)
+//	{
+//		return preguntas[num_dialog].dia;
+//	}
+//
+//	public DialogueNode DevuelveNodoDialogoDialogo(int num_dialog, int node_id)
+//	{
+//		return dialogos[num_dialog].dia.Nodes[node_id];
+//	}
+//
+//	public DialogueNode DevuelveNodoDialogoPregunta(int num_dialog, int node_id)
+//	{
+//		return preguntas[num_dialog].dia.Nodes[node_id];
+//	}
+//
+//	public int DevuelveNumeroOpcionesNodoDialogo (int num_dialog, int node_id)
+//	{
+//		return dialogos[num_dialog].dia.Nodes[node_id].Options.Count;
+//	}
+//
+//	public int DevuelveNumeroOpcionesNodoPregunta (int num_dialog, int node_id)
+//	{
+//		return preguntas[num_dialog].dia.Nodes[node_id].Options.Count;
+//	}
+//
+//	public void AddDialogoEntrante(int num_dialog, int node_id)
+//	{
+//		DialogueNode dn = DevuelveNodoDialogoDialogo(num_dialog, node_id);
+//		dn.recorrido = true;
+//
+//		for(int i = 0; i < dn.AddDialogo.Count; i++)
+//		{
+//			DialogoEntrante de = new DialogoEntrante(dn.AddDialogo[i].DevuelveNombre());
+//			AnyadirDialogo (de);
+//		}
+//	}
+//
+//	public void AddPreguntaEntrante(int num_dialog, int node_id)
+//	{
+//		DialogueNode dn = DevuelveNodoDialogoDialogo(num_dialog, node_id);
+//		dn.recorrido = true;
+//
+//		for(int i = 0; i < dn.AddPregunta.Count; i++)
+//		{
+//			preguntas.Add(new Pregunta("Opcion " + i.ToString(), dn.AddPregunta[i].DevuelveNombre()));
+//		}
+//	}
+//
+//	public void AddDialogoRespuestas(int num_dialog, int node_id)
+//	{
+//		DialogueNode dn = DevuelveNodoDialogoPregunta(num_dialog, node_id);
+//		dn.recorrido = true;
+//
+//		for(int i = 0; i < dn.AddDialogo.Count; i++)
+//		{
+//			DialogoEntrante de = new DialogoEntrante(dn.AddDialogo[i].DevuelveNombre());
+//			AnyadirDialogo (de);
+//		}
+//	}
+//
+//	public void AddPreguntaRespuestas(int num_dialog, int node_id)
+//	{
+//		DialogueNode dn = DevuelveNodoDialogoPregunta(num_dialog, node_id);
+//		dn.recorrido = true;
+//
+//		for(int i = 0; i < dn.AddPregunta.Count; i++)
+//		{
+//			preguntas.Add(new Pregunta("Opcion " + i.ToString(), dn.AddPregunta[i].DevuelveNombre()));
+//		}
+//	}
 }

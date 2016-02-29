@@ -11,18 +11,18 @@ namespace DialogueTree
 		/* 
 		 * Valor
 		 * -1 : Acaba dialogo cargado
-		 * -2 : Va a las respuestas
-		 * -3: Acaba la conversación
+		 * -2 : Va a las respuestas (NO SE DEBE USAR)
+		 * -3: Acaba la conversación (NO SE DEBE USAR)
 		 * Otro: Va al nodo indicado
 	     */
 
-		public List<DialogoTexto> AddDialogo;
-		public List<PreguntaTexto> AddPregunta;
-
         // parameterless constructor for serialization
         public DialogueOption() {
-			AddDialogo = new List<DialogoTexto>();
-			AddPregunta = new List<PreguntaTexto>();
+		}
+
+		public string DevuelveTexto()
+		{
+			return Text;
 		}
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
