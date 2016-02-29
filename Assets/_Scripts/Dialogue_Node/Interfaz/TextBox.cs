@@ -20,6 +20,7 @@ public class TextBox : MonoBehaviour {
 	public bool isActive; //indica si la caja de texto está activa o no
 
 	private NPC_Dialogo npc_dialogo;
+	private NPC npc;
 
 	private GameObject dialogue_window;
 	private GameObject dialog_text;
@@ -95,9 +96,10 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-	public void StartDialogue(NPC_Dialogo npcDi)
+	public void StartDialogue(NPC npc_inst, NPC_Dialogo npcDi)
 	{
 		npc_dialogo  = npcDi;
+		npc = npc_inst;
 		
 		EnableTextBox();
 	}
@@ -172,7 +174,7 @@ public class TextBox : MonoBehaviour {
 
 					//					AddtoNPCDialogueEntrante(num_dialog,node_id);
 					//					GuardarDialogo(num_dialog, node_id);
-
+					RecorreDialogoNPC(num_dialog, node_id);
 					//Si hay más dialogos, vamos al siguiente dialogo
 					if (npc_dialogo.AvanzaIntro(num_dialog))
 					{
@@ -188,7 +190,7 @@ public class TextBox : MonoBehaviour {
 
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-
+					RecorreDialogoNPC(num_dialog, node_id);
 					//					AddtoNPCDialogueEntrante(num_dialog,node_id);
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
@@ -227,7 +229,6 @@ public class TextBox : MonoBehaviour {
 
 					//					AddtoNPCDialogueEntrante(num_dialog,node_id);
 					//					GuardarDialogo(num_dialog, node_id);
-
 					//Si hay más dialogos, vamos al siguiente dialogo
 					if (npc_dialogo.AvanzaIntro(num_dialog))
 					{
@@ -243,7 +244,6 @@ public class TextBox : MonoBehaviour {
 					}
 					break;
 				default: //Se sigue con la conversación, donde el nodo indique
-
 					//					AddtoNPCDialogueEntrante(num_dialog,node_id);
 
 					node_id = selected_option;
@@ -306,11 +306,13 @@ public class TextBox : MonoBehaviour {
 					break;
 				case -1: //Acaba el dialogo actual
 					current = GameState.Mensajes_Menu;
+					RecorreDialogoNPC(num_dialog, node_id);
 					//					GuardarDialogo(num_dialog, node_id);
 					//					AddtoNPCDialogueRespuestas(num_dialog,node_id);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
 					//					AddtoNPCDialogueRespuestas(num_dialog,node_id);
+					RecorreDialogoNPC(num_dialog, node_id);
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
@@ -355,7 +357,31 @@ public class TextBox : MonoBehaviour {
 			}
 		}
 
+		FinNPCDialogo();
+	}
+
+	private void FinNPCDialogo()
+	{
 		DisableTextBox();
+		GuardarNPCDialogo();
+	}
+
+	private void GuardarNPCDialogo()
+	{
+		npc.ActualizarDialogo (npc_dialogo);
+	}
+
+	private void RecorreDialogoNPC(int num_dialog, int node_id)
+	{
+		switch(current)
+		{
+		case GameState.Intro_Texto:
+			npc_dialogo.MarcaDialogueNodeComoLeido(0, num_dialog, node_id);
+			break;
+		case GameState.Mensajes_Texto:
+			npc_dialogo.MarcaDialogueNodeComoLeido(1, num_dialog, node_id);
+			break;
+		}
 	}
 
 //	private void GuardarDialogo(int num_dialog, int node_id)

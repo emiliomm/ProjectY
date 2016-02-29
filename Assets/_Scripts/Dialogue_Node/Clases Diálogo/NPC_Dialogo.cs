@@ -65,6 +65,21 @@ public class NPC_Dialogo{
 		return avanza;
 	}
 
+	public void MarcaDialogueNodeComoLeido(int tipo, int num_dialogo, int node_id)
+	{
+		switch(tipo)
+		{
+		case 0:
+			Debug.Log (intros [num_dialogo].dia.Nodes [node_id].recorrido);
+			intros [num_dialogo].dia.Nodes [node_id].recorrido = true;
+			break;
+		case 1:
+			Debug.Log (mensajes [num_dialogo].dia.Nodes [node_id].recorrido);
+			mensajes [num_dialogo].dia.Nodes [node_id].recorrido = true;
+			break;
+		}
+	}
+
 //	public bool HayMasDialogos(int num_dialog)
 //	{
 //		bool mas = false;

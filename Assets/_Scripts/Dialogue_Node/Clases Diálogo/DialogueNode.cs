@@ -11,15 +11,13 @@ namespace DialogueTree
         public string Text;
 		public bool recorrido; //Indica si el nodo ha sido recorrido anteriormente
         public List<DialogueOption> Options;
-		public List<DialogoTexto> AddDialogo;
-		public List<PreguntaTexto> AddPregunta;
+		public List<DialogueAdd> Add;
 
         // parameterless constructor for serialization
         public DialogueNode()
         {
             Options = new List<DialogueOption>();
-			AddDialogo = new List<DialogoTexto>();
-			AddPregunta = new List<PreguntaTexto>();
+			Add = new List<DialogueAdd>();
 			recorrido = false;
         }
 

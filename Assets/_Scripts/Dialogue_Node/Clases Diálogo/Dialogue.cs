@@ -61,9 +61,9 @@ namespace DialogueTree
 			Dialogue dia = (Dialogue)serz.Deserialize(reader);
 
 			//CORREGIR BUG
-			Debug.Log(path);
+//			Debug.Log(path);
 
-			dia.ruta = path.Replace("Assets/_Texts", "_Data");
+			dia.ruta = path;
 
 			//Añadir funcion para transformar los numeros en strings
 //			dia.RecorrerDialogo();

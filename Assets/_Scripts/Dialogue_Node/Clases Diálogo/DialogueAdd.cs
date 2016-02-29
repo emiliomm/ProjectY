@@ -6,12 +6,13 @@ using System.Text;
 
 namespace DialogueTree
 {
-	public class DialogoTexto
+	public class DialogueAdd
 	{
+		public int Tipo; //0 --> Intro, 1 --> Mensajes
 		public int Valor;
 		private string nombreTexto {get; set;}
 
-		public DialogoTexto() { }
+		public DialogueAdd() { }
 
 //		public string DevuelveNombre()
 //		{

@@ -51,8 +51,13 @@ public class NPC : MonoBehaviour {
 	}
 
 	//Inicia el dialogo
-	void IniciaDialogo()
+	private void IniciaDialogo()
 	{
-		TextBox.Instance.StartDialogue(npc_diag);
+		TextBox.Instance.StartDialogue(this, npc_diag);
+	}
+
+	public void ActualizarDialogo(NPC_Dialogo dia)
+	{
+		npc_diag = dia;
 	}
 }
