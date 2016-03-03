@@ -9,7 +9,7 @@ namespace DialogueTree
 {
 	public class Dialogue
     {
-		private string ruta;
+		public int DialogueID;
 		public bool Autodestruye; // 0 --> falso, 1 --> verdadero
         public List<DialogueNode> Nodes;
 
@@ -60,14 +60,6 @@ namespace DialogueTree
 
 			Dialogue dia = (Dialogue)serz.Deserialize(reader);
 
-			//CORREGIR BUG
-//			Debug.Log(path);
-
-			dia.ruta = path;
-
-			//Añadir funcion para transformar los numeros en strings
-//			dia.RecorrerDialogo();
-
 			return dia;
 		}
 
@@ -75,27 +67,6 @@ namespace DialogueTree
 		{
 			return Nodes[node_id];
 		}
-
-//		public string DevolverRuta()
-//		{
-//			return ruta;
-//		}
-//
-//		//Transforma los enteros de AddDialogo y AddPregunta a strings con el nombre del archivo de texto
-//		private void RecorrerDialogo()
-//		{
-//			for(int i = 0; i < Nodes.Count; i++)
-//			{
-//				for(int j = 0; j < Nodes[i].AddDialogo.Count; j++)
-//				{
-//					Nodes[i].AddDialogo[j].ConvertirATexto();
-//				}
-//				for(int k = 0; k < Nodes[i].AddPregunta.Count; k++)
-//				{
-//					Nodes[i].AddPregunta[k].ConvertirATexto();
-//				}
-//			}
-//		}
     }
 }
 

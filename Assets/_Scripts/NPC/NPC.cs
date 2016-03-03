@@ -2,6 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using System.Xml; 
+using System.Xml.Serialization; 
+using System.IO; 
+using System.Text; 
+
 using UnityEngine.UI;
 
 public class NPC : MonoBehaviour {
@@ -59,5 +64,50 @@ public class NPC : MonoBehaviour {
 	public void ActualizarDialogo(NPC_Dialogo dia)
 	{
 		npc_diag = dia;
+		string _data = SerializeObject(npc_diag); 
+		// This is the final resulting XML from the serialization process
+		CreateXML(_data,"_SaveData/");
+	}
+
+	string SerializeObject(object pObject) 
+	{ 
+		string XmlizedString = null; 
+		MemoryStream memoryStream = new MemoryStream(); 
+		XmlSerializer xs = new XmlSerializer(typeof(NPC_Dialogo)); 
+		XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
+		xs.Serialize(xmlTextWriter, pObject); 
+		memoryStream = (MemoryStream)xmlTextWriter.BaseStream; 
+		XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray()); 
+		return XmlizedString; 
+	} 
+
+	/* The following metods came from the referenced URL */ 
+	string UTF8ByteArrayToString(byte[] characters) 
+	{      
+		UTF8Encoding encoding = new UTF8Encoding(); 
+		string constructedString = encoding.GetString(characters); 
+		return (constructedString); 
+	} 
+
+	void CreateXML(string _data, string ruta) 
+	{ 
+		// Where we want to save and load to and from 
+		string _FileLocation=Application.persistentDataPath;
+
+		StreamWriter writer; 
+		Debug.Log(_FileLocation);
+		FileInfo t = new FileInfo(_FileLocation+"\\"+ "file1.xml"); 
+		if(!t.Exists) 
+		{ 
+			writer = t.CreateText(); 
+		} 
+		else 
+		{ 
+			t.Delete(); 
+			writer = t.CreateText(); 
+		} 
+		writer.Write(_data); 
+		writer.Close(); 
+		Debug.Log("File written."); 
 	}
 }

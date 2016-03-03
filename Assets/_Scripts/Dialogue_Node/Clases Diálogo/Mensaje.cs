@@ -17,7 +17,7 @@ public class Mensaje{
 	public Mensaje(string t, string d)
 	{
 		texto = t;
-		dia = Dialogue.LoadDialogue ("Assets/_Texts/" + d);
+		dia = Dialogue.LoadDialogue (d);
 	}
 
 	public Dialogue DevuelveDialogo()

@@ -368,7 +368,7 @@ public class TextBox : MonoBehaviour {
 
 	private void GuardarNPCDialogo()
 	{
-		npc.ActualizarDialogo (npc_dialogo);
+		npc.ActualizarDialogo(npc_dialogo);
 	}
 
 	private void RecorreDialogoNPC(int num_dialog, int node_id)
@@ -414,46 +414,6 @@ public class TextBox : MonoBehaviour {
 //		CreateXML(_data,dialog.DevolverRuta());
 //	}
 //
-//	string SerializeObject(object pObject) 
-//	{ 
-//		string XmlizedString = null; 
-//		MemoryStream memoryStream = new MemoryStream(); 
-//		XmlSerializer xs = new XmlSerializer(typeof(Dialogue)); 
-//		XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
-//		xs.Serialize(xmlTextWriter, pObject); 
-//		memoryStream = (MemoryStream)xmlTextWriter.BaseStream; 
-//		XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray()); 
-//		return XmlizedString; 
-//	} 
-//
-//	/* The following metods came from the referenced URL */ 
-//	string UTF8ByteArrayToString(byte[] characters) 
-//	{      
-//		UTF8Encoding encoding = new UTF8Encoding(); 
-//		string constructedString = encoding.GetString(characters); 
-//		return (constructedString); 
-//	} 
-//
-//	void CreateXML(string _data, string ruta) 
-//	{ 
-//		// Where we want to save and load to and from 
-//		string _FileLocation=Application.dataPath;
-//
-//		StreamWriter writer; 
-//		FileInfo t = new FileInfo(_FileLocation+"\\"+ ruta); 
-//		if(!t.Exists) 
-//		{ 
-//			writer = t.CreateText(); 
-//		} 
-//		else 
-//		{ 
-//			t.Delete(); 
-//			writer = t.CreateText(); 
-//		} 
-//		writer.Write(_data); 
-//		writer.Close(); 
-//		Debug.Log("File written."); 
-//	}
 //
 //	private void AddtoNPCDialogueEntrante(int num_dialog, int node_id)
 //	{

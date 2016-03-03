@@ -6,8 +6,10 @@ using DialogueTree;
 
 public class NPC_Dialogo{
 
-	private List<Intro> intros = new List<Intro>();
-	private List<Mensaje> mensajes = new List<Mensaje>();
+	public List<Intro> intros = new List<Intro>();
+	public List<Mensaje> mensajes = new List<Mensaje>();
+
+	public static string rutaDialogos = "Assets/_Texts/";
 
 	public NPC_Dialogo()
 	{
@@ -21,7 +23,7 @@ public class NPC_Dialogo{
 
 		for(int i = 0; i < 5; i++)
 		{
-			mensajes.Add(new Mensaje("Opcion " + i.ToString(),"text_dia3.xml"));
+			mensajes.Add(new Mensaje("Opcion " + i.ToString(),rutaDialogos + "text_dia3.xml"));
 		}
 	}
 
@@ -70,11 +72,35 @@ public class NPC_Dialogo{
 		switch(tipo)
 		{
 		case 0:
-			intros [num_dialogo].dia.Nodes [node_id].recorrido = true;
+			if(intros [num_dialogo].dia.Nodes [node_id].recorrido != true)
+			{
+				intros [num_dialogo].dia.Nodes [node_id].recorrido = true;
+				AnyadirDialogueAdd(intros [num_dialogo].dia.Nodes [node_id]);
+			}
 			break;
 		case 1:
-			mensajes [num_dialogo].dia.Nodes [node_id].recorrido = true;
+			if(mensajes [num_dialogo].dia.Nodes [node_id].recorrido != true)
+			{
+				mensajes [num_dialogo].dia.Nodes [node_id].recorrido = true;
+				AnyadirDialogueAdd(mensajes [num_dialogo].dia.Nodes [node_id]);
+			}
 			break;
+		}
+	}
+
+	private void AnyadirDialogueAdd(DialogueNode node)
+	{
+		for(int i = 0; i < node.AddIntro.Count; i++)
+		{
+			//Hacer cosas, proximamente...
+		}
+
+		for(int i = 0; i < node.AddMensaje.Count; i++)
+		{
+			string nombreTexto = node.AddMensaje[i].DevuelveNombre();
+			string mensaje = node.AddMensaje[i].DevuelveMensaje();
+
+			mensajes.Add(new Mensaje(mensaje,rutaDialogos + nombreTexto));
 		}
 	}
 //

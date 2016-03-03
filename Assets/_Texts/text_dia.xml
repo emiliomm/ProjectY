@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<DIalogueID>0</DIalogueID>
 <Autodestruye>0</Autodestruye>
   <Nodes>
   	<DialogueNode>
       <NodeID>0</NodeID>
       <Text>Hola, bienvenido al diálogo de prueba</Text>
       <Options></Options>
-      <Add>
-      	<DialogueAdd>
-      		<Tipo>1</Tipo>
-      		<Valor>1</Valor>
-      	</DialogueAdd>
-      </Add>
+      <AddMensaje>
+      	<DialogueAddMensaje>
+      		<Mensaje>Mensaje de prueba</Mensaje>
+      		<NombreTexto>text_dia3.xml</NombreTexto>
+      	</DialogueAddMensaje>
+      </AddMensaje>
+      <AddIntro>
+      	<DialogueAddIntro>
+      		<NombreTexto>text_dia3.xml</NombreTexto>
+      	</DialogueAddIntro>
+      </AddIntro>
     </DialogueNode>
     <DialogueNode>
       <NodeID>1</NodeID>

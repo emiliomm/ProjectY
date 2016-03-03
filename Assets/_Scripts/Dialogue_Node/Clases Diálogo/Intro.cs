@@ -10,8 +10,7 @@ public class Intro : System.IComparable<Intro>{
 	public int prioridad;
 	public int indice_inicial;
 
-	public static string rutaDialogosGuardados = "Assets/_Data/";
-	public static string rutaDialogosPredeterminada = "Assets/_Texts/";
+
 
 	public Intro()
 	{
@@ -20,16 +19,7 @@ public class Intro : System.IComparable<Intro>{
 
 	public Intro(string d)
 	{
-		//Si el archivo actualizado existe en el disco duro, lo cargamos
-		if (System.IO.File.Exists(rutaDialogosGuardados + d))
-		{
-			dia = Dialogue.LoadDialogue (rutaDialogosGuardados + d);
-		}
-		//sino, cargamos el predeterminado
-		else{
-			dia = Dialogue.LoadDialogue (rutaDialogosPredeterminada + d);
-		}
-
+		dia = Dialogue.LoadDialogue ( "Assets/_Texts/" + d);
 		prioridad = 1;
 		indice_inicial = 0;
 	}
