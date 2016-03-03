@@ -1,13 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueAdd.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs">
     <Files>
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\NPC\NPC.cs" Line="58" Column="2" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="383" Column="10" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="77" Column="69" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="378" Column="30" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="71" Column="4" />
       <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" Line="13" Column="45" />
       <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueAdd.cs" Line="15" Column="27" />
-      <File FileName="Assets\_Texts\text_dia.xml" Line="17" Column="25" />
+      <File FileName="Assets\_Texts\text_dia.xml" Line="18" Column="100" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

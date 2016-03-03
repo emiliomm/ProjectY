@@ -70,69 +70,13 @@ public class NPC_Dialogo{
 		switch(tipo)
 		{
 		case 0:
-			Debug.Log (intros [num_dialogo].dia.Nodes [node_id].recorrido);
 			intros [num_dialogo].dia.Nodes [node_id].recorrido = true;
 			break;
 		case 1:
-			Debug.Log (mensajes [num_dialogo].dia.Nodes [node_id].recorrido);
 			mensajes [num_dialogo].dia.Nodes [node_id].recorrido = true;
 			break;
 		}
 	}
-
-//	public bool HayMasDialogos(int num_dialog)
-//	{
-//		bool mas = false;
-//		if (num_dialog + 1 < dialogos.Count)
-//			mas = true;
-//
-//		return mas;
-//	}
-//
-//	public int DevuelveNumeroDialogos()
-//	{
-//		return dialogos.Count;
-//	}
-//
-//	public int DevuelveNumeroPreguntas()
-//	{
-//		return preguntas.Count;
-//	}
-//
-//	public Pregunta DevuelvePregunta(int num_pre)
-//	{
-//		return preguntas[num_pre];
-//	}
-//
-//	public Dialogue DevuelveDialogoDialogo(int num_dialog)
-//	{
-//		return dialogos[num_dialog].dia;
-//	}
-//
-//	public Dialogue DevuelveDialogoPregunta(int num_dialog)
-//	{
-//		return preguntas[num_dialog].dia;
-//	}
-//
-//	public DialogueNode DevuelveNodoDialogoDialogo(int num_dialog, int node_id)
-//	{
-//		return dialogos[num_dialog].dia.Nodes[node_id];
-//	}
-//
-//	public DialogueNode DevuelveNodoDialogoPregunta(int num_dialog, int node_id)
-//	{
-//		return preguntas[num_dialog].dia.Nodes[node_id];
-//	}
-//
-//	public int DevuelveNumeroOpcionesNodoDialogo (int num_dialog, int node_id)
-//	{
-//		return dialogos[num_dialog].dia.Nodes[node_id].Options.Count;
-//	}
-//
-//	public int DevuelveNumeroOpcionesNodoPregunta (int num_dialog, int node_id)
-//	{
-//		return preguntas[num_dialog].dia.Nodes[node_id].Options.Count;
-//	}
 //
 //	public void AddDialogoEntrante(int num_dialog, int node_id)
 //	{
