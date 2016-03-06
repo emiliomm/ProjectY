@@ -11,8 +11,8 @@ namespace DialogueTree
 		/* 
 		 * Valor
 		 * -1 : Acaba dialogo cargado
-		 * -2 : Va a las respuestas (NO SE DEBE USAR)
-		 * -3: Acaba la conversación (NO SE DEBE USAR)
+		 * -2 : Va a las respuestas (NO SE DEBE USAR EN UN XML)
+		 * -3: Acaba la conversación (NO SE DEBE USAR EN UN XML)
 		 * Otro: Va al nodo indicado
 	     */
 

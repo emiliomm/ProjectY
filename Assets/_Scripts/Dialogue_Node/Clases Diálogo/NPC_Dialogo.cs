@@ -2,24 +2,37 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using System.Xml; 
+using System.Xml.Serialization; 
+using System.IO; 
+using System.Text; 
+
 using DialogueTree;
 
 public class NPC_Dialogo{
 
-	public List<Intro> intros = new List<Intro>();
-	public List<Mensaje> mensajes = new List<Mensaje>();
+	public List<Intro> intros;
+	public List<Mensaje> mensajes;
 
-	public static string rutaDialogos = "Assets/_Texts/";
+	private static string _FileLocation;
+	private static string rutaDialogos = "Assets/_Texts/";
 
 	public NPC_Dialogo()
+	{
+		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
+
+		intros = new List<Intro>();
+		mensajes = new List<Mensaje>();
+//		Prueba();
+	}
+
+	private void Prueba()
 	{
 		Intro d = new Intro("text_dia.xml");
 		Intro d2 = new Intro("text_dia2.xml");
 
-		d.prioridad = 5;
-
-		AnyadirDialogo (d);
-		AnyadirDialogo (d2);
+		AnyadirIntro (d);
+		AnyadirIntro (d2);
 
 		for(int i = 0; i < 5; i++)
 		{
@@ -27,7 +40,7 @@ public class NPC_Dialogo{
 		}
 	}
 
-	public void AnyadirDialogo(Intro d)
+	public void AnyadirIntro(Intro d)
 	{
 		intros.Add (d);
 		intros.Sort ();
@@ -88,20 +101,110 @@ public class NPC_Dialogo{
 		}
 	}
 
+	public void MirarSiDialogoSeAutodestruye(int tipo, ref int num_dialogo)
+	{
+		switch(tipo)
+		{
+		case 0:
+			if(intros [num_dialogo].dia.Autodestruye == true)
+			{
+				intros.RemoveAt(num_dialogo);
+				num_dialogo--;
+			}
+			break;
+		case 1:
+			if(mensajes [num_dialogo].dia.Autodestruye == true)
+			{
+				mensajes.RemoveAt(num_dialogo);
+				num_dialogo--;
+			}
+			break;
+		}
+	}
+
 	private void AnyadirDialogueAdd(DialogueNode node)
 	{
 		for(int i = 0; i < node.AddIntro.Count; i++)
 		{
-			//Hacer cosas, proximamente...
+			string nombreTexto = node.AddIntro[i].DevuelveNombre();
+			int prioridad = node.AddIntro[i].DevuelvePrioridad();
+
+			AnyadirIntro(new Intro(prioridad, nombreTexto));
 		}
 
 		for(int i = 0; i < node.AddMensaje.Count; i++)
 		{
-			string nombreTexto = node.AddMensaje[i].DevuelveNombre();
 			string mensaje = node.AddMensaje[i].DevuelveMensaje();
+			string nombreTexto = node.AddMensaje[i].DevuelveNombre();
 
 			mensajes.Add(new Mensaje(mensaje,rutaDialogos + nombreTexto));
 		}
+	}
+
+	public static NPC_Dialogo LoadNPCDialogue(string path)
+	{
+		XmlSerializer deserz = new XmlSerializer(typeof(NPC_Dialogo));
+		StreamReader reader = new StreamReader(path);
+
+		NPC_Dialogo npc_dialogo = (NPC_Dialogo)deserz.Deserialize(reader);
+		reader.Close();
+
+		return npc_dialogo;
+	}
+
+	public void SerializeToXml(int id_npc)
+	{
+		string _data = SerializeObject(this); 
+		// This is the final resulting XML from the serialization process
+		CreateXML(_data, id_npc);
+	}
+
+	//Serializa el objeto en xml que se le pasa
+	string SerializeObject(object pObject) 
+	{ 
+		string XmlizedString = null; 
+		MemoryStream memoryStream = new MemoryStream(); 
+		XmlSerializer xs = new XmlSerializer(typeof(NPC_Dialogo)); 
+		XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
+		xs.Serialize(xmlTextWriter, pObject); 
+		memoryStream = (MemoryStream)xmlTextWriter.BaseStream; 
+		XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray()); 
+		return XmlizedString; 
+	} 
+
+	/* The following metods came from the referenced URL */ 
+	string UTF8ByteArrayToString(byte[] characters) 
+	{      
+		UTF8Encoding encoding = new UTF8Encoding(); 
+		string constructedString = encoding.GetString(characters); 
+		return (constructedString); 
+	} 
+		
+	void CreateXML(string _data, int id_npc) 
+	{
+		StreamWriter writer; 
+
+		//check if directory doesn't exit
+		if(!Directory.Exists(_FileLocation))
+		{    
+			//if it doesn't, create it
+			Directory.CreateDirectory(_FileLocation);
+		}
+
+		FileInfo t = new FileInfo(_FileLocation + id_npc.ToString()  + ".xml"); 
+
+		if(!t.Exists) 
+		{ 
+			writer = t.CreateText(); 
+		} 
+		else 
+		{ 
+			t.Delete(); 
+			writer = t.CreateText(); 
+		} 
+		writer.Write(_data); 
+		writer.Close(); 
+		Debug.Log("File written."); 
 	}
 //
 //	public void AddDialogoEntrante(int num_dialog, int node_id)

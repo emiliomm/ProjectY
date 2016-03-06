@@ -10,8 +10,7 @@ public class Mensaje{
 
 	public Mensaje()
 	{
-		texto = "";
-		dia = null;
+		dia = new Dialogue();
 	}
 
 	public Mensaje(string t, string d)

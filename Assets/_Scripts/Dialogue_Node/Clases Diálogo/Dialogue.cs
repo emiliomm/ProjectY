@@ -13,8 +13,29 @@ namespace DialogueTree
 		public bool Autodestruye; // 0 --> falso, 1 --> verdadero
         public List<DialogueNode> Nodes;
 
-		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
+		//Para serialización
+		public Dialogue()
+		{
+			Nodes = new List<DialogueNode>();
+		}
 
+		public static Dialogue LoadDialogue(string path)
+		{
+			XmlSerializer deserz = new XmlSerializer(typeof(Dialogue));
+			StreamReader reader = new StreamReader(path);
+
+			Dialogue dia = (Dialogue)deserz.Deserialize(reader);
+			reader.Close();
+
+			return dia;
+		}
+
+		public DialogueNode DevuelveNodo(int node_id)
+		{
+			return Nodes[node_id];
+		}
+
+		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
 //        public void AddNode(DialogueNode node)
 //        {
 //            // if the node is null, then it's an ExitNode and we can skip adding it.
@@ -46,27 +67,6 @@ namespace DialogueTree
 //
 //            node.Options.Add(opt);
 //        }
-
-		//Para serialización
-        public Dialogue()
-        {
-            Nodes = new List<DialogueNode>();
-        }
-
-		public static Dialogue LoadDialogue(string path)
-		{
-			XmlSerializer serz = new XmlSerializer(typeof(Dialogue));
-			StreamReader reader = new StreamReader(path);
-
-			Dialogue dia = (Dialogue)serz.Deserialize(reader);
-
-			return dia;
-		}
-
-		public DialogueNode DevuelveNodo(int node_id)
-		{
-			return Nodes[node_id];
-		}
     }
 }
 

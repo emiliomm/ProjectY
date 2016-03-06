@@ -6,21 +6,26 @@ using DialogueTree;
 //Implementa la interfaz System.IComparable para que funcione el metodo compareTo
 public class Intro : System.IComparable<Intro>{
 
-	public Dialogue dia;
 	public int prioridad;
 	public int indice_inicial;
-
-
+	public Dialogue dia;
 
 	public Intro()
 	{
-		dia = null;
+		dia = new Dialogue();
 	}
 
 	public Intro(string d)
 	{
 		dia = Dialogue.LoadDialogue ( "Assets/_Texts/" + d);
 		prioridad = 1;
+		indice_inicial = 0;
+	}
+
+	public Intro(int prior, string nombreDialogo)
+	{
+		dia = Dialogue.LoadDialogue ( "Assets/_Texts/" + nombreDialogo);
+		prioridad = prior;
 		indice_inicial = 0;
 	}
 
