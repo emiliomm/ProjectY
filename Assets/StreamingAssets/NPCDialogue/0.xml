@@ -5,7 +5,7 @@
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>
 			<dia>
-				<DialogueID>2</DialogueID>
+				<DialogueID>3</DialogueID>
 				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
@@ -14,7 +14,12 @@
 						<recorrido>false</recorrido>
 						<Options />
 						<AddMensaje />
-						<AddIntro />
+						<AddIntro>
+							<DialogueAddIntro>
+								<prioridad>0</prioridad>
+								<NombreTexto>text_dia.xml</NombreTexto>
+							</DialogueAddIntro>
+						</AddIntro>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -138,12 +143,7 @@
 						<recorrido>false</recorrido>
 						<Options />
 						<AddMensaje />
-						<AddIntro>
-							<DialogueAddIntro>
-								<prioridad>3</prioridad>
-								<NombreTexto>text_dia4.xml</NombreTexto>
-							</DialogueAddIntro>
-						</AddIntro>
+						<AddIntro />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -378,13 +378,13 @@
 		<Mensaje>
 			<texto>Opcion 3</texto>
 			<dia>
-				<DialogueID>2</DialogueID>
+				<DialogueID>1</DialogueID>
 				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
-						<recorrido>true</recorrido>
+						<recorrido>false</recorrido>
 						<Options />
 						<AddMensaje />
 						<AddIntro />
@@ -392,7 +392,7 @@
 					<DialogueNode>
 						<NodeID>1</NodeID>
 						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
-						<recorrido>true</recorrido>
+						<recorrido>false</recorrido>
 						<Options>
 							<DialogueOption>
 								<Text>Sí</Text>
@@ -628,20 +628,15 @@
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
-						<recorrido>true</recorrido>
+						<recorrido>false</recorrido>
 						<Options />
 						<AddMensaje />
-						<AddIntro>
-							<DialogueAddIntro>
-								<prioridad>0</prioridad>
-								<NombreTexto>text_dia4.xml</NombreTexto>
-							</DialogueAddIntro>
-						</AddIntro>
+						<AddIntro />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
 						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
-						<recorrido>true</recorrido>
+						<recorrido>false</recorrido>
 						<Options>
 							<DialogueOption>
 								<Text>Sí</Text>

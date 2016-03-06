@@ -46,16 +46,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
-     <None Include="Assets\Resources\0.xml" />
-     <None Include="Assets\_Texts\text_dia.xml" />
-     <None Include="Assets\_Texts\text_dia4.xml" />
+     <None Include="Assets\StreamingAssets\NPCDialogue\0.xml" />
+     <None Include="Assets\StreamingAssets\XMLDialogue\text_dia.xml" />
+     <None Include="Assets\StreamingAssets\XMLDialogue\text_dia4.xml" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
-     <None Include="Assets\_Texts\text_dia3.xml" />
+     <None Include="Assets\StreamingAssets\XMLDialogue\text_dia3.xml" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
-     <None Include="Assets\_Texts\text_dia2.xml" />
+     <None Include="Assets\StreamingAssets\XMLDialogue\text_dia2.xml" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>

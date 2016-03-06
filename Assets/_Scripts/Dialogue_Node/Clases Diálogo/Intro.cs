@@ -17,14 +17,14 @@ public class Intro : System.IComparable<Intro>{
 
 	public Intro(string d)
 	{
-		dia = Dialogue.LoadDialogue ( "Assets/_Texts/" + d);
+		dia = Dialogue.LoadDialogue (d);
 		prioridad = 1;
 		indice_inicial = 0;
 	}
 
 	public Intro(int prior, string nombreDialogo)
 	{
-		dia = Dialogue.LoadDialogue ( "Assets/_Texts/" + nombreDialogo);
+		dia = Dialogue.LoadDialogue (nombreDialogo);
 		prioridad = prior;
 		indice_inicial = 0;
 	}

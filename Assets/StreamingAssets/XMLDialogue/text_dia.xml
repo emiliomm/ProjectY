@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dialogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<DialogueID>2</DialogueID>
+<DialogueID>0</DialogueID>
 <Autodestruye>0</Autodestruye>
   <Nodes>
   	<DialogueNode>
       <NodeID>0</NodeID>
-      <Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+      <Text>Hola, bienvenido al diálogo de prueba</Text>
       <Options></Options>
       <AddMensaje />
-		<AddIntro>
-			<DialogueAddIntro>
-				<prioridad>0</prioridad>
-				<NombreTexto>text_dia4.xml</NombreTexto>
-			</DialogueAddIntro>
-		</AddIntro>
+      <AddIntro />
     </DialogueNode>
     <DialogueNode>
       <NodeID>1</NodeID>

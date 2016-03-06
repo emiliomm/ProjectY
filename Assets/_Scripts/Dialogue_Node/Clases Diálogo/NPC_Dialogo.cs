@@ -15,11 +15,12 @@ public class NPC_Dialogo{
 	public List<Mensaje> mensajes;
 
 	private static string _FileLocation;
-	private static string rutaDialogos = "Assets/_Texts/";
+	private static string rutaDialogos;
 
 	public NPC_Dialogo()
 	{
 		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
+		rutaDialogos = Application.dataPath + "/StreamingAssets/XMLDialogue/";
 
 		intros = new List<Intro>();
 		mensajes = new List<Mensaje>();
@@ -129,7 +130,7 @@ public class NPC_Dialogo{
 			string nombreTexto = node.AddIntro[i].DevuelveNombre();
 			int prioridad = node.AddIntro[i].DevuelvePrioridad();
 
-			AnyadirIntro(new Intro(prioridad, nombreTexto));
+			AnyadirIntro(new Intro(prioridad, rutaDialogos + nombreTexto));
 		}
 
 		for(int i = 0; i < node.AddMensaje.Count; i++)

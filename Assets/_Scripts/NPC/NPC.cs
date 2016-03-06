@@ -12,22 +12,13 @@ public class NPC : MonoBehaviour {
 
 	private bool waitForPress;
 
-	private static string _FileLocation;
 	private static string DefaultDialogs;
 
 	void Start()
 	{
-		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
-		DefaultDialogs = Application.dataPath + "/Resources/";
+		DefaultDialogs = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 
-		if (System.IO.File.Exists(_FileLocation + id.ToString()  + ".xml"))
-		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(_FileLocation + id.ToString()  + ".xml");
-		}
-		else
-		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(DefaultDialogs + id.ToString()  + ".xml");
-		}
+		npc_diag = NPC_Dialogo.LoadNPCDialogue(DefaultDialogs + id.ToString()  + ".xml");
 	}
 
 	//Si colisionamos con el jugador, cargamos el nuevo texto
