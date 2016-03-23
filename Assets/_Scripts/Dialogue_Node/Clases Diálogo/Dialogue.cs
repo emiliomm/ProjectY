@@ -9,8 +9,6 @@ namespace DialogueTree
 {
 	public class Dialogue
     {
-		public int DialogueID;
-		public bool Autodestruye; // 0 --> falso, 1 --> verdadero
         public List<DialogueNode> Nodes;
 
 		//Para serialización
@@ -33,6 +31,11 @@ namespace DialogueTree
 		public DialogueNode DevuelveNodo(int node_id)
 		{
 			return Nodes[node_id];
+		}
+
+		public void MarcarRecorrido(int node_id)
+		{
+			Nodes[node_id].MarcarRecorrido();
 		}
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE

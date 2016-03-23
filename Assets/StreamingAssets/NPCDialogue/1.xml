@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NPC_Dialogo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<intros>
+		<Intro>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Text>ESTE ES EL CUARTO DIALOGO</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes>
+							<DialogueAddMensaje>
+								<IDNpc>-1</IDNpc>
+								<IDMensaje>0</IDMensaje>
+							</DialogueAddMensaje>
+						</Mensajes>
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No, es bastante dificil de entender, la verdad</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Text>De acuerdo, comencemos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<Text>¿Ha tenido problemas familiares recientemente?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>4</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>4</NodeID>
+						<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>5</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>6</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>5</NodeID>
+						<Text>Ya esta. Puede irse</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>6</NodeID>
+						<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+	</intros>
+	<mensajes>
+		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
+			<texto>Opcion 0</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No, es bastante dificil de entender, la verdad</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Text>De acuerdo, comencemos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<Text>¿Ha tenido problemas familiares recientemente?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>4</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>4</NodeID>
+						<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>5</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>6</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>5</NodeID>
+						<Text>Ya esta. Puede irse</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>6</NodeID>
+						<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
+			<texto>Opcion 2</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No, es bastante dificil de entender, la verdad</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Text>De acuerdo, comencemos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<Text>¿Ha tenido problemas familiares recientemente?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>4</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>4</NodeID>
+						<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>5</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>6</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>5</NodeID>
+						<Text>Ya esta. Puede irse</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>6</NodeID>
+						<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
+			<texto>Opcion 3</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No, es bastante dificil de entender, la verdad</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Text>De acuerdo, comencemos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<Text>¿Ha tenido problemas familiares recientemente?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>4</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>4</NodeID>
+						<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>5</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>6</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>5</NodeID>
+						<Text>Ya esta. Puede irse</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>6</NodeID>
+						<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
+			<texto>Opcion 4</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No, es bastante dificil de entender, la verdad</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Text>De acuerdo, comencemos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<Text>¿Ha tenido problemas familiares recientemente?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>4</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>4</NodeID>
+						<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>5</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>6</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>5</NodeID>
+						<Text>Ya esta. Puede irse</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>6</NodeID>
+						<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
+			<texto>Mensaje de prueba</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No, es bastante dificil de entender, la verdad</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Text>De acuerdo, comencemos</Text>
+						<recorrido>false</recorrido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<Text>¿Ha tenido problemas familiares recientemente?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>4</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>4</NodeID>
+						<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>No</Text>
+								<DestinationNodeID>5</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>6</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>5</NodeID>
+						<Text>Ya esta. Puede irse</Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>6</NodeID>
+						<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+						<recorrido>false</recorrido>
+						<Options>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+							</DialogueOption>
+						</Options>
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+	</mensajes>
+</NPC_Dialogo>

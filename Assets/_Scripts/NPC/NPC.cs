@@ -12,13 +12,35 @@ public class NPC : MonoBehaviour {
 
 	private bool waitForPress;
 
+	//HACER VARIABLES GLOBALES
+	private static string _FileLocation;
 	private static string DefaultDialogs;
 
 	void Start()
 	{
+		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
 		DefaultDialogs = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 
-		npc_diag = NPC_Dialogo.LoadNPCDialogue(DefaultDialogs + id.ToString()  + ".xml");
+		//Cargamos el dialogo
+		//Si existe un fichero guardado, cargamos ese fichero, sino
+		//cargamos el fichero por defecto
+		if (System.IO.File.Exists(_FileLocation + id.ToString()  + ".xml"))
+		{
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, _FileLocation + id.ToString()  + ".xml");
+		}
+		else
+		{
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, DefaultDialogs + id.ToString()  + ".xml");
+		}
+
+		//Añadimos el npc al diccionario para tenerlo disponible
+		Manager.Instance.AddToNpcs(id, gameObject);
+	}
+
+	void OnDestroy()
+	{
+		//Borramos el valor del diccionario cuando el npc no existe
+		Manager.Instance.RemoveFromNpcs(id);
 	}
 
 	//Si colisionamos con el jugador, cargamos el nuevo texto
@@ -32,7 +54,7 @@ public class NPC : MonoBehaviour {
 				waitForPress = true;
 				return;
 			}
-			if (!TextBox.Instance.isActive)
+			if (!TextBox.Instance.EstaActivo())
 				IniciaDialogo();
 		}
 	}
@@ -49,7 +71,7 @@ public class NPC : MonoBehaviour {
 	void Update()
 	{
 		//Si está esperando al input y pulsamos click derecho
-		if (waitForPress && Input.GetMouseButtonDown(1) && !TextBox.Instance.isActive)
+		if (waitForPress && Input.GetMouseButtonDown(1) && !TextBox.Instance.EstaActivo())
 		{
 			IniciaDialogo();
 		}
@@ -64,6 +86,6 @@ public class NPC : MonoBehaviour {
 	public void ActualizarDialogo(NPC_Dialogo dia)
 	{
 		npc_diag = dia; //Actualizamos el dialogo del objeto
-		dia.SerializeToXml(id); //Lo convertimos en XML
+		dia.SerializeToXml(); //Lo convertimos en XML
 	}
 }

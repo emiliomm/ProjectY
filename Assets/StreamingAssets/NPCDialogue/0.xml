@@ -2,24 +2,25 @@
 <NPC_Dialogo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<intros>
 		<Intro>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>
 			<dia>
-				<DialogueID>3</DialogueID>
-				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>ESTE ES EL CUARTO DIALOGO</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro>
+						<Mensajes />
+						<Intros>
 							<DialogueAddIntro>
-								<prioridad>0</prioridad>
-								<NombreTexto>text_dia.xml</NombreTexto>
+								<IDNpc>2</IDNpc>
+								<prioridad>3</prioridad>
+								<IDIntro>1</IDIntro>
 							</DialogueAddIntro>
-						</AddIntro>
+						</Intros>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -39,16 +40,16 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
 						<Text>De acuerdo, comencemos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -72,8 +73,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -89,8 +90,8 @@
 								<DestinationNodeID>6</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -106,8 +107,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>6</NodeID>
@@ -123,8 +124,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 				</Nodes>
 			</dia>
@@ -132,18 +133,18 @@
 	</intros>
 	<mensajes>
 		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 0</texto>
 			<dia>
-				<DialogueID>2</DialogueID>
-				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -163,16 +164,16 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
 						<Text>De acuerdo, comencemos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -196,8 +197,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -213,8 +214,8 @@
 								<DestinationNodeID>6</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -230,8 +231,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>6</NodeID>
@@ -247,25 +248,25 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 				</Nodes>
 			</dia>
 		</Mensaje>
 		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 2</texto>
 			<dia>
-				<DialogueID>2</DialogueID>
-				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -285,16 +286,16 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
 						<Text>De acuerdo, comencemos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -318,8 +319,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -335,8 +336,8 @@
 								<DestinationNodeID>6</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -352,8 +353,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>6</NodeID>
@@ -369,25 +370,25 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 				</Nodes>
 			</dia>
 		</Mensaje>
 		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 3</texto>
 			<dia>
-				<DialogueID>1</DialogueID>
-				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -407,16 +408,16 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
 						<Text>De acuerdo, comencemos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -440,8 +441,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -457,8 +458,8 @@
 								<DestinationNodeID>6</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -474,8 +475,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>6</NodeID>
@@ -491,25 +492,25 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 				</Nodes>
 			</dia>
 		</Mensaje>
 		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 4</texto>
 			<dia>
-				<DialogueID>2</DialogueID>
-				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -529,16 +530,16 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
 						<Text>De acuerdo, comencemos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -562,8 +563,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -579,8 +580,8 @@
 								<DestinationNodeID>6</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -596,8 +597,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>6</NodeID>
@@ -613,25 +614,25 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 				</Nodes>
 			</dia>
 		</Mensaje>
 		<Mensaje>
+			<ID>0</ID>
+			<Autodestruye>false</Autodestruye>
 			<texto>Mensaje de prueba</texto>
 			<dia>
-				<DialogueID>2</DialogueID>
-				<Autodestruye>false</Autodestruye>
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -651,16 +652,16 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
 						<Text>De acuerdo, comencemos</Text>
 						<recorrido>false</recorrido>
 						<Options />
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -684,8 +685,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -701,8 +702,8 @@
 								<DestinationNodeID>6</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -718,8 +719,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>6</NodeID>
@@ -735,8 +736,8 @@
 								<DestinationNodeID>-1</DestinationNodeID>
 							</DialogueOption>
 						</Options>
-						<AddMensaje />
-						<AddIntro />
+						<Mensajes />
+						<Intros />
 					</DialogueNode>
 				</Nodes>
 			</dia>

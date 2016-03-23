@@ -20,12 +20,6 @@ public class TP_Animator : MonoBehaviour
 		Instance = this;
 	}
 
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
-
 	//Determina el Estado de Direction dependiendo del vector de direccion
 	public void DetermineCurrentMoveDirection()
 	{

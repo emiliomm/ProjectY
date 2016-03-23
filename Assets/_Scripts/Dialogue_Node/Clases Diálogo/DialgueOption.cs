@@ -25,6 +25,11 @@ namespace DialogueTree
 			return Text;
 		}
 
+		public int DevuelveDestinationNodeID()
+		{
+			return DestinationNodeID;
+		}
+
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
 //        public DialogueOption(string text, int dest)
 //        {

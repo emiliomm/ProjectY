@@ -1,15 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Load\Load.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StreamingAssets\NPCDialogue\0.xml">
     <Files>
-      <File FileName="Assets\_Scripts\Load\Load.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\NPC\NPC.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\NPCDialogue\0.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\XMLDialogue\text_dia.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\XMLDialogue\text_dia2.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\XMLDialogue\text_dia3.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\XMLDialogue\text_dia4.xml" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\NPC\NPC.cs" Line="28" Column="4" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="173" Column="7" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0.xml" Line="29" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

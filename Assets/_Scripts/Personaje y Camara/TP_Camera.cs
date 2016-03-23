@@ -62,6 +62,7 @@ public class TP_Camera : MonoBehaviour
 	void LateUpdate ()
 	{
 		//Si no miramos a ningun sitio, salimos
+		//Si no nos podemos mover, salimos
 		if(TargetLookAt == null || !TP_Controller.Instance.canMove)
 			return;
 

@@ -8,19 +8,25 @@ namespace DialogueTree
 {
 	public class DialogueAddIntro
 	{
+		public int IDNpc; //-1, NPC propio. x, NPC número x 
 		public int prioridad;
-		public string NombreTexto {get; set;}
+		public int IDIntro {get; set;}
 
 		public DialogueAddIntro() { }
+
+		public int DevuelveIDNpc()
+		{
+			return IDNpc;
+		}
 
 		public int DevuelvePrioridad()
 		{
 			return prioridad;
 		}
 
-		public string DevuelveNombre()
+		public int DevuelveID()
 		{
-			return NombreTexto;
+			return IDIntro;
 		}
 	}
 }

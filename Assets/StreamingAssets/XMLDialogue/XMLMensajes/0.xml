@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID>0</ID>
+	<Autodestruye>0</Autodestruye>
+	<texto>Opcion Nuevesita</texto>
+	<dia>
+		<Nodes>
+			<DialogueNode>
+				<NodeID>0</NodeID>
+				<Text>Dialogo añadido a partir de otro NPC</Text>
+				<recorrido>false</recorrido>
+				<Options />
+				<Mensajes/>
+				<Intros />
+			</DialogueNode>
+			<DialogueNode>
+				<NodeID>1</NodeID>
+				<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
+				<recorrido>false</recorrido>
+				<Options>
+					<DialogueOption>
+						<Text>Sí</Text>
+						<DestinationNodeID>2</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>No, es bastante dificil de entender, la verdad</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+				</Options>
+				<Mensajes />
+				<Intros />
+			</DialogueNode>
+			<DialogueNode>
+				<NodeID>2</NodeID>
+				<Text>De acuerdo, comencemos</Text>
+				<recorrido>false</recorrido>
+				<Options />
+				<Mensajes />
+				<Intros />
+			</DialogueNode>
+			<DialogueNode>
+				<NodeID>3</NodeID>
+				<Text>¿Ha tenido problemas familiares recientemente?</Text>
+				<recorrido>false</recorrido>
+				<Options>
+					<DialogueOption>
+						<Text>Sí</Text>
+						<DestinationNodeID>4</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>No</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+				</Options>
+				<Mensajes />
+				<Intros />
+			</DialogueNode>
+			<DialogueNode>
+				<NodeID>4</NodeID>
+				<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
+				<recorrido>false</recorrido>
+				<Options>
+					<DialogueOption>
+						<Text>No</Text>
+						<DestinationNodeID>5</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>Sí</Text>
+						<DestinationNodeID>6</DestinationNodeID>
+					</DialogueOption>
+				</Options>
+				<Mensajes />
+				<Intros />
+			</DialogueNode>
+			<DialogueNode>
+				<NodeID>5</NodeID>
+				<Text>Ya esta. Puede irse</Text>
+				<recorrido>false</recorrido>
+				<Options>
+					<DialogueOption>
+						<Text>[No decir nada]</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+				</Options>
+				<Mensajes />
+				<Intros />
+			</DialogueNode>
+			<DialogueNode>
+				<NodeID>6</NodeID>
+				<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
+				<recorrido>false</recorrido>
+				<Options>
+					<DialogueOption>
+						<Text>[No decir nada]</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+					<DialogueOption>
+						<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
+						<DestinationNodeID>-1</DestinationNodeID>
+					</DialogueOption>
+				</Options>
+				<Mensajes />
+				<Intros />
+			</DialogueNode>
+		</Nodes>
+	</dia>
+</Mensaje>

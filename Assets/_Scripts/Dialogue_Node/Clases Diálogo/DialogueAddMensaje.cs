@@ -8,19 +8,19 @@ namespace DialogueTree
 {
 	public class DialogueAddMensaje
 	{
-		public string Mensaje;
-		public string NombreTexto {get; set;}
+		public int IDNpc; //-1, NPC propio. x, NPC número x 
+		public int IDMensaje {get; set;}
 
 		public DialogueAddMensaje() { }
 
-		public string DevuelveNombre()
+		public int DevuelveIDNpc()
 		{
-			return NombreTexto;
+			return IDNpc;
 		}
 
-		public string DevuelveMensaje()
+		public int DevuelveID()
 		{
-			return Mensaje;
+			return IDMensaje;
 		}
 	}
 }

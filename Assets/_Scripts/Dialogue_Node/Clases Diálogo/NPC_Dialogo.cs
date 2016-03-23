@@ -10,41 +10,42 @@ using System.Text;
 using DialogueTree;
 
 public class NPC_Dialogo{
-
+	
+	public int ID;
 	public List<Intro> intros;
 	public List<Mensaje> mensajes;
 
+	//HACER VARIABLES GLOBALES
 	private static string _FileLocation;
-	private static string rutaDialogos;
+	private static string rutaIntros;
+	private static string rutaMensajes;
+	private static string DefaultDialogs;
 
 	public NPC_Dialogo()
 	{
 		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
-		rutaDialogos = Application.dataPath + "/StreamingAssets/XMLDialogue/";
+		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
+		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/";
+		DefaultDialogs = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 
 		intros = new List<Intro>();
 		mensajes = new List<Mensaje>();
 //		Prueba();
 	}
 
+	//OBSOLETA
 	private void Prueba()
 	{
-		Intro d = new Intro("text_dia.xml");
-		Intro d2 = new Intro("text_dia2.xml");
-
-		AnyadirIntro (d);
-		AnyadirIntro (d2);
-
-		for(int i = 0; i < 5; i++)
-		{
-			mensajes.Add(new Mensaje("Opcion " + i.ToString(),rutaDialogos + "text_dia3.xml"));
-		}
-	}
-
-	public void AnyadirIntro(Intro d)
-	{
-		intros.Add (d);
-		intros.Sort ();
+//		Intro d = new Intro("text_dia.xml");
+//		Intro d2 = new Intro("text_dia2.xml");
+//
+//		AnyadirIntro (d);
+//		AnyadirIntro (d2);
+//
+//		for(int i = 0; i < 5; i++)
+//		{
+//			mensajes.Add(new Mensaje("Opcion " + i.ToString(),rutaDialogos + "text_dia3.xml"));
+//		}
 	}
 
 	public int DevuelveNumeroIntros()
@@ -75,7 +76,7 @@ public class NPC_Dialogo{
 	public bool AvanzaIntro(int num_intro)
 	{
 		bool avanza = false;
-		if (num_intro + 1 < intros.Count)
+		if (num_intro + 1 < this.DevuelveNumeroIntros())
 			avanza = true;
 
 		return avanza;
@@ -83,20 +84,29 @@ public class NPC_Dialogo{
 
 	public void MarcaDialogueNodeComoLeido(int tipo, int num_dialogo, int node_id)
 	{
+		Dialogue d;
+		DialogueNode dn;
+
 		switch(tipo)
 		{
 		case 0:
-			if(intros [num_dialogo].dia.Nodes [node_id].recorrido != true)
+			d = this.DevuelveDialogoIntro(num_dialogo);
+			dn = d.DevuelveNodo(node_id);
+
+			if(dn.DevuelveRecorrido() != true)
 			{
-				intros [num_dialogo].dia.Nodes [node_id].recorrido = true;
-				AnyadirDialogueAdd(intros [num_dialogo].dia.Nodes [node_id]);
+				intros[num_dialogo].MarcarRecorrido(node_id);
+				AnyadirDialogueAdd(dn);
 			}
 			break;
 		case 1:
-			if(mensajes [num_dialogo].dia.Nodes [node_id].recorrido != true)
+			d = this.DevuelveDialogoMensajes(num_dialogo);
+			dn = d.DevuelveNodo(node_id);
+
+			if(dn.DevuelveRecorrido() != true)
 			{
-				mensajes [num_dialogo].dia.Nodes [node_id].recorrido = true;
-				AnyadirDialogueAdd(mensajes [num_dialogo].dia.Nodes [node_id]);
+				mensajes[num_dialogo].MarcarRecorrido(node_id);
+				AnyadirDialogueAdd(dn);
 			}
 			break;
 		}
@@ -107,14 +117,14 @@ public class NPC_Dialogo{
 		switch(tipo)
 		{
 		case 0:
-			if(intros [num_dialogo].dia.Autodestruye == true)
+			if(intros [num_dialogo].Autodestruye == true)
 			{
 				intros.RemoveAt(num_dialogo);
 				num_dialogo--;
 			}
 			break;
 		case 1:
-			if(mensajes [num_dialogo].dia.Autodestruye == true)
+			if(mensajes [num_dialogo].Autodestruye == true)
 			{
 				mensajes.RemoveAt(num_dialogo);
 				num_dialogo--;
@@ -125,24 +135,104 @@ public class NPC_Dialogo{
 
 	private void AnyadirDialogueAdd(DialogueNode node)
 	{
-		for(int i = 0; i < node.AddIntro.Count; i++)
+		for(int i = 0; i < node.DevuelveNumeroIntros(); i++)
 		{
-			string nombreTexto = node.AddIntro[i].DevuelveNombre();
-			int prioridad = node.AddIntro[i].DevuelvePrioridad();
+			int prioridad = node.Intros[i].DevuelvePrioridad();
+			int ID = node.Intros[i].DevuelveID();
+			int IDNpc = node.Intros[i].DevuelveIDNpc();
 
-			AnyadirIntro(new Intro(prioridad, rutaDialogos + nombreTexto));
+			if(IDNpc == -1)
+			{
+				AnyadirIntro(Intro.LoadIntro(rutaIntros + ID.ToString() + ".xml", prioridad));
+			}
+			else
+			{
+				//Buscamos en el diccionario y lo añadimos
+				//si no esta en el diccionario, lo añadimos desde el xml
+				GameObject gobj = Manager.Instance.GetGameObject(IDNpc);
+
+				if(gobj != null)
+				{
+					NPC npc = gobj.GetComponent<NPC>() as NPC;
+					npc.npc_diag.AnyadirIntro(Intro.LoadIntro(rutaIntros + ID.ToString() + ".xml", prioridad));
+				}
+				else
+				{
+					NPC_Dialogo npc_diag;
+
+					//Cargamos el dialogo
+					//Si existe un fichero guardado, cargamos ese fichero, sino
+					//cargamos el fichero por defecto
+					if (System.IO.File.Exists(_FileLocation + IDNpc.ToString()  + ".xml"))
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, _FileLocation + IDNpc.ToString()  + ".xml");
+					}
+					else
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, DefaultDialogs + IDNpc.ToString()  + ".xml");
+					}
+
+					npc_diag.AnyadirIntro(Intro.LoadIntro(rutaIntros + ID.ToString() + ".xml", prioridad));
+					npc_diag.SerializeToXml();
+				}
+			}
 		}
 
-		for(int i = 0; i < node.AddMensaje.Count; i++)
+		for(int i = 0; i < node.DevuelveNumeroMensajes(); i++)
 		{
-			string mensaje = node.AddMensaje[i].DevuelveMensaje();
-			string nombreTexto = node.AddMensaje[i].DevuelveNombre();
+			int ID = node.Mensajes[i].DevuelveID();
+			int IDNpc = node.Mensajes[i].DevuelveIDNpc();
 
-			mensajes.Add(new Mensaje(mensaje,rutaDialogos + nombreTexto));
+			if(IDNpc == -1)
+			{
+				AnyadirMensaje(Mensaje.LoadMensaje(rutaMensajes + ID.ToString() + ".xml"));
+			}
+			else
+			{
+				//Buscamos en el diccionario y lo añadimos
+				//si no esta en el diccionario, lo añadimos desde el xml
+				GameObject gobj = Manager.Instance.GetGameObject(IDNpc);
+
+				if(gobj != null)
+				{
+					NPC npc = gobj.GetComponent<NPC>() as NPC;
+					npc.npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(rutaMensajes + ID.ToString() + ".xml"));
+				}
+				else
+				{
+					NPC_Dialogo npc_diag;
+
+					//Cargamos el dialogo
+					//Si existe un fichero guardado, cargamos ese fichero, sino
+					//cargamos el fichero por defecto
+					if (System.IO.File.Exists(_FileLocation + IDNpc.ToString()  + ".xml"))
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, _FileLocation + IDNpc.ToString()  + ".xml");
+					}
+					else
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, DefaultDialogs + IDNpc.ToString()  + ".xml");
+					}
+
+					npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(rutaMensajes + ID.ToString() + ".xml"));
+					npc_diag.SerializeToXml();
+				}
+			}
 		}
 	}
 
-	public static NPC_Dialogo LoadNPCDialogue(string path)
+	public void AnyadirIntro(Intro d)
+	{
+		intros.Add (d);
+		intros.Sort ();
+	}
+
+	public void AnyadirMensaje(Mensaje m)
+	{
+		mensajes.Add(m);
+	}
+
+	public static NPC_Dialogo LoadNPCDialogue(int id, string path)
 	{
 		XmlSerializer deserz = new XmlSerializer(typeof(NPC_Dialogo));
 		StreamReader reader = new StreamReader(path);
@@ -150,14 +240,16 @@ public class NPC_Dialogo{
 		NPC_Dialogo npc_dialogo = (NPC_Dialogo)deserz.Deserialize(reader);
 		reader.Close();
 
+		npc_dialogo.ID = id;
+
 		return npc_dialogo;
 	}
 
-	public void SerializeToXml(int id_npc)
+	public void SerializeToXml()
 	{
 		string _data = SerializeObject(this); 
 		// This is the final resulting XML from the serialization process
-		CreateXML(_data, id_npc);
+		CreateXML(_data);
 	}
 
 	//Serializa el objeto en xml que se le pasa
@@ -181,7 +273,7 @@ public class NPC_Dialogo{
 		return (constructedString); 
 	} 
 		
-	void CreateXML(string _data, int id_npc) 
+	void CreateXML(string _data) 
 	{
 		StreamWriter writer; 
 
@@ -192,7 +284,7 @@ public class NPC_Dialogo{
 			Directory.CreateDirectory(_FileLocation);
 		}
 
-		FileInfo t = new FileInfo(_FileLocation + id_npc.ToString()  + ".xml"); 
+		FileInfo t = new FileInfo(_FileLocation + ID.ToString()  + ".xml"); 
 
 		if(!t.Exists) 
 		{ 
@@ -207,50 +299,4 @@ public class NPC_Dialogo{
 		writer.Close(); 
 		Debug.Log("File written."); 
 	}
-//
-//	public void AddDialogoEntrante(int num_dialog, int node_id)
-//	{
-//		DialogueNode dn = DevuelveNodoDialogoDialogo(num_dialog, node_id);
-//		dn.recorrido = true;
-//
-//		for(int i = 0; i < dn.AddDialogo.Count; i++)
-//		{
-//			DialogoEntrante de = new DialogoEntrante(dn.AddDialogo[i].DevuelveNombre());
-//			AnyadirDialogo (de);
-//		}
-//	}
-//
-//	public void AddPreguntaEntrante(int num_dialog, int node_id)
-//	{
-//		DialogueNode dn = DevuelveNodoDialogoDialogo(num_dialog, node_id);
-//		dn.recorrido = true;
-//
-//		for(int i = 0; i < dn.AddPregunta.Count; i++)
-//		{
-//			preguntas.Add(new Pregunta("Opcion " + i.ToString(), dn.AddPregunta[i].DevuelveNombre()));
-//		}
-//	}
-//
-//	public void AddDialogoRespuestas(int num_dialog, int node_id)
-//	{
-//		DialogueNode dn = DevuelveNodoDialogoPregunta(num_dialog, node_id);
-//		dn.recorrido = true;
-//
-//		for(int i = 0; i < dn.AddDialogo.Count; i++)
-//		{
-//			DialogoEntrante de = new DialogoEntrante(dn.AddDialogo[i].DevuelveNombre());
-//			AnyadirDialogo (de);
-//		}
-//	}
-//
-//	public void AddPreguntaRespuestas(int num_dialog, int node_id)
-//	{
-//		DialogueNode dn = DevuelveNodoDialogoPregunta(num_dialog, node_id);
-//		dn.recorrido = true;
-//
-//		for(int i = 0; i < dn.AddPregunta.Count; i++)
-//		{
-//			preguntas.Add(new Pregunta("Opcion " + i.ToString(), dn.AddPregunta[i].DevuelveNombre()));
-//		}
-//	}
 }

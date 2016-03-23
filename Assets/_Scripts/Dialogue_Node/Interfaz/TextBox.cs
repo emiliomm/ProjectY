@@ -15,9 +15,8 @@ public class TextBox : MonoBehaviour {
 	public static TextBox Instance; //Instancia propia de la clase
 
 	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo
-	public string DialogueDataFilePath; //ruta del fichero xml
-	public int SizeOfLine; //Tamaño de la linea de texto antes de un salto de línea
-	public bool isActive; //indica si la caja de texto está activa o no
+
+	private bool isActive; //indica si la caja de texto está activa o no
 
 	private NPC_Dialogo npc_dialogo;
 	private NPC npc;
@@ -57,6 +56,8 @@ public class TextBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//CAMBIAR GAMEOBJECT FIND Y AÑADIRLOS DIRECTAMENTE DESDE UNITY CON SERIALIZE
+
 		var canvas = GameObject.Find("Canvas");
 
 		dialogue_window = Instantiate<GameObject>(DialogueWindowPrefab);
@@ -94,6 +95,11 @@ public class TextBox : MonoBehaviour {
 		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-3);});
 
 		DisableTextBox();
+	}
+
+	public bool EstaActivo()
+	{
+		return isActive;
 	}
 
 	public void StartDialogue(NPC npc_inst, NPC_Dialogo npcDi)
@@ -343,6 +349,17 @@ public class TextBox : MonoBehaviour {
 		FinNPCDialogo();
 	}
 
+	private void FinNPCDialogo()
+	{
+		DisableTextBox();
+		GuardarNPCDialogo();
+	}
+
+	private void GuardarNPCDialogo()
+	{
+		npc.ActualizarDialogo(npc_dialogo);
+	}
+
 	private void EliminarDialogo(ref int num_dialog)
 	{
 		switch(current)
@@ -356,17 +373,6 @@ public class TextBox : MonoBehaviour {
 			npc_dialogo.MirarSiDialogoSeAutodestruye(1, ref num_dialog);
 			break;
 		}
-	}
-
-	private void FinNPCDialogo()
-	{
-		DisableTextBox();
-		GuardarNPCDialogo();
-	}
-
-	private void GuardarNPCDialogo()
-	{
-		npc.ActualizarDialogo(npc_dialogo);
 	}
 
 	private void RecorreDialogoNPC(int num_dialog, int node_id)
@@ -563,7 +569,7 @@ public class TextBox : MonoBehaviour {
 		button.SetActive(true);
 		button.GetComponentInChildren<Text>().text = opt.DevuelveTexto(); //Texto del botón dividido en lineas
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
-		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DestinationNodeID); }); //Listener del botón
+		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DevuelveDestinationNodeID()); }); //Listener del botón
 	}
 
 	private void set_question_button(GameObject button, string texto, int num)
