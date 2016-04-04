@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Intro xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<ID>0</ID>
+	<IDGrupo>0</IDGrupo>
 	<Autodestruye>0</Autodestruye>
 	<dia>
 		<Nodes>
@@ -20,14 +21,23 @@
 					<DialogueOption>
 						<Text>Sí</Text>
 						<DestinationNodeID>2</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>No, es bastante dificil de entender, la verdad</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 				</Options>
 				<Mensajes />
@@ -49,18 +59,30 @@
 					<DialogueOption>
 						<Text>Sí</Text>
 						<DestinationNodeID>4</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>No</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>¿Cómo lo sabe?¿Los polís de la esquina van con usted verdad?¿Me han estado siguiendo?</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>Yo solo quería el helado pero mi madre me decía una y otra vez no, no y no. YA ESTABA HARTO, Y LA MATÉ ¿VALE? USTED HABRÍA HECHO LO MISMO, ESE HELADO DEBÍA SER MÍO </Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 				</Options>
 				<Mensajes />
@@ -74,10 +96,16 @@
 					<DialogueOption>
 						<Text>No</Text>
 						<DestinationNodeID>5</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>Sí</Text>
 						<DestinationNodeID>6</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 				</Options>
 				<Mensajes />
@@ -91,10 +119,16 @@
 					<DialogueOption>
 						<Text>[No decir nada]</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 				</Options>
 				<Mensajes />
@@ -108,10 +142,16 @@
 					<DialogueOption>
 						<Text>[No decir nada]</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 					<DialogueOption>
 						<Text>Menuda mierda, ¿para eso me he perdido él último capítulo de Archer?</Text>
 						<DestinationNodeID>-1</DestinationNodeID>
+						<Grupo>
+							<IDGrupo>-1</IDGrupo>
+						</Grupo>
 					</DialogueOption>
 				</Options>
 				<Mensajes />

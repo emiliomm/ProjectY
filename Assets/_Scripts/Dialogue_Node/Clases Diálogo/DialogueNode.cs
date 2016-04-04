@@ -11,15 +11,17 @@ namespace DialogueTree
         public string Text;
 		public bool recorrido; //Indica si el nodo ha sido recorrido anteriormente
         public List<DialogueOption> Options;
+		public List<DialogueAddIntro> Intros;
 		public List<DialogueAddMensaje> Mensajes;
-		public List<DialogueAddIntro> Intros; // NO SE DEBE PONER EN UN INTRO
+		public List<DialogueGrupo> Grupos;
 
         // parameterless constructor for serialization
         public DialogueNode()
         {
             Options = new List<DialogueOption>();
-			Mensajes = new List<DialogueAddMensaje>();
 			Intros = new List<DialogueAddIntro>();
+			Mensajes = new List<DialogueAddMensaje>();
+			Grupos = new List<DialogueGrupo>();
 			recorrido = false;
         }
 
@@ -48,14 +50,19 @@ namespace DialogueTree
 			return Options.Count;
 		}
 
+		public int DevuelveNumeroIntros()
+		{
+			return Intros.Count;
+		}
+
 		public int DevuelveNumeroMensajes()
 		{
 			return Mensajes.Count;
 		}
 
-		public int DevuelveNumeroIntros()
+		public int DevuelveNumeroGrupos()
 		{
-			return Intros.Count;
+			return Grupos.Count;
 		}
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE

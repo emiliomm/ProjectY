@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Manager : MonoBehaviour {
 
@@ -27,13 +28,14 @@ public class Manager : MonoBehaviour {
 		GruposActivos = new List<Grupo>();
 		npcs = new Dictionary<int,GameObject>();
 
+		//Creamos el directorio donde guardaremos los dialogos de los NPCs si no existe ya
 		string copyTo = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
-
 		if (!System.IO.Directory.Exists(copyTo))
 		{
 			System.IO.Directory.CreateDirectory(copyTo);
 		}
 
+		//Cargamos el escenario
 		SceneManager.LoadScene("Demo");
 	}
 
@@ -47,15 +49,32 @@ public class Manager : MonoBehaviour {
 		npcs.Remove(id);
 	}
 
-	public GameObject GetGameObject(int id)
+	public GameObject GetNPC(int id)
 	{
-		GameObject gb;
+		GameObject npc;
 
 		//Coge el GameObject mediante referencia, sino existe, el gameobject es null
-		npcs.TryGetValue(id,out gb);
+		npcs.TryGetValue(id,out npc);
 
-		return gb;
+		return npc;
 	}
+
+	//Devuelve una lista de los valores del diccionario
+	public List<GameObject> GetAllNPCs()
+	{
+		return npcs.Select(d=> d.Value).ToList();
+	}
+
+	public void AddToGrupos(Grupo g)
+	{
+		GruposActivos.Add(g);
+	}
+
+	public Grupo ComprobarGrupo(int id)
+	{
+		return GruposActivos.Find(x => x.DevolverGrupoID() == id);
+	}
+
 }
 
 

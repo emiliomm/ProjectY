@@ -6,12 +6,15 @@ using System.Xml;
 using System.Xml.Serialization; 
 using System.IO; 
 using System.Text; 
+using System.Linq;
 
 using DialogueTree;
 
 public class NPC_Dialogo{
 	
 	public int ID;
+
+	//Los intros y mensajes  por defecto de los npcs no pueden tener idGrupo
 	public List<Intro> intros;
 	public List<Mensaje> mensajes;
 
@@ -19,6 +22,7 @@ public class NPC_Dialogo{
 	private static string _FileLocation;
 	private static string rutaIntros;
 	private static string rutaMensajes;
+	private static string rutaGrupos;
 	private static string DefaultDialogs;
 
 	public NPC_Dialogo()
@@ -26,6 +30,7 @@ public class NPC_Dialogo{
 		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
 		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/";
+		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/";
 		DefaultDialogs = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 
 		intros = new List<Intro>();
@@ -82,36 +87,6 @@ public class NPC_Dialogo{
 		return avanza;
 	}
 
-	public void MarcaDialogueNodeComoLeido(int tipo, int num_dialogo, int node_id)
-	{
-		Dialogue d;
-		DialogueNode dn;
-
-		switch(tipo)
-		{
-		case 0:
-			d = this.DevuelveDialogoIntro(num_dialogo);
-			dn = d.DevuelveNodo(node_id);
-
-			if(dn.DevuelveRecorrido() != true)
-			{
-				intros[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(dn);
-			}
-			break;
-		case 1:
-			d = this.DevuelveDialogoMensajes(num_dialogo);
-			dn = d.DevuelveNodo(node_id);
-
-			if(dn.DevuelveRecorrido() != true)
-			{
-				mensajes[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(dn);
-			}
-			break;
-		}
-	}
-
 	public void MirarSiDialogoSeAutodestruye(int tipo, ref int num_dialogo)
 	{
 		switch(tipo)
@@ -133,8 +108,176 @@ public class NPC_Dialogo{
 		}
 	}
 
-	private void AnyadirDialogueAdd(DialogueNode node)
+	public void MarcaDialogueNodeComoLeido(int tipo, ref int num_dialogo, int node_id)
 	{
+		Dialogue d;
+		DialogueNode dn;
+
+		switch(tipo)
+		{
+		case 0:
+			d = this.DevuelveDialogoIntro(num_dialogo);
+			dn = d.DevuelveNodo(node_id);
+
+			if(dn.DevuelveRecorrido() != true)
+			{
+				intros[num_dialogo].MarcarRecorrido(node_id);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn);
+			}
+			break;
+		case 1:
+			d = this.DevuelveDialogoMensajes(num_dialogo);
+			dn = d.DevuelveNodo(node_id);
+
+			if(dn.DevuelveRecorrido() != true)
+			{
+				mensajes[num_dialogo].MarcarRecorrido(node_id);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn);
+			}
+			break;
+		}
+	}
+
+	//IMPLEMENTARLO CON COROUTINES ¿?
+	//Hacer que si un la id de lo que se quiere añadir existe, no se añada, mirarlo tambien en los grupos al crearse
+	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node)
+	{
+		for(int i = 0; i < node.DevuelveNumeroGrupos(); i++)
+		{
+			int ID = node.Grupos[i].DevuelveID();
+			bool tipo = node.Grupos[i].DevuelveTipo();
+
+			//Si el tipo es verdadero, cargamos el grupo
+			if(tipo)
+				Grupo.LoadGrupo(rutaGrupos + ID.ToString() + ".xml", ID, tipo_dialogo, ref num_dialogo);
+			//Si es falso, destruimos el grupo indicado y las intros/mensajes asignados a él
+			else
+			{
+				//empezamos destruyendo los intros/mensajes del dialogo actual
+
+				//Si estamos en una intro, comprobamos que posicionamos correctamente el indice en las intros
+				if(tipo_dialogo == 0)
+				{
+					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
+					{
+						if(this.intros[j].IDGrupo == ID)
+						{
+							this.intros.RemoveAt(j);
+
+							//Mantenemos el indice en una posicion correcta
+							if (j < num_dialogo)
+							{
+								num_dialogo--;
+							}
+							//Si la intro a destruir es el actual, lo destruimos al final (activando la autodestruccion)
+							else if(j == num_dialogo)
+							{
+								intros [num_dialogo].Autodestruye = true;
+							}
+						}
+					}
+					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
+					{
+						if(this.mensajes[j].IDGrupo == ID)
+						{
+							this.mensajes.RemoveAt(j);
+						}
+					}
+				}
+				//Si estamos en un mensaje, comprobamos que posicionamos correctamente el indice en los mensajes
+				else
+				{
+					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
+					{
+						if(this.intros[j].IDGrupo == ID)
+						{
+							this.intros.RemoveAt(j);
+						}
+					}
+					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
+					{
+						if(this.mensajes[j].IDGrupo == ID)
+						{
+							this.mensajes.RemoveAt(j);
+
+							//Mantenemos el indice en una posicion correcta
+							if (j < num_dialogo)
+							{
+								num_dialogo--;
+							}
+							//Si el mensaje a destruir es el actual, lo destruimos al final (activando la autodestruccion)
+							else if(j == num_dialogo)
+							{
+								mensajes [num_dialogo].Autodestruye = true;
+							}
+						}
+					}
+				}
+
+				//Ahora comprobamos a los npcs de la escena actual
+				List<GameObject> npcs = Manager.Instance.GetAllNPCs();
+
+				var num_npcs = 0; //Contamos los npcs que guardamos
+
+				for(int j = 0; j < npcs.Count; j++)
+				{
+					GameObject gobj = npcs[j];
+					NPC npc = gobj.GetComponent<NPC>() as NPC;
+					NPC_Dialogo n_diag = npc.npc_diag;
+
+					Debug.Log(npc.id);
+
+					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
+					{
+						if(n_diag.intros[k].IDGrupo == ID)
+						{
+							n_diag.intros.RemoveAt(k);
+						}
+					}
+					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
+					{
+						if(n_diag.mensajes[k].IDGrupo == ID)
+						{
+							n_diag.mensajes.RemoveAt(k);
+						}
+					}
+					num_npcs ++;
+					n_diag.SerializeToXml();
+				}
+					
+				//Ahora recorremos los ficheros guardadados
+				var info = new DirectoryInfo(_FileLocation);
+				var fileInfo = info.GetFiles().OrderByDescending( f => f.CreationTime).ToArray(); //los nuevos empiezan al principio de la lista
+
+				for(var j = num_npcs; j < fileInfo.Length; j++)
+				{
+					bool actualizado = false;
+					string name = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
+					NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(int.Parse(name), _FileLocation + name  + ".xml");
+
+					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
+					{
+						if(n_diag.intros[k].IDGrupo == ID)
+						{
+							n_diag.intros.RemoveAt(k);
+							actualizado = true;
+						}
+					}
+					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
+					{
+						if(n_diag.mensajes[k].IDGrupo == ID)
+						{
+							n_diag.mensajes.RemoveAt(k);
+							actualizado = true;
+						}
+					}
+
+					if(actualizado)
+						n_diag.SerializeToXml();
+				}
+			}
+		}
+		
 		for(int i = 0; i < node.DevuelveNumeroIntros(); i++)
 		{
 			int prioridad = node.Intros[i].DevuelvePrioridad();
@@ -143,13 +286,19 @@ public class NPC_Dialogo{
 
 			if(IDNpc == -1)
 			{
+				//Si estamos en una intro y la prioridad es mayor que la actual, cambiamos el indice de dialogo
+				if(tipo_dialogo == 0 && prioridad > intros[num_dialogo].DevuelvePrioridad())
+				{
+					num_dialogo++;
+				}
+
 				AnyadirIntro(Intro.LoadIntro(rutaIntros + ID.ToString() + ".xml", prioridad));
 			}
 			else
 			{
 				//Buscamos en el diccionario y lo añadimos
 				//si no esta en el diccionario, lo añadimos desde el xml
-				GameObject gobj = Manager.Instance.GetGameObject(IDNpc);
+				GameObject gobj = Manager.Instance.GetNPC(IDNpc);
 
 				if(gobj != null)
 				{
@@ -191,7 +340,7 @@ public class NPC_Dialogo{
 			{
 				//Buscamos en el diccionario y lo añadimos
 				//si no esta en el diccionario, lo añadimos desde el xml
-				GameObject gobj = Manager.Instance.GetGameObject(IDNpc);
+				GameObject gobj = Manager.Instance.GetNPC(IDNpc);
 
 				if(gobj != null)
 				{
@@ -224,7 +373,8 @@ public class NPC_Dialogo{
 	public void AnyadirIntro(Intro d)
 	{
 		intros.Add (d);
-		intros.Sort ();
+		//Ordena las intros por prioridad de mayor a menor, manteniendo el orden de los elementos iguales
+		intros = intros.OrderByDescending(x => x.prioridad).ToList();
 	}
 
 	public void AnyadirMensaje(Mensaje m)
@@ -240,10 +390,14 @@ public class NPC_Dialogo{
 		NPC_Dialogo npc_dialogo = (NPC_Dialogo)deserz.Deserialize(reader);
 		reader.Close();
 
-		npc_dialogo.ID = id;
-
 		return npc_dialogo;
 	}
+
+	/*
+	 * 
+	 * SERIALIZACIÓN Y DESERIALIZACIÓN
+	 * 
+	 */
 
 	public void SerializeToXml()
 	{

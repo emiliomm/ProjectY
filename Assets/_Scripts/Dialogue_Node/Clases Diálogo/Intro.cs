@@ -6,9 +6,11 @@ using System.IO;
 using DialogueTree;
 
 //Implementa la interfaz System.IComparable para que funcione el metodo compareTo
-public class Intro : System.IComparable<Intro>{
+//public class Intro : System.IComparable<Intro>
+public class Intro{
 
 	public int ID;
+	public int IDGrupo; //-1 --> Sin grupo, otro --> con grupo
 	public bool Autodestruye; // 0 --> falso, 1 --> verdadero
 	public int prioridad;
 	public int indice_inicial;
@@ -32,18 +34,23 @@ public class Intro : System.IComparable<Intro>{
 		return intro;
 	}
 
-	//Método utilizado para la comparación entre elementos funcione con el método Sort() de una lista DialogoEntrante
-	public int CompareTo(Intro otro)
-	{
-		if (otro == null) return 1;
-
-		//orden descendente
-		return -1 * prioridad.CompareTo(otro.prioridad);
-	}
+//	//Método utilizado para la comparación entre elementos funcione con el método Sort() de una lista DialogoEntrante
+//	public int CompareTo(Intro otro)
+//	{
+//		if (otro == null) return 1;
+//
+//		//orden descendente
+//		return -1 * prioridad.CompareTo(otro.prioridad);
+//	}
 
 	public Dialogue DevuelveDialogo()
 	{
 		return dia;
+	}
+
+	public int DevuelvePrioridad()
+	{
+		return prioridad;
 	}
 
 	public void MarcarRecorrido(int node_id)

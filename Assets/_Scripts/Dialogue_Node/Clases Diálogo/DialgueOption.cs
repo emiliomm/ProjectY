@@ -16,6 +16,8 @@ namespace DialogueTree
 		 * Otro: Va al nodo indicado
 	     */
 
+		public DialogueOptionGrupo Grupo;
+
         // parameterless constructor for serialization
         public DialogueOption() {
 		}
@@ -28,6 +30,16 @@ namespace DialogueTree
 		public int DevuelveDestinationNodeID()
 		{
 			return DestinationNodeID;
+		}
+
+		public int DevuelveNumeroGrupo()
+		{
+			return Grupo.IDGrupo;
+		}
+
+		public List<DialogueOptionGrupoVariables> DevuelveVariables()
+		{
+			return Grupo.variables;
 		}
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE

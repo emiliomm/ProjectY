@@ -175,7 +175,7 @@ public class TextBox : MonoBehaviour {
 					current = GameState.Mensajes_Menu;
 					break;
 				case -1: //Acaba el dialogo actual
-					RecorreDialogoNPC(num_dialog, node_id);
+					RecorreDialogoNPC(ref num_dialog, node_id);
 					EliminarDialogo(ref num_dialog);
 					//Si hay más dialogos, vamos al siguiente dialogo
 					if (npc_dialogo.AvanzaIntro(num_dialog))
@@ -192,13 +192,13 @@ public class TextBox : MonoBehaviour {
 
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					RecorreDialogoNPC(num_dialog, node_id);
+					RecorreDialogoNPC(ref num_dialog, node_id);
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
 						current = GameState.Intro_Opciones;
 					}
-					else //CAMBIAR LISTENER
+					else
 					{
 						node_id++;
 					}
@@ -207,7 +207,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Intro_Opciones:
-				display_node_answers(dialog.DevuelveNodo(node_id));
+				display_node_options(dialog.DevuelveNodo(node_id));
 				selected_option = node_id;
 
 				while(selected_option == node_id)
@@ -249,7 +249,7 @@ public class TextBox : MonoBehaviour {
 			case GameState.Mensajes_Menu:
 				if (npc_dialogo.DevuelveNumeroMensajes() != 0)
 				{
-					display_npc_questions();
+					display_npc_mensajes();
 					selected_option = -4;
 					while (selected_option == -4) {
 						yield return new WaitForSeconds (0.25f);
@@ -258,9 +258,9 @@ public class TextBox : MonoBehaviour {
 					switch(selected_option)
 					{
 					//Salimos del dialogo
-					case -1:
-					case -2:
 					case -3:
+					case -2:
+					case -1:
 						conversacion_activa = false;
 						break;
 					//Cargamos el dialogo escogido
@@ -298,10 +298,10 @@ public class TextBox : MonoBehaviour {
 				case -1: //Acaba el dialogo actual
 					current = GameState.Mensajes_Menu;
 					EliminarDialogo(ref num_dialog);
-					RecorreDialogoNPC(num_dialog, node_id);
+					RecorreDialogoNPC(ref num_dialog, node_id);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					RecorreDialogoNPC(num_dialog, node_id);
+					RecorreDialogoNPC(ref num_dialog, node_id);
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
@@ -316,7 +316,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case GameState.Mensajes_Opciones:
-				display_node_answers(dialog.DevuelveNodo(node_id));
+				display_node_options(dialog.DevuelveNodo(node_id));
 				selected_option = -4;
 
 				while(selected_option == -4)
@@ -375,20 +375,20 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
-	private void RecorreDialogoNPC(int num_dialog, int node_id)
+	private void RecorreDialogoNPC(ref int num_dialog, int node_id)
 	{
 		switch(current)
 		{
 		case GameState.Intro_Texto:
-			npc_dialogo.MarcaDialogueNodeComoLeido(0, num_dialog, node_id);
+			npc_dialogo.MarcaDialogueNodeComoLeido(0, ref num_dialog, node_id);
 			break;
 		case GameState.Mensajes_Texto:
-			npc_dialogo.MarcaDialogueNodeComoLeido(1, num_dialog, node_id);
+			npc_dialogo.MarcaDialogueNodeComoLeido(1, ref num_dialog, node_id);
 			break;
 		}
 	}
 
-	//Muestra el nodo de texto del diálogo
+	//Muestra texto del diálogo
 	private void display_node_text(DialogueNode node)
 	{
 		dialog_options.SetActive(false);
@@ -415,10 +415,14 @@ public class TextBox : MonoBehaviour {
 		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);}); //Listener del botón
 	}
 
-	//Muestra el nodo de respuestas del dialogo
-	private void display_node_answers(DialogueNode node)
+	//Muestra las opciones del dialogo
+	private void display_node_options(DialogueNode node)
 	{
 		dialog_options.SetActive(true);
+
+		//Mantiene el scroll arriba del todo al mostrar opciones
+		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+
 		dialog_text.SetActive(false);
 		change_theme.SetActive(true);
 		option_1.SetActive(false);
@@ -490,7 +494,8 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
-	private void display_npc_questions()
+	//Muestra el menu de mensajes del dialogo
+	private void display_npc_mensajes()
 	{
 		dialog_options.SetActive(true);
 		dialog_text.SetActive(false);
@@ -566,18 +571,54 @@ public class TextBox : MonoBehaviour {
 
 	private void set_option_button(GameObject button, DialogueOption opt)
 	{
-		button.SetActive(true);
-		button.GetComponentInChildren<Text>().text = opt.DevuelveTexto(); //Texto del botón dividido en lineas
-		button.GetComponent<Button>().onClick.RemoveAllListeners();
-		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DevuelveDestinationNodeID()); }); //Listener del botón
+		int num_grupo = opt.DevuelveNumeroGrupo(); //Miramos si la opción está asignada a algún grupo
+
+		//No lo está, lo mostramos
+		if(num_grupo == -1)
+		{
+			button.SetActive(true);
+			button.GetComponentInChildren<Text>().text = opt.DevuelveTexto(); //Texto del botón
+			button.GetComponent<Button>().onClick.RemoveAllListeners();
+			button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DevuelveDestinationNodeID()); }); //Listener del botón
+		}
+		//La opción está asignada a un grupo
+		//Comprobamos si el grupo está activo
+		//Si lo está, mostramos la opción, sino no
+		else
+		{
+			Grupo gp = Manager.Instance.ComprobarGrupo(num_grupo);
+
+			if (gp != null)
+			{
+				List<DialogueOptionGrupoVariables> variables = opt.DevuelveVariables();
+
+				bool mostrar = true;
+
+				for(int i = 0; i < variables.Count; i++)
+				{
+					//Si la variable de la opcion es mayor que la actual del grupo, no se muestra la opción
+					if(variables[i].Valor > gp.variables[variables[i].num_variable])
+					{
+						mostrar = false;
+					}
+				}
+
+				if(mostrar)
+				{
+					button.SetActive(true);
+					button.GetComponentInChildren<Text>().text = opt.DevuelveTexto(); //Texto del botón
+					button.GetComponent<Button>().onClick.RemoveAllListeners();
+					button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DevuelveDestinationNodeID()); }); //Listener del botón
+				}
+			}
+		}
 	}
 
 	private void set_question_button(GameObject button, string texto, int num)
 	{
 		button.SetActive(true);
-		button.GetComponentInChildren<Text>().text = texto; //Texto del botón dividido en lineas
+		button.GetComponentInChildren<Text>().text = texto; //Texto del botón
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(num); }); //Listener del botón
 	}
 }
-

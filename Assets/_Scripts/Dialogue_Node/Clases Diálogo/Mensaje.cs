@@ -8,6 +8,7 @@ using DialogueTree;
 public class Mensaje{
 
 	public int ID;
+	public int IDGrupo; //-1 --> Sin grupo, otro --> con grupo
 	public bool Autodestruye; // 0 --> falso, 1 --> verdadero
 	public string texto;
 	public Dialogue dia;
