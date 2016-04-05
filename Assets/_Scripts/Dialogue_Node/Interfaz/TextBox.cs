@@ -297,8 +297,8 @@ public class TextBox : MonoBehaviour {
 					break;
 				case -1: //Acaba el dialogo actual
 					current = GameState.Mensajes_Menu;
-					EliminarDialogo(ref num_dialog);
 					RecorreDialogoNPC(ref num_dialog, node_id);
+					EliminarDialogo(ref num_dialog);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
 					RecorreDialogoNPC(ref num_dialog, node_id);

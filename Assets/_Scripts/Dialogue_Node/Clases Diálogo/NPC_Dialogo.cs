@@ -119,6 +119,10 @@ public class NPC_Dialogo{
 			d = this.DevuelveDialogoIntro(num_dialogo);
 			dn = d.DevuelveNodo(node_id);
 
+			//Si está marcado que el dialogo se destruye, activamos la autodestrucción de este
+			if(dn.destruido = true)
+				intros [num_dialogo].Autodestruye = true;
+
 			if(dn.DevuelveRecorrido() != true)
 			{
 				intros[num_dialogo].MarcarRecorrido(node_id);
@@ -128,6 +132,10 @@ public class NPC_Dialogo{
 		case 1:
 			d = this.DevuelveDialogoMensajes(num_dialogo);
 			dn = d.DevuelveNodo(node_id);
+
+			//Si está marcado que el dialogo se destruye, activamos la autodestrucción de este
+			if(dn.destruido = true)
+				mensajes [num_dialogo].Autodestruye = true;
 
 			if(dn.DevuelveRecorrido() != true)
 			{

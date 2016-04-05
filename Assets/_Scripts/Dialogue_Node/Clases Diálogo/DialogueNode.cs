@@ -10,6 +10,7 @@ namespace DialogueTree
 
         public string Text;
 		public bool recorrido; //Indica si el nodo ha sido recorrido anteriormente
+		public bool destruido; //Indica si el dialogo va a ser destruido al acabar de leerlo
         public List<DialogueOption> Options;
 		public List<DialogueAddIntro> Intros;
 		public List<DialogueAddMensaje> Mensajes;
@@ -22,7 +23,6 @@ namespace DialogueTree
 			Intros = new List<DialogueAddIntro>();
 			Mensajes = new List<DialogueAddMensaje>();
 			Grupos = new List<DialogueGrupo>();
-			recorrido = false;
         }
 
 		public string DevuelveTexto()

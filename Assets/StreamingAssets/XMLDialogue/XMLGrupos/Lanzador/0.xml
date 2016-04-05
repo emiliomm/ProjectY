@@ -9,7 +9,7 @@
   </intros>
   <mensajes>
   	<DialogueAddMensaje>
-  		<IDNpc>0</IDNpc>
+  		<IDNpc>2</IDNpc>
   		<IDMensaje>0</IDMensaje>
   	</DialogueAddMensaje>
   </mensajes>

@@ -9,6 +9,7 @@
 				<NodeID>0</NodeID>
 				<Text>ESTE DIALOGO HA SIDO AÑADIDO CUANDO EL NPC NO ESTABA EN LA ESCENA</Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options />
 				<Mensajes />
 				<Intros />
@@ -17,6 +18,7 @@
 				<NodeID>1</NodeID>
 				<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options>
 					<DialogueOption>
 						<Text>Sí</Text>
@@ -47,6 +49,7 @@
 				<NodeID>2</NodeID>
 				<Text>De acuerdo, comencemos</Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options />
 				<Mensajes />
 				<Intros />
@@ -55,6 +58,7 @@
 				<NodeID>3</NodeID>
 				<Text>¿Ha tenido problemas familiares recientemente?</Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options>
 					<DialogueOption>
 						<Text>Sí</Text>
@@ -92,6 +96,7 @@
 				<NodeID>4</NodeID>
 				<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options>
 					<DialogueOption>
 						<Text>No</Text>
@@ -115,6 +120,7 @@
 				<NodeID>5</NodeID>
 				<Text>Ya esta. Puede irse</Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options>
 					<DialogueOption>
 						<Text>[No decir nada]</Text>
@@ -138,6 +144,7 @@
 				<NodeID>6</NodeID>
 				<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
 				<recorrido>false</recorrido>
+				<destruido>false</destruido>
 				<Options>
 					<DialogueOption>
 						<Text>[No decir nada]</Text>
