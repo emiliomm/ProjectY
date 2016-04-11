@@ -9,8 +9,17 @@ public class Manager : MonoBehaviour {
 
 	public static Manager Instance { get; private set; } //singleton
 
-	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena, QUIZÁS MEJOR EN OTRO OBJECTO
-	public List<Grupo> GruposActivos; //grupos de misiones, QUIZÁS MEJOR EN OTRO OBJECTO
+	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
+	public List<Grupo> GruposActivos; //grupos de misiones
+
+	//Lista de rutas
+	public static string rutaNPCDialogos;
+	public static string rutaNPCDialogosGuardados;
+	public static string rutaIntros;
+	public static string rutaMensajes;
+	public static string rutaGrupos;
+	public static string rutaGruposModificados;
+	public static string rutaLanzadores;
 
 	void Awake()
 	{
@@ -28,11 +37,24 @@ public class Manager : MonoBehaviour {
 		GruposActivos = new List<Grupo>();
 		npcs = new Dictionary<int,GameObject>();
 
+		//Cargamos las rutas
+		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
+		rutaNPCDialogosGuardados = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
+		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
+		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/";
+		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/";
+		rutaGruposModificados = Application.persistentDataPath + "/Grupos_Modificados/";
+		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
+
 		//Creamos el directorio donde guardaremos los dialogos de los NPCs si no existe ya
-		string copyTo = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
-		if (!System.IO.Directory.Exists(copyTo))
+		if (!System.IO.Directory.Exists(rutaNPCDialogosGuardados))
 		{
-			System.IO.Directory.CreateDirectory(copyTo);
+			System.IO.Directory.CreateDirectory(rutaNPCDialogosGuardados);
+		}
+
+		if (!System.IO.Directory.Exists(rutaGruposModificados))
+		{
+			System.IO.Directory.CreateDirectory(rutaGruposModificados);
 		}
 
 		//Cargamos el escenario
@@ -70,9 +92,39 @@ public class Manager : MonoBehaviour {
 		GruposActivos.Add(g);
 	}
 
-	public Grupo ComprobarGrupo(int id)
+	public bool ComprobarGrupo(int id)
+	{
+		bool existe = true;
+
+		if (DevolverGrupo(id) == null)
+			existe = false;
+
+		return existe;
+	}
+
+	public Grupo DevolverGrupo(int id)
 	{
 		return GruposActivos.Find(x => x.DevolverGrupoID() == id);
+	}
+
+	public void RemoveFromGrupos(int id)
+	{
+		Grupo g = DevolverGrupo(id);
+
+		if (g != null)
+			GruposActivos.Remove(g);
+	}
+
+	public void AddVariablesGrupo(int id, int num, int valor)
+	{
+		int indice = GruposActivos.FindIndex(x => x.idGrupo == id);
+		GruposActivos[indice].variables[num] += valor;
+	}
+
+	public void SetVariablesGrupo(int id, int num, int valor)
+	{
+		int indice = GruposActivos.FindIndex(x => x.idGrupo == id);
+		GruposActivos[indice].variables[num] = valor;
 	}
 
 }

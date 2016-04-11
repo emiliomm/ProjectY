@@ -1,13 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StreamingAssets\NPCDialogue\0.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Manager\Manager.cs">
     <Files>
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo.cs" Line="84" Column="54" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Intro.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\NPCDialogue\0.xml" Line="12" Column="5" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="26" Column="65" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

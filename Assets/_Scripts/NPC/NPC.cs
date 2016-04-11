@@ -12,25 +12,18 @@ public class NPC : MonoBehaviour {
 
 	private bool waitForPress;
 
-	//HACER VARIABLES GLOBALES
-	private static string _FileLocation;
-	private static string DefaultDialogs;
-
 	void Start()
 	{
-		_FileLocation = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
-		DefaultDialogs = Application.dataPath + "/StreamingAssets/NPCDialogue/";
-
 		//Cargamos el dialogo
 		//Si existe un fichero guardado, cargamos ese fichero, sino
 		//cargamos el fichero por defecto
-		if (System.IO.File.Exists(_FileLocation + id.ToString()  + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + id.ToString()  + ".xml"))
 		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, _FileLocation + id.ToString()  + ".xml");
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, Manager.rutaNPCDialogosGuardados + id.ToString()  + ".xml");
 		}
 		else
 		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, DefaultDialogs + id.ToString()  + ".xml");
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, Manager.rutaNPCDialogos + id.ToString()  + ".xml");
 		}
 
 		//Añadimos el npc al diccionario para tenerlo disponible

@@ -586,7 +586,7 @@ public class TextBox : MonoBehaviour {
 		//Si lo está, mostramos la opción, sino no
 		else
 		{
-			Grupo gp = Manager.Instance.ComprobarGrupo(num_grupo);
+			Grupo gp = Manager.Instance.DevolverGrupo(num_grupo);
 
 			if (gp != null)
 			{

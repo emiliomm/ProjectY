@@ -34,15 +34,6 @@ public class Intro{
 		return intro;
 	}
 
-//	//Método utilizado para la comparación entre elementos funcione con el método Sort() de una lista DialogoEntrante
-//	public int CompareTo(Intro otro)
-//	{
-//		if (otro == null) return 1;
-//
-//		//orden descendente
-//		return -1 * prioridad.CompareTo(otro.prioridad);
-//	}
-
 	public Dialogue DevuelveDialogo()
 	{
 		return dia;

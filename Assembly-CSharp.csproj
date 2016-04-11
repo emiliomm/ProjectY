@@ -45,15 +45,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialgueOption.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueAddIntro.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueAddMensaje.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueGrupo.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueNode.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueOptionGrupo.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\DialogueOptionGrupoVariables.cs" />
-     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\Dialogue.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueAddIntro.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueAddMensaje.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueGrupo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueGrupoVariable.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueNode.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialgueOption.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupoVariables.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo\Grupo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo\Lanzador.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Intro.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Mensaje.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" />
@@ -74,6 +76,7 @@
      <None Include="Assets\StreamingAssets\XMLDialogue\XMLMensajes\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\StreamingAssets\XMLDialogue\XMLGrupos\Lanzador\0.xml" />
+     <None Include="Assets\StreamingAssets\XMLDialogue\XMLGrupos\1.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />

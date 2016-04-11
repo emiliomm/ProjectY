@@ -143,6 +143,7 @@
      <None Include="Assets\StreamingAssets\XMLDialogue\XMLMensajes\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\StreamingAssets\XMLDialogue\XMLGrupos\Lanzador\0.xml" />
+     <None Include="Assets\StreamingAssets\XMLDialogue\XMLGrupos\1.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />

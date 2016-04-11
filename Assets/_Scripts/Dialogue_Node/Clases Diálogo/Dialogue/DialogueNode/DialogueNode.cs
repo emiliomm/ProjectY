@@ -15,6 +15,7 @@ namespace DialogueTree
 		public List<DialogueAddIntro> Intros;
 		public List<DialogueAddMensaje> Mensajes;
 		public List<DialogueGrupo> Grupos;
+		public List<DialogueGrupoVariable> GruposVariables;
 
         // parameterless constructor for serialization
         public DialogueNode()
@@ -23,6 +24,7 @@ namespace DialogueTree
 			Intros = new List<DialogueAddIntro>();
 			Mensajes = new List<DialogueAddMensaje>();
 			Grupos = new List<DialogueGrupo>();
+			GruposVariables = new List<DialogueGrupoVariable>();
         }
 
 		public string DevuelveTexto()
@@ -63,6 +65,11 @@ namespace DialogueTree
 		public int DevuelveNumeroGrupos()
 		{
 			return Grupos.Count;
+		}
+
+		public int DevuelveNumeroGruposVariables()
+		{
+			return GruposVariables.Count;
 		}
 
 		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
