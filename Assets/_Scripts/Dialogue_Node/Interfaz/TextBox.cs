@@ -358,6 +358,7 @@ public class TextBox : MonoBehaviour {
 	private void GuardarNPCDialogo()
 	{
 		npc.ActualizarDialogo(npc_dialogo);
+		Manager.Instance.GuardarGruposActivos();
 	}
 
 	private void EliminarDialogo(ref int num_dialog)
