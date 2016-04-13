@@ -15,7 +15,8 @@ public class Manager : MonoBehaviour {
 	public static Manager Instance { get; private set; } //singleton
 
 	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
-	public List<Grupo> GruposActivos; //grupos de misiones
+	public List<Grupo> GruposActivos; //grupos activos
+	private List<int> GruposAcabados; //ids de los grupos acabados
 
 	//Lista de rutas
 	public static string rutaNPCDialogos;
@@ -25,6 +26,7 @@ public class Manager : MonoBehaviour {
 	public static string rutaGrupos;
 	public static string rutaGruposModificados;
 	public static string rutaGruposActivos;
+	public static string rutaGruposAcabados;
 	public static string rutaLanzadores;
 
 	void Awake()
@@ -41,6 +43,7 @@ public class Manager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 
 		GruposActivos = new List<Grupo>();
+		GruposAcabados = new List<int>();
 		npcs = new Dictionary<int,GameObject>();
 
 		//Cargamos las rutas
@@ -51,8 +54,18 @@ public class Manager : MonoBehaviour {
 		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/";
 		rutaGruposModificados = Application.persistentDataPath + "/Grupos_Modificados/";
 		rutaGruposActivos = Application.persistentDataPath + "/Grupos_Activos/";
+		rutaGruposAcabados = Application.persistentDataPath + "/Grupos_Acabados/";
 		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
 
+		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
+		ComprobarArchivosDirectorios();
+
+		//Cargamos el escenario
+		SceneManager.LoadScene("Demo");
+	}
+
+	private void ComprobarArchivosDirectorios()
+	{
 		//Creamos el directorio donde guardaremos los dialogos de los NPCs si no existe ya
 		if (!System.IO.Directory.Exists(rutaNPCDialogosGuardados))
 		{
@@ -65,10 +78,10 @@ public class Manager : MonoBehaviour {
 		}
 
 		// Comprobamos si existe el directorio donde se guardan los grupos activos
-		if(!Directory.Exists(rutaGruposActivos))
+		if(!System.IO.Directory.Exists(rutaGruposActivos))
 		{    
 			//if it doesn't, create it
-			Directory.CreateDirectory(rutaGruposActivos);
+			System.IO.Directory.CreateDirectory(rutaGruposActivos);
 		}
 		//Si ya existe, comprobamos si existe el fichero de gruposactivos
 		else if(System.IO.File.Exists(rutaGruposActivos + "GruposActivos.xml"))
@@ -76,8 +89,16 @@ public class Manager : MonoBehaviour {
 			CargarGruposActivos();
 		}
 
-		//Cargamos el escenario
-		SceneManager.LoadScene("Demo");
+		if(!System.IO.Directory.Exists(rutaGruposAcabados))
+		{    
+			//if it doesn't, create it
+			System.IO.Directory.CreateDirectory(rutaGruposAcabados);
+		}
+		//Si ya existe, comprobamos si existe el fichero de gruposactivos
+		else if(System.IO.File.Exists(rutaGruposAcabados + "GruposAcabados.xml"))
+		{
+			CargarGruposAcabados();
+		}
 	}
 
 	public void AddToNpcs(int id, GameObject gobj)
@@ -103,35 +124,40 @@ public class Manager : MonoBehaviour {
 	//Devuelve una lista de los valores del diccionario
 	public List<GameObject> GetAllNPCs()
 	{
-		return npcs.Select(d=> d.Value).ToList();
+		return npcs.Select(d => d.Value).ToList();
 	}
 
-	public void AddToGrupos(Grupo g)
+	public void AddToGruposActivos(Grupo g)
 	{
 		GruposActivos.Add(g);
 	}
 
-	public bool ComprobarGrupo(int id)
+	public bool GrupoActivoExiste(int id)
 	{
-		bool existe = true;
-
-		if (DevolverGrupo(id) == null)
-			existe = false;
+		return GruposActivos.Any(x => x.idGrupo == id);
+	}
+		
+	public bool GrupoAcabadoExiste(int id)
+	{
+		bool existe = GruposAcabados.IndexOf(id) != -1;
 
 		return existe;
 	}
 
-	public Grupo DevolverGrupo(int id)
+	public Grupo DevolverGrupoActivo(int id)
 	{
-		return GruposActivos.Find(x => x.DevolverGrupoID() == id);
+		return GruposActivos.Find (x => x.DevolverGrupoID () == id);
 	}
 
-	public void RemoveFromGrupos(int id)
+	public void RemoveFromGruposActivos(int id)
 	{
-		Grupo g = DevolverGrupo(id);
+		Grupo g = DevolverGrupoActivo(id);
 
 		if (g != null)
-			GruposActivos.Remove(g);
+		{
+			GruposAcabados.Add (g.idGrupo); //Añadimos la id del grupo acabado
+			GruposActivos.Remove (g);
+		}
 	}
 
 	public void AddVariablesGrupo(int id, int num, int valor)
@@ -155,9 +181,23 @@ public class Manager : MonoBehaviour {
 		reader.Close();
 	}
 
+	private void CargarGruposAcabados()
+	{
+		XmlSerializer deserz = new XmlSerializer(typeof(List<int>));
+		StreamReader reader = new StreamReader(rutaGruposAcabados + "GruposAcabados.xml");
+
+		GruposAcabados = (List<int>)deserz.Deserialize(reader);
+		reader.Close();
+	}
+
 	public void GuardarGruposActivos()
 	{
 		SerializeToXmlGruposActivos();
+	}
+
+	public void GuardarGruposAcabados()
+	{
+		SerializeToXmlGruposAcabados();
 	}
 
 	/*
@@ -168,17 +208,39 @@ public class Manager : MonoBehaviour {
 
 	public void SerializeToXmlGruposActivos()
 	{
-		string _data = SerializeObject(GruposActivos); 
+		string _data = SerializeObject(GruposActivos, 0); 
 		// This is the final resulting XML from the serialization process
-		CreateXML(_data);
+		CreateXML(_data, 0);
+	}
+
+	public void SerializeToXmlGruposAcabados()
+	{
+		string _data = SerializeObject(GruposAcabados, 1); 
+		// This is the final resulting XML from the serialization process
+		CreateXML(_data, 1);
 	}
 
 	//Serializa el objeto en xml que se le pasa
-	string SerializeObject(object pObject) 
+	//Tipo 
+	// 0 --> GruposActivos
+	// 1 --> GruposAcabados
+	string SerializeObject(object pObject, int tipo) 
 	{ 
 		string XmlizedString = null; 
 		MemoryStream memoryStream = new MemoryStream(); 
-		XmlSerializer xs = new XmlSerializer(typeof(List<Grupo>)); 
+		XmlSerializer xs;
+
+		switch(tipo)
+		{
+		default: //Por si hay algún error
+		case 0:
+			xs = new XmlSerializer(typeof(List<Grupo>)); 
+			break;
+		case 1:
+			xs = new XmlSerializer(typeof(List<int>)); 
+			break;
+		}
+
 		XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
 		xs.Serialize(xmlTextWriter, pObject); 
 		memoryStream = (MemoryStream)xmlTextWriter.BaseStream; 
@@ -194,18 +256,38 @@ public class Manager : MonoBehaviour {
 		return (constructedString); 
 	} 
 
-	void CreateXML(string _data) 
+	//Tipo 
+	// 0 --> GruposActivos
+	// 1 --> GruposAcabados
+	void CreateXML(string _data, int tipo) 
 	{
 		StreamWriter writer; 
+		FileInfo t;
 
-		//check if directory doesn't exit
-		if(!Directory.Exists(rutaGruposActivos))
-		{    
-			//if it doesn't, create it
-			Directory.CreateDirectory(rutaGruposActivos);
+		switch (tipo)
+		{
+		default: //Por si hay algún error
+		case 0:
+			//check if directory doesn't exit
+			if(!Directory.Exists(rutaGruposActivos))
+			{    
+				//if it doesn't, create it
+				Directory.CreateDirectory(rutaGruposActivos);
+			}
+
+			t = new FileInfo(rutaGruposActivos + "GruposActivos.xml");
+			break;
+		case 1:
+			//check if directory doesn't exit
+			if(!Directory.Exists(rutaGruposAcabados))
+			{    
+				//if it doesn't, create it
+				Directory.CreateDirectory(rutaGruposAcabados);
+			}
+
+			t = new FileInfo(rutaGruposAcabados + "GruposAcabados.xml");
+			break;
 		}
-
-		FileInfo t = new FileInfo(rutaGruposActivos + "GruposActivos.xml");
 
 		if(!t.Exists) 
 		{ 
@@ -221,5 +303,3 @@ public class Manager : MonoBehaviour {
 		Debug.Log("File written."); 
 	}
 }
-
-

@@ -26,8 +26,8 @@ public class NPC_Dialogo{
 	}
 
 	//OBSOLETA
-	private void Prueba()
-	{
+//	private void Prueba()
+//	{
 //		Intro d = new Intro("text_dia.xml");
 //		Intro d2 = new Intro("text_dia2.xml");
 //
@@ -38,7 +38,7 @@ public class NPC_Dialogo{
 //		{
 //			mensajes.Add(new Mensaje("Opcion " + i.ToString(),rutaDialogos + "text_dia3.xml"));
 //		}
-	}
+//	}
 
 	public int DevuelveNumeroIntros()
 	{
@@ -145,21 +145,25 @@ public class NPC_Dialogo{
 			//Si el tipo es verdadero, cargamos el grupo
 			if(tipo)
 			{
-				//Miramos primero en la lista de grupos modificados
-				if (System.IO.File.Exists(Manager.rutaGruposModificados + ID.ToString()  + ".xml"))
+				//Si el grupo no está activo y no está en la lista de grupos acabados, lo añadimos
+				if (!Manager.Instance.GrupoActivoExiste(ID) && !Manager.Instance.GrupoAcabadoExiste(ID))
 				{
-					Grupo.LoadGrupo(Manager.rutaGruposModificados + ID.ToString() + ".xml", ID, tipo_dialogo, ref num_dialogo);
-				}
-				//Si no está ahí, miramos en el directorio predeterminado
-				else
-				{
-					Grupo.LoadGrupo(Manager.rutaGrupos + ID.ToString() + ".xml", ID, tipo_dialogo, ref num_dialogo);	
+					//Miramos primero en la lista de grupos modificados
+					if (System.IO.File.Exists (Manager.rutaGruposModificados + ID.ToString () + ".xml"))
+					{
+						Grupo.LoadGrupo (Manager.rutaGruposModificados + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);
+					}
+					//Si no está ahí, miramos en el directorio predeterminado
+					else
+					{
+						Grupo.LoadGrupo (Manager.rutaGrupos + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);	
+					}
 				}
 			}
 			//Si es falso, destruimos el grupo indicado y las intros/mensajes asignados a él
 			else
 			{
-				//empezamos destruyendo los intros/mensajes del dialogo actual
+				//Empezamos destruyendo los intros/mensajes del dialogo actual
 
 				//Si estamos en una intro, comprobamos que posicionamos correctamente el indice en las intros
 				if(tipo_dialogo == 0)
@@ -281,11 +285,9 @@ public class NPC_Dialogo{
 				}
 
 				//Por último, eliminamos el grupo del Manager
-				Manager.Instance.RemoveFromGrupos(ID);
+				Manager.Instance.RemoveFromGruposActivos(ID);
 
 				//FALTA ENVIAR LOS MENSAJES/INTROS DE FINALIZACIÓN
-				//FALTA PONER EL GRUPO EN LA LISTA DE ELIMINADOS (EN EL MANAGER, MANTENER UNA LISTA DE GRUPOS ELIMINADOS QUE LUEGO SERÁ GUARDADA)
-
 			}
 		}
 		
@@ -337,7 +339,7 @@ public class NPC_Dialogo{
 				}
 			}
 		}
-
+		 
 		for(int i = 0; i < node.DevuelveNumeroMensajes(); i++)
 		{
 			int ID = node.Mensajes[i].DevuelveID();
@@ -388,7 +390,7 @@ public class NPC_Dialogo{
 			int valor = node.GruposVariables[i].DevuelveValor();
 
 			//Si el grupo existe, cambiamos las variables
-			if(Manager.Instance.ComprobarGrupo(IDGrupo))
+			if(Manager.Instance.GrupoActivoExiste(IDGrupo))
 			{
 				switch(tipo)
 				{
@@ -404,46 +406,63 @@ public class NPC_Dialogo{
 			else
 			{
 				//Tras comprobar que no ha sido eliminado, lo añadimos a lista de grupos modificados
-
-				Grupo g;
-
-				//Comprobamos si está en la lista de grupos modificados
-				if (System.IO.File.Exists(Manager.rutaGruposModificados + IDGrupo.ToString()  + ".xml"))
+				if (!Manager.Instance.GrupoAcabadoExiste(IDGrupo))
 				{
-					g = Grupo.CreateGrupo(Manager.rutaGruposModificados + IDGrupo.ToString() + ".xml");
-				}
-				//Si no está ahí, miramos en el directorio predeterminado
-				else
-				{
-					g = Grupo.CreateGrupo(Manager.rutaGrupos + IDGrupo.ToString() + ".xml");
-				}
+					Grupo g;
 
-				switch(tipo)
-				{
-				case 0: //suma
-					g.variables[num] += valor;
-					break;
-				case 1: //establecer
-					g.variables[num] = valor;
-					break;
-				}
+					//Comprobamos si está en la lista de grupos modificados
+					if (System.IO.File.Exists (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml"))
+					{
+						g = Grupo.CreateGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+					}
+					//Si no está ahí, miramos en el directorio predeterminado
+					else
+					{
+						g = Grupo.CreateGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml");
+					}
 
-				//Guardamos el grupo en la ruta de grupos modificados
-				g.SerializeToXml();
+					switch (tipo)
+					{
+					case 0: //suma
+						g.variables [num] += valor;
+						break;
+					case 1: //establecer
+						g.variables [num] = valor;
+						break;
+					}
+
+					//Guardamos el grupo en la ruta de grupos modificados
+					g.SerializeToXml ();
+				}
 			}
 		}
 	}
 
 	public void AnyadirIntro(Intro d)
 	{
-		intros.Add (d);
+		//Si la intro con el ID especificado no existe, la añadimos
+		if(!IntroExiste (d.ID))
+			intros.Add (d);
+		
 		//Ordena las intros por prioridad de mayor a menor, manteniendo el orden de los elementos iguales
 		intros = intros.OrderByDescending(x => x.prioridad).ToList();
 	}
 
+	private bool IntroExiste(int id)
+	{
+		return intros.Any(x => x.ID == id);
+	}
+
 	public void AnyadirMensaje(Mensaje m)
 	{
-		mensajes.Add(m);
+		//Si el mensaje con el ID especificado no existe, lo añadimos
+		if(!MensajeExiste (m.ID))
+			mensajes.Add(m);
+	}
+
+	private bool MensajeExiste(int id)
+	{
+		return mensajes.Any(x => x.ID == id);
 	}
 
 	public static NPC_Dialogo LoadNPCDialogue(int id, string path)

@@ -355,10 +355,12 @@ public class TextBox : MonoBehaviour {
 		GuardarNPCDialogo();
 	}
 
+	//HACER QUE TODOS LOS DIALOGOS MODIFICADOS SE GUARDEN A LA VEZ AQUÍ MEDIANTE UNA FUNCIÓN DEL MANAGER
 	private void GuardarNPCDialogo()
 	{
 		npc.ActualizarDialogo(npc_dialogo);
 		Manager.Instance.GuardarGruposActivos();
+		Manager.Instance.GuardarGruposAcabados();
 	}
 
 	private void EliminarDialogo(ref int num_dialog)
@@ -587,7 +589,7 @@ public class TextBox : MonoBehaviour {
 		//Si lo está, mostramos la opción, sino no
 		else
 		{
-			Grupo gp = Manager.Instance.DevolverGrupo(num_grupo);
+			Grupo gp = Manager.Instance.DevolverGrupoActivo(num_grupo);
 
 			if (gp != null)
 			{

@@ -42,7 +42,7 @@ public class Grupo{
 
 		Lanzador.LoadLanzador(Manager.rutaLanzadores + grup.idGrupo.ToString() + ".xml", ID_NPC, tipo_dialogo, ref num_dialogo);
 
-		Manager.Instance.AddToGrupos(grup);
+		Manager.Instance.AddToGruposActivos(grup);
 
 		return grup;
 	}
