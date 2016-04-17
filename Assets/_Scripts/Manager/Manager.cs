@@ -42,6 +42,8 @@ public class Manager : MonoBehaviour {
 
 		DontDestroyOnLoad(gameObject);
 
+		Cursor.visible = false; //Oculta el cursor del ratón
+
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
 		npcs = new Dictionary<int,GameObject>();

@@ -112,6 +112,7 @@ public class TP_Motor : MonoBehaviour
 			VerticalVelocity = JumpSpeed;
 	}
 
+	//MODIFICAR CUANDO HAY OFFSET
 	//Mira si el personaje se mueve, si nos movemos alinea el personaje con la camara
 	void SnapAlignCharacterWithCamera()
 	{

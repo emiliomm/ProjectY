@@ -49,6 +49,7 @@ public class TextBox : MonoBehaviour {
 	GameState current;
 
 	// Use this when the object is created
+	//HACER OBJETO PERDURABLE ENTRE ESCENAS, QUE SEA CREADO POR EL MANAGER
 	void Awake ()
 	{
 		Instance = this;
@@ -56,11 +57,9 @@ public class TextBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//CAMBIAR GAMEOBJECT FIND Y AÑADIRLOS DIRECTAMENTE DESDE UNITY CON SERIALIZE
-
-		var canvas = GameObject.Find("Canvas");
-
-		dialogue_window = Instantiate<GameObject>(DialogueWindowPrefab);
+		//Cargamos el prefab del canvas de Resources, así como la ventana de dialogo
+		var canvas = (GameObject)Instantiate(Resources.Load("CanvasPrefab"));
+		dialogue_window = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab"));
 
 		dialogue_window.transform.SetParent(canvas.transform, false);
 
@@ -68,6 +67,7 @@ public class TextBox : MonoBehaviour {
 
 		dia_window_transform.localPosition = new Vector3(0, 0, 0);
 
+		//Quitar gameobject find
 		dialog_text = GameObject.Find("Text_DiaNodeText");
 
 		dialog_options = GameObject.Find("ScrollView");
@@ -114,6 +114,7 @@ public class TextBox : MonoBehaviour {
 	{
 		TP_Controller.Instance.canMove = false;
 		isActive = true;
+		Cursor.visible = true; //Muestra el cursor del ratón
 
 		RunDialogue();
 	}
@@ -122,6 +123,7 @@ public class TextBox : MonoBehaviour {
 	{
 		dialogue_window.SetActive(false);
 		TP_Controller.Instance.canMove = true;
+		Cursor.visible = false; //Oculta el cursor del ratón
 		isActive = false;
 	}
 

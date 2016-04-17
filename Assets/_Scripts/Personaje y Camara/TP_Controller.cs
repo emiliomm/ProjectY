@@ -63,7 +63,7 @@ public class TP_Controller : MonoBehaviour
 		TP_Animator.Instance.DetermineCurrentMoveDirection();
 	}
 
-	//Comprobamos si el jugador pulsa alguna tecla
+	//Comprobamos si el jugador pulsa alguna tecla para realizar alguna acción, como saltar
 	void HandleActionInput()
 	{
 		//Si el jugador pulsa el boton de salto

@@ -3,7 +3,7 @@
 	<ID>0</ID>
 	<intros>
 		<Intro>
-			<ID>0</ID>
+			<ID>101</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
@@ -181,7 +181,7 @@
 	</intros>
 	<mensajes>
 		<Mensaje>
-			<ID>0</ID>
+			<ID>101</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 0</texto>
@@ -362,7 +362,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>0</ID>
+			<ID>102</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 2</texto>
@@ -531,7 +531,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>0</ID>
+			<ID>103</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 3</texto>
@@ -700,7 +700,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>0</ID>
+			<ID>104</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 4</texto>
@@ -869,7 +869,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>0</ID>
+			<ID>105</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Mensaje de prueba</texto>

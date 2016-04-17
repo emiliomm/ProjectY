@@ -294,14 +294,11 @@ public class TP_Camera : MonoBehaviour
 		}
 		else
 		{
-			//Creamos la camara, le añadimos el componente camera y el tag main camera
-			tempCamera = new GameObject("Main Camera");
-			tempCamera.AddComponent<Camera>();
-			tempCamera.tag = "MainCamera";
+			//Cargamos el prefab de Resources
+			tempCamera = (GameObject)Instantiate(Resources.Load("CameraPrefab"));
 		}
 
-		//Añadimos el componente TP_Camera(el script) y lo guardamos en myCamera
-		tempCamera.AddComponent<TP_Camera>();
+		//Guardamos el componente TP_Camera(el script) en myCamera
 		myCamera = tempCamera.GetComponent("TP_Camera") as TP_Camera;
 
 		targetLookAt = GameObject.Find("targetLookAt") as GameObject;
