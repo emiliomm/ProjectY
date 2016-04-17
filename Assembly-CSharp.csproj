@@ -62,6 +62,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
      <Compile Include="Assets\_Scripts\NPC\NPC.cs" />
+     <Compile Include="Assets\_Scripts\Objetos\Accion.cs" />
      <Compile Include="Assets\_Scripts\Objetos\MirandoCamara.cs" />
      <Compile Include="Assets\_Scripts\Objetos\Objecto.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />

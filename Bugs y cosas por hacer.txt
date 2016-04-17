@@ -1,0 +1,28 @@
+BUGS(POR ORDEN DE PRIORIDAD)
+
+- La cámara se vuelve loca al chocar con un objeto cercano con un poco menos de altura
+	* ¿Por qué? Ni idea
+	* ¿Como solucionarlo?
+
+- La cámara tarda demasiado en centrarse al cambiar offset
+	* ¿Por qué? Debido a como está hecho
+	* ¿Como solucionarlo? Investigando y cambiando el sistema
+
+- El personaje principal no tiene sombra ni recibe sombras
+	* ¿Por qué? Debido al sistema de layers
+	* ¿Como solucionarlo? Ni idea, una manera sería duplicar objetos, solo sombras, muy costoso, buscar más opciones
+
+- A veces el personaje salta en un punto concreto del mapa1
+	* ¿Por qué? Probablemente debido a una colision box de un objeto que forma parte de la escena, investigar más ¿?
+	* ¿Como solucionarlo?
+
+COSAS POR HACER:
+
+- Rediseñar el sistema de guardado con colas para guardar todo lo modificado una vez, no cada cosa a su bola
+- Al cargar un grupo em gruposModificados, borrarlo o dejarlo ¿?
+- Probar el sistema de dialogos con ejemplos de misiones
+- Añadir variables NPC ¿?
+	- Que sean modificables por Dialogo ¿?
+- Que aparezca el nombre en los dialogos (del jugador y otros)
+	- Añadir nombre NPCs
+
