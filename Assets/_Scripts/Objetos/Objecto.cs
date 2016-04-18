@@ -22,8 +22,12 @@ public class Objecto : MonoBehaviour {
 	private Vector3 initialPosition; //posición inicial del cursorUI
 	private Vector3 moveVector; //vector de movimiento del ratón
 
+	public bool cursorSobreAccion;
+
 	void Start () {
 		cargarNombres();
+
+		cursorSobreAccion = false;
 
 		//Buscamos el world canvas del objeto
 		canvas = gameObject.transform.GetChild(1).gameObject;
@@ -100,7 +104,7 @@ public class Objecto : MonoBehaviour {
 			CursorLimit = initialPosition + delta;
 			cursorUI.position = CursorLimit;
 		}
-		else
+		else if(cursorSobreAccion)
 		{
 			TP_Controller.Instance.canMove = true; //Hacemos que el jugador se pueda mover
 			moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
@@ -128,6 +132,9 @@ public class Objecto : MonoBehaviour {
 
 			GameObject TextGO = new GameObject("myTextGO");
 			TextGO.transform.SetParent(canvas.transform, false);
+			TextGO.tag = "AccionUI";
+			BoxCollider collider = TextGO.AddComponent<BoxCollider>();
+			collider.size =  new Vector2(430f, 140f);
 
 			Text myText = TextGO.AddComponent<Text>();
 			myText.text = acciones[i].DevuelveNombre();
