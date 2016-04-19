@@ -41,12 +41,5 @@ namespace DialogueTree
 		{
 			return Grupo.variables;
 		}
-
-		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
-//        public DialogueOption(string text, int dest)
-//        {
-//            this.Text = text;
-//            this.DestinationNodeID = dest;
-//        }
     }
 }

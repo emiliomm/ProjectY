@@ -134,6 +134,7 @@ public class NPC_Dialogo{
 	}
 
 	//IMPLEMENTARLO CON COROUTINES ¿?
+	//SEPARAR FUNCION EN TROZOS MAS PEQUEÑOS
 	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node)
 	{
 		for(int i = 0; i < node.DevuelveNumeroGrupos(); i++)
@@ -249,7 +250,7 @@ public class NPC_Dialogo{
 						}
 					}
 					num_npcs ++;
-					n_diag.SerializeToXml();
+					n_diag.Serialize();
 				}
 					
 				//Ahora recorremos los ficheros guardadados
@@ -280,7 +281,7 @@ public class NPC_Dialogo{
 					}
 
 					if(actualizado)
-						n_diag.SerializeToXml();
+						n_diag.Serialize();
 				}
 
 				//Por último, eliminamos el grupo del Manager
@@ -334,7 +335,7 @@ public class NPC_Dialogo{
 					}
 
 					npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-					npc_diag.SerializeToXml();
+					npc_diag.Serialize();
 				}
 			}
 		}
@@ -376,7 +377,7 @@ public class NPC_Dialogo{
 					}
 
 					npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-					npc_diag.SerializeToXml();
+					npc_diag.Serialize();
 				}
 			}
 		}
@@ -431,7 +432,7 @@ public class NPC_Dialogo{
 					}
 
 					//Guardamos el grupo en la ruta de grupos modificados
-					g.SerializeToXml ();
+					g.Serialize();
 				}
 			}
 		}
@@ -466,73 +467,13 @@ public class NPC_Dialogo{
 
 	public static NPC_Dialogo LoadNPCDialogue(int id, string path)
 	{
-		XmlSerializer deserz = new XmlSerializer(typeof(NPC_Dialogo));
-		StreamReader reader = new StreamReader(path);
-
-		NPC_Dialogo npc_dialogo = (NPC_Dialogo)deserz.Deserialize(reader);
-		reader.Close();
+		NPC_Dialogo npc_dialogo = Manager.Instance.DeserializeDataWithReturn<NPC_Dialogo>(path);
 
 		return npc_dialogo;
 	}
 
-	/*
-	 * 
-	 * SERIALIZACIÓN Y DESERIALIZACIÓN
-	 * 
-	 */
-
-	public void SerializeToXml()
+	public void Serialize()
 	{
-		string _data = SerializeObject(this); 
-		// This is the final resulting XML from the serialization process
-		CreateXML(_data);
-	}
-
-	//Serializa el objeto en xml que se le pasa
-	string SerializeObject(object pObject) 
-	{ 
-		string XmlizedString = null; 
-		MemoryStream memoryStream = new MemoryStream(); 
-		XmlSerializer xs = new XmlSerializer(typeof(NPC_Dialogo)); 
-		XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
-		xs.Serialize(xmlTextWriter, pObject); 
-		memoryStream = (MemoryStream)xmlTextWriter.BaseStream; 
-		XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray()); 
-		return XmlizedString; 
-	} 
-
-	/* The following metods came from the referenced URL */ 
-	string UTF8ByteArrayToString(byte[] characters) 
-	{      
-		UTF8Encoding encoding = new UTF8Encoding(); 
-		string constructedString = encoding.GetString(characters); 
-		return (constructedString); 
-	} 
-		
-	void CreateXML(string _data) 
-	{
-		StreamWriter writer; 
-
-		//check if directory doesn't exit
-		if(!Directory.Exists(Manager.rutaNPCDialogosGuardados))
-		{    
-			//if it doesn't, create it
-			Directory.CreateDirectory(Manager.rutaNPCDialogosGuardados);
-		}
-
-		FileInfo t = new FileInfo(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml"); 
-
-		if(!t.Exists) 
-		{ 
-			writer = t.CreateText(); 
-		} 
-		else 
-		{ 
-			t.Delete(); 
-			writer = t.CreateText(); 
-		} 
-		writer.Write(_data); 
-		writer.Close(); 
-		Debug.Log("File written."); 
+		Manager.Instance.SerializeData(this, Manager.rutaNPCDialogosGuardados, Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml");
 	}
 }

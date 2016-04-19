@@ -20,11 +20,7 @@ public class Mensaje{
 
 	public static Mensaje LoadMensaje(string path)
 	{
-		XmlSerializer deserz = new XmlSerializer(typeof(Mensaje));
-		StreamReader reader = new StreamReader(path);
-
-		Mensaje men = (Mensaje)deserz.Deserialize(reader);
-		reader.Close();
+		Mensaje men = Manager.Instance.DeserializeDataWithReturn<Mensaje>(path);
 
 		return men;
 	}

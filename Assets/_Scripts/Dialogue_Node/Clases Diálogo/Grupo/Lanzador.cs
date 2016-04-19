@@ -22,11 +22,7 @@ public class Lanzador{
 
 	public static void LoadLanzador(string path, int ID_NPC, int tipo_dialogo, ref int num_dialogo)
 	{
-		XmlSerializer deserz = new XmlSerializer(typeof(Lanzador));
-		StreamReader reader = new StreamReader(path);
-
-		Lanzador lanz = (Lanzador)deserz.Deserialize(reader);
-		reader.Close();
+		Lanzador lanz = Manager.Instance.DeserializeDataWithReturn<Lanzador>(path);
 
 		lanz.AnyadirDialogueAdd(ID_NPC, tipo_dialogo, ref num_dialogo);
 	}
@@ -77,7 +73,7 @@ public class Lanzador{
 				}
 
 				npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-				npc_diag.SerializeToXml();
+				npc_diag.Serialize();
 			}
 
 		}
@@ -113,7 +109,7 @@ public class Lanzador{
 				}
 
 				npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-				npc_diag.SerializeToXml();
+				npc_diag.Serialize();
 			}
 		}
 	}

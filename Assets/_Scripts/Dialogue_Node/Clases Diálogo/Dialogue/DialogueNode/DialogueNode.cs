@@ -71,12 +71,5 @@ namespace DialogueTree
 		{
 			return GruposVariables.Count;
 		}
-
-		//UTIL QUIZÁ EN EL FUTURO PARA EDITAR DIALOGOS DINAMICAMENTE
-//        public DialogueNode(string text)
-//        {
-//            Text = text;
-//            Options = new List<DialogueOption>();
-//        }
     }
 }

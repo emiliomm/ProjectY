@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 using System.Xml; 
 using System.Xml.Serialization; 
@@ -176,30 +177,22 @@ public class Manager : MonoBehaviour {
 
 	private void CargarGruposActivos()
 	{
-		XmlSerializer deserz = new XmlSerializer(typeof(List<Grupo>));
-		StreamReader reader = new StreamReader(rutaGruposActivos + "GruposActivos.xml");
-
-		GruposActivos = (List<Grupo>)deserz.Deserialize(reader);
-		reader.Close();
+		DeserializeData(ref GruposActivos, rutaGruposActivos + "GruposActivos.xml");
 	}
 
 	private void CargarGruposAcabados()
 	{
-		XmlSerializer deserz = new XmlSerializer(typeof(List<int>));
-		StreamReader reader = new StreamReader(rutaGruposAcabados + "GruposAcabados.xml");
-
-		GruposAcabados = (List<int>)deserz.Deserialize(reader);
-		reader.Close();
+		DeserializeData(ref GruposAcabados, rutaGruposAcabados + "GruposAcabados.xml");
 	}
 
 	public void GuardarGruposActivos()
 	{
-		SerializeToXmlGruposActivos();
+		SerializeData(GruposActivos, rutaGruposActivos, rutaGruposActivos + "GruposActivos.xml");
 	}
 
 	public void GuardarGruposAcabados()
 	{
-		SerializeToXmlGruposAcabados();
+		SerializeData(GruposAcabados, rutaGruposAcabados, rutaGruposAcabados + "GruposAcabados.xml");
 	}
 
 	/*
@@ -208,88 +201,68 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public void SerializeToXmlGruposActivos()
+	public void DeserializeData<T>(ref T pObject, string rutaArchivo)
 	{
-		string _data = SerializeObject(GruposActivos, 0); 
-		// This is the final resulting XML from the serialization process
-		CreateXML(_data, 0);
+		XmlSerializer deserz = new XmlSerializer(typeof(T));
+		StreamReader reader = new StreamReader(rutaArchivo);
+
+		pObject = (T)deserz.Deserialize(reader);
+
+		reader.Close();
 	}
 
-	public void SerializeToXmlGruposAcabados()
+	public T DeserializeDataWithReturn<T>(string rutaArchivo)
 	{
-		string _data = SerializeObject(GruposAcabados, 1); 
-		// This is the final resulting XML from the serialization process
-		CreateXML(_data, 1);
+		XmlSerializer deserz = new XmlSerializer(typeof(T));
+		StreamReader reader = new StreamReader(rutaArchivo);
+
+		T pObject = (T)deserz.Deserialize(reader);
+
+		reader.Close();
+
+		return pObject;
 	}
 
-	//Serializa el objeto en xml que se le pasa
-	//Tipo 
-	// 0 --> GruposActivos
-	// 1 --> GruposAcabados
-	string SerializeObject(object pObject, int tipo) 
+	public void SerializeData<T>(T pObject, string nombreDirectorio, string nombreArchivo)
+	{
+		string _data = SerializeObject(pObject);
+		// This is the final resulting XML from the serialization process
+		CreateXML(_data, nombreDirectorio, nombreArchivo);
+	}
+
+	private string SerializeObject<T>(T pObject) 
 	{ 
 		string XmlizedString = null; 
 		MemoryStream memoryStream = new MemoryStream(); 
-		XmlSerializer xs;
-
-		switch(tipo)
-		{
-		default: //Por si hay algún error
-		case 0:
-			xs = new XmlSerializer(typeof(List<Grupo>)); 
-			break;
-		case 1:
-			xs = new XmlSerializer(typeof(List<int>)); 
-			break;
-		}
+		XmlSerializer xs = new XmlSerializer(typeof(T));
 
 		XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8); 
 		xs.Serialize(xmlTextWriter, pObject); 
 		memoryStream = (MemoryStream)xmlTextWriter.BaseStream; 
-		XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray()); 
+		XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray());
 		return XmlizedString; 
-	} 
+	}
 
-	/* The following metods came from the referenced URL */ 
-	string UTF8ByteArrayToString(byte[] characters) 
+	private string UTF8ByteArrayToString(byte[] characters) 
 	{      
 		UTF8Encoding encoding = new UTF8Encoding(); 
 		string constructedString = encoding.GetString(characters); 
 		return (constructedString); 
 	} 
 
-	//Tipo 
-	// 0 --> GruposActivos
-	// 1 --> GruposAcabados
-	void CreateXML(string _data, int tipo) 
+	private void CreateXML(string _data, string nombreDirectorio, string nombreArchivo) 
 	{
 		StreamWriter writer; 
 		FileInfo t;
 
-		switch (tipo)
-		{
-		default: //Por si hay algún error
-		case 0:
-			//check if directory doesn't exit
-			if(!Directory.Exists(rutaGruposActivos))
-			{    
-				//if it doesn't, create it
-				Directory.CreateDirectory(rutaGruposActivos);
-			}
-
-			t = new FileInfo(rutaGruposActivos + "GruposActivos.xml");
-			break;
-		case 1:
-			//check if directory doesn't exit
-			if(!Directory.Exists(rutaGruposAcabados))
-			{    
-				//if it doesn't, create it
-				Directory.CreateDirectory(rutaGruposAcabados);
-			}
-
-			t = new FileInfo(rutaGruposAcabados + "GruposAcabados.xml");
-			break;
+		if(!Directory.Exists(nombreDirectorio))
+		{    
+			//if it doesn't, create it
+			Directory.CreateDirectory(nombreDirectorio);
 		}
+
+		t = new FileInfo(nombreArchivo);
+			
 
 		if(!t.Exists) 
 		{ 
@@ -302,6 +275,7 @@ public class Manager : MonoBehaviour {
 		} 
 		writer.Write(_data); 
 		writer.Close(); 
+
 		Debug.Log("File written."); 
 	}
 }

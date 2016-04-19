@@ -23,11 +23,7 @@ public class Intro{
 
 	public static Intro LoadIntro(string path, int prioridad)
 	{
-		XmlSerializer deserz = new XmlSerializer(typeof(Intro));
-		StreamReader reader = new StreamReader(path);
-
-		Intro intro = (Intro)deserz.Deserialize(reader);
-		reader.Close();
+		Intro intro = Manager.Instance.DeserializeDataWithReturn<Intro>(path);
 
 		intro.prioridad = prioridad;
 
