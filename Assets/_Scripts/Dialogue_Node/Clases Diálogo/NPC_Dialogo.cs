@@ -134,7 +134,6 @@ public class NPC_Dialogo{
 	}
 
 	//IMPLEMENTARLO CON COROUTINES ¿?
-	//Hacer que si un la id de lo que se quiere añadir existe, no se añada, mirarlo tambien en los grupos al crearse
 	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node)
 	{
 		for(int i = 0; i < node.DevuelveNumeroGrupos(); i++)
