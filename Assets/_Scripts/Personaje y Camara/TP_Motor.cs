@@ -35,7 +35,7 @@ public class TP_Motor : MonoBehaviour
 	}
 
 	//Procesa el movimiento
-	void ProcessMotion()
+	private void ProcessMotion()
 	{
 		//Transformamos MoveVector al espacio del mundo
 		MoveVector = transform.TransformDirection(MoveVector);
@@ -62,7 +62,7 @@ public class TP_Motor : MonoBehaviour
 	}
 
 	//Aplicamos la gravedad
-	void ApplyGravity()
+	public void ApplyGravity()
 	{
 		//Si no superamos la velocidad terminal, aplicamos la gravedad
 		if (MoveVector.y > -TerminalVelocity)
@@ -75,7 +75,7 @@ public class TP_Motor : MonoBehaviour
 	}
 
 	//Miramos si el personaje resbale si la superficie es muy pronunciada
-	void ApplySlide()
+	private void ApplySlide()
 	{
 		//Si estamos en el aire, no hacemos nada
 		if(!TP_Controller.CharacterController.isGrounded)

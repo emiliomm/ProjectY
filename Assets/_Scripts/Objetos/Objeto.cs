@@ -18,11 +18,28 @@ public class Objeto : MonoBehaviour {
 	private Transform cursorUI; //Objeto que representa al cursor
 	private Camera camara; //La cámara del juego
 
-	private bool cursorPulsaAccion; //Indica si el cursor ha sido soltado sobre una acción
 	private bool moverCanvas; //Indica si el canvas debe moverse con respecto a la cámara
 	private float distance; //distancia entre el jugador y el objeto
 	private Vector3 initialPosition; //posición inicial del cursorUI
 	private Vector3 moveVector; //vector de movimiento del ratón
+
+	public enum State { Alejado, Accionable, Accionando, Accionado }
+
+	State _state = State.Alejado;
+	State _prevState;
+
+	public State CurrentState {
+		get { return _state; } 
+	}
+
+	public State PrevState {
+		get { return _prevState; }
+	}
+
+	public void SetState(State newState) {
+		_prevState = _state;
+		_state = newState;
+	}
 
 	void Start () {
 		//Buscamos el world canvas del objeto
@@ -39,13 +56,13 @@ public class Objeto : MonoBehaviour {
 		//y el estado inicial de otras variables
 		initialPosition = cursorUI.transform.position;
 		moveVector = new Vector3(0f, 0f, 0f);
-		cursorPulsaAccion = false;
 
-		cargarAcciones();
+		SetState(State.Alejado);
+		CargarAcciones();
 		CrearAccionesUI();
 	}
 
-	private void cargarAcciones()
+	private void CargarAcciones()
 	{
 		acciones = new List<Accion>();
 		acciones.Add(new Accion());
@@ -91,29 +108,63 @@ public class Objeto : MonoBehaviour {
 	}
 		
 	void Update () {
+
+		switch(_state)
+		{
+		case State.Alejado:
+			CalcularDistancia();
+			ShowCanvas();
+			MoverCanvas();
+
+			if (distance <= distanciaMin)
+			{
+				SetState(State.Accionable);
+			}
+			break;
+		case State.Accionable:
+			CalcularDistancia();
+			ShowCanvas();
+			MoverCanvas();
+
+			//Si pulsamos click izquierdo
+			if (Input.GetMouseButton(0) && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
+			{
+				TP_Controller.Instance.SetState(TP_Controller.State.Objetos);
+				SetState(State.Accionando);
+			}
+			else if (distance > distanciaMin)
+			{
+				SetState(State.Alejado);
+			}
+			break;
+		case State.Accionando:
+			ShowCanvas();
+
+			if (Input.GetMouseButton(0))
+			{
+				MoviendoCursorUI();
+			}
+			else
+			{
+				DefaultCursorUI();
+				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+				SetState(State.Accionable);
+			}
+			break;
+		case State.Accionado:
+			break;
+		}
+	}
+
+	private void CalcularDistancia()
+	{
 		distance = Vector3.Distance(TP_Controller.CharacterController.transform.position, transform.position);
-
-		ShowCanvas();
-
-		//Si la distancia es mayor a la fijada, no podemos mover el objeto
-		if (distance > distanciaMin)
-		{
-			
-		}
-		else
-		{
-			MoverCursorUI();
-		}
 	}
 
 	private void ShowCanvas() {
 		//Regula la transparencia del canvas según la distancia
 		float alpha = 3 - distance / 2.0f;
 		canvas.GetComponent<CanvasGroup>().alpha = alpha;
-
-		//Si ninguna acción ha sido pulsada, movemos el canvas
-		if(!cursorPulsaAccion)
-			MoverCanvas();
 	}
 
 	private void MoverCanvas()
@@ -121,43 +172,32 @@ public class Objeto : MonoBehaviour {
 		canvas.transform.LookAt(canvas.transform.position + camara.transform.rotation * Vector3.forward, camara.transform.rotation * Vector3.up);
 	}
 
-	private void MoverCursorUI()
+	private void MoviendoCursorUI()
 	{
-		//Si pulsamos click izquierdo
-		if (Input.GetMouseButton(0))
-		{
-			TP_Controller.Instance.canMove = false; //Hacemos que el jugador no se pueda mover
+		//Movemos las coordenadas del raton segun el movimiento
+		//Cogemos el eje X del Input del raton multiplicada por la sensibilidad
+		moveVector.x += Input.GetAxis ("Mouse X") * X_MouseSensitivity;
 
-			//Movemos las coordenadas del raton segun el movimiento
-			//Cogemos el eje X del Input del raton multiplicada por la sensibilidad
-			moveVector.x += Input.GetAxis ("Mouse X") * X_MouseSensitivity;
+		//Cogemos el eje Y del Input del raton multiplicada por la sensibilidad
+		moveVector.y += Input.GetAxis ("Mouse Y") * Y_MouseSensitivity;
 
-			//Cogemos el eje Y del Input del raton multiplicada por la sensibilidad
-			moveVector.y += Input.GetAxis ("Mouse Y") * Y_MouseSensitivity;
+		//Limitamos el módulo del vector convirtiéndolo en unitario
+		//y haciendo que el rango de movimiento esté limitado a un círculo
+		moveVector = Vector3.ClampMagnitude(moveVector, 1.0f);
 
-			//Limitamos el módulo del vector convirtiéndolo en unitario
-			//y haciendo que el rango de movimiento esté limitado a un círculo
-			moveVector = Vector3.ClampMagnitude(moveVector, 1.0f);
+		//Transforma los movimientos del ratón según el punto de vista de la cámara
+		Vector3 delta = new Vector3(moveVector.x,moveVector.y,0);
+		delta = Camera.main.transform.TransformDirection(delta);
 
-			//Transforma los movimientos del ratón según el punto de vista de la cámara
-			Vector3 delta = new Vector3(moveVector.x,moveVector.y,0);
-			delta = Camera.main.transform.TransformDirection(delta);
-
-			//Asignamos la posición al objeto que hace de cursor
-			Vector3 CursorLimit = new Vector3(0f, 0f, 0f);
-			CursorLimit = initialPosition + delta;
-			cursorUI.position = CursorLimit;
-		}
-		else if(!cursorPulsaAccion)
-		{
-			TP_Controller.Instance.canMove = true; //Hacemos que el jugador se pueda mover
-			moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
-			cursorUI.position = initialPosition; //Asignamos la posición inicial al objeto
-		}
+		//Asignamos la posición al objeto que hace de cursor
+		Vector3 CursorLimit = new Vector3(0f, 0f, 0f);
+		CursorLimit = initialPosition + delta;
+		cursorUI.position = CursorLimit;
 	}
 
-	public void SetPulsarSobreAccion(bool valor)
+	private void DefaultCursorUI()
 	{
-		cursorPulsaAccion = valor;
+		moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
+		cursorUI.position = initialPosition; //Asignamos la posición inicial al objeto
 	}
 }

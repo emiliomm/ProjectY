@@ -16,8 +16,6 @@ public class TextBox : MonoBehaviour {
 
 	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo
 
-	private bool isActive; //indica si la caja de texto está activa o no
-
 	private NPC_Dialogo npc_dialogo;
 	private NPC npc;
 
@@ -45,8 +43,23 @@ public class TextBox : MonoBehaviour {
 
 	private int selected_option = 0;
 
-	enum GameState {Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Texto, Mensajes_Opciones};
-	GameState current;
+	public enum State {Ninguno, Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Texto, Mensajes_Opciones};
+
+	State _state = State.Ninguno;
+	State _prevState;
+
+	public State CurrentState {
+		get { return _state; } 
+	}
+
+	public State PrevState {
+		get { return _prevState; }
+	}
+
+	public void SetState(State newState) {
+		_prevState = _state;
+		_state = newState;
+	}
 
 	// Use this when the object is created
 	//HACER OBJETO PERDURABLE ENTRE ESCENAS, QUE SEA CREADO POR EL MANAGER
@@ -57,6 +70,8 @@ public class TextBox : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		SetState(State.Ninguno);
+
 		//Cargamos el prefab del canvas de Resources, así como la ventana de dialogo
 		var canvas = (GameObject)Instantiate(Resources.Load("CanvasPrefab"));
 		dialogue_window = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab"));
@@ -97,23 +112,18 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-	public bool EstaActivo()
-	{
-		return isActive;
-	}
-
 	public void StartDialogue(NPC npc_inst, NPC_Dialogo npcDi)
 	{
 		npc_dialogo  = npcDi;
 		npc = npc_inst;
-		
+
+		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		EnableTextBox();
 	}
 
 	public void EnableTextBox()
 	{
-		TP_Controller.Instance.canMove = false;
-		isActive = true;
+		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		RunDialogue();
@@ -121,10 +131,10 @@ public class TextBox : MonoBehaviour {
 
 	public void DisableTextBox()
 	{
+		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+
 		dialogue_window.SetActive(false);
-		TP_Controller.Instance.canMove = true;
 		Cursor.visible = false; //Oculta el cursor del ratón
-		isActive = false;
 	}
 
 	public void RunDialogue()
@@ -139,8 +149,6 @@ public class TextBox : MonoBehaviour {
 
 	public IEnumerator run()
 	{
-		dialogue_window.SetActive(true);
-
 		int num_dialog = 0;
 		int node_id = 0; //principio del dialogo
 		bool conversacion_activa = true;
@@ -148,19 +156,19 @@ public class TextBox : MonoBehaviour {
 		Dialogue dialog = new Dialogue();
 
 		if (npc_dialogo.DevuelveNumeroIntros() == 0)
-			current = GameState.Mensajes_Menu;
+			SetState(State.Mensajes_Menu);
 		else
 		{
 			dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
-			current = GameState.Intro_Texto;
+			SetState(State.Intro_Texto);
 		}
 
 
 		while(conversacion_activa)
 		{
-			switch(current)
+			switch(_state)
 			{
-			case GameState.Intro_Texto:
+			case State.Intro_Texto:
 				display_node_text (dialog.DevuelveNodo(node_id));
 				selected_option = node_id;
 
@@ -174,7 +182,7 @@ public class TextBox : MonoBehaviour {
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
-					current = GameState.Mensajes_Menu;
+					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
 					RecorreDialogoNPC(ref num_dialog, node_id);
@@ -189,7 +197,7 @@ public class TextBox : MonoBehaviour {
 					//Sino, se muestran las respuestas
 					else
 					{
-						current = GameState.Mensajes_Menu;
+						SetState(State.Mensajes_Menu);
 					}
 
 					break;
@@ -198,7 +206,7 @@ public class TextBox : MonoBehaviour {
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
-						current = GameState.Intro_Opciones;
+						SetState(State.Intro_Opciones);
 					}
 					else
 					{
@@ -208,7 +216,7 @@ public class TextBox : MonoBehaviour {
 				}
 
 				break;
-			case GameState.Intro_Opciones:
+			case State.Intro_Opciones:
 				display_node_options(dialog.DevuelveNodo(node_id));
 				selected_option = node_id;
 
@@ -223,7 +231,7 @@ public class TextBox : MonoBehaviour {
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
-					current = GameState.Mensajes_Menu;
+					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
 					EliminarDialogo(ref num_dialog);
@@ -233,22 +241,22 @@ public class TextBox : MonoBehaviour {
 						num_dialog++;
 						dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
 						node_id = 0;
-						current = GameState.Intro_Texto;
+						SetState(State.Intro_Texto);
 					}
 					//Sino, se muestran las respuestas
 					else
 					{
-						current = GameState.Mensajes_Menu;
+						SetState(State.Mensajes_Menu);
 					}
 					break;
 				default: //Se sigue con la conversación, donde el nodo indique
 					node_id = selected_option;
-					current = GameState.Intro_Texto;
+					SetState(State.Intro_Texto);
 					break;
 				}
 
 				break;
-			case GameState.Mensajes_Menu:
+			case State.Mensajes_Menu:
 				if (npc_dialogo.DevuelveNumeroMensajes() != 0)
 				{
 					display_npc_mensajes();
@@ -267,7 +275,7 @@ public class TextBox : MonoBehaviour {
 						break;
 					//Cargamos el dialogo escogido
 					default:
-						current = GameState.Mensajes_Texto;
+						SetState(State.Mensajes_Texto);
 						num_dialog = selected_option;
 						dialog = npc_dialogo.DevuelveDialogoMensajes(num_dialog);
 						node_id = 0;
@@ -280,7 +288,7 @@ public class TextBox : MonoBehaviour {
 				}
 
 				break;
-			case GameState.Mensajes_Texto:
+			case State.Mensajes_Texto:
 				display_node_text(dialog.DevuelveNodo(node_id));
 				selected_option = node_id;
 
@@ -295,10 +303,10 @@ public class TextBox : MonoBehaviour {
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
-					current = GameState.Mensajes_Menu;
+					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					current = GameState.Mensajes_Menu;
+					SetState(State.Mensajes_Menu);
 					RecorreDialogoNPC(ref num_dialog, node_id);
 					EliminarDialogo(ref num_dialog);
 					break;
@@ -307,9 +315,9 @@ public class TextBox : MonoBehaviour {
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
-						current = GameState.Mensajes_Opciones;
+						SetState(State.Mensajes_Opciones);
 					}
-					else //CAMBIAR LISTENER
+					else
 					{
 						node_id++;
 					}
@@ -317,7 +325,7 @@ public class TextBox : MonoBehaviour {
 				}
 
 				break;
-			case GameState.Mensajes_Opciones:
+			case State.Mensajes_Opciones:
 				display_node_options(dialog.DevuelveNodo(node_id));
 				selected_option = -4;
 
@@ -332,15 +340,15 @@ public class TextBox : MonoBehaviour {
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
-					current = GameState.Mensajes_Menu;
+					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
 					EliminarDialogo(ref num_dialog);
-					current = GameState.Mensajes_Menu;
+					SetState(State.Mensajes_Menu);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
 					node_id = selected_option;
-					current = GameState.Mensajes_Texto;
+					SetState(State.Mensajes_Texto);
 					break;
 				}
 
@@ -367,14 +375,14 @@ public class TextBox : MonoBehaviour {
 
 	private void EliminarDialogo(ref int num_dialog)
 	{
-		switch(current)
+		switch(_state)
 		{
-		case GameState.Intro_Texto:
-		case GameState.Intro_Opciones:
+		case State.Intro_Texto:
+		case State.Intro_Opciones:
 			npc_dialogo.MirarSiDialogoSeAutodestruye(0, ref num_dialog);
 			break;
-		case GameState.Mensajes_Texto:
-		case GameState.Mensajes_Opciones:
+		case State.Mensajes_Texto:
+		case State.Mensajes_Opciones:
 			npc_dialogo.MirarSiDialogoSeAutodestruye(1, ref num_dialog);
 			break;
 		}
@@ -382,12 +390,12 @@ public class TextBox : MonoBehaviour {
 
 	private void RecorreDialogoNPC(ref int num_dialog, int node_id)
 	{
-		switch(current)
+		switch(_state)
 		{
-		case GameState.Intro_Texto:
+		case State.Intro_Texto:
 			npc_dialogo.MarcaDialogueNodeComoLeido(0, ref num_dialog, node_id);
 			break;
-		case GameState.Mensajes_Texto:
+		case State.Mensajes_Texto:
 			npc_dialogo.MarcaDialogueNodeComoLeido(1, ref num_dialog, node_id);
 			break;
 		}

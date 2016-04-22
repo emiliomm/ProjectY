@@ -132,8 +132,7 @@ public class NPC_Dialogo{
 			break;
 		}
 	}
-
-	//IMPLEMENTARLO CON COROUTINES ¿?
+		
 	//SEPARAR FUNCION EN TROZOS MAS PEQUEÑOS
 	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node)
 	{

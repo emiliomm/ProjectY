@@ -6,7 +6,23 @@ public class TP_Controller : MonoBehaviour
 	public static CharacterController CharacterController; //Nos permite lidiar con colisiones sin RigidBody
 	public static TP_Controller Instance; //Instancia propia de la clase
 
-	public bool canMove; //Indica si el jugador se puede mover
+	public enum State { Normal, Dialogo, Objetos }
+
+	State _state = State.Normal;
+	State _prevState;
+
+	public State CurrentState {
+		get { return _state; } 
+	}
+
+	public State PrevState {
+		get { return _prevState; }
+	}
+
+	public void SetState(State newState) {
+		_prevState = _state;
+		_state = newState;
+	}
 
 	// Use this when the object is created
 	void Awake ()
@@ -15,6 +31,7 @@ public class TP_Controller : MonoBehaviour
 		//Inicializamos la variable instancia
 		CharacterController = GetComponent("CharacterController") as CharacterController; 
 		Instance = this;
+		SetState(State.Normal);
 
 		//creamos o buscamos una camara
 		TP_Camera.UseExistingOrCreateMainCamera();
@@ -23,16 +40,34 @@ public class TP_Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		//Si no hay camara, no nos movemos
-		//Si el bool canMove es false, no nos movemos
-		if (Camera.main == null || !canMove)
-			return;
+		//Dependiendo del estado, hacemos unas cosas u otras
+		switch(_state)
+		{
+		case State.Normal:
+			//Si no hay camara, no nos movemos
+			if (Camera.main == null)
+				return;
 
-		GetLocomotionInput();//Asignamos el movimiento del input
+			GetLocomotionInput();//Asignamos el movimiento del input
 
-		HandleActionInput();
+			HandleActionInput();
 
-		TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+			break;
+		case State.Dialogo:
+		case State.Objetos:
+			
+			//guardamos el valor del movevector.y ya que vamos a transformarlo a 0 despues, pero necesitamos el valor
+			TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;
+
+			//Lo igualamos a 0 para recalcularlo cada frame
+			TP_Motor.Instance.MoveVector = Vector3.zero;
+
+			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+			break;
+		}
+
+
 	}
 
 	//Asignamos el movimiento del input

@@ -1,7 +1,5 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
-- Al iniciar dialogo cerca de un objeto el ratón y el personaje puede seguir moviéndose
-
 - La cámara se vuelve loca al chocar con un objeto cercano con un poco menos de altura
 	* ¿Por qué? Ni idea
 	* ¿Como solucionarlo?
@@ -14,6 +12,10 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Por qué? Debido al sistema de layers
 	* ¿Como solucionarlo? Ni idea, una manera sería duplicar objetos, solo sombras, muy costoso, buscar más opciones
 
+- La luz del mapa1 no carga correctamente al pasar de inicio al mapa
+	* ¿Por qué? Probablemente por un error de Unity
+	* ¿Cómo solucionarlo? Investigar
+
 - A veces el personaje salta en un punto concreto del mapa1
 	* ¿Por qué? Probablemente debido a una colision box de un objeto que forma parte de la escena, investigar más ¿?
 	* ¿Como solucionarlo?
@@ -21,6 +23,9 @@ BUGS(POR ORDEN DE PRIORIDAD)
 COSAS POR HACER:
 
 - Comprobar como funcionan varios objetos juntos
+	- Foco en un solo objeto
+	- Cuando el personaje está mirando en contra del objeto, no debe poder ser manipulable
+- Hacer que el textbox sea permanente y apareza en la primera escena o sea creado por el Manager 
 - Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
 - Rediseñar el sistema de guardado con colas para guardar todo lo modificado una vez, no cada cosa a su bola
 - Al cargar un grupo em gruposModificados, borrarlo o dejarlo ¿?

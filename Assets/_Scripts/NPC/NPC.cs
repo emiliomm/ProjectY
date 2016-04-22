@@ -47,7 +47,7 @@ public class NPC : MonoBehaviour {
 				waitForPress = true;
 				return;
 			}
-			if (!TextBox.Instance.EstaActivo())
+			if (TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
 				IniciaDialogo();
 		}
 	}
@@ -64,7 +64,7 @@ public class NPC : MonoBehaviour {
 	void Update()
 	{
 		//Si está esperando al input y pulsamos click derecho
-		if (waitForPress && Input.GetMouseButtonDown(1) && !TextBox.Instance.EstaActivo())
+		if (waitForPress && Input.GetMouseButtonDown(1) && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
 		{
 			IniciaDialogo();
 		}

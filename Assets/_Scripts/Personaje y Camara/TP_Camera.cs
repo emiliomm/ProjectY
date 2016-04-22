@@ -59,27 +59,36 @@ public class TP_Camera : MonoBehaviour
 		Reset();//asignamos valores predeterminados
 	}
 
-	void LateUpdate ()
+	void Update ()
 	{
-		//Si no miramos a ningun sitio, salimos
-		//Si no nos podemos mover, salimos
-		if(TargetLookAt == null || !TP_Controller.Instance.canMove)
-			return;
-
-		//Maneja los controles de la cámara
-		HandlePlayerInput();
-
-		var count = 0;
-
-		//Calculamos la posicion de la camara hasta que no este obstruida
-		do
+		switch(TP_Controller.Instance.CurrentState)
 		{
-			CalculateDesiredPosition();
-			count++;
-		}while (CheckIfOccluded(count));
+		//Si el personaje está en el estado normal, calculamos posición de la camara
+		case TP_Controller.State.Normal:
+			//Si no miramos a ningun sitio, salimos
+			if(TargetLookAt == null)
+				return;
 
-		//Actualizamos la posicion
-		UpdatePosition();
+			//Maneja los controles de la cámara
+			HandlePlayerInput();
+
+			var count = 0;
+
+			//Calculamos la posicion de la camara hasta que no este obstruida
+			do
+			{
+				CalculateDesiredPosition();
+				count++;
+			}while (CheckIfOccluded(count));
+
+			//Actualizamos la posicion
+			UpdatePosition();
+			break;
+		//Si se encuentra en otro estado, no hacemos nada
+		case TP_Controller.State.Objetos:
+		case TP_Controller.State.Dialogo:
+			break;
+		}
 	}
 
 	//Al mover el raton, cambiamos las coordenadas de la camara

@@ -12,14 +12,12 @@ public class CursorUIDetection : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
 			Debug.Log ("Entrando");
-			obj.SetPulsarSobreAccion(true);
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (other.tag == "AccionUI") {
 			Debug.Log ("Saliendo");
-			obj.SetPulsarSobreAccion(false);
 		}
 	}
 }
