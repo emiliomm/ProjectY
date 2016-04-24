@@ -11,8 +11,8 @@ public class TP_Camera : MonoBehaviour
 	public float DistanceMax = 10f;
 	public float DistanceSmooth = 0.05f; //Tiempo que tarda en variar la distancia al encontrar un obstaculo (mayor = mas lento)
 	public float DistanceResumeSmooth = 0.05f; //Tiempo que tarda en variar la distancia al no encontrar ningún obstáculo(mayor = mas lento)
-	public float X_MouseSensitivity = 5f;
-	public float Y_MouseSensitivity = 5f;
+	public float X_MouseSensitivity = 3f;
+	public float Y_MouseSensitivity = 3f;
 	public float MouseWheelSentitivity = 15f;
 	public float X_Smooth = 0.05f; //Tiempo que tarda en moverse la camara en su posicion en el ejeX
 	public float Y_Smooth = 0.1f; //Tiempo que tarda en moverse la camara en su posicion en el ejeY
@@ -287,6 +287,107 @@ public class TP_Camera : MonoBehaviour
 		Distance = startDistance;
 		desiredDistance = startDistance;
 		preOccludedDistance = startDistance;
+	}
+
+	public Transform GetNearestTaggedObject()
+	{
+		var nearestDistanceSqr = Mathf.Infinity;
+		var taggedGameObjects = GameObject.FindGameObjectsWithTag("ObjectoUI");
+		Transform nearestObj = null;
+
+		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+		Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);
+
+
+		// loop through each tagged object, remembering nearest one found
+		foreach (var obj in taggedGameObjects) {
+
+			Objeto objeto;
+				objeto = obj.gameObject.GetComponent<Objeto>();
+			if (!objeto.objetoRender.GetComponent<Renderer>().isVisible)
+			{
+
+
+
+					objeto.SetState(Objeto.State.Alejado);
+					
+					objeto.DesactivarTextoAcciones();
+//					Sprite s2 = Resources.Load<Sprite>("transparent");
+//					objeto.ChangeCursorUI(s2);
+
+
+			}
+			else{
+
+				var objectPos = obj.transform.position;
+				float distanceSqr, distancePlayerNPC;
+	//
+	//			if(Physics.Raycast(ray, out hit))
+	//			{
+					distanceSqr = DistanceToLine(ray, objectPos);
+	//			}
+	//			else{
+					distancePlayerNPC = (objectPos - TP_Controller.Instance.transform.position).sqrMagnitude;
+	//				Debug.Log("Eror");
+	//			}
+
+				//AUMENTAR DISTANCEPLAYER O CAUSA PROBLEMAS, QUITAR DIRECTAMENTE ¿?
+				if (distanceSqr < nearestDistanceSqr && distancePlayerNPC < 16.0f) {
+					Objeto objeto1, objeto2;
+
+					if(nearestObj != null)
+					{
+						objeto1 = nearestObj.gameObject.GetComponent<Objeto>();
+					}
+					else
+						objeto1 = null;
+
+					if(objeto1 != null)
+					{
+						if (objeto1.CurrentState == Objeto.State.Accionable)
+						{
+							objeto1.SetState(Objeto.State.Alejado);
+							objeto1.DesactivarTextoAcciones();
+
+//							Sprite s2 = Resources.Load<Sprite>("transparent");
+//							objeto1.ChangeCursorUI(s2);
+						}
+					}
+					
+					nearestObj = obj.transform;
+
+					objeto2 = nearestObj.gameObject.GetComponent<Objeto>();
+
+					if (objeto2.CurrentState != Objeto.State.Accionable)
+					{
+						objeto2.SetState(Objeto.State.Accionable);
+						objeto2.ActivarTextoAcciones();
+//						Sprite s = Resources.Load<Sprite>("mouse");
+//						objeto2.ChangeCursorUI(s);
+					}
+
+					nearestDistanceSqr = distanceSqr;
+				}
+				else
+				{
+					Objeto objeto1 = obj.transform.gameObject.GetComponent<Objeto>();
+					objeto1.SetState(Objeto.State.Alejado);
+					objeto1.DesactivarTextoAcciones();
+//					Sprite s2 = Resources.Load<Sprite>("transparent");
+//					objeto1.ChangeCursorUI(s2);
+				}
+			}
+		}
+			
+
+
+		return nearestObj;
+	}
+
+	public static float DistanceToLine(Ray ray, Vector3 point)
+	{
+		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
 	}
 
 	//crea o encuentra una camara y la asigna a la clase

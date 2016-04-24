@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class Objeto : MonoBehaviour {
 
 	public int ID;
+
 	public List<Accion> acciones;
+	private List<GameObject> textoAcciones;
 
 	//Sensibilidad del ratón
 	public float X_MouseSensitivity = 0.02f;
@@ -15,7 +17,9 @@ public class Objeto : MonoBehaviour {
 	public float distanciaMin = 4.0f; //Distancia máxima con la que se puede interactuar con el objeto
 
 	private GameObject canvas;
-	private Transform cursorUI; //Objeto que representa al cursor
+	public GameObject name;
+	public GameObject objetoRender;
+	private GameObject cursorUI; //Objeto que representa al cursor
 	private Camera camara; //La cámara del juego
 
 	private bool moverCanvas; //Indica si el canvas debe moverse con respecto a la cámara
@@ -44,13 +48,15 @@ public class Objeto : MonoBehaviour {
 	void Start () {
 		//Buscamos el world canvas del objeto
 		canvas = gameObject.transform.GetChild(1).gameObject;
+		objetoRender = gameObject.transform.GetChild(0).gameObject;
+		name = canvas.transform.GetChild(1).gameObject;
 
 		//Buscamos la cámara activa y se la asignamos al canvas
 		camara = GameObject.FindWithTag("MainCamera").GetComponent<Camera> ();
 		canvas.GetComponent<Canvas> ().worldCamera = camara;
 
 		//Buscamos el objeto cursorUI y lo asignamos
-		cursorUI = gameObject.transform.GetChild(1).GetChild(0).gameObject.transform;
+		cursorUI = gameObject.transform.GetChild(1).GetChild(0).gameObject;
 
 		//Asignamos la posicion inicial y el vector de movimientos
 		//y el estado inicial de otras variables
@@ -58,12 +64,16 @@ public class Objeto : MonoBehaviour {
 		moveVector = new Vector3(0f, 0f, 0f);
 
 		SetState(State.Alejado);
+//		Sprite s = Resources.Load<Sprite>("transparent");
+//		ChangeCursorUI(s);
+
 		CargarAcciones();
 		CrearAccionesUI();
 	}
 
 	private void CargarAcciones()
 	{
+		textoAcciones = new List<GameObject>();
 		acciones = new List<Accion>();
 		acciones.Add(new Accion());
 		acciones.Add(new Accion());
@@ -86,6 +96,9 @@ public class Objeto : MonoBehaviour {
 			vec.z = 0f;
 
 			GameObject TextGO = new GameObject("myTextGO");
+
+			textoAcciones.Add(TextGO);
+
 			TextGO.transform.SetParent(canvas.transform, false);
 			TextGO.tag = "AccionUI";
 
@@ -104,7 +117,7 @@ public class Objeto : MonoBehaviour {
 			ang += (360/acciones.Count)*Mathf.Deg2Rad;
 		}
 
-		cursorUI.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
+		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
 	}
 		
 	void Update () {
@@ -116,10 +129,11 @@ public class Objeto : MonoBehaviour {
 			ShowCanvas();
 			MoverCanvas();
 
-			if (distance <= distanciaMin)
-			{
-				SetState(State.Accionable);
-			}
+//			if (distance <= distanciaMin)
+//			{
+//				SetState(State.Accionable);
+//
+//			}
 			break;
 		case State.Accionable:
 			CalcularDistancia();
@@ -131,11 +145,14 @@ public class Objeto : MonoBehaviour {
 			{
 				TP_Controller.Instance.SetState(TP_Controller.State.Objetos);
 				SetState(State.Accionando);
+				Sprite s = Resources.Load<Sprite>("cursor");
+				ChangeCursorUI(s);
 			}
-			else if (distance > distanciaMin)
-			{
-				SetState(State.Alejado);
-			}
+//			else if (distance > distanciaMin)
+//			{
+//				SetState(State.Alejado);
+//
+//			}
 			break;
 		case State.Accionando:
 			ShowCanvas();
@@ -148,6 +165,8 @@ public class Objeto : MonoBehaviour {
 			{
 				DefaultCursorUI();
 				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+				Sprite s = Resources.Load<Sprite>("mouse");
+				ChangeCursorUI(s);
 				SetState(State.Accionable);
 			}
 			break;
@@ -161,10 +180,30 @@ public class Objeto : MonoBehaviour {
 		distance = Vector3.Distance(TP_Controller.CharacterController.transform.position, transform.position);
 	}
 
+	public void ActivarTextoAcciones()
+	{
+		name.SetActive(false);
+		cursorUI.SetActive(true);
+		for(int i = 0; i < textoAcciones.Count; i++)
+		{
+			textoAcciones[i].SetActive(true);
+		}
+	}
+
+	public void DesactivarTextoAcciones()
+	{
+		name.SetActive(true);
+		cursorUI.SetActive(false);
+		for(int i = 0; i < textoAcciones.Count; i++)
+		{
+			textoAcciones[i].SetActive(false);
+		}
+	}
+
 	private void ShowCanvas() {
 		//Regula la transparencia del canvas según la distancia
-		float alpha = 3 - distance / 2.0f;
-		canvas.GetComponent<CanvasGroup>().alpha = alpha;
+//		float alpha = 3 - distance / 2.0f;
+//		canvas.GetComponent<CanvasGroup>().alpha = alpha;
 	}
 
 	private void MoverCanvas()
@@ -192,12 +231,18 @@ public class Objeto : MonoBehaviour {
 		//Asignamos la posición al objeto que hace de cursor
 		Vector3 CursorLimit = new Vector3(0f, 0f, 0f);
 		CursorLimit = initialPosition + delta;
-		cursorUI.position = CursorLimit;
+		cursorUI.transform.position = CursorLimit;
 	}
 
 	private void DefaultCursorUI()
 	{
 		moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
-		cursorUI.position = initialPosition; //Asignamos la posición inicial al objeto
+		cursorUI.transform.position = initialPosition; //Asignamos la posición inicial al objeto
+	}
+
+	public void ChangeCursorUI(Sprite im2)
+	{
+		Image im = cursorUI.GetComponent<Image>();
+		im.sprite = im2;
 	}
 }

@@ -11,13 +11,13 @@ public class CursorUIDetection : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
-			Debug.Log ("Entrando");
+//			Debug.Log ("Entrando");
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (other.tag == "AccionUI") {
-			Debug.Log ("Saliendo");
+//			Debug.Log ("Saliendo");
 		}
 	}
 }

@@ -53,6 +53,7 @@ public class TP_Controller : MonoBehaviour
 			HandleActionInput();
 
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+			TP_Camera.Instance.GetNearestTaggedObject();
 			break;
 		case State.Dialogo:
 		case State.Objetos:
@@ -66,7 +67,6 @@ public class TP_Controller : MonoBehaviour
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;
 		}
-
 
 	}
 
