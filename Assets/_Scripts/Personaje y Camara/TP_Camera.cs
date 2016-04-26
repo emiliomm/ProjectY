@@ -289,107 +289,6 @@ public class TP_Camera : MonoBehaviour
 		preOccludedDistance = startDistance;
 	}
 
-	public Transform GetNearestTaggedObject()
-	{
-		var nearestDistanceSqr = Mathf.Infinity;
-		var taggedGameObjects = GameObject.FindGameObjectsWithTag("ObjectoUI");
-		Transform nearestObj = null;
-
-		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-
-		Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);
-
-
-		// loop through each tagged object, remembering nearest one found
-		foreach (var obj in taggedGameObjects) {
-
-			Objeto objeto;
-				objeto = obj.gameObject.GetComponent<Objeto>();
-			if (!objeto.objetoRender.GetComponent<Renderer>().isVisible)
-			{
-
-
-
-					objeto.SetState(Objeto.State.Alejado);
-					
-					objeto.DesactivarTextoAcciones();
-//					Sprite s2 = Resources.Load<Sprite>("transparent");
-//					objeto.ChangeCursorUI(s2);
-
-
-			}
-			else{
-
-				var objectPos = obj.transform.position;
-				float distanceSqr, distancePlayerNPC;
-	//
-	//			if(Physics.Raycast(ray, out hit))
-	//			{
-					distanceSqr = DistanceToLine(ray, objectPos);
-	//			}
-	//			else{
-					distancePlayerNPC = (objectPos - TP_Controller.Instance.transform.position).sqrMagnitude;
-	//				Debug.Log("Eror");
-	//			}
-
-				//AUMENTAR DISTANCEPLAYER O CAUSA PROBLEMAS, QUITAR DIRECTAMENTE ¿?
-				if (distanceSqr < nearestDistanceSqr && distancePlayerNPC < 16.0f) {
-					Objeto objeto1, objeto2;
-
-					if(nearestObj != null)
-					{
-						objeto1 = nearestObj.gameObject.GetComponent<Objeto>();
-					}
-					else
-						objeto1 = null;
-
-					if(objeto1 != null)
-					{
-						if (objeto1.CurrentState == Objeto.State.Accionable)
-						{
-							objeto1.SetState(Objeto.State.Alejado);
-							objeto1.DesactivarTextoAcciones();
-
-//							Sprite s2 = Resources.Load<Sprite>("transparent");
-//							objeto1.ChangeCursorUI(s2);
-						}
-					}
-					
-					nearestObj = obj.transform;
-
-					objeto2 = nearestObj.gameObject.GetComponent<Objeto>();
-
-					if (objeto2.CurrentState != Objeto.State.Accionable)
-					{
-						objeto2.SetState(Objeto.State.Accionable);
-						objeto2.ActivarTextoAcciones();
-//						Sprite s = Resources.Load<Sprite>("mouse");
-//						objeto2.ChangeCursorUI(s);
-					}
-
-					nearestDistanceSqr = distanceSqr;
-				}
-				else
-				{
-					Objeto objeto1 = obj.transform.gameObject.GetComponent<Objeto>();
-					objeto1.SetState(Objeto.State.Alejado);
-					objeto1.DesactivarTextoAcciones();
-//					Sprite s2 = Resources.Load<Sprite>("transparent");
-//					objeto1.ChangeCursorUI(s2);
-				}
-			}
-		}
-			
-
-
-		return nearestObj;
-	}
-
-	public static float DistanceToLine(Ray ray, Vector3 point)
-	{
-		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
-	}
-
 	//crea o encuentra una camara y la asigna a la clase
 	public static void UseExistingOrCreateMainCamera()
 	{
@@ -423,5 +322,55 @@ public class TP_Camera : MonoBehaviour
 
 		//ponemos la variable targetLookAt encontrada o creada en la clase
 		myCamera.TargetLookAt = targetLookAt.transform;
+	}
+
+	public void GetNearestTaggedObject()
+	{
+		var nearestDistanceSqr = Mathf.Infinity;
+		var taggedGameObjects = GameObject.FindGameObjectsWithTag("ObjectoUI"); //Añadir al Manager en un dictionary
+		Transform nearestObj = null;
+
+		//Creamos un rayo que va desde la cámara hacia adelante
+		Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+		//Dubujamos el rayo
+		Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);
+
+		//Recorremos todos los objetos, guardando el más cercano
+		//Poniéndolos en estado alejado
+		foreach (var obj in taggedGameObjects)
+		{
+			Interactuable inter = obj.gameObject.GetComponent<Interactuable> ();
+
+			inter.SetState (Interactuable.State.Alejado);
+			inter.DesactivarTextoAcciones();
+
+			Vector3 objectPos = obj.transform.position;
+			float distanceSqr, distancePlayerNPC;
+
+			distanceSqr = DistanceToLine (ray, objectPos);
+			distancePlayerNPC = (objectPos - TP_Controller.Instance.transform.position).sqrMagnitude;
+
+			//AUMENTAR DISTANCEPLAYER O CAUSA PROBLEMAS, QUITAR DIRECTAMENTE ¿?
+			if (distanceSqr < nearestDistanceSqr && distancePlayerNPC < 16.0f && inter.isRendered())
+			{
+				nearestObj = obj.transform;
+				nearestDistanceSqr = distanceSqr;
+			}
+		}
+
+		//Si existe el más cercano, le cambiamos el estado a accionable
+		//Dándole foco
+		if(nearestObj != null)
+		{
+			Interactuable inter = nearestObj.gameObject.GetComponent<Interactuable>();
+			inter.SetState(Interactuable.State.Accionable);
+			inter.ActivarTextoAcciones();
+		}
+	}
+
+	private float DistanceToLine(Ray ray, Vector3 point)
+	{
+		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
 	}
 }

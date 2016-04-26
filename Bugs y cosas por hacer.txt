@@ -25,15 +25,13 @@ BUGS(POR ORDEN DE PRIORIDAD)
 
 COSAS POR HACER:
 
-- Comprobar como funcionan varios objetos juntos
-	- Foco en un solo objeto
-	- Cuando el personaje está mirando en contra del objeto, no debe poder ser manipulable
 - Hacer que el textbox sea permanente y apareza en la primera escena o sea creado por el Manager 
 - Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
 - Rediseñar el sistema de guardado con colas para guardar todo lo modificado una vez, no cada cosa a su bola
 - Al cargar un grupo em gruposModificados, borrarlo o dejarlo ¿?
 - Hacer que los objetos serializables tengan atributos privados con la etiqueta[serializableAtribute]
 - Hacer que los objetos serializables sean hijos de la clase MonoDevelop para que sea editable en Unity
+	-Usar un método estático para los constructores
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- En NPC_Dialogo o en NPC ¿?

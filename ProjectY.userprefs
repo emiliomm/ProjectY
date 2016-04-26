@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Personaje y Camara\TP_Camera.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Interactuable\Interactuable.cs">
     <Files>
-      <File FileName="Assets\_Scripts\Objetos\Objeto.cs" Line="22" Column="64" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="335" Column="72" />
-      <File FileName="Assets\_Scripts\Objetos\CursorUIDetection.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Objetos\Accion.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="121" Column="38" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion.cs" Line="7" Column="1" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="345" Column="47" />
+      <File FileName="Assets\_Scripts\Interactuable\NPC\NPC.cs" Line="34" Column="32" />
+      <File FileName="Assets\_Scripts\Interactuable\Objetos\Objeto.cs" Line="6" Column="16" />
+      <File FileName="Assets\_Scripts\Interactuable\CursorUIDetection.cs" Line="6" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

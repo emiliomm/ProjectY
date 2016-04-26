@@ -60,11 +60,12 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Mensaje.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\Accion.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\CursorUIDetection.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\Interactuable.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\NPC\NPC.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\Objetos\Objeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
-     <Compile Include="Assets\_Scripts\NPC\NPC.cs" />
-     <Compile Include="Assets\_Scripts\Objetos\Accion.cs" />
-     <Compile Include="Assets\_Scripts\Objetos\CursorUIDetection.cs" />
-     <Compile Include="Assets\_Scripts\Objetos\Objeto.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
@@ -115,7 +116,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
-     <None Include="Assets\_Scripts\Objetos\UIShader.shader" />
+     <None Include="Assets\_Scripts\Interactuable\UIShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />

@@ -3,21 +3,21 @@ using System.Collections;
 
 public class CursorUIDetection : MonoBehaviour {
 
-	Objeto obj; //Objeto del que forma parte el cursor
+	Interactuable obj;
 
 	void Start () {
-		obj = transform.parent.parent.gameObject.GetComponent<Objeto>();
+		obj = transform.parent.parent.gameObject.GetComponent<Interactuable>();
 	}
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
-//			Debug.Log ("Entrando");
+			Debug.Log ("Entrando");
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (other.tag == "AccionUI") {
-//			Debug.Log ("Saliendo");
+			Debug.Log ("Saliendo");
 		}
 	}
 }

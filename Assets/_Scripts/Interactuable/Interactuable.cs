@@ -4,21 +4,17 @@ using System.Collections.Generic;
 
 using UnityEngine.UI;
 
-public class Objeto : MonoBehaviour {
-
-	public int ID;
-
-	public List<Accion> acciones;
-	private List<GameObject> textoAcciones;
-
+public class Interactuable : MonoBehaviour {
+	
 	//Sensibilidad del ratón
 	public float X_MouseSensitivity = 0.02f;
 	public float Y_MouseSensitivity = 0.02f;
-	public float distanciaMin = 4.0f; //Distancia máxima con la que se puede interactuar con el objeto
+
+	private List<GameObject> Acciones;
 
 	private GameObject canvas;
-	public GameObject name;
-	public GameObject objetoRender;
+	private GameObject nombre;
+	private GameObject objetoRender;
 	private GameObject cursorUI; //Objeto que representa al cursor
 	private Camera camara; //La cámara del juego
 
@@ -45,49 +41,76 @@ public class Objeto : MonoBehaviour {
 		_state = newState;
 	}
 
+	public float distanciaMin = 4.0f; //Distancia máxima con la que se puede interactuar
+
 	void Start () {
-		//Buscamos el world canvas del objeto
-		canvas = gameObject.transform.GetChild(1).gameObject;
+		
+		//Asignamos los objetos correspondientes
 		objetoRender = gameObject.transform.GetChild(0).gameObject;
-		name = canvas.transform.GetChild(1).gameObject;
+		canvas = gameObject.transform.GetChild(1).gameObject;
+		nombre = canvas.transform.GetChild(0).gameObject;
+		cursorUI = canvas.transform.GetChild(1).gameObject;
 
 		//Buscamos la cámara activa y se la asignamos al canvas
 		camara = GameObject.FindWithTag("MainCamera").GetComponent<Camera> ();
-		canvas.GetComponent<Canvas> ().worldCamera = camara;
-
-		//Buscamos el objeto cursorUI y lo asignamos
-		cursorUI = gameObject.transform.GetChild(1).GetChild(0).gameObject;
+		canvas.GetComponent<Canvas>().worldCamera = camara;
 
 		//Asignamos la posicion inicial y el vector de movimientos
-		//y el estado inicial de otras variables
 		initialPosition = cursorUI.transform.position;
 		moveVector = new Vector3(0f, 0f, 0f);
 
+		//Asignamos el estado inicial
 		SetState(State.Alejado);
-//		Sprite s = Resources.Load<Sprite>("transparent");
-//		ChangeCursorUI(s);
 
 		CargarAcciones();
-		CrearAccionesUI();
 	}
 
 	private void CargarAcciones()
 	{
-		textoAcciones = new List<GameObject>();
-		acciones = new List<Accion>();
-		acciones.Add(new Accion());
-		acciones.Add(new Accion());
-		acciones.Add(new Accion());
-		acciones.Add(new Accion());
-		acciones.Add(new Accion());
-		acciones.Add(new Accion());
+		Acciones = new List<GameObject>();
+
+//		GameObject AccionGO = new GameObject("Accion");
+//		AccionGO.AddComponent<Accion>();
+//		Acciones.Add(AccionGO);
+
+//		acciones.Add(new Accion());
+//		acciones.Add(new Accion());
+//		acciones.Add(new Accion());
+//		acciones.Add(new Accion());
+//		acciones.Add(new Accion());
+
+		//Cargamos la UI de las acciones actuales
+		CargarAccionesUI();
 	}
 
-	private void CrearAccionesUI()
+	public void AddAccion(int num, string nombre)
+	{
+		GameObject AccionGO = new GameObject("Accion");
+		Acciones.Add(AccionGO);
+
+		Accion ac = AccionGO.AddComponent<Accion>();
+		ac.ConstructorAccion(num, nombre);
+
+		AccionGO.transform.SetParent(canvas.transform, false);
+		AccionGO.tag = "AccionUI";
+
+		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
+		collider.size =  new Vector2(430f, 140f);
+
+		Text myText = AccionGO.AddComponent<Text>();
+		myText.text = ac.DevuelveNombre();
+		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		myText.fontSize = 80;
+		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
+		myText.material = Resources.Load("UI") as Material;
+	}
+
+	private void CargarAccionesUI()
 	{
 		float ang = 0;
 		float radio = 600;
-		for(int i = 0; i < acciones.Count; i++)
+
+		for(int i = 0; i < Acciones.Count; i++)
 		{
 			Vector3 vec = new Vector3();
 
@@ -95,26 +118,12 @@ public class Objeto : MonoBehaviour {
 			vec.y = radio*Mathf.Sin(ang);
 			vec.z = 0f;
 
-			GameObject TextGO = new GameObject("myTextGO");
+			GameObject AccionGO = Acciones[i];
 
-			textoAcciones.Add(TextGO);
+			AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
+			AccionGO.transform.localPosition += vec;
 
-			TextGO.transform.SetParent(canvas.transform, false);
-			TextGO.tag = "AccionUI";
-
-			BoxCollider collider = TextGO.AddComponent<BoxCollider>();
-			collider.size =  new Vector2(430f, 140f);
-
-			Text myText = TextGO.AddComponent<Text>();
-			myText.text = acciones[i].DevuelveNombre();
-			myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-			myText.fontSize = 80;
-			myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
-			myText.material = Resources.Load("UI") as Material;
-
-			TextGO.transform.localPosition += vec;
-
-			ang += (360/acciones.Count)*Mathf.Deg2Rad;
+			ang += (360/Acciones.Count)*Mathf.Deg2Rad;
 		}
 
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
@@ -128,12 +137,6 @@ public class Objeto : MonoBehaviour {
 			CalcularDistancia();
 			ShowCanvas();
 			MoverCanvas();
-
-//			if (distance <= distanciaMin)
-//			{
-//				SetState(State.Accionable);
-//
-//			}
 			break;
 		case State.Accionable:
 			CalcularDistancia();
@@ -148,11 +151,6 @@ public class Objeto : MonoBehaviour {
 				Sprite s = Resources.Load<Sprite>("cursor");
 				ChangeCursorUI(s);
 			}
-//			else if (distance > distanciaMin)
-//			{
-//				SetState(State.Alejado);
-//
-//			}
 			break;
 		case State.Accionando:
 			ShowCanvas();
@@ -178,26 +176,6 @@ public class Objeto : MonoBehaviour {
 	private void CalcularDistancia()
 	{
 		distance = Vector3.Distance(TP_Controller.CharacterController.transform.position, transform.position);
-	}
-
-	public void ActivarTextoAcciones()
-	{
-		name.SetActive(false);
-		cursorUI.SetActive(true);
-		for(int i = 0; i < textoAcciones.Count; i++)
-		{
-			textoAcciones[i].SetActive(true);
-		}
-	}
-
-	public void DesactivarTextoAcciones()
-	{
-		name.SetActive(true);
-		cursorUI.SetActive(false);
-		for(int i = 0; i < textoAcciones.Count; i++)
-		{
-			textoAcciones[i].SetActive(false);
-		}
 	}
 
 	private void ShowCanvas() {
@@ -244,5 +222,30 @@ public class Objeto : MonoBehaviour {
 	{
 		Image im = cursorUI.GetComponent<Image>();
 		im.sprite = im2;
+	}
+
+	public bool isRendered()
+	{
+		return objetoRender.GetComponent<Renderer>().isVisible;
+	}
+
+	public void ActivarTextoAcciones()
+	{
+		nombre.SetActive(false);
+		cursorUI.SetActive(true);
+		for(int i = 0; i < Acciones.Count; i++)
+		{
+			Acciones[i].SetActive(true);
+		}
+	}
+
+	public void DesactivarTextoAcciones()
+	{
+		nombre.SetActive(true);
+		cursorUI.SetActive(false);
+		for(int i = 0; i < Acciones.Count; i++)
+		{
+			Acciones[i].SetActive(false);
+		}
 	}
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour {
 
-	public int id;
+	public int ID;
 	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 	public NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
 
@@ -17,23 +17,27 @@ public class NPC : MonoBehaviour {
 		//Cargamos el dialogo
 		//Si existe un fichero guardado, cargamos ese fichero, sino
 		//cargamos el fichero por defecto
-		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + id.ToString()  + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml"))
 		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, Manager.rutaNPCDialogosGuardados + id.ToString()  + ".xml");
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(ID, Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml");
 		}
 		else
 		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(id, Manager.rutaNPCDialogos + id.ToString()  + ".xml");
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(ID, Manager.rutaNPCDialogos + ID.ToString()  + ".xml");
 		}
 
 		//Añadimos el npc al diccionario para tenerlo disponible
-		Manager.Instance.AddToNpcs(id, gameObject);
+		Manager.Instance.AddToNpcs(ID, gameObject);
+
+		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
+		inter.AddAccion(0, "Hablar");
+		inter.AddAccion(0, "Hablar");
 	}
 
 	void OnDestroy()
 	{
 		//Borramos el valor del diccionario cuando el npc no existe
-		Manager.Instance.RemoveFromNpcs(id);
+		Manager.Instance.RemoveFromNpcs(ID);
 	}
 
 	//Si colisionamos con el jugador, cargamos el nuevo texto
