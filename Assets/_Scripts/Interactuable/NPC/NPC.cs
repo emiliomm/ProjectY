@@ -29,8 +29,21 @@ public class NPC : MonoBehaviour {
 		//Añadimos el npc al diccionario para tenerlo disponible
 		Manager.Instance.AddToNpcs(ID, gameObject);
 
+		StartCoroutine(run());
+
+	}
+
+	public IEnumerator run()
+	{
+		yield return new WaitForSeconds (0.25f);
+
 		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
-		inter.AddAccion(0, "Hablar");
+
+		GameObject AccionGO = new GameObject("Accion");
+		AccionDialogo ac = AccionGO.AddComponent<AccionDialogo>();
+		ac.ConstructorAccion("Hablar", ID);
+
+		inter.AddAccion(AccionGO);
 	}
 
 	void OnDestroy()
@@ -74,7 +87,7 @@ public class NPC : MonoBehaviour {
 	}
 
 	//Inicia el dialogo
-	private void IniciaDialogo()
+	public void IniciaDialogo()
 	{
 		TextBox.Instance.StartDialogue(this, npc_diag);
 	}

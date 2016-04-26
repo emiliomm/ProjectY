@@ -10,6 +10,9 @@ public class Interactuable : MonoBehaviour {
 	public float X_MouseSensitivity = 0.02f;
 	public float Y_MouseSensitivity = 0.02f;
 
+	public bool cursorSobreAccion;
+	private Accion accionActiva;
+
 	private List<GameObject> Acciones;
 
 	private GameObject canvas;
@@ -62,7 +65,20 @@ public class Interactuable : MonoBehaviour {
 		//Asignamos el estado inicial
 		SetState(State.Alejado);
 
+		cursorSobreAccion = false;
+		accionActiva = null;
+
 		CargarAcciones();
+	}
+
+	public void AsignarAccion(Accion ac)
+	{
+		accionActiva = ac;
+	}
+
+	public void setAccionNull()
+	{
+		accionActiva = null;
 	}
 
 	private void CargarAcciones()
@@ -80,6 +96,28 @@ public class Interactuable : MonoBehaviour {
 //		acciones.Add(new Accion());
 
 		//Cargamos la UI de las acciones actuales
+		CargarAccionesUI();
+	}
+		
+	public void AddAccion(GameObject AccionGO)
+	{
+		Accion ac = AccionGO.GetComponent<Accion>();
+
+		Acciones.Add(AccionGO);
+
+		AccionGO.transform.SetParent(canvas.transform, false);
+		AccionGO.tag = "AccionUI";
+
+		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
+		collider.size =  new Vector2(430f, 140f);
+
+		Text myText = AccionGO.AddComponent<Text>();
+		myText.text = ac.DevuelveNombre();
+		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		myText.fontSize = 80;
+		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
+		myText.material = Resources.Load("UI") as Material;
+
 		CargarAccionesUI();
 	}
 
@@ -105,35 +143,6 @@ public class Interactuable : MonoBehaviour {
 		}
 
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
-	}
-
-	public void AddAccion(int num, string nombre)
-	{
-		GameObject AccionGO = new GameObject("Accion");
-		Acciones.Add(AccionGO);
-
-		Accion ac = AccionGO.AddComponent<Accion>();
-		ac.ConstructorAccion(num, nombre);
-
-		AccionGO.transform.SetParent(canvas.transform, false);
-		AccionGO.tag = "AccionUI";
-
-		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
-		collider.size =  new Vector2(430f, 140f);
-
-		Text myText = AccionGO.AddComponent<Text>();
-		myText.text = ac.DevuelveNombre();
-		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-		myText.fontSize = 80;
-		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
-		myText.material = Resources.Load("UI") as Material;
-
-		CargarAccionesUI();
-	}
-
-	public void EjecutarAccion()
-	{
-		
 	}
 		
 	void Update () {
@@ -166,18 +175,27 @@ public class Interactuable : MonoBehaviour {
 			{
 				MoviendoCursorUI();
 			}
-			else
+			else if (!cursorSobreAccion)
 			{
 				DefaultCursorUI();
 				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-				Sprite s = Resources.Load<Sprite>("mouse");
-				ChangeCursorUI(s);
 				SetState(State.Accionable);
+			}
+			else
+			{
+				SetState(State.Accionado);
 			}
 			break;
 		case State.Accionado:
+			EjecutarAccion();
 			break;
 		}
+	}
+
+	public void EjecutarAccion()
+	{
+		accionActiva.GetComponent<AccionDialogo>().EjecutarAccion();
+		SetState(State.Alejado);
 	}
 
 	private void CalcularDistancia()
@@ -223,6 +241,8 @@ public class Interactuable : MonoBehaviour {
 	{
 		moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
 		cursorUI.transform.position = initialPosition; //Asignamos la posición inicial al objeto
+		Sprite s = Resources.Load<Sprite>("mouse");
+		ChangeCursorUI(s);
 	}
 
 	public void ChangeCursorUI(Sprite im2)

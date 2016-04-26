@@ -11,13 +11,16 @@ public class CursorUIDetection : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
-//			other.transform.GetComponent<Accion>();
+			obj.cursorSobreAccion = true;
+			Accion ac = other.GetComponent<Accion>();
+			obj.AsignarAccion(ac);
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (other.tag == "AccionUI") {
-			Debug.Log ("Saliendo");
+			obj.cursorSobreAccion = false;
+			obj.setAccionNull();
 		}
 	}
 }

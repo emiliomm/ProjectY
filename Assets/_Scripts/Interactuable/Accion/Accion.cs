@@ -4,25 +4,13 @@ using System.Collections;
 public class Accion : MonoBehaviour{
 	//Crear herencia con los diferentes tipos de acciones
 
-	private int num_accion;
-	private string nombre;
+	protected string nombre;
 
-	void Start ()
+	protected virtual void Start ()
 	{
+		Debug.Log("Hola");
 		//Valores por defecto
 		nombre = "Accion1";
-		num_accion = -1;
-	}
-
-	public void ConstructorAccion(int num, string nom)
-	{
-		num_accion = num;
-		nombre = nom;
-	}
-
-	public int DevuelveNumeroAccion()
-	{
-		return num_accion;
 	}
 
 	public string DevuelveNombre()
