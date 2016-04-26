@@ -20,6 +20,11 @@ public class Accion : MonoBehaviour{
 		nombre = nom;
 	}
 
+	public int DevuelveNumeroAccion()
+	{
+		return num_accion;
+	}
+
 	public string DevuelveNombre()
 	{
 		return nombre;

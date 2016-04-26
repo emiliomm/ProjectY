@@ -83,28 +83,6 @@ public class Interactuable : MonoBehaviour {
 		CargarAccionesUI();
 	}
 
-	public void AddAccion(int num, string nombre)
-	{
-		GameObject AccionGO = new GameObject("Accion");
-		Acciones.Add(AccionGO);
-
-		Accion ac = AccionGO.AddComponent<Accion>();
-		ac.ConstructorAccion(num, nombre);
-
-		AccionGO.transform.SetParent(canvas.transform, false);
-		AccionGO.tag = "AccionUI";
-
-		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
-		collider.size =  new Vector2(430f, 140f);
-
-		Text myText = AccionGO.AddComponent<Text>();
-		myText.text = ac.DevuelveNombre();
-		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-		myText.fontSize = 80;
-		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
-		myText.material = Resources.Load("UI") as Material;
-	}
-
 	private void CargarAccionesUI()
 	{
 		float ang = 0;
@@ -127,6 +105,35 @@ public class Interactuable : MonoBehaviour {
 		}
 
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
+	}
+
+	public void AddAccion(int num, string nombre)
+	{
+		GameObject AccionGO = new GameObject("Accion");
+		Acciones.Add(AccionGO);
+
+		Accion ac = AccionGO.AddComponent<Accion>();
+		ac.ConstructorAccion(num, nombre);
+
+		AccionGO.transform.SetParent(canvas.transform, false);
+		AccionGO.tag = "AccionUI";
+
+		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
+		collider.size =  new Vector2(430f, 140f);
+
+		Text myText = AccionGO.AddComponent<Text>();
+		myText.text = ac.DevuelveNombre();
+		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		myText.fontSize = 80;
+		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
+		myText.material = Resources.Load("UI") as Material;
+
+		CargarAccionesUI();
+	}
+
+	public void EjecutarAccion()
+	{
+		
 	}
 		
 	void Update () {

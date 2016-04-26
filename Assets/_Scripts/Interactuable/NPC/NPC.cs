@@ -31,7 +31,6 @@ public class NPC : MonoBehaviour {
 
 		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
 		inter.AddAccion(0, "Hablar");
-		inter.AddAccion(0, "Hablar");
 	}
 
 	void OnDestroy()

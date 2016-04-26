@@ -11,7 +11,7 @@ public class CursorUIDetection : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
-			Debug.Log ("Entrando");
+//			other.transform.GetComponent<Accion>();
 		}
 	}
 
