@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class NPC : MonoBehaviour {
 
 	public int ID;
+	public string nombre;
 	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 	public NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
 
@@ -29,11 +30,12 @@ public class NPC : MonoBehaviour {
 		//Añadimos el npc al diccionario para tenerlo disponible
 		Manager.Instance.AddToNpcs(ID, gameObject);
 
-		StartCoroutine(run());
+		StartCoroutine(Cargar());
 
 	}
 
-	public IEnumerator run()
+	//Carga las acciones y el nombre
+	public IEnumerator Cargar()
 	{
 		yield return new WaitForSeconds (0.25f);
 
@@ -44,6 +46,7 @@ public class NPC : MonoBehaviour {
 		ac.ConstructorAccion("Hablar", ID);
 
 		inter.AddAccion(AccionGO);
+		inter.SetNombre(nombre);
 	}
 
 	void OnDestroy()

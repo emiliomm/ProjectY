@@ -7,7 +7,7 @@ public class AccionDialogo : Accion {
 
 	protected override void Start()
 	{
-		Debug.Log("Personality: Start");
+		//LLamamos al método de la clase base
 		base.Start();
 	}
 
@@ -22,6 +22,8 @@ public class AccionDialogo : Accion {
 		return id_npc;
 	}
 
+	//Ejecuta la acción de AccionDialogo
+	//Carga el dialogo del npc indicado
 	public void EjecutarAccion()
 	{
 		GameObject npc = Manager.Instance.GetNPC(id_npc);

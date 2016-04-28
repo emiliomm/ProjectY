@@ -6,7 +6,7 @@ public class TP_Controller : MonoBehaviour
 	public static CharacterController CharacterController; //Nos permite lidiar con colisiones sin RigidBody
 	public static TP_Controller Instance; //Instancia propia de la clase
 
-	public enum State { Normal, Dialogo, Objetos }
+	public enum State { Normal, Dialogo, Interactuables }
 
 	State _state = State.Normal;
 	State _prevState;
@@ -56,7 +56,7 @@ public class TP_Controller : MonoBehaviour
 			TP_Camera.Instance.GetNearestTaggedObject();
 			break;
 		case State.Dialogo:
-		case State.Objetos:
+		case State.Interactuables:
 			
 			//guardamos el valor del movevector.y ya que vamos a transformarlo a 0 despues, pero necesitamos el valor
 			TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;

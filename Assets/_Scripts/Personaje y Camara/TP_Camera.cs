@@ -85,7 +85,7 @@ public class TP_Camera : MonoBehaviour
 			UpdatePosition();
 			break;
 		//Si se encuentra en otro estado, no hacemos nada
-		case TP_Controller.State.Objetos:
+		case TP_Controller.State.Interactuables:
 		case TP_Controller.State.Dialogo:
 			break;
 		}
