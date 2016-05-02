@@ -24,7 +24,8 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Como solucionarlo?
 
 COSAS POR HACER:
-
+- Mejorar implementación nombres NPC
+	- Cada NPC tendrá un array de nombres, para los NPCs con nombres desconocidos o que van cambiando a lo largo de la historia
 - Hacer que el textbox sea permanente y apareza en la primera escena o sea creado por el Manager 
 - Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
 - Rediseñar el sistema de guardado con colas para guardar todo lo modificado una vez, no cada cosa a su bola

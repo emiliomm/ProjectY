@@ -65,6 +65,7 @@
      <Compile Include="Assets\_Scripts\Interactuable\CursorUIDetection.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Interactuable.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\NPC\NPC.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\NPC\NPCDatos.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Objetos\Objeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
@@ -113,6 +114,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
+     <None Include="Assets\StreamingAssets\NPC\1.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
@@ -141,6 +143,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\TwirlEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
+     <None Include="Assets\StreamingAssets\NPC\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />

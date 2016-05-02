@@ -17,9 +17,13 @@ public class Manager : MonoBehaviour {
 
 	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
 	public List<Grupo> GruposActivos; //grupos activos
+
+	private string nombreJugador;
+
 	private List<int> GruposAcabados; //ids de los grupos acabados
 
 	//Lista de rutas
+	public static string rutaNPCs;
 	public static string rutaNPCDialogos;
 	public static string rutaNPCDialogosGuardados;
 	public static string rutaIntros;
@@ -45,11 +49,14 @@ public class Manager : MonoBehaviour {
 
 		Cursor.visible = false; //Oculta el cursor del ratón
 
+		nombreJugador = "Jugador";
+
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
 		npcs = new Dictionary<int,GameObject>();
 
 		//Cargamos las rutas
+		rutaNPCs = Application.dataPath + "/StreamingAssets/NPC/";
 		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 		rutaNPCDialogosGuardados = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
@@ -102,6 +109,11 @@ public class Manager : MonoBehaviour {
 		{
 			CargarGruposAcabados();
 		}
+	}
+
+	public string DevuelveNombreJugador()
+	{
+		return nombreJugador;
 	}
 
 	public void AddToNpcs(int id, GameObject gobj)

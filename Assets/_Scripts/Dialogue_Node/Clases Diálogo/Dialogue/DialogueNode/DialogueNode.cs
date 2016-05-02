@@ -8,6 +8,10 @@ namespace DialogueTree
     {
         public int NodeID = -1;
 
+		// -1 --> nombre del NPC del dialogo
+		// -2 --> nombre del jugador
+		// >= 0 --> nombre del NPC con el número
+		public int Nombre;
         public string Text;
 		public bool recorrido; //Indica si el nodo ha sido recorrido anteriormente
 		public bool destruido; //Indica si el dialogo va a ser destruido al acabar de leerlo
@@ -26,6 +30,11 @@ namespace DialogueTree
 			Grupos = new List<DialogueGrupo>();
 			GruposVariables = new List<DialogueGrupoVariable>();
         }
+
+		public int DevuelveNombre()
+		{
+			return Nombre;
+		}
 
 		public string DevuelveTexto()
 		{

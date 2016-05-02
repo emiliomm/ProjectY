@@ -14,12 +14,13 @@ public class TextBox : MonoBehaviour {
 
 	public static TextBox Instance; //Instancia propia de la clase
 
-	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo
+	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo, NO ESTÁ EN USO
 
 	private NPC_Dialogo npc_dialogo;
 	private NPC npc;
 
 	private GameObject dialogue_window;
+	private GameObject dialog_name;
 	private GameObject dialog_text;
 	private GameObject dialog_options;
 	private GameObject change_theme;
@@ -83,6 +84,7 @@ public class TextBox : MonoBehaviour {
 		dia_window_transform.localPosition = new Vector3(0, 0, 0);
 
 		//Quitar gameobject find
+		dialog_name = GameObject.Find("Text_NpcName");
 		dialog_text = GameObject.Find("Text_DiaNodeText");
 
 		dialog_options = GameObject.Find("ScrollView");
@@ -422,7 +424,10 @@ public class TextBox : MonoBehaviour {
 		option_15.SetActive(false);
 		change_theme.SetActive(true);
 
+		dialog_name.SetActive(true);
 		dialog_text.SetActive(true);
+
+		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
 		dialog_text.GetComponentInChildren<Text>().text = node.DevuelveTexto();
 		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
 		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);}); //Listener del botón
@@ -436,6 +441,7 @@ public class TextBox : MonoBehaviour {
 		//Mantiene el scroll arriba del todo al mostrar opciones
 		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
+		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
 		change_theme.SetActive(true);
 		option_1.SetActive(false);
@@ -510,7 +516,11 @@ public class TextBox : MonoBehaviour {
 	//Muestra el menu de mensajes del dialogo
 	private void display_npc_mensajes()
 	{
+		//Mantiene el scroll arriba del todo al mostrar opciones
+		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+
 		dialog_options.SetActive(true);
+		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
 		change_theme.SetActive(false);
 		option_1.SetActive(false);
@@ -633,5 +643,22 @@ public class TextBox : MonoBehaviour {
 		button.GetComponentInChildren<Text>().text = texto; //Texto del botón
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(num); }); //Listener del botón
+	}
+
+	private string DevuelveNombre(int num)
+	{
+		string nombre = "";
+
+		switch(num)
+		{
+		case -2:
+			nombre = Manager.Instance.DevuelveNombreJugador();
+			break;
+		case -1:
+			nombre = npc.DevuelveNombre();
+			break;
+		}
+
+		return nombre;
 	}
 }

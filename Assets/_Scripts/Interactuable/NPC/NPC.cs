@@ -7,14 +7,21 @@ using UnityEngine.UI;
 public class NPC : MonoBehaviour {
 
 	public int ID;
-	public string nombre;
-	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
-	public NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
 
-	private bool waitForPress;
+	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 
 	void Start()
 	{
+		StartCoroutine(Cargar());
+	}
+
+	//Carga las acciones y el nombre
+	public IEnumerator Cargar()
+	{
+		yield return new WaitForSeconds (0.25f);
+
+		nombre = Manager.Instance.DeserializeDataWithReturn<string>(Manager.rutaNPCs + ID.ToString()  + ".xml");
+
 		//Cargamos el dialogo
 		//Si existe un fichero guardado, cargamos ese fichero, sino
 		//cargamos el fichero por defecto
@@ -30,15 +37,6 @@ public class NPC : MonoBehaviour {
 		//Añadimos el npc al diccionario para tenerlo disponible
 		Manager.Instance.AddToNpcs(ID, gameObject);
 
-		StartCoroutine(Cargar());
-
-	}
-
-	//Carga las acciones y el nombre
-	public IEnumerator Cargar()
-	{
-		yield return new WaitForSeconds (0.25f);
-
 		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
 
 		GameObject AccionGO = new GameObject("Accion");
@@ -49,43 +47,25 @@ public class NPC : MonoBehaviour {
 		inter.SetNombre(nombre);
 	}
 
+	public string DevuelveNombre()
+	{
+		return nombre;
+	}
+
 	void OnDestroy()
 	{
 		//Borramos el valor del diccionario cuando el npc no existe
 		Manager.Instance.RemoveFromNpcs(ID);
 	}
-
-	//Si colisionamos con el jugador, cargamos el nuevo texto
+		
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player")
 		{
-			//Si se necesita pulsar el boton,activamos la variable waitfropress
-			if (requiredButtonPress) 
+			if (!requiredButtonPress && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
 			{
-				waitForPress = true;
-				return;
-			}
-			if (TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
 				IniciaDialogo();
-		}
-	}
-
-	//Al salir de la colision, desactivactivamos la variable waitforpress
-	void OnTriggerExit(Collider other)
-	{
-		if(other.tag == "Player")
-		{
-			waitForPress = false;
-		}
-	}
-
-	void Update()
-	{
-		//Si está esperando al input y pulsamos click derecho
-		if (waitForPress && Input.GetMouseButtonDown(1) && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
-		{
-			IniciaDialogo();
+			}
 		}
 	}
 
