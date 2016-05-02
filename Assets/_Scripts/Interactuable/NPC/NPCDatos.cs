@@ -5,11 +5,8 @@ using System.Collections.Generic;
 public class NPCDatos{
 	
 	public int ID;
-
-	[SerializeField]
-	private int nombreActual;
-	[SerializeField]
-	private List<string> nombres;
+	public int nombreActual;
+	public List<string> nombres;
 
 	public NPCDatos()
 	{

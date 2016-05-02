@@ -30,13 +30,10 @@ COSAS POR HACER:
 - Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
 - Rediseñar el sistema de guardado con colas para guardar todo lo modificado una vez, no cada cosa a su bola
 - Al cargar un grupo em gruposModificados, borrarlo o dejarlo ¿?
-- Hacer que los objetos serializables tengan atributos privados con la etiqueta[serializableAtribute]
 - Hacer que los objetos serializables sean hijos de la clase MonoDevelop para que sea editable en Unity
 	-Usar un método estático para los constructores
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- En NPC_Dialogo o en NPC ¿?
 	- Que sean modificables por Dialogo ¿?
-- Que aparezca el nombre en los dialogos (del jugador y otros)
-	- Añadir nombre NPCs
 
