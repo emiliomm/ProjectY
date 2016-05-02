@@ -43,6 +43,7 @@ public class Lanzador{
 			if(gobj != null)
 			{
 				NPC npc = gobj.GetComponent<NPC>() as NPC;
+				NPC_Dialogo diag = npc.DevuelveDialogo();
 
 				//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
 				//Comprobamos si tenemos que cambiar el indice de dialogo
@@ -50,11 +51,11 @@ public class Lanzador{
 				{
 					//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
 					//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
-					if(prioridad > npc.npc_diag.intros[num_dialogo].DevuelvePrioridad())
+					if(prioridad > diag.intros[num_dialogo].DevuelvePrioridad())
 						num_dialogo++;
 				}
-
-				npc.npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
+				diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
+				npc.ActualizarDialogo (diag);
 			}
 			else
 			{
@@ -65,11 +66,11 @@ public class Lanzador{
 				//cargamos el fichero por defecto
 				if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
 				}
 				else
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
 				}
 
 				npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
@@ -90,7 +91,10 @@ public class Lanzador{
 			if(gobj != null)
 			{
 				NPC npc = gobj.GetComponent<NPC>() as NPC;
-				npc.npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+				NPC_Dialogo diag = npc.DevuelveDialogo();
+
+				diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+				npc.ActualizarDialogo (diag);
 			}
 			else
 			{
@@ -101,11 +105,11 @@ public class Lanzador{
 				//cargamos el fichero por defecto
 				if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
 				}
 				else
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
 				}
 
 				npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));

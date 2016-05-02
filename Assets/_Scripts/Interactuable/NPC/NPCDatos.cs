@@ -3,19 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class NPCDatos{
+	
+	public int ID;
 
-	private List<string> nombres;
+	[SerializeField]
 	private int nombreActual;
+	[SerializeField]
+	private List<string> nombres;
 
-	private NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
-
-	public NPC_Dialogo DevuelveDialogo()
+	public NPCDatos()
 	{
-		return npc_diag;
+		nombres = new List<string>();
 	}
 
 	public string DevuelveNombreActual()
 	{
 		return nombres[nombreActual];
+	}
+
+	public static NPCDatos LoadNPCDatos(string path)
+	{
+		NPCDatos npc_datos = Manager.Instance.DeserializeDataWithReturn<NPCDatos>(path);
+
+		return npc_datos;
+	}
+
+	public void Serialize()
+	{
+		Manager.Instance.SerializeData(this, Manager.rutaNPCDatos, Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 	}
 }

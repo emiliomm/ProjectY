@@ -10,6 +10,9 @@ public class NPC : MonoBehaviour {
 
 	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 
+	private NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
+	private NPCDatos datos;
+
 	void Start()
 	{
 		StartCoroutine(Cargar());
@@ -20,18 +23,27 @@ public class NPC : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (0.25f);
 
-		nombre = Manager.Instance.DeserializeDataWithReturn<string>(Manager.rutaNPCs + ID.ToString()  + ".xml");
+		//Si existe un fichero guardado, cargamos ese fichero, sino
+		//cargamos el fichero por defecto
+		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
+		{
+			datos = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml");
+		}
+		else
+		{
+			datos = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
+		}
 
 		//Cargamos el dialogo
 		//Si existe un fichero guardado, cargamos ese fichero, sino
 		//cargamos el fichero por defecto
 		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml"))
 		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(ID, Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml");
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml");
 		}
 		else
 		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(ID, Manager.rutaNPCDialogos + ID.ToString()  + ".xml");
+			npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + ID.ToString()  + ".xml");
 		}
 
 		//Añadimos el npc al diccionario para tenerlo disponible
@@ -44,12 +56,12 @@ public class NPC : MonoBehaviour {
 		ac.ConstructorAccion("Hablar", ID);
 
 		inter.AddAccion(AccionGO);
-		inter.SetNombre(nombre);
+		inter.SetNombre(datos.DevuelveNombreActual());
 	}
 
 	public string DevuelveNombre()
 	{
-		return nombre;
+		return datos.DevuelveNombreActual();
 	}
 
 	void OnDestroy()
@@ -79,5 +91,10 @@ public class NPC : MonoBehaviour {
 	{
 		npc_diag = dia; //Actualizamos el dialogo del objeto
 		dia.Serialize(); //Lo convertimos en XML
+	}
+
+	public NPC_Dialogo DevuelveDialogo()
+	{
+		return npc_diag;
 	}
 }

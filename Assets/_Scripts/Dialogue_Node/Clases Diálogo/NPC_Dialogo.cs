@@ -232,7 +232,7 @@ public class NPC_Dialogo{
 				{
 					GameObject gobj = npcs[j];
 					NPC npc = gobj.GetComponent<NPC>() as NPC;
-					NPC_Dialogo n_diag = npc.npc_diag;
+					NPC_Dialogo n_diag = npc.DevuelveDialogo ();
 
 					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
 					{
@@ -259,8 +259,8 @@ public class NPC_Dialogo{
 				for(var j = num_npcs; j < fileInfo.Length; j++)
 				{
 					bool actualizado = false;
-					string name = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
-					NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(int.Parse(name), Manager.rutaNPCDialogosGuardados + name  + ".xml");
+					string id = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
+					NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + id  + ".xml");
 
 					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
 					{
@@ -315,7 +315,9 @@ public class NPC_Dialogo{
 				if(gobj != null)
 				{
 					NPC npc = gobj.GetComponent<NPC>() as NPC;
-					npc.npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
+					NPC_Dialogo dialog = npc.DevuelveDialogo ();
+					dialog.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
+					npc.ActualizarDialogo (dialog);
 				}
 				else
 				{
@@ -326,11 +328,11 @@ public class NPC_Dialogo{
 					//cargamos el fichero por defecto
 					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
 					}
 					else
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
 					}
 
 					npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
@@ -357,7 +359,9 @@ public class NPC_Dialogo{
 				if(gobj != null)
 				{
 					NPC npc = gobj.GetComponent<NPC>() as NPC;
-					npc.npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+					NPC_Dialogo dialog = npc.DevuelveDialogo ();
+					dialog.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+					npc.ActualizarDialogo (dialog);
 				}
 				else
 				{
@@ -368,11 +372,11 @@ public class NPC_Dialogo{
 					//cargamos el fichero por defecto
 					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
 					}
 					else
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(IDNpc, Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
 					}
 
 					npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
@@ -464,7 +468,7 @@ public class NPC_Dialogo{
 		return mensajes.Any(x => x.ID == id);
 	}
 
-	public static NPC_Dialogo LoadNPCDialogue(int id, string path)
+	public static NPC_Dialogo LoadNPCDialogue(string path)
 	{
 		NPC_Dialogo npc_dialogo = Manager.Instance.DeserializeDataWithReturn<NPC_Dialogo>(path);
 

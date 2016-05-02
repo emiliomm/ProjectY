@@ -23,7 +23,8 @@ public class Manager : MonoBehaviour {
 	private List<int> GruposAcabados; //ids de los grupos acabados
 
 	//Lista de rutas
-	public static string rutaNPCs;
+	public static string rutaNPCDatos;
+	public static string rutaNPCDatosGuardados;
 	public static string rutaNPCDialogos;
 	public static string rutaNPCDialogosGuardados;
 	public static string rutaIntros;
@@ -56,7 +57,8 @@ public class Manager : MonoBehaviour {
 		npcs = new Dictionary<int,GameObject>();
 
 		//Cargamos las rutas
-		rutaNPCs = Application.dataPath + "/StreamingAssets/NPC/";
+		rutaNPCDatos = Application.dataPath + "/StreamingAssets/NPCDatos/";
+		rutaNPCDatosGuardados = Application.persistentDataPath + "/NPC_Datos_Saves/";
 		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 		rutaNPCDialogosGuardados = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
@@ -76,6 +78,11 @@ public class Manager : MonoBehaviour {
 
 	private void ComprobarArchivosDirectorios()
 	{
+		if (!System.IO.Directory.Exists(rutaNPCDatosGuardados))
+		{
+			System.IO.Directory.CreateDirectory(rutaNPCDatosGuardados);
+		}
+
 		//Creamos el directorio donde guardaremos los dialogos de los NPCs si no existe ya
 		if (!System.IO.Directory.Exists(rutaNPCDialogosGuardados))
 		{
