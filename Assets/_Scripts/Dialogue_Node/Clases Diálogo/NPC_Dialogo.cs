@@ -439,6 +439,81 @@ public class NPC_Dialogo{
 				}
 			}
 		}
+
+		for(int i = 0; i < node.DevuelveNumeroNombres(); i++)
+		{
+			int IDNpc = node.Nombres[i].DevuelveIDNpc();
+			int Indice = node.Nombres[i].DevuelveIndiceNombre();
+
+			if(IDNpc == -1)
+			{
+				GameObject gobj = Manager.Instance.GetNPC(ID);
+
+				if(gobj != null)
+				{
+					NPC npc = gobj.GetComponent<NPC>() as NPC;
+					NPCDatos d = npc.DevuelveDatos();
+
+					int indiceActual = d.DevuelveIndiceNombre();
+
+					if (indiceActual < Indice)
+					{
+						d.SetIndiceNombre(Indice);
+					}
+
+					d.Serialize();
+
+					Interactuable inter = gobj.GetComponentInParent<Interactuable>();
+					inter.SetNombre(d.DevuelveNombreActual());
+				}
+			}
+			else
+			{
+				GameObject gobj = Manager.Instance.GetNPC(IDNpc);
+
+				if(gobj != null)
+				{
+					NPC npc = gobj.GetComponent<NPC>() as NPC;
+					NPCDatos d = npc.DevuelveDatos();
+
+					int indiceActual = d.DevuelveIndiceNombre();
+
+					if (indiceActual < Indice)
+					{
+						d.SetIndiceNombre(Indice);
+					}
+
+					d.Serialize();
+
+					Interactuable inter = gobj.GetComponentInParent<Interactuable>();
+					inter.SetNombre(d.DevuelveNombreActual());
+				}
+				else
+				{
+					NPCDatos d;
+
+					//Si existe un fichero guardado, cargamos ese fichero, sino
+					//cargamos el fichero por defecto
+					if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml"))
+					{
+						d = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml");
+					}
+					else
+					{
+						d = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatos + IDNpc.ToString()  + ".xml");
+					}
+
+					int indiceActual = d.DevuelveIndiceNombre();
+
+					if (indiceActual < Indice)
+					{
+						d.SetIndiceNombre(Indice);
+					}
+
+					d.Serialize();
+				}
+			}
+		}
 	}
 
 	public void AnyadirIntro(Intro d)

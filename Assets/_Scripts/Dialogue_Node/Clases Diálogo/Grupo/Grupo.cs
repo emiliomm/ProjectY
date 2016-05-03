@@ -45,6 +45,6 @@ public class Grupo{
 	//CUIDADO !!! ESTO SERIALIZA A LA CARPETA DE GRUPOS MODIFICADOS, NO USAR PARA GUARDAR LA LISTA DE GRUPOS
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData<Grupo>(this, Manager.rutaGruposModificados, Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml");
+		Manager.Instance.SerializeData(this, Manager.rutaGruposModificados, Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml");
 	}
 }

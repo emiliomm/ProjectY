@@ -51,6 +51,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueGrupo.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueGrupoVariable.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueNode.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueNombre.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialgueOption.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupo.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupoVariables.cs" />

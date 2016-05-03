@@ -164,8 +164,7 @@ public class TextBox : MonoBehaviour {
 			dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
 			SetState(State.Intro_Texto);
 		}
-
-
+			
 		while(conversacion_activa)
 		{
 			switch(_state)

@@ -16,6 +16,7 @@ public class Manager : MonoBehaviour {
 	public static Manager Instance { get; private set; } //singleton
 
 	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
+	public Dictionary<string,object> ColaObjetos; //cola con los objetos por serializar
 	public List<Grupo> GruposActivos; //grupos activos
 
 	private string nombreJugador;
@@ -55,6 +56,7 @@ public class Manager : MonoBehaviour {
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
 		npcs = new Dictionary<int,GameObject>();
+		ColaObjetos = new Dictionary<string,object>();
 
 		//Cargamos las rutas
 		rutaNPCDatos = Application.dataPath + "/StreamingAssets/NPCDatos/";
@@ -212,6 +214,22 @@ public class Manager : MonoBehaviour {
 	public void GuardarGruposAcabados()
 	{
 		SerializeData(GruposAcabados, rutaGruposAcabados, rutaGruposAcabados + "GruposAcabados.xml");
+	}
+
+	public void AddToColaObjetos(string path, object obj)
+	{
+		ColaObjetos.Add(path, obj);
+	}
+
+	public void SerializarCola()
+	{
+		foreach(KeyValuePair<string, object> entry in ColaObjetos)
+		{
+			// do something with entry.Value or entry.Key
+			SerializeData(entry.Value, Path.GetDirectoryName(entry.Key), entry.Key);
+		}
+
+		ColaObjetos.Clear();
 	}
 
 	/*

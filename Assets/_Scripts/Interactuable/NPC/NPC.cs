@@ -59,11 +59,6 @@ public class NPC : MonoBehaviour {
 		inter.SetNombre(datos.DevuelveNombreActual());
 	}
 
-	public string DevuelveNombre()
-	{
-		return datos.DevuelveNombreActual();
-	}
-
 	void OnDestroy()
 	{
 		//Borramos el valor del diccionario cuando el npc no existe
@@ -96,5 +91,15 @@ public class NPC : MonoBehaviour {
 	public NPC_Dialogo DevuelveDialogo()
 	{
 		return npc_diag;
+	}
+
+	public NPCDatos DevuelveDatos()
+	{
+		return datos;
+	}
+
+	public string DevuelveNombre()
+	{
+		return datos.DevuelveNombreActual();
 	}
 }

@@ -32,6 +32,7 @@
 						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
+						<Nombres><DialogueNombre><IDNpc>-1</IDNpc><indiceNombre>1</indiceNombre></DialogueNombre></Nombres>
 						<Options>
 							<DialogueOption>
 								<Text>Sí</Text>

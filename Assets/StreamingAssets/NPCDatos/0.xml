@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <NPCDatos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<ID>0</ID>
-	<nombreActual>0</nombreActual>
+	<indiceNombre>0</indiceNombre>
 	<nombres>
 		<string>Lucas</string>
+		<string>Lucas2</string>
 	</nombres>
 </NPCDatos>

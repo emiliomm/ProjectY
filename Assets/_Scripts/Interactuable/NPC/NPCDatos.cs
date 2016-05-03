@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NPCDatos{
 	
 	public int ID;
-	public int nombreActual;
+	public int indiceNombre;
 	public List<string> nombres;
 
 	public NPCDatos()
@@ -13,9 +13,19 @@ public class NPCDatos{
 		nombres = new List<string>();
 	}
 
+	public void SetIndiceNombre(int indice)
+	{
+		indiceNombre = indice;
+	}
+
 	public string DevuelveNombreActual()
 	{
-		return nombres[nombreActual];
+		return nombres[indiceNombre];
+	}
+
+	public int DevuelveIndiceNombre()
+	{
+		return indiceNombre;
 	}
 
 	public static NPCDatos LoadNPCDatos(string path)
@@ -27,6 +37,6 @@ public class NPCDatos{
 
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData(this, Manager.rutaNPCDatos, Manager.rutaNPCDatos + ID.ToString()  + ".xml");
+		Manager.Instance.SerializeData(this, Manager.rutaNPCDatosGuardados, Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml");
 	}
 }
