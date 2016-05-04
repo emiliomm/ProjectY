@@ -16,7 +16,12 @@ public class Manager : MonoBehaviour {
 	public static Manager Instance { get; private set; } //singleton
 
 	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
-	public Dictionary<string,object> ColaObjetos; //cola con los objetos por serializar
+
+
+	[XmlElement(typeof(Grupo))]
+	[XmlElement(typeof(NPC_Dialogo))]
+	[XmlElement(typeof(NPCDatos))]
+	public List<ColaObjeto> ColaObjetos; //cola con los objetos por serializar
 	public List<Grupo> GruposActivos; //grupos activos
 
 	private string nombreJugador;
@@ -56,7 +61,7 @@ public class Manager : MonoBehaviour {
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
 		npcs = new Dictionary<int,GameObject>();
-		ColaObjetos = new Dictionary<string,object>();
+		ColaObjetos = new List<ColaObjeto>();
 
 		//Cargamos las rutas
 		rutaNPCDatos = Application.dataPath + "/StreamingAssets/NPCDatos/";
@@ -217,17 +222,21 @@ public class Manager : MonoBehaviour {
 	}
 
 	//Comprobar si ya existe y si lo hace actualizarlo
-	public void AddToColaObjetos(string path, object obj)
+	public void AddToColaObjetos(string path, ObjetoSer obj)
 	{
-		ColaObjetos.Add(path, obj);
+		ColaObjeto item = new ColaObjeto(obj, path);
+		ColaObjetos.Add(item);
 	}
 
 	public void SerializarCola()
 	{
-		foreach(KeyValuePair<string, object> entry in ColaObjetos)
+		for(var i = 0; i < ColaObjetos.Count; i++)
 		{
-			// do something with entry.Value or entry.Key
-			SerializeData(entry.Value, Path.GetDirectoryName(entry.Key), entry.Key);
+			string ruta = ColaObjetos[i].GetRuta();
+
+			ColaObjetos[i].GetObjeto().GetType();
+
+			SerializeData(ColaObjetos[i].GetObjeto(), Path.GetDirectoryName(ruta), ruta);
 		}
 
 		ColaObjetos.Clear();

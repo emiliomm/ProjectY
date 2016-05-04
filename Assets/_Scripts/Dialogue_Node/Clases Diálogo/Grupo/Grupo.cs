@@ -9,7 +9,8 @@ using System.Text;
 
 using DialogueTree;
 
-public class Grupo{
+[XmlRoot("ObjetoSer")]
+public class Grupo : ObjetoSer{
 	
 	public int idGrupo;
 	public List<int> variables;

@@ -10,7 +10,8 @@ using System.Linq;
 
 using DialogueTree;
 
-public class NPC_Dialogo{
+[XmlRoot("ObjetoSer")]
+public class NPC_Dialogo : ObjetoSer{
 	
 	public int ID;
 

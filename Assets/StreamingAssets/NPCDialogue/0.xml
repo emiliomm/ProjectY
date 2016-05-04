@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<NPC_Dialogo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<ID>0</ID>
 	<intros>
 		<Intro>
@@ -1081,4 +1081,4 @@
 			</dia>
 		</Mensaje>
 	</mensajes>
-</NPC_Dialogo>
+</ObjetoSer>

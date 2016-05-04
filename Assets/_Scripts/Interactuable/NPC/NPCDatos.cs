@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
-public class NPCDatos{
+[XmlRoot("ObjetoSer")]
+public class NPCDatos : ObjetoSer{
 	
 	public int ID;
 	public int indiceNombre;
