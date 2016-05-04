@@ -47,4 +47,9 @@ public class Grupo{
 	{
 		Manager.Instance.SerializeData(this, Manager.rutaGruposModificados, Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml");
 	}
+
+	public void AddToColaObjetos()
+	{
+		Manager.Instance.AddToColaObjetos(Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml", this);
+	}
 }

@@ -85,7 +85,8 @@ public class NPC : MonoBehaviour {
 	public void ActualizarDialogo(NPC_Dialogo dia)
 	{
 		npc_diag = dia; //Actualizamos el dialogo del objeto
-		dia.Serialize(); //Lo convertimos en XML
+		dia.AddToColaObjetos ();
+//		dia.Serialize(); //Lo convertimos en XML
 	}
 
 	public NPC_Dialogo DevuelveDialogo()

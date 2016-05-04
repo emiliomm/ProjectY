@@ -216,6 +216,7 @@ public class Manager : MonoBehaviour {
 		SerializeData(GruposAcabados, rutaGruposAcabados, rutaGruposAcabados + "GruposAcabados.xml");
 	}
 
+	//Comprobar si ya existe y si lo hace actualizarlo
 	public void AddToColaObjetos(string path, object obj)
 	{
 		ColaObjetos.Add(path, obj);
@@ -230,6 +231,13 @@ public class Manager : MonoBehaviour {
 		}
 
 		ColaObjetos.Clear();
+	}
+
+	public void ActualizarDatos()
+	{
+		Manager.Instance.SerializarCola ();
+		Manager.Instance.GuardarGruposActivos();
+		Manager.Instance.GuardarGruposAcabados();
 	}
 
 	/*

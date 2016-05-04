@@ -249,7 +249,9 @@ public class NPC_Dialogo{
 						}
 					}
 					num_npcs ++;
-					n_diag.Serialize();
+
+					n_diag.AddToColaObjetos ();
+//					n_diag.Serialize();
 				}
 					
 				//Ahora recorremos los ficheros guardadados
@@ -279,8 +281,10 @@ public class NPC_Dialogo{
 						}
 					}
 
-					if(actualizado)
-						n_diag.Serialize();
+					if (actualizado) {
+						n_diag.AddToColaObjetos ();
+//						n_diag.Serialize ();
+					}
 				}
 
 				//Por último, eliminamos el grupo del Manager
@@ -336,7 +340,8 @@ public class NPC_Dialogo{
 					}
 
 					npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-					npc_diag.Serialize();
+					npc_diag.AddToColaObjetos ();
+//					npc_diag.Serialize();
 				}
 			}
 		}
@@ -380,7 +385,8 @@ public class NPC_Dialogo{
 					}
 
 					npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-					npc_diag.Serialize();
+					npc_diag.AddToColaObjetos ();
+//					npc_diag.Serialize();
 				}
 			}
 		}
@@ -435,7 +441,8 @@ public class NPC_Dialogo{
 					}
 
 					//Guardamos el grupo en la ruta de grupos modificados
-					g.Serialize();
+					g.AddToColaObjetos ();
+//					g.Serialize();
 				}
 			}
 		}
@@ -461,7 +468,8 @@ public class NPC_Dialogo{
 						d.SetIndiceNombre(Indice);
 					}
 
-					d.Serialize();
+					d.AddToColaObjetos ();
+//					d.Serialize();
 
 					Interactuable inter = gobj.GetComponentInParent<Interactuable>();
 					inter.SetNombre(d.DevuelveNombreActual());
@@ -483,7 +491,8 @@ public class NPC_Dialogo{
 						d.SetIndiceNombre(Indice);
 					}
 
-					d.Serialize();
+					d.AddToColaObjetos ();
+//					d.Serialize();
 
 					Interactuable inter = gobj.GetComponentInParent<Interactuable>();
 					inter.SetNombre(d.DevuelveNombreActual());
@@ -510,7 +519,8 @@ public class NPC_Dialogo{
 						d.SetIndiceNombre(Indice);
 					}
 
-					d.Serialize();
+					d.AddToColaObjetos ();
+//					d.Serialize();
 				}
 			}
 		}
@@ -548,6 +558,11 @@ public class NPC_Dialogo{
 		NPC_Dialogo npc_dialogo = Manager.Instance.DeserializeDataWithReturn<NPC_Dialogo>(path);
 
 		return npc_dialogo;
+	}
+
+	public void AddToColaObjetos()
+	{
+		Manager.Instance.AddToColaObjetos (Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml", this);
 	}
 
 	public void Serialize()

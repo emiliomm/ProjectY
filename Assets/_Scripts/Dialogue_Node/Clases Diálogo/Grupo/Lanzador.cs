@@ -74,7 +74,8 @@ public class Lanzador{
 				}
 
 				npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-				npc_diag.Serialize();
+				npc_diag.AddToColaObjetos ();
+//				npc_diag.Serialize();
 			}
 
 		}
@@ -113,7 +114,8 @@ public class Lanzador{
 				}
 
 				npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-				npc_diag.Serialize();
+				npc_diag.AddToColaObjetos ();
+//				npc_diag.Serialize();
 			}
 		}
 	}
