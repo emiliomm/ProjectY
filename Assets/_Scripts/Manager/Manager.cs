@@ -17,16 +17,11 @@ public class Manager : MonoBehaviour {
 
 	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
 
-
-	[XmlElement(typeof(Grupo))]
-	[XmlElement(typeof(NPC_Dialogo))]
-	[XmlElement(typeof(NPCDatos))]
 	public List<ColaObjeto> ColaObjetos; //cola con los objetos por serializar
 	public List<Grupo> GruposActivos; //grupos activos
+	private List<int> GruposAcabados; //ids de los grupos acabados
 
 	private string nombreJugador;
-
-	private List<int> GruposAcabados; //ids de los grupos acabados
 
 	//Lista de rutas
 	public static string rutaNPCDatos;
