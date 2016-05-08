@@ -324,6 +324,7 @@ public class TP_Camera : MonoBehaviour
 		myCamera.TargetLookAt = targetLookAt.transform;
 	}
 
+	//USAR UNA ESFERA QUE ALMACENA UNA LISTA DE OBJETOS COLISIONADOS CON ONTRIGGER
 	public void GetNearestTaggedObject()
 	{
 		var nearestDistanceSqr = Mathf.Infinity;

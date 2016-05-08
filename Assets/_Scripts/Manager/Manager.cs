@@ -170,7 +170,7 @@ public class Manager : MonoBehaviour {
 
 	public Grupo DevolverGrupoActivo(int id)
 	{
-		return GruposActivos.Find (x => x.DevolverGrupoID () == id);
+		return GruposActivos.Find (x => x.DevolverIDGrupo () == id);
 	}
 
 	public void RemoveFromGruposActivos(int id)
@@ -208,7 +208,23 @@ public class Manager : MonoBehaviour {
 
 	public void GuardarGruposActivos()
 	{
+		//Antes de serializar los grupos activos, comprueba si
+		//entre ellos hay algún grupo modificado para eliminar su fichero
+		ComprobarGruposModificados();
 		SerializeData(GruposActivos, rutaGruposActivos, rutaGruposActivos + "GruposActivos.xml");
+	}
+		
+	public void ComprobarGruposModificados()
+	{
+		for(int i = 0; i < GruposActivos.Count; i++)
+		{
+			int ID = GruposActivos[i].DevolverIDGrupo();
+
+			if(System.IO.File.Exists(rutaGruposModificados + ID.ToString () + ".xml"))
+			{
+				System.IO.File.Delete(rutaGruposModificados + ID.ToString () + ".xml");
+			}
+		}
 	}
 
 	public void GuardarGruposAcabados()
@@ -216,7 +232,6 @@ public class Manager : MonoBehaviour {
 		SerializeData(GruposAcabados, rutaGruposAcabados, rutaGruposAcabados + "GruposAcabados.xml");
 	}
 
-	//Comprobar si ya existe y si lo hace actualizarlo
 	public void AddToColaObjetos(string path, ObjetoSer obj)
 	{
 		//Comprobamos si ya existe el objeto indicado
@@ -270,8 +285,9 @@ public class Manager : MonoBehaviour {
 		for(var i = 0; i < ColaObjetos.Count; i++)
 		{
 			string ruta = ColaObjetos[i].GetRuta();
+			ObjetoSer obj = ColaObjetos[i].GetObjeto();
 
-			SerializeData(ColaObjetos[i].GetObjeto(), Path.GetDirectoryName(ruta), ruta);
+			SerializeData(obj, Path.GetDirectoryName(ruta), ruta);
 		}
 
 		ColaObjetos.Clear();

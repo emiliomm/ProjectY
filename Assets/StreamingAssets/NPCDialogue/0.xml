@@ -18,13 +18,27 @@
 						<destruido>true</destruido>
 						<Options />
 						<Mensajes />
-						<Intros>
+						<GruposVariables>
+							<DialogueGrupoVariable>
+								<IDGrupo>0</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>
+							<DialogueGrupoVariable>
+								<IDGrupo>1</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>
+						</GruposVariables>
+<!--						<Intros>
 							<DialogueAddIntro>
 								<IDNpc>1</IDNpc>
 								<prioridad>1</prioridad>
 								<IDIntro>1</IDIntro>
 							</DialogueAddIntro>
-						</Intros>
+						</Intros>-->
 <!--						<Grupos>
 							<DialogueGrupo>
 								<IDGrupo>0</IDGrupo>
@@ -64,12 +78,12 @@
 						</Options>
 						<Mensajes />
 						<Intros />
-						<Grupos>
+<!--						<Grupos>
 							<DialogueGrupo>
 								<IDGrupo>0</IDGrupo>
-								<tipo>1</tipo>
+								<tipo>0</tipo>
 							</DialogueGrupo>
-						</Grupos>
+						</Grupos>-->
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>

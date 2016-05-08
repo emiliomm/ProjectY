@@ -23,21 +23,19 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Por qué? Probablemente debido a una colision box de un objeto que forma parte de la escena, investigar más ¿?
 	* ¿Como solucionarlo?
 
-- Que hacer con gruposModificados
-
-- Falta la transparencia de los Interactuables según distancia
-
 COSAS POR HACER:
-- Mejorar implementación nombres NPC
-	- Cada NPC tendrá un array de nombres, para los NPCs con nombres desconocidos o que van cambiando a lo largo de la historia
+- Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
+- Añadir una esfera con triggers que almacene una lista de objetos cercanos para no tener que estar comprobando toda la escena
+- Cuando el jugador sabe un nombre de un NPC y otro NPC nombra a ese con un nombre diferente, como implementar caminos diferentes:
+	- Si el NPC nombra al otro NPC con el nombre que el jugador sabe, va por un camino
+	- Si el NPC nombra al otro NPC con el nombre diferente al que el jugador sabe, va por otro camino
+- Falta la transparencia de los Interactuables según distancia
+- Falta implementar los mensajes de finalización de los Grupos, serán diferentes dependiendo de como haya acabado el Grupo
 - Hacer que el textbox sea permanente y apareza en la primera escena o sea creado por el Manager 
 - Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
-- Rediseñar el sistema de guardado con colas para guardar todo lo modificado una vez, no cada cosa a su bola
-- Al cargar un grupo em gruposModificados, borrarlo o dejarlo ¿?
 - Hacer que los objetos serializables sean hijos de la clase MonoDevelop para que sea editable en Unity
 	-Usar un método estático para los constructores
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
-	- En NPC_Dialogo o en NPC ¿?
 	- Que sean modificables por Dialogo ¿?
 

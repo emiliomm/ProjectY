@@ -22,7 +22,7 @@
 						<Grupos>
 							<DialogueGrupo>
 								<IDGrupo>0</IDGrupo>
-								<tipo>0</tipo>
+								<tipo>1</tipo>
 							</DialogueGrupo>
 						</Grupos>
 					</DialogueNode>

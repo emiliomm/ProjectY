@@ -11,7 +11,8 @@ using System.Linq;
 using DialogueTree;
 
 [XmlRoot("ObjetoSer")]
-public class NPC_Dialogo : ObjetoSer{
+public class NPC_Dialogo : ObjetoSer
+{
 	public int ID;
 
 	//Los intros y mensajes  por defecto de los npcs no pueden tener idGrupo
@@ -22,23 +23,23 @@ public class NPC_Dialogo : ObjetoSer{
 	{
 		intros = new List<Intro>();
 		mensajes = new List<Mensaje>();
-//		Prueba();
+	//		Prueba();
 	}
 
 	//OBSOLETA
-//	private void Prueba()
-//	{
-//		Intro d = new Intro("text_dia.xml");
-//		Intro d2 = new Intro("text_dia2.xml");
-//
-//		AnyadirIntro (d);
-//		AnyadirIntro (d2);
-//
-//		for(int i = 0; i < 5; i++)
-//		{
-//			mensajes.Add(new Mensaje("Opcion " + i.ToString(),rutaDialogos + "text_dia3.xml"));
-//		}
-//	}
+	//	private void Prueba()
+	//	{
+	//		Intro d = new Intro("text_dia.xml");
+	//		Intro d2 = new Intro("text_dia2.xml");
+	//
+	//		AnyadirIntro (d);
+	//		AnyadirIntro (d2);
+	//
+	//		for(int i = 0; i < 5; i++)
+	//		{
+	//			mensajes.Add(new Mensaje("Opcion " + i.ToString(),rutaDialogos + "text_dia3.xml"));
+	//		}
+	//	}
 
 	public int DevuelveNumeroIntros()
 	{
@@ -147,15 +148,31 @@ public class NPC_Dialogo : ObjetoSer{
 				//Si el grupo no está activo y no está en la lista de grupos acabados, lo añadimos
 				if (!Manager.Instance.GrupoActivoExiste(ID) && !Manager.Instance.GrupoAcabadoExiste(ID))
 				{
-					//Miramos primero en la lista de grupos modificados
-					if (System.IO.File.Exists (Manager.rutaGruposModificados + ID.ToString () + ".xml"))
+					//Comprobamos si el grupo modificado existe en la colaObjetos del Manager
+					//Buscamos en la cola de objetos
+					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + ID.ToString () + ".xml");
+
+					if(cobj != null)
 					{
-						Grupo.LoadGrupo (Manager.rutaGruposModificados + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);
+						ObjetoSer objs = cobj.GetObjeto();
+						Grupo g = objs as Grupo;
+						Grupo.LoadGrupo(g, ID, tipo_dialogo, ref num_dialogo);
+
+						//Borramos el grupo de la cola ahora que ya ha sido añadido
+						Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + ID.ToString () + ".xml");
 					}
-					//Si no está ahí, miramos en el directorio predeterminado
 					else
 					{
-						Grupo.LoadGrupo (Manager.rutaGrupos + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);	
+						//Miramos primero en la lista de grupos modificados
+						if (System.IO.File.Exists (Manager.rutaGruposModificados + ID.ToString () + ".xml"))
+						{
+							Grupo.LoadGrupo (Manager.rutaGruposModificados + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);
+						}
+						//Si no está ahí, miramos en el directorio predeterminado
+						else
+						{
+							Grupo.LoadGrupo (Manager.rutaGrupos + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);	
+						}
 					}
 				}
 			}
@@ -359,21 +376,31 @@ public class NPC_Dialogo : ObjetoSer{
 				{
 					NPC_Dialogo npc_diag;
 
-					//Cargamos el dialogo
-					//Si existe un fichero guardado, cargamos ese fichero, sino
-					//cargamos el fichero por defecto
-					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+					//Buscamos en la cola de objetos
+					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+
+					if(cobj != null)
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+						ObjetoSer objs = cobj.GetObjeto();
+						npc_diag = objs as NPC_Dialogo;
 					}
 					else
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+						//Cargamos el dialogo
+						//Si existe un fichero guardado, cargamos ese fichero, sino
+						//cargamos el fichero por defecto
+						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+						{
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+						}
+						else
+						{
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+						}
 					}
 
 					npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
 					npc_diag.AddToColaObjetos ();
-//					npc_diag.Serialize();
 				}
 			}
 		}
@@ -404,21 +431,31 @@ public class NPC_Dialogo : ObjetoSer{
 				{
 					NPC_Dialogo npc_diag;
 
-					//Cargamos el dialogo
-					//Si existe un fichero guardado, cargamos ese fichero, sino
-					//cargamos el fichero por defecto
-					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+					//Buscamos en la cola de objetos
+					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+
+					if(cobj != null)
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+						ObjetoSer objs = cobj.GetObjeto();
+						npc_diag = objs as NPC_Dialogo;
 					}
 					else
 					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+						//Cargamos el dialogo
+						//Si existe un fichero guardado, cargamos ese fichero, sino
+						//cargamos el fichero por defecto
+						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+						{
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+						}
+						else
+						{
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+						}
 					}
 
 					npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
 					npc_diag.AddToColaObjetos ();
-//					npc_diag.Serialize();
 				}
 			}
 		}
@@ -451,15 +488,27 @@ public class NPC_Dialogo : ObjetoSer{
 				{
 					Grupo g;
 
-					//Comprobamos si está en la lista de grupos modificados
-					if (System.IO.File.Exists (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml"))
+					//Comprobamos si el grupo modificado existe en la colaObjetos del Manager
+					//Buscamos en la cola de objetos
+					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+
+					if(cobj != null)
 					{
-						g = Grupo.CreateGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+						ObjetoSer objs = cobj.GetObjeto();
+						g = objs as Grupo;
 					}
-					//Si no está ahí, miramos en el directorio predeterminado
 					else
 					{
-						g = Grupo.CreateGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml");
+						//Comprobamos si está en la lista de grupos modificados
+						if (System.IO.File.Exists (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml"))
+						{
+							g = Grupo.CreateGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+						}
+						//Si no está ahí, miramos en el directorio predeterminado
+						else
+						{
+							g = Grupo.CreateGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml");
+						}
 					}
 
 					switch (tipo)
@@ -474,7 +523,6 @@ public class NPC_Dialogo : ObjetoSer{
 
 					//Guardamos el grupo en la ruta de grupos modificados
 					g.AddToColaObjetos ();
-//					g.Serialize();
 				}
 			}
 		}
@@ -484,55 +532,48 @@ public class NPC_Dialogo : ObjetoSer{
 			int IDNpc = node.Nombres[i].DevuelveIDNpc();
 			int Indice = node.Nombres[i].DevuelveIndiceNombre();
 
+			GameObject gobj;
+
 			if(IDNpc == -1)
 			{
-				GameObject gobj = Manager.Instance.GetNPC(ID);
-
-				if(gobj != null)
-				{
-					NPC npc = gobj.GetComponent<NPC>() as NPC;
-					NPCDatos d = npc.DevuelveDatos();
-
-					int indiceActual = d.DevuelveIndiceNombre();
-
-					if (indiceActual < Indice)
-					{
-						d.SetIndiceNombre(Indice);
-					}
-
-					d.AddToColaObjetos ();
-//					d.Serialize();
-
-					Interactuable inter = gobj.GetComponentInParent<Interactuable>();
-					inter.SetNombre(d.DevuelveNombreActual());
-				}
+				gobj = Manager.Instance.GetNPC(ID);
 			}
 			else
 			{
-				GameObject gobj = Manager.Instance.GetNPC(IDNpc);
+				gobj = Manager.Instance.GetNPC(IDNpc);
+			}
 
-				if(gobj != null)
+			if(gobj != null)
+			{
+				NPC npc = gobj.GetComponent<NPC>() as NPC;
+				NPCDatos d = npc.DevuelveDatos();
+
+				int indiceActual = d.DevuelveIndiceNombre();
+
+				if (indiceActual < Indice)
 				{
-					NPC npc = gobj.GetComponent<NPC>() as NPC;
-					NPCDatos d = npc.DevuelveDatos();
+					d.SetIndiceNombre(Indice);
+				}
 
-					int indiceActual = d.DevuelveIndiceNombre();
+				d.AddToColaObjetos ();
 
-					if (indiceActual < Indice)
-					{
-						d.SetIndiceNombre(Indice);
-					}
+				//Actualizamos el interactuable para que muestre el nombre modificado
+				Interactuable inter = gobj.GetComponentInParent<Interactuable>();
+				inter.SetNombre(d.DevuelveNombreActual());
+			}
+			else
+			{
+				NPCDatos d;
 
-					d.AddToColaObjetos ();
-//					d.Serialize();
+				ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml");
 
-					Interactuable inter = gobj.GetComponentInParent<Interactuable>();
-					inter.SetNombre(d.DevuelveNombreActual());
+				if(cobj != null)
+				{
+					ObjetoSer objs = cobj.GetObjeto();
+					d = objs as NPCDatos;
 				}
 				else
 				{
-					NPCDatos d;
-
 					//Si existe un fichero guardado, cargamos ese fichero, sino
 					//cargamos el fichero por defecto
 					if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml"))
@@ -543,17 +584,16 @@ public class NPC_Dialogo : ObjetoSer{
 					{
 						d = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatos + IDNpc.ToString()  + ".xml");
 					}
-
-					int indiceActual = d.DevuelveIndiceNombre();
-
-					if (indiceActual < Indice)
-					{
-						d.SetIndiceNombre(Indice);
-					}
-
-					d.AddToColaObjetos ();
-//					d.Serialize();
 				}
+
+				int indiceActual = d.DevuelveIndiceNombre();
+
+				if (indiceActual < Indice)
+				{
+					d.SetIndiceNombre(Indice);
+				}
+
+				d.AddToColaObjetos ();
 			}
 		}
 	}
