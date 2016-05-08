@@ -219,8 +219,50 @@ public class Manager : MonoBehaviour {
 	//Comprobar si ya existe y si lo hace actualizarlo
 	public void AddToColaObjetos(string path, ObjetoSer obj)
 	{
+		//Comprobamos si ya existe el objeto indicado
+		//en la cola para eliminarlo
+		if (ColaObjetoExiste(path))
+			RemoveFromColaObjetos(path);
+
 		ColaObjeto item = new ColaObjeto(obj, path);
 		ColaObjetos.Add(item);
+	}
+
+	public bool ColaObjetoExiste(string path)
+	{
+		bool existe = ColaObjetos.Any(x => x.GetRuta() == path);
+
+		return existe;
+	}
+
+	public ColaObjeto GetColaObjetos(string path)
+	{
+		return ColaObjetos.Find (x => x.GetRuta() == path);
+	}
+
+	public List<ObjetoSer> GetColaObjetosTipo(Type tip)
+	{
+		List<ObjetoSer> listaObjetos = new List<ObjetoSer>();
+
+		for(int i = 0; i < ColaObjetos.Count; i++)
+		{
+			if(ColaObjetos[i].GetObjeto().GetType() == tip)
+			{
+				listaObjetos.Add(ColaObjetos[i].GetObjeto());
+			}
+		}
+
+		return listaObjetos;
+	}
+
+	public void RemoveFromColaObjetos(string path)
+	{
+		ColaObjeto cobj = GetColaObjetos(path);
+
+		if (cobj != null)
+		{
+			ColaObjetos.Remove(cobj);
+		}
 	}
 
 	public void SerializarCola()
@@ -228,8 +270,6 @@ public class Manager : MonoBehaviour {
 		for(var i = 0; i < ColaObjetos.Count; i++)
 		{
 			string ruta = ColaObjetos[i].GetRuta();
-
-			ColaObjetos[i].GetObjeto().GetType();
 
 			SerializeData(ColaObjetos[i].GetObjeto(), Path.GetDirectoryName(ruta), ruta);
 		}

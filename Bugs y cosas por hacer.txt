@@ -23,6 +23,10 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Por qué? Probablemente debido a una colision box de un objeto que forma parte de la escena, investigar más ¿?
 	* ¿Como solucionarlo?
 
+- Que hacer con gruposModificados
+
+- Falta la transparencia de los Interactuables según distancia
+
 COSAS POR HACER:
 - Mejorar implementación nombres NPC
 	- Cada NPC tendrá un array de nombres, para los NPCs con nombres desconocidos o que van cambiando a lo largo de la historia

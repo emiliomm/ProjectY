@@ -61,23 +61,32 @@ public class Lanzador{
 			{
 				NPC_Dialogo npc_diag;
 
-				//Cargamos el dialogo
-				//Si existe un fichero guardado, cargamos ese fichero, sino
-				//cargamos el fichero por defecto
-				if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+				//Buscamos en la cola de objetos
+				ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+
+				if(cobj != null)
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+					ObjetoSer objs = cobj.GetObjeto();
+					npc_diag = objs as NPC_Dialogo;
 				}
 				else
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+					//Cargamos el dialogo
+					//Si existe un fichero guardado, cargamos ese fichero, sino
+					//cargamos el fichero por defecto
+					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+					}
+					else
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+					}
 				}
 
 				npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
 				npc_diag.AddToColaObjetos ();
-//				npc_diag.Serialize();
 			}
-
 		}
 
 		for(int i = 0; i < mensajes.Count; i++)
@@ -101,21 +110,31 @@ public class Lanzador{
 			{
 				NPC_Dialogo npc_diag;
 
-				//Cargamos el dialogo
-				//Si existe un fichero guardado, cargamos ese fichero, sino
-				//cargamos el fichero por defecto
-				if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+				//Buscamos en la cola de objetos
+				ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+
+				if(cobj != null)
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+					ObjetoSer objs = cobj.GetObjeto();
+					npc_diag = objs as NPC_Dialogo;
 				}
 				else
 				{
-					npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+					//Cargamos el dialogo
+					//Si existe un fichero guardado, cargamos ese fichero, sino
+					//cargamos el fichero por defecto
+					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml"))
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
+					}
+					else
+					{
+						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + ".xml");
+					}
 				}
 
 				npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
 				npc_diag.AddToColaObjetos ();
-//				npc_diag.Serialize();
 			}
 		}
 	}

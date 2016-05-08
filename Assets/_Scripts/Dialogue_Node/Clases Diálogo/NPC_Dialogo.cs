@@ -12,7 +12,6 @@ using DialogueTree;
 
 [XmlRoot("ObjetoSer")]
 public class NPC_Dialogo : ObjetoSer{
-	
 	public int ID;
 
 	//Los intros y mensajes  por defecto de los npcs no pueden tener idGrupo
@@ -107,12 +106,12 @@ public class NPC_Dialogo : ObjetoSer{
 			d = this.DevuelveDialogoIntro(num_dialogo);
 			dn = d.DevuelveNodo(node_id);
 
-			//Si está marcado que el dialogo se destruye, activamos la autodestrucción de este
-			if(dn.destruido == true)
-				intros [num_dialogo].Autodestruye = true;
-
 			if(dn.DevuelveRecorrido() != true)
 			{
+				//Si está marcado que el dialogo se destruye, activamos la autodestrucción de este
+				if(dn.destruido == true)
+					intros [num_dialogo].Autodestruye = true;
+
 				intros[num_dialogo].MarcarRecorrido(node_id);
 				AnyadirDialogueAdd(tipo, ref num_dialogo, dn);
 			}
@@ -121,12 +120,12 @@ public class NPC_Dialogo : ObjetoSer{
 			d = this.DevuelveDialogoMensajes(num_dialogo);
 			dn = d.DevuelveNodo(node_id);
 
-			//Si está marcado que el dialogo se destruye, activamos la autodestrucción de este
-			if(dn.destruido == true)
-				mensajes [num_dialogo].Autodestruye = true;
-
 			if(dn.DevuelveRecorrido() != true)
 			{
+				//Si está marcado que el dialogo se destruye, activamos la autodestrucción de este
+				if(dn.destruido == true)
+					mensajes [num_dialogo].Autodestruye = true;
+
 				mensajes[num_dialogo].MarcarRecorrido(node_id);
 				AnyadirDialogueAdd(tipo, ref num_dialogo, dn);
 			}
@@ -252,7 +251,40 @@ public class NPC_Dialogo : ObjetoSer{
 					num_npcs ++;
 
 					n_diag.AddToColaObjetos ();
-//					n_diag.Serialize();
+				}
+
+				//Ahora comprobamos a los npc de la cola de objetos del manager
+				List<ObjetoSer> listCola = new List<ObjetoSer>();
+				listCola = Manager.Instance.GetColaObjetosTipo(typeof(NPC_Dialogo));
+
+				for(var j = 0; j < listCola.Count; j++)
+				{
+					bool actualizado = false;
+
+					//Buscamos en la cola de objetos
+					ObjetoSer objs = listCola[j];
+					NPC_Dialogo n_diag = objs as NPC_Dialogo;
+
+					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
+					{
+						if(n_diag.intros[k].IDGrupo == ID)
+						{
+							n_diag.intros.RemoveAt(k);
+							actualizado = true;
+						}
+					}
+					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
+					{
+						if(n_diag.mensajes[k].IDGrupo == ID)
+						{
+							n_diag.mensajes.RemoveAt(k);
+							actualizado = true;
+						}
+					}
+
+					if (actualizado) {
+						n_diag.AddToColaObjetos ();
+					}
 				}
 					
 				//Ahora recorremos los ficheros guardadados
@@ -284,7 +316,6 @@ public class NPC_Dialogo : ObjetoSer{
 
 					if (actualizado) {
 						n_diag.AddToColaObjetos ();
-//						n_diag.Serialize ();
 					}
 				}
 

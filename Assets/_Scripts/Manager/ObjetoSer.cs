@@ -7,5 +7,5 @@ using System.Xml.Serialization;
 [XmlInclude(typeof(NPC_Dialogo))]
 [XmlInclude(typeof(NPCDatos))]
 public class ObjetoSer{
-	
+
 }
