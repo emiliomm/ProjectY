@@ -139,39 +139,39 @@ public class NPC_Dialogo : ObjetoSer
 	{
 		for(int i = 0; i < node.DevuelveNumeroGrupos(); i++)
 		{
-			int ID = node.Grupos[i].DevuelveID();
+			int IDGrupo = node.Grupos[i].DevuelveID();
 			bool tipo = node.Grupos[i].DevuelveTipo();
 
 			//Si el tipo es verdadero, cargamos el grupo
 			if(tipo)
 			{
 				//Si el grupo no está activo y no está en la lista de grupos acabados, lo añadimos
-				if (!Manager.Instance.GrupoActivoExiste(ID) && !Manager.Instance.GrupoAcabadoExiste(ID))
+				if (!Manager.Instance.GrupoActivoExiste(IDGrupo) && !Manager.Instance.GrupoAcabadoExiste(IDGrupo))
 				{
 					//Comprobamos si el grupo modificado existe en la colaObjetos del Manager
 					//Buscamos en la cola de objetos
-					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + ID.ToString () + ".xml");
+					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 
 					if(cobj != null)
 					{
 						ObjetoSer objs = cobj.GetObjeto();
 						Grupo g = objs as Grupo;
-						Grupo.LoadGrupo(g, ID, tipo_dialogo, ref num_dialogo);
+						Grupo.LoadGrupo(g, IDGrupo, tipo_dialogo, ref num_dialogo);
 
 						//Borramos el grupo de la cola ahora que ya ha sido añadido
-						Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + ID.ToString () + ".xml");
+						Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 					}
 					else
 					{
 						//Miramos primero en la lista de grupos modificados
-						if (System.IO.File.Exists (Manager.rutaGruposModificados + ID.ToString () + ".xml"))
+						if (System.IO.File.Exists (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml"))
 						{
-							Grupo.LoadGrupo (Manager.rutaGruposModificados + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);
+							Grupo.LoadGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);
 						}
 						//Si no está ahí, miramos en el directorio predeterminado
 						else
 						{
-							Grupo.LoadGrupo (Manager.rutaGrupos + ID.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);	
+							Grupo.LoadGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);	
 						}
 					}
 				}
@@ -186,7 +186,7 @@ public class NPC_Dialogo : ObjetoSer
 				{
 					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
 					{
-						if(this.intros[j].IDGrupo == ID)
+						if(this.intros[j].IDGrupo == IDGrupo)
 						{
 							this.intros.RemoveAt(j);
 
@@ -204,7 +204,7 @@ public class NPC_Dialogo : ObjetoSer
 					}
 					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
 					{
-						if(this.mensajes[j].IDGrupo == ID)
+						if(this.mensajes[j].IDGrupo == IDGrupo)
 						{
 							this.mensajes.RemoveAt(j);
 						}
@@ -215,14 +215,14 @@ public class NPC_Dialogo : ObjetoSer
 				{
 					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
 					{
-						if(this.intros[j].IDGrupo == ID)
+						if(this.intros[j].IDGrupo == IDGrupo)
 						{
 							this.intros.RemoveAt(j);
 						}
 					}
 					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
 					{
-						if(this.mensajes[j].IDGrupo == ID)
+						if(this.mensajes[j].IDGrupo == IDGrupo)
 						{
 							this.mensajes.RemoveAt(j);
 
@@ -253,14 +253,14 @@ public class NPC_Dialogo : ObjetoSer
 
 					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
 					{
-						if(n_diag.intros[k].IDGrupo == ID)
+						if(n_diag.intros[k].IDGrupo == IDGrupo)
 						{
 							n_diag.intros.RemoveAt(k);
 						}
 					}
 					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
 					{
-						if(n_diag.mensajes[k].IDGrupo == ID)
+						if(n_diag.mensajes[k].IDGrupo == IDGrupo)
 						{
 							n_diag.mensajes.RemoveAt(k);
 						}
@@ -284,7 +284,7 @@ public class NPC_Dialogo : ObjetoSer
 
 					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
 					{
-						if(n_diag.intros[k].IDGrupo == ID)
+						if(n_diag.intros[k].IDGrupo == IDGrupo)
 						{
 							n_diag.intros.RemoveAt(k);
 							actualizado = true;
@@ -292,7 +292,7 @@ public class NPC_Dialogo : ObjetoSer
 					}
 					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
 					{
-						if(n_diag.mensajes[k].IDGrupo == ID)
+						if(n_diag.mensajes[k].IDGrupo == IDGrupo)
 						{
 							n_diag.mensajes.RemoveAt(k);
 							actualizado = true;
@@ -316,7 +316,7 @@ public class NPC_Dialogo : ObjetoSer
 
 					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
 					{
-						if(n_diag.intros[k].IDGrupo == ID)
+						if(n_diag.intros[k].IDGrupo == IDGrupo)
 						{
 							n_diag.intros.RemoveAt(k);
 							actualizado = true;
@@ -324,7 +324,7 @@ public class NPC_Dialogo : ObjetoSer
 					}
 					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
 					{
-						if(n_diag.mensajes[k].IDGrupo == ID)
+						if(n_diag.mensajes[k].IDGrupo == IDGrupo)
 						{
 							n_diag.mensajes.RemoveAt(k);
 							actualizado = true;
@@ -337,7 +337,7 @@ public class NPC_Dialogo : ObjetoSer
 				}
 
 				//Por último, eliminamos el grupo del Manager
-				Manager.Instance.RemoveFromGruposActivos(ID);
+				Manager.Instance.RemoveFromGruposActivos(IDGrupo);
 
 				//FALTA ENVIAR LOS MENSAJES/INTROS DE FINALIZACIÓN
 			}
