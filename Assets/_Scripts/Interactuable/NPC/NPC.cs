@@ -82,10 +82,9 @@ public class NPC : MonoBehaviour {
 		TextBox.Instance.StartDialogue(this, npc_diag);
 	}
 
-	public void ActualizarDialogo(NPC_Dialogo dia)
+	public void ActualizarDialogo()
 	{
-		npc_diag = dia; //Actualizamos el dialogo del objeto
-		dia.AddToColaObjetos ();
+		npc_diag.AddToColaObjetos ();
 	}
 
 	public NPC_Dialogo DevuelveDialogo()

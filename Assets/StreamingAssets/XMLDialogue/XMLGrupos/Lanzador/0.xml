@@ -9,8 +9,14 @@
   </intros>
   <mensajes>
   	<DialogueAddMensaje>
-  		<IDNpc>2</IDNpc>
+  		<IDNpc>1</IDNpc>
+  		<IDTema>0</IDTema>
   		<IDMensaje>0</IDMensaje>
+  	</DialogueAddMensaje>
+  	<DialogueAddMensaje>
+  		<IDNpc>1</IDNpc>
+  		<IDTema>1</IDTema>
+  		<IDMensaje>1</IDMensaje>
   	</DialogueAddMensaje>
   </mensajes>
 </Lanzador>

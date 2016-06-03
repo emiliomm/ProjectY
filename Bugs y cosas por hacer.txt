@@ -24,6 +24,7 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Como solucionarlo?
 
 COSAS POR HACER:
+- Ordenar clase NPC_Dialogo, mirar que es necesario en cada método y quitar lo innecesario
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
 - Añadir una esfera con triggers que almacene una lista de objetos cercanos para no tener que estar comprobando toda la escena
 - Cuando el jugador sabe un nombre de un NPC y otro NPC nombra a ese con un nombre diferente, como implementar caminos diferentes:

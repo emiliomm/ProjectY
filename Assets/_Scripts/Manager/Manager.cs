@@ -9,7 +9,7 @@ using System;
 using System.Xml; 
 using System.Xml.Serialization; 
 using System.IO; 
-using System.Text; 
+using System.Text;
 
 public class Manager : MonoBehaviour {
 
@@ -29,6 +29,7 @@ public class Manager : MonoBehaviour {
 	public static string rutaNPCDialogos;
 	public static string rutaNPCDialogosGuardados;
 	public static string rutaIntros;
+	public static string rutaTemaMensajes;
 	public static string rutaMensajes;
 	public static string rutaGrupos;
 	public static string rutaGruposModificados;
@@ -64,6 +65,7 @@ public class Manager : MonoBehaviour {
 		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 		rutaNPCDialogosGuardados = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
+		rutaTemaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/XMLMensajeTemas/";
 		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/";
 		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/";
 		rutaGruposModificados = Application.persistentDataPath + "/Grupos_Modificados/";

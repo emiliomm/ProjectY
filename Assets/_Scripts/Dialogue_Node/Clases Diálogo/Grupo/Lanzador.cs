@@ -55,7 +55,7 @@ public class Lanzador{
 						num_dialogo++;
 				}
 				diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-				npc.ActualizarDialogo (diag);
+				npc.ActualizarDialogo ();
 			}
 			else
 			{
@@ -92,6 +92,7 @@ public class Lanzador{
 		for(int i = 0; i < mensajes.Count; i++)
 		{
 			int ID = mensajes[i].DevuelveID();
+			int IDTema = mensajes[i].DevuelveIDTema();
 			int IDNpc = mensajes[i].DevuelveIDNpc();
 
 			//Buscamos en el diccionario y lo añadimos
@@ -103,8 +104,8 @@ public class Lanzador{
 				NPC npc = gobj.GetComponent<NPC>() as NPC;
 				NPC_Dialogo diag = npc.DevuelveDialogo();
 
-				diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-				npc.ActualizarDialogo (diag);
+				diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+				npc.ActualizarDialogo ();
 			}
 			else
 			{
@@ -133,7 +134,7 @@ public class Lanzador{
 					}
 				}
 
-				npc_diag.AnyadirMensaje(Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+				npc_diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
 				npc_diag.AddToColaObjetos ();
 			}
 		}

@@ -44,7 +44,7 @@ public class TextBox : MonoBehaviour {
 
 	private int selected_option = 0;
 
-	public enum State {Ninguno, Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Texto, Mensajes_Opciones};
+	public enum State {Ninguno, Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Tema, Mensajes_Texto, Mensajes_Opciones};
 
 	State _state = State.Ninguno;
 	State _prevState;
@@ -151,8 +151,10 @@ public class TextBox : MonoBehaviour {
 
 	public IEnumerator run()
 	{
+		//principio del dialogo
+		int num_tema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema
 		int num_dialog = 0;
-		int node_id = 0; //principio del dialogo
+		int node_id = 0;
 		bool conversacion_activa = true;
 
 		Dialogue dialog = new Dialogue();
@@ -186,8 +188,8 @@ public class TextBox : MonoBehaviour {
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					RecorreDialogoNPC(ref num_dialog, node_id);
-					EliminarDialogo(ref num_dialog);
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
+					EliminarDialogo(ref num_dialog, num_tema);
 					//Si hay más dialogos, vamos al siguiente dialogo
 					if (npc_dialogo.AvanzaIntro(num_dialog))
 					{
@@ -203,7 +205,7 @@ public class TextBox : MonoBehaviour {
 
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					RecorreDialogoNPC(ref num_dialog, node_id);
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
@@ -235,7 +237,7 @@ public class TextBox : MonoBehaviour {
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					EliminarDialogo(ref num_dialog);
+					EliminarDialogo(ref num_dialog, num_tema);
 					//Si hay más dialogos, vamos al siguiente dialogo
 					if (npc_dialogo.AvanzaIntro(num_dialog))
 					{
@@ -258,7 +260,7 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case State.Mensajes_Menu:
-				if (npc_dialogo.DevuelveNumeroMensajes() != 0)
+				if ((npc_dialogo.DevuelveNumeroMensajes() + npc_dialogo.DevuelveNumeroTemaMensajes()) != 0)
 				{
 					display_npc_mensajes();
 					selected_option = -4;
@@ -276,16 +278,57 @@ public class TextBox : MonoBehaviour {
 						break;
 					//Cargamos el dialogo escogido
 					default:
-						SetState(State.Mensajes_Texto);
-						num_dialog = selected_option;
-						dialog = npc_dialogo.DevuelveDialogoMensajes(num_dialog);
-						node_id = 0;
+						//Se ha seleccionado un mensajeTema
+						if (selected_option < npc_dialogo.DevuelveNumeroTemaMensajes())
+						{
+							SetState(State.Mensajes_Tema);
+							node_id = selected_option;
+							num_tema = selected_option;
+						}
+						//Se ha seleccionado un mensaje sin tema
+						else
+						{
+							num_dialog = selected_option - npc_dialogo.DevuelveNumeroTemaMensajes();
+
+							SetState(State.Mensajes_Texto);
+							dialog = npc_dialogo.DevuelveDialogoMensajes(num_dialog);
+							num_tema = -1;
+							node_id = 0;
+						}
+
 						break;
 					}
 				}
 				else
 				{
 					conversacion_activa = false;
+				}
+
+				break;
+			case State.Mensajes_Tema:
+				display_npc_temaMensajes(npc_dialogo.DevuelveTemaMensaje(node_id));
+
+				selected_option = -4;
+				while (selected_option == -4) {
+					yield return new WaitForSeconds (0.25f);
+				}
+
+				switch(selected_option)
+				{
+				//Salimos del dialogo
+				case -3:
+				case -2:
+				case -1:
+					conversacion_activa = false;
+					break;
+					//Cargamos el dialogo escogido
+				default:
+					num_dialog = selected_option;
+
+					SetState(State.Mensajes_Texto);
+					dialog = npc_dialogo.DevuelveDialogoTemaMensajes(node_id, num_dialog);
+					node_id = 0;
+					break;
 				}
 
 				break;
@@ -308,11 +351,11 @@ public class TextBox : MonoBehaviour {
 					break;
 				case -1: //Acaba el dialogo actual
 					SetState(State.Mensajes_Menu);
-					RecorreDialogoNPC(ref num_dialog, node_id);
-					EliminarDialogo(ref num_dialog);
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
+					EliminarDialogo(ref num_dialog, num_tema);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					RecorreDialogoNPC(ref num_dialog, node_id);
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
 					DialogueNode dn = dialog.DevuelveNodo(node_id);
 					if(dn.DevuelveNumeroOpciones() > 0)
 					{
@@ -344,7 +387,7 @@ public class TextBox : MonoBehaviour {
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					EliminarDialogo(ref num_dialog);
+					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
@@ -368,34 +411,40 @@ public class TextBox : MonoBehaviour {
 
 	private void GuardarNPCDialogo()
 	{
-		npc.ActualizarDialogo(npc_dialogo);
+		npc.ActualizarDialogo();
 		Manager.Instance.ActualizarDatos ();
 	}
 
-	private void EliminarDialogo(ref int num_dialog)
+	private void EliminarDialogo(ref int num_dialog, int num_tema)
 	{
 		switch(_state)
 		{
 		case State.Intro_Texto:
 		case State.Intro_Opciones:
-			npc_dialogo.MirarSiDialogoSeAutodestruye(0, ref num_dialog);
+			npc_dialogo.MirarSiDialogoSeAutodestruye(0, ref num_dialog, num_tema);
 			break;
 		case State.Mensajes_Texto:
 		case State.Mensajes_Opciones:
-			npc_dialogo.MirarSiDialogoSeAutodestruye(1, ref num_dialog);
+			if (num_tema == -1)
+				npc_dialogo.MirarSiDialogoSeAutodestruye(1, ref num_dialog, num_tema);
+			else
+				npc_dialogo.MirarSiDialogoSeAutodestruye(2, ref num_dialog, num_tema);
 			break;
 		}
 	}
 
-	private void RecorreDialogoNPC(ref int num_dialog, int node_id)
+	private void RecorreDialogoNPC(ref int num_dialog, int node_id, int num_tema)
 	{
 		switch(_state)
 		{
 		case State.Intro_Texto:
-			npc_dialogo.MarcaDialogueNodeComoLeido(0, ref num_dialog, node_id);
+			npc_dialogo.MarcaDialogueNodeComoLeido(0, ref num_dialog, node_id, num_tema);
 			break;
 		case State.Mensajes_Texto:
-			npc_dialogo.MarcaDialogueNodeComoLeido(1, ref num_dialog, node_id);
+			if (num_tema == -1)
+				npc_dialogo.MarcaDialogueNodeComoLeido(1, ref num_dialog, node_id, num_tema);
+			else
+				npc_dialogo.MarcaDialogueNodeComoLeido(2, ref num_dialog, node_id, num_tema);
 			break;
 		}
 	}
@@ -510,85 +559,6 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
-	//Muestra el menu de mensajes del dialogo
-	private void display_npc_mensajes()
-	{
-		//Mantiene el scroll arriba del todo al mostrar opciones
-		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
-
-		dialog_options.SetActive(true);
-		dialog_name.SetActive(false);
-		dialog_text.SetActive(false);
-		change_theme.SetActive(false);
-		option_1.SetActive(false);
-		option_2.SetActive(false);
-		option_3.SetActive(false);
-		option_4.SetActive(false);
-		option_5.SetActive(false);
-		option_6.SetActive(false);
-		option_7.SetActive(false);
-		option_8.SetActive(false);
-		option_9.SetActive(false);
-		option_10.SetActive(false);
-		option_11.SetActive(false);
-		option_12.SetActive(false);
-		option_13.SetActive(false);
-		option_14.SetActive(false);
-		option_15.SetActive(false);
-
-		for(int i = 0; i < npc_dialogo.DevuelveNumeroMensajes() && i < 14; i++)
-		{
-			switch(i)
-			{
-			case 0:
-				set_question_button(option_1, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 1:
-				set_question_button(option_2, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 2:
-				set_question_button(option_3, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 3:
-				set_question_button(option_4, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 4:
-				set_question_button(option_5, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 5:
-				set_question_button(option_6, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 6:
-				set_question_button(option_7, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 7:
-				set_question_button(option_8, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 8:
-				set_question_button(option_9, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 9:
-				set_question_button(option_10, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 10:
-				set_question_button(option_11, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 11:
-				set_question_button(option_12, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 12:
-				set_question_button(option_13, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 13:
-				set_question_button(option_14, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			case 14:
-				set_question_button(option_15, npc_dialogo.DevuelveTextoMensaje(i), i);
-				break;
-			}
-		}
-	}
-
 	private void set_option_button(GameObject button, DialogueOption opt)
 	{
 		int num_grupo = opt.DevuelveNumeroGrupo(); //Miramos si la opción está asignada a algún grupo
@@ -634,6 +604,141 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
+	//Muestra el menu de mensajes del dialogo
+	private void display_npc_mensajes()
+	{
+		//Mantiene el scroll arriba del todo al mostrar opciones
+		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+
+		dialog_options.SetActive(true);
+		dialog_name.SetActive(false);
+		dialog_text.SetActive(false);
+		change_theme.SetActive(false);
+		option_1.SetActive(false);
+		option_2.SetActive(false);
+		option_3.SetActive(false);
+		option_4.SetActive(false);
+		option_5.SetActive(false);
+		option_6.SetActive(false);
+		option_7.SetActive(false);
+		option_8.SetActive(false);
+		option_9.SetActive(false);
+		option_10.SetActive(false);
+		option_11.SetActive(false);
+		option_12.SetActive(false);
+		option_13.SetActive(false);
+		option_14.SetActive(false);
+		option_15.SetActive(false);
+
+		int i = 0; //indice
+
+		for(i = 0; i < npc_dialogo.DevuelveNumeroTemaMensajes() && i < 14; i++)
+		{
+			switch(i)
+			{
+			case 0:
+				set_question_button(option_1, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 1:
+				set_question_button(option_2, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 2:
+				set_question_button(option_3, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 3:
+				set_question_button(option_4, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 4:
+				set_question_button(option_5, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 5:
+				set_question_button(option_6, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 6:
+				set_question_button(option_7, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 7:
+				set_question_button(option_8, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 8:
+				set_question_button(option_9, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 9:
+				set_question_button(option_10, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 10:
+				set_question_button(option_11, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 11:
+				set_question_button(option_12, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 12:
+				set_question_button(option_13, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 13:
+				set_question_button(option_14, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			case 14:
+				set_question_button(option_15, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+				break;
+			}
+		}
+
+		int j = i;
+
+		for(i = j; i < npc_dialogo.DevuelveNumeroMensajes() + j && i < 14; i++)
+		{
+			switch(i)
+			{
+			case 0:
+				set_question_button(option_1, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 1:
+				set_question_button(option_2, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 2:
+				set_question_button(option_3, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 3:
+				set_question_button(option_4, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 4:
+				set_question_button(option_5, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 5:
+				set_question_button(option_6, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 6:
+				set_question_button(option_7, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 7:
+				set_question_button(option_8, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 8:
+				set_question_button(option_9, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 9:
+				set_question_button(option_10, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 10:
+				set_question_button(option_11, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 11:
+				set_question_button(option_12, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 12:
+				set_question_button(option_13, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 13:
+				set_question_button(option_14, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			case 14:
+				set_question_button(option_15, npc_dialogo.DevuelveTextoMensaje(i-j), i);
+				break;
+			}
+		}
+	}
+
 	private void set_question_button(GameObject button, string texto, int num)
 	{
 		button.SetActive(true);
@@ -641,6 +746,86 @@ public class TextBox : MonoBehaviour {
 		button.GetComponent<Button>().onClick.RemoveAllListeners();
 		button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(num); }); //Listener del botón
 	}
+
+	//Muestra el menu de mensajes del dialogo
+	private void display_npc_temaMensajes(TemaMensaje tm)
+	{
+		//Mantiene el scroll arriba del todo al mostrar opciones
+		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+
+		dialog_options.SetActive(true);
+		dialog_name.SetActive(false);
+		dialog_text.SetActive(false);
+		change_theme.SetActive(false);
+		option_1.SetActive(false);
+		option_2.SetActive(false);
+		option_3.SetActive(false);
+		option_4.SetActive(false);
+		option_5.SetActive(false);
+		option_6.SetActive(false);
+		option_7.SetActive(false);
+		option_8.SetActive(false);
+		option_9.SetActive(false);
+		option_10.SetActive(false);
+		option_11.SetActive(false);
+		option_12.SetActive(false);
+		option_13.SetActive(false);
+		option_14.SetActive(false);
+		option_15.SetActive(false);
+
+		for(int i = 0; i < tm.DevuelveNumeroMensajes() && i < 14; i++)
+		{
+			switch(i)
+			{
+			case 0:
+				set_question_button(option_1, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 1:
+				set_question_button(option_2, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 2:
+				set_question_button(option_3, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 3:
+				set_question_button(option_4, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 4:
+				set_question_button(option_5, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 5:
+				set_question_button(option_6, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 6:
+				set_question_button(option_7, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 7:
+				set_question_button(option_8, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 8:
+				set_question_button(option_9, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 9:
+				set_question_button(option_10, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 10:
+				set_question_button(option_11, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 11:
+				set_question_button(option_12, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 12:
+				set_question_button(option_13, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 13:
+				set_question_button(option_14, tm.DevuelveTextoMensaje(i), i);
+				break;
+			case 14:
+				set_question_button(option_15, tm.DevuelveTextoMensaje(i), i);
+				break;
+			}
+		}
+	}
+
 
 	private string DevuelveNombre(int num)
 	{
