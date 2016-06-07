@@ -411,7 +411,7 @@ public class TextBox : MonoBehaviour {
 
 	private void GuardarNPCDialogo()
 	{
-		npc.ActualizarDialogo();
+		npc_dialogo.AddToColaObjetos();
 		Manager.Instance.ActualizarDatos ();
 	}
 

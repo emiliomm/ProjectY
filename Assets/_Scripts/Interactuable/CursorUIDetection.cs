@@ -11,16 +11,30 @@ public class CursorUIDetection : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
-			inter.cursorSobreAccion = true;
-			Accion ac = other.GetComponent<Accion>();
-			inter.AsignarAccion(ac);
+
+
+
+
+			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
+
+			if(aobj.getID() == inter.ID)
+			{
+				Debug.Log("Tocado");
+				inter.cursorSobreAccion = true;
+				inter.AsignarAccion(aobj.getIndice());
+			}
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (other.tag == "AccionUI") {
-			inter.cursorSobreAccion = false;
-			inter.setAccionNull();
+			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
+
+			if(aobj.getID() == inter.ID)
+			{
+				inter.cursorSobreAccion = false;
+				inter.setAccionNull();
+			}
 		}
 	}
 }

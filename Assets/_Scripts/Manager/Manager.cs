@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour {
 
 	public static Manager Instance { get; private set; } //singleton
 
-	public Dictionary<int,GameObject> npcs; //grupos de npcs cargados en la escena
+	public Dictionary<int,GameObject> interactuables; //grupos de npcs cargados en la escena
 
 	public List<ColaObjeto> ColaObjetos; //cola con los objetos por serializar
 	public List<Grupo> GruposActivos; //grupos activos
@@ -24,6 +24,8 @@ public class Manager : MonoBehaviour {
 	private string nombreJugador;
 
 	//Lista de rutas
+	public static string rutaDatosAccion;
+	public static string rutaDatosAccionGuardados;
 	public static string rutaNPCDatos;
 	public static string rutaNPCDatosGuardados;
 	public static string rutaNPCDialogos;
@@ -56,10 +58,12 @@ public class Manager : MonoBehaviour {
 
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
-		npcs = new Dictionary<int,GameObject>();
+		interactuables = new Dictionary<int,GameObject>();
 		ColaObjetos = new List<ColaObjeto>();
 
 		//Cargamos las rutas
+		rutaDatosAccion = Application.dataPath + "/StreamingAssets/DatosAccion/";
+		rutaDatosAccionGuardados = Application.persistentDataPath + "/DatosAccion/";
 		rutaNPCDatos = Application.dataPath + "/StreamingAssets/NPCDatos/";
 		rutaNPCDatosGuardados = Application.persistentDataPath + "/NPC_Datos_Saves/";
 		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
@@ -82,6 +86,11 @@ public class Manager : MonoBehaviour {
 
 	private void ComprobarArchivosDirectorios()
 	{
+		if (!System.IO.Directory.Exists(rutaDatosAccionGuardados))
+		{
+			System.IO.Directory.CreateDirectory(rutaDatosAccionGuardados);
+		}
+
 		if (!System.IO.Directory.Exists(rutaNPCDatosGuardados))
 		{
 			System.IO.Directory.CreateDirectory(rutaNPCDatosGuardados);
@@ -127,30 +136,30 @@ public class Manager : MonoBehaviour {
 		return nombreJugador;
 	}
 
-	public void AddToNpcs(int id, GameObject gobj)
+	public void AddToInteractuables(int id, GameObject gobj)
 	{
-		npcs.Add(id, gobj);
+		interactuables.Add(id, gobj);
 	}
 
-	public void RemoveFromNpcs(int id)
+	public void RemoveFromInteractuables(int id)
 	{
-		npcs.Remove(id);
+		interactuables.Remove(id);
 	}
 
-	public GameObject GetNPC(int id)
+	public GameObject GetInteractuables(int id)
 	{
 		GameObject npc;
 
 		//Coge el GameObject mediante referencia, sino existe, el gameobject es null
-		npcs.TryGetValue(id,out npc);
+		interactuables.TryGetValue(id,out npc);
 
 		return npc;
 	}
 
 	//Devuelve una lista de los valores del diccionario
-	public List<GameObject> GetAllNPCs()
+	public List<GameObject> GetAllInteractuables()
 	{
-		return npcs.Select(d => d.Value).ToList();
+		return interactuables.Select(d => d.Value).ToList();
 	}
 
 	public void AddToGruposActivos(Grupo g)

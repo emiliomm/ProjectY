@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Objeto : MonoBehaviour {
 
-	public int ID;
+	private int ID;
 	public string nombre;
 
 	// Use this for initialization
@@ -17,6 +17,8 @@ public class Objeto : MonoBehaviour {
 		yield return new WaitForSeconds (0.25f);
 
 		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
+
+		ID = inter.ID;
 
 		inter.SetNombre(nombre);
 	}

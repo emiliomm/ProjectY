@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour {
 
-	public int ID;
+	private int ID;
 
 	public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 
-	private NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
+//	private NPC_Dialogo npc_diag; //NPC del cual carga el dialogo
 	private NPCDatos datos;
 
 	void Start()
@@ -23,6 +23,10 @@ public class NPC : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (0.25f);
 
+		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
+
+		ID = inter.ID;
+
 		//Si existe un fichero guardado, cargamos ese fichero, sino
 		//cargamos el fichero por defecto
 		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
@@ -34,63 +38,65 @@ public class NPC : MonoBehaviour {
 			datos = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 		}
 
-		//Cargamos el dialogo
-		//Si existe un fichero guardado, cargamos ese fichero, sino
-		//cargamos el fichero por defecto
-		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml"))
-		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml");
-		}
-		else
-		{
-			npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + ID.ToString()  + ".xml");
-		}
+//		//Cargamos el dialogo
+//		//Si existe un fichero guardado, cargamos ese fichero, sino
+//		//cargamos el fichero por defecto
+//		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml"))
+//		{
+//			npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ID.ToString()  + ".xml");
+//		}
+//		else
+//		{
+//			npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + ID.ToString()  + ".xml");
+//		}
 
 		//Añadimos el npc al diccionario para tenerlo disponible
-		Manager.Instance.AddToNpcs(ID, gameObject);
+//		Manager.Instance.AddToNpcs(ID, gameObject);
 
-		Interactuable inter = transform.parent.gameObject.GetComponent<Interactuable>();
 
-		GameObject AccionGO = new GameObject("Accion");
-		AccionDialogo ac = AccionGO.AddComponent<AccionDialogo>();
-		ac.ConstructorAccion("Hablar", ID);
 
-		inter.AddAccion(AccionGO);
+//		GameObject AccionGO = new GameObject("Accion");
+//		AccionDialogo ac = AccionGO.AddComponent<AccionDialogo>();
+//		ac.ConstructorAccion("Hablar", ID);
+
+//		inter.AddAccion(AccionGO);
 		inter.SetNombre(datos.DevuelveNombreActual());
 	}
 
-	void OnDestroy()
-	{
-		//Borramos el valor del diccionario cuando el npc no existe
-		Manager.Instance.RemoveFromNpcs(ID);
-	}
+//	void OnDestroy()
+//	{
+//		//Borramos el valor del diccionario cuando el npc no existe
+//		Manager.Instance.RemoveFromInteractuables(ID);
+//	}
 		
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Player")
-		{
-			if (!requiredButtonPress && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
-			{
-				IniciaDialogo();
-			}
-		}
+		//Sirve para los dialogos automaticos
+		//Como implementar el dialogo automatico ¿?
+//		if (other.tag == "Player")
+//		{
+//			if (!requiredButtonPress && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
+//			{
+//				IniciaDialogo();
+//			}
+//		}
 	}
 
-	//Inicia el dialogo
-	public void IniciaDialogo()
-	{
-		TextBox.Instance.StartDialogue(this, npc_diag);
-	}
+//	//Inicia el dialogo
+//	public void IniciaDialogo()
+//	{
+//		TextBox.Instance.StartDialogue(this, npc_diag);
+//	}
 
-	public void ActualizarDialogo()
-	{
-		npc_diag.AddToColaObjetos ();
-	}
+//	public void ActualizarDialogo()
+//	{
+//		npc_diag.AddToColaObjetos ();
+//	}
 
-	public NPC_Dialogo DevuelveDialogo()
-	{
-		return npc_diag;
-	}
+//	public NPC_Dialogo DevuelveDialogo()
+//	{
+//		return npc_diag;
+//	}
 
 	public NPCDatos DevuelveDatos()
 	{

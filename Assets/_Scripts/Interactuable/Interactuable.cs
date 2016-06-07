@@ -2,10 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using System;
+using System.IO;
+using System.Xml.Serialization;
+
 using UnityEngine.UI;
 
 public class Interactuable : MonoBehaviour {
-	
+
+	public int ID;
+
 	//Sensibilidad del ratón
 	public float X_MouseSensitivity = 0.02f;
 	public float Y_MouseSensitivity = 0.02f;
@@ -13,12 +19,13 @@ public class Interactuable : MonoBehaviour {
 
 	public bool cursorSobreAccion;
 
-	private Accion accionActiva;
-	private List<GameObject> Acciones;
+	private List<GameObject> AccionesGO;
+	private List<DatosAccion> Acciones;
+	private int accionActiva; //indice de la accion activa, -1 = ninguna
 
 	private GameObject canvas;
 	private GameObject nombre; //Nombre del interactuable
-	private GameObject objetoRender;
+	private GameObject Objeto;
 	private GameObject cursorUI; //Objeto que representa al cursor
 	private Camera camara; //La cámara del juego
 
@@ -46,12 +53,16 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	void Start () {
-		
+		//Añadimos el interactuable al diccionario para tenerlo disponible
+		Manager.Instance.AddToInteractuables(ID, gameObject);
+
 		//Asignamos los objetos correspondientes
-		objetoRender = gameObject.transform.GetChild(0).gameObject;
+		Objeto = gameObject.transform.GetChild(0).gameObject;
 		canvas = gameObject.transform.GetChild(1).gameObject;
 		nombre = canvas.transform.GetChild(0).gameObject;
 		cursorUI = canvas.transform.GetChild(1).gameObject;
+
+		accionActiva = -1;
 
 		//Buscamos la cámara activa y se la asignamos al canvas
 		camara = GameObject.FindWithTag("MainCamera").GetComponent<Camera> ();
@@ -65,25 +76,91 @@ public class Interactuable : MonoBehaviour {
 		SetState(State.Alejado);
 
 		cursorSobreAccion = false;
-		accionActiva = null;
 
 		CargarAcciones();
 	}
 
+	void OnDestroy()
+	{
+		//Borramos el valor del diccionario cuando el npc no existe
+		Manager.Instance.RemoveFromInteractuables(ID);
+	}
+
 	private void CargarAcciones()
 	{
-		Acciones = new List<GameObject>();
+		AccionesGO = new List<GameObject>();
+
+		//Si existe un fichero guardado, cargamos ese fichero, sino
+		//cargamos el fichero por defecto
+		if (System.IO.File.Exists(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml"))
+		{
+			Acciones = LoadDatosAccion(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml");
+		}
+		else
+		{
+			Acciones = LoadDatosAccion(Manager.rutaDatosAccion + ID.ToString()  + ".xml");
+		}
+
+		for(int i = 0; i < Acciones.Count; i++)
+		{
+			GameObject AccionGO = new GameObject("Accion");
+			AccionObjeto aobj = AccionGO.AddComponent<AccionObjeto>();
+			aobj.setIndice(i);
+			aobj.setID(ID);
+
+			if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
+			{
+				DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
+				d.CargaDialogo();
+			}
+
+			CargaAccion(AccionGO);
+		}
 
 		//Cargamos la UI de las acciones actuales
 		CargarAccionesUI();
 	}
+
+	public static List<DatosAccion> LoadDatosAccion(string path)
+	{
+		List<DatosAccion> datosAccion = Manager.Instance.DeserializeDataWithReturn<List<DatosAccion>>(path);
+
+		return datosAccion;
+	}
+
+	private void CargaAccion(GameObject AccionGO)
+	{
+		AccionGO.transform.SetParent(canvas.transform, false);
+		AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
+		AccionGO.tag = "AccionUI";
+
+		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
+		collider.size =  new Vector2(430f, 140f);
+
+		Text myText = AccionGO.AddComponent<Text>();
+		myText.text = Acciones[AccionesGO.Count].DevolverNombre();
+		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		myText.fontSize = 80;
+		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
+		myText.material = Resources.Load("UI") as Material;
+
+		AccionesGO.Add(AccionGO);
+	}
+
+//	public void AddAccion(DatosAccion acc)
+//	{
+//		CargaAccion(AccionGO);
+//
+//		//Actualiza la UI de las acciones, ahora que se ha añadido una más
+//		CargarAccionesUI();
+//	}
 
 	private void CargarAccionesUI()
 	{
 		float ang = 0;
 		float radio = 600;
 
-		for(int i = 0; i < Acciones.Count; i++)
+		for(int i = 0; i < AccionesGO.Count; i++)
 		{
 			Vector3 vec = new Vector3();
 
@@ -91,15 +168,60 @@ public class Interactuable : MonoBehaviour {
 			vec.y = radio*Mathf.Sin(ang);
 			vec.z = 0f;
 
-			GameObject AccionGO = Acciones[i];
+			GameObject AccionGO = AccionesGO[i];
 
 			AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
 			AccionGO.transform.localPosition += vec;
 
-			ang += (360/Acciones.Count)*Mathf.Deg2Rad;
+			ang += (360/AccionesGO.Count)*Mathf.Deg2Rad;
 		}
 
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
+	}
+
+	//Devuelve un objeto NPC_Dialogo null si no lo ha encontrado
+	public NPC_Dialogo DevolverDialogo(int ID_Dialogo)
+	{
+		NPC_Dialogo diag = null;
+
+		for(int i = 0; i < Acciones.Count; i++)
+		{
+			DatosAccion dac = Acciones[i];
+
+			if(dac.GetType() == typeof(DatosAccionDialogo))
+			{
+				DatosAccionDialogo dacdial = dac as DatosAccionDialogo;
+				if(ID_Dialogo == dacdial.DevuelveIDDiag())
+				{
+					diag = dacdial.DevuelveDialogo();
+				}
+			}
+		}
+
+		return diag;
+	}
+
+	public List<NPC_Dialogo> DevolverDialogos()
+	{
+		List<NPC_Dialogo> dialogos = new List<NPC_Dialogo>();
+
+		for(int i = 0; i < Acciones.Count; i++)
+		{
+			DatosAccion dac = Acciones[i];
+
+			if(dac.GetType() == typeof(DatosAccionDialogo))
+			{
+				DatosAccionDialogo dacdial = dac as DatosAccionDialogo;
+				dialogos.Add(dacdial.DevuelveDialogo());
+			}
+		}
+
+		return dialogos;
+	}
+
+	public GameObject DevolverObjeto()
+	{
+		return Objeto;
 	}
 
 	public void SetNombre(string n)
@@ -107,41 +229,17 @@ public class Interactuable : MonoBehaviour {
 		nombre.GetComponent<Text>().text = n;
 	}
 
-	public void AsignarAccion(Accion ac)
+	public void AsignarAccion(int num)
 	{
-		accionActiva = ac;
+		accionActiva = num;
 	}
 
 	public void setAccionNull()
 	{
-		accionActiva = null;
-	}
-
-	public void AddAccion(GameObject AccionGO)
-	{
-		Acciones.Add(AccionGO);
-
-		AccionGO.transform.SetParent(canvas.transform, false);
-		AccionGO.tag = "AccionUI";
-
-		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
-		collider.size =  new Vector2(430f, 140f);
-
-		Accion ac = AccionGO.GetComponent<Accion>();
-
-		Text myText = AccionGO.AddComponent<Text>();
-		myText.text = ac.DevuelveNombre();
-		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-		myText.fontSize = 80;
-		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
-		myText.material = Resources.Load("UI") as Material;
-
-		//Actualiza la UI de las acciones, ahora que se ha añadido una más
-		CargarAccionesUI();
+		accionActiva = -1;
 	}
 		
 	void Update() {
-
 		switch(_state)
 		{
 		case State.Alejado:
@@ -242,21 +340,21 @@ public class Interactuable : MonoBehaviour {
 	{
 		DefaultCursorUI();
 		SetState(State.Alejado);
-		accionActiva.GetComponent<AccionDialogo>().EjecutarAccion();
+		Acciones[accionActiva].EjecutarAccion();
 	}
 
 	public bool isRendered()
 	{
-		return objetoRender.GetComponent<Renderer>().isVisible;
+		return Objeto.GetComponent<Renderer>().isVisible;
 	}
 
 	public void ActivarTextoAcciones()
 	{
 		nombre.SetActive(false);
 		cursorUI.SetActive(true);
-		for(int i = 0; i < Acciones.Count; i++)
+		for(int i = 0; i < AccionesGO.Count; i++)
 		{
-			Acciones[i].SetActive(true);
+			AccionesGO[i].SetActive(true);
 		}
 	}
 
@@ -264,9 +362,9 @@ public class Interactuable : MonoBehaviour {
 	{
 		nombre.SetActive(true);
 		cursorUI.SetActive(false);
-		for(int i = 0; i < Acciones.Count; i++)
+		for(int i = 0; i < AccionesGO.Count; i++)
 		{
-			Acciones[i].SetActive(false);
+			AccionesGO[i].SetActive(false);
 		}
 	}
 }

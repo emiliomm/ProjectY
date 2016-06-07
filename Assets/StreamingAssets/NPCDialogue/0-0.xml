@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ID>2</ID>
+	<ID_NPC>0</ID_NPC>
+	<ID>0</ID>
 	<intros>
 		<Intro>
-			<ID>301</ID>
-			<IDGrupo>0</IDGrupo>
+			<ID>101</ID>
+			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>
@@ -13,12 +14,38 @@
 					<DialogueNode>
 						<NodeID>0</NodeID>
 						<Nombre>-1</Nombre>
-						<Text>RANDOOOOOOOOOOOOOOOOM</Text>
+						<Text>ESTE ES EL CUARTO DIALOGO</Text>
 						<recorrido>false</recorrido>
-						<destruido>false</destruido>
+						<destruido>true</destruido>
 						<Options />
 						<Mensajes />
-						<Intros />
+						<GruposVariables>
+							<DialogueGrupoVariable>
+								<IDGrupo>0</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>
+							<DialogueGrupoVariable>
+								<IDGrupo>1</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>
+						</GruposVariables>
+<!--						<Intros>
+							<DialogueAddIntro>
+								<IDNpc>1</IDNpc>
+								<prioridad>1</prioridad>
+								<IDIntro>1</IDIntro>
+							</DialogueAddIntro>
+						</Intros>-->
+<!--						<Grupos>
+							<DialogueGrupo>
+								<IDGrupo>0</IDGrupo>
+								<tipo>1</tipo>
+							</DialogueGrupo>
+						</Grupos>-->
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -26,6 +53,7 @@
 						<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
+						<Nombres><DialogueNombre><IDNpc>1</IDNpc><indiceNombre>1</indiceNombre></DialogueNombre></Nombres>
 						<Options>
 							<DialogueOption>
 								<Text>Sí</Text>
@@ -51,6 +79,12 @@
 						</Options>
 						<Mensajes />
 						<Intros />
+<!--						<Grupos>
+							<DialogueGrupo>
+								<IDGrupo>0</IDGrupo>
+								<tipo>0</tipo>
+							</DialogueGrupo>
+						</Grupos>-->
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
@@ -182,7 +216,7 @@
 	</intros>
 	<mensajes>
 		<Mensaje>
-			<ID>301</ID>
+			<ID>101</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 0</texto>
@@ -216,14 +250,26 @@
 								<Text>No, es bastante dificil de entender, la verdad</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
 								<Grupo>
-									<IDGrupo>-1</IDGrupo>
+									<IDGrupo>0</IDGrupo>
+									<variables>
+										<DialogueOptionGrupoVariables>
+											<num_variable>0</num_variable>
+											<Valor>0</Valor>
+										</DialogueOptionGrupoVariables>
+									</variables>
 								</Grupo>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>¿Y SI NO QUIERO?, OBLÍGAME</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
 								<Grupo>
-									<IDGrupo>-1</IDGrupo>
+									<IDGrupo>0</IDGrupo>
+									<variables>
+										<DialogueOptionGrupoVariables>
+											<num_variable>0</num_variable>
+											<Valor>2</Valor>
+										</DialogueOptionGrupoVariables>
+									</variables>
 								</Grupo>
 							</DialogueOption>
 						</Options>
@@ -358,7 +404,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>302</ID>
+			<ID>102</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 2</texto>
@@ -534,7 +580,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>303</ID>
+			<ID>103</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 3</texto>
@@ -710,7 +756,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>304</ID>
+			<ID>104</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 4</texto>
@@ -886,7 +932,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>305</ID>
+			<ID>105</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Mensaje de prueba</texto>

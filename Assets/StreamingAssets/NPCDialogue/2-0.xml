@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<ID>1</ID>
+	<ID_NPC>2</ID_NPC>
+	<ID>0</ID>
 	<intros>
 		<Intro>
-			<ID>201</ID>
-			<IDGrupo>-1</IDGrupo>
+			<ID>301</ID>
+			<IDGrupo>0</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>
@@ -12,19 +13,13 @@
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
-						<Nombre>-2</Nombre>
-						<Text>ESTE ES EL CUARTO DIALOGO</Text>
+						<Nombre>-1</Nombre>
+						<Text>RANDOOOOOOOOOOOOOOOOM</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
 						<Options />
-						<Mensajes/>
+						<Mensajes />
 						<Intros />
-						<Grupos>
-							<DialogueGrupo>
-								<IDGrupo>0</IDGrupo>
-								<tipo>1</tipo>
-							</DialogueGrupo>
-						</Grupos>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -188,7 +183,7 @@
 	</intros>
 	<mensajes>
 		<Mensaje>
-			<ID>201</ID>
+			<ID>301</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 0</texto>
@@ -364,7 +359,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>202</ID>
+			<ID>302</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 2</texto>
@@ -540,7 +535,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>203</ID>
+			<ID>303</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 3</texto>
@@ -716,7 +711,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>204</ID>
+			<ID>304</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Opcion 4</texto>
@@ -892,7 +887,7 @@
 			</dia>
 		</Mensaje>
 		<Mensaje>
-			<ID>205</ID>
+			<ID>305</ID>
 			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<texto>Mensaje de prueba</texto>
