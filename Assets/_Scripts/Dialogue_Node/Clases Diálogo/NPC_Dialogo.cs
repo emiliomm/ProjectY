@@ -202,7 +202,7 @@ public class NPC_Dialogo : ObjetoSer
 		}
 	}
 
-	public void MarcaDialogueNodeComoLeido(int tipo, ref int num_dialogo, int node_id, int num_tema)
+	public void MarcaDialogueNodeComoLeido(int tipo, ref int num_dialogo, int node_id, int num_tema, int ID_DiagActual)
 	{
 		Dialogue d;
 		DialogueNode dn;
@@ -220,7 +220,7 @@ public class NPC_Dialogo : ObjetoSer
 					intros [num_dialogo].Autodestruye = true;
 
 				intros[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema, ID_DiagActual);
 			}
 			break;
 		case 1:
@@ -234,7 +234,7 @@ public class NPC_Dialogo : ObjetoSer
 					mensajes [num_dialogo].Autodestruye = true;
 
 				mensajes[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema, ID_DiagActual);
 			}
 			break;
 		case 2:
@@ -248,14 +248,14 @@ public class NPC_Dialogo : ObjetoSer
 					temaMensajes[num_tema].mensajes[num_dialogo].Autodestruye = true;
 
 				temaMensajes[num_tema].mensajes[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema, ID_DiagActual);
 			}
 			break;
 		}
 	}
 		
 	//SEPARAR FUNCION EN TROZOS MAS PEQUEÑOS
-	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node, int num_tema)
+	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node, int num_tema, int ID_DiagActual)
 	{
 		for(int i = 0; i < node.DevuelveNumeroGrupos(); i++)
 		{
@@ -276,7 +276,7 @@ public class NPC_Dialogo : ObjetoSer
 					{
 						ObjetoSer objs = cobj.GetObjeto();
 						Grupo g = objs as Grupo;
-						Grupo.LoadGrupo(g, ID, tipo_dialogo, ref num_dialogo);
+						Grupo.LoadGrupo(g, ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
 
 						//Borramos el grupo de la cola ahora que ya ha sido añadido
 						Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
@@ -286,12 +286,12 @@ public class NPC_Dialogo : ObjetoSer
 						//Miramos primero en la lista de grupos modificados
 						if (System.IO.File.Exists (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml"))
 						{
-							Grupo.LoadGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);
+							Grupo.LoadGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
 						}
 						//Si no está ahí, miramos en el directorio predeterminado
 						else
 						{
-							Grupo.LoadGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml", ID, tipo_dialogo, ref num_dialogo);	
+							Grupo.LoadGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);	
 						}
 					}
 				}
@@ -575,6 +575,10 @@ public class NPC_Dialogo : ObjetoSer
 						n_diag.AddToColaObjetos ();
 					}
 				}
+
+				//EL DIALOGO ADEMAS PUEDE HABER SIDO AÑADIDO A LA COLA (EN UN GRUPO), HACIENDO QUE SE COMPRUEBE ALLI O AQUI
+				//AQUI VUELVE A COMPROBAR EL DIALOGO ACTUAL, COMO CAMBIARLO ¿?
+				//ADEMAS TAMBIEN SE COMPRUEBA LOS OTROS DIALOGOS QUE PODRIA TENER EL INTERACTUABLE ACTUAL SI NO ESTÁ EN COLA OBJETOS
 
 				//Ahora comprobamos a los npcs de la escena actual
 				List<GameObject> interactuables = Manager.Instance.GetAllInteractuables();

@@ -1,5 +1,6 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
+- El dialogo actual puede ser comprobado mas de una vez al añadir o eliminar grupo, mirar si hay más errores
 - El texto de las acciones causa colision con el personaje
 - La caja de colision de los npcs colisiona con la camara
 

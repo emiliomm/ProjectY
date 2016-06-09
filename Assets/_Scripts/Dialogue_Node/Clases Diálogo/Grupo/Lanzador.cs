@@ -20,15 +20,15 @@ public class Lanzador{
 		mensajes = new List<DialogueAddMensaje>();
 	}
 
-	public static void LoadLanzador(string path, int ID_NPC, int tipo_dialogo, ref int num_dialogo)
+	public static void LoadLanzador(string path, int ID_NPC,int ID_DiagActual, int tipo_dialogo, ref int num_dialogo)
 	{
 		Lanzador lanz = Manager.Instance.DeserializeDataWithReturn<Lanzador>(path);
 
-		lanz.AnyadirDialogueAdd(ID_NPC, tipo_dialogo, ref num_dialogo);
+		lanz.AnyadirDialogueAdd(ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
 	}
 
 	//JUNTAR CON LA FUNCION PARECIDA ¿?
-	private void AnyadirDialogueAdd(int ID_NPC, int tipo_dialogo, ref int num_dialogo)
+	private void AnyadirDialogueAdd(int ID_NPC,int ID_DiagActual, int tipo_dialogo, ref int num_dialogo)
 	{
 		for(int i = 0; i < intros.Count; i++)
 		{
@@ -50,7 +50,7 @@ public class Lanzador{
 				{
 					//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
 					//Comprobamos si tenemos que cambiar el indice de dialogo
-					if(ID_NPC == IDNpc && tipo_dialogo == 0)
+					if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo && tipo_dialogo == 0)
 					{
 						//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
 						//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
