@@ -981,38 +981,35 @@ public class NPC_Dialogo : ObjetoSer
 			if(gobj != null)
 			{
 				Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-				GameObject Objeto = inter.DevolverObjeto();
-
-				NPC npc = Objeto.GetComponent<NPC>() as NPC;
 
 				//Si el objeto es un NPC
-				if(npc != null)
+				if(inter.GetType() == typeof(InteractuableNPC))
 				{
-					NPCDatos d = npc.DevuelveDatos();
+					InteractuableNPC intern = inter as InteractuableNPC;
 
-					int indiceActual = d.DevuelveIndiceNombre();
+					int indiceActual = intern.DevuelveIndiceNombre();
 
 					if (indiceActual < Indice)
 					{
-						d.SetIndiceNombre(Indice);
+						intern.SetIndiceNombre(Indice);
 					}
 
-					d.AddToColaObjetos ();
+					intern.AddDatosToColaObjetos();
 
 					//Actualizamos el interactuable para que muestre el nombre modificado
-					inter.SetNombre(d.DevuelveNombreActual());
+					intern.SetNombre(intern.DevuelveNombreActual());
 				}
 			}
 			else
 			{
-				NPCDatos d;
+				InterDatos d;
 
 				ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml");
 
 				if(cobj != null)
 				{
 					ObjetoSer objs = cobj.GetObjeto();
-					d = objs as NPCDatos;
+					d = objs as InterDatos;
 				}
 				else
 				{
@@ -1020,22 +1017,26 @@ public class NPC_Dialogo : ObjetoSer
 					//cargamos el fichero por defecto
 					if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml"))
 					{
-						d = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml");
+						d = InterDatos.LoadInterDatos(Manager.rutaNPCDatosGuardados + IDNpc.ToString()  + ".xml");
 					}
 					else
 					{
-						d = NPCDatos.LoadNPCDatos(Manager.rutaNPCDatos + IDNpc.ToString()  + ".xml");
+						d = InterDatos.LoadInterDatos(Manager.rutaNPCDatos + IDNpc.ToString()  + ".xml");
 					}
 				}
 
-				int indiceActual = d.DevuelveIndiceNombre();
-
-				if (indiceActual < Indice)
+				if(d.GetType() == typeof(NPCDatos))
 				{
-					d.SetIndiceNombre(Indice);
-				}
+					NPCDatos dnpc = d as NPCDatos;
+					int indiceActual = dnpc.DevuelveIndiceNombre();
 
-				d.AddToColaObjetos ();
+					if (indiceActual < Indice)
+					{
+						dnpc.SetIndiceNombre(Indice);
+					}
+
+					dnpc.AddToColaObjetos ();
+				}
 			}
 		}
 	}

@@ -5,6 +5,6 @@ using System.Xml.Serialization;
 
 [XmlInclude(typeof(Grupo))]
 [XmlInclude(typeof(NPC_Dialogo))]
-[XmlInclude(typeof(NPCDatos))]
+[XmlInclude(typeof(InterDatos))]
 public class ObjetoSer{
 }

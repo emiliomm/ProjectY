@@ -66,10 +66,12 @@
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccion.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\CursorUIDetection.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\InterDatos\InterDatos.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\InterDatos\NPCDatos.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\InterDatos\ObjetoDatos.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Interactuable.cs" />
-     <Compile Include="Assets\_Scripts\Interactuable\NPC\NPC.cs" />
-     <Compile Include="Assets\_Scripts\Interactuable\NPC\NPCDatos.cs" />
-     <Compile Include="Assets\_Scripts\Interactuable\Objetos\Objeto.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\InteractuableNPC.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\InteractuableObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\ColaObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
      <Compile Include="Assets\_Scripts\Manager\ObjetoSer.cs" />
@@ -121,6 +123,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\StreamingAssets\NPCDatos\1.xml" />
+     <None Include="Assets\StreamingAssets\NPCDatos\3.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
@@ -178,6 +181,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+     <None Include="Assets\StreamingAssets\NPCDatos\2.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

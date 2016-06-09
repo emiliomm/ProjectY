@@ -10,7 +10,10 @@ public class DatosAccionDialogo : DatosAccion{
 	public int ID_NPC;
 	public int ID_Diag;
 
-	public DatosAccionDialogo() {   }
+	public DatosAccionDialogo()
+	{
+		diag = new NPC_Dialogo();
+	}
 
 	public void CargaDialogo()
 	{
@@ -44,14 +47,11 @@ public class DatosAccionDialogo : DatosAccion{
 		if(gobj != null)
 		{
 			Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-			GameObject Objeto = inter.DevolverObjeto();
-
-			NPC npc = Objeto.GetComponent<NPC>() as NPC;
 
 			//Si el objeto es un NPC
-			if(npc != null)
+			if(inter != null)
 			{
-				TextBox.Instance.StartDialogue(npc, diag);
+				TextBox.Instance.StartDialogue(inter, diag);
 			}
 		}
 	}

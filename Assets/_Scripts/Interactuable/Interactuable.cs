@@ -19,6 +19,28 @@ public class Interactuable : MonoBehaviour {
 
 	public bool cursorSobreAccion;
 
+	//implementar esto aqui o en acciones dialogo, donde el dialogo se marque como automatico
+	//public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
+
+	//	void OnTriggerEnter(Collider other)
+	//	{
+	//		//Sirve para los dialogos automaticos
+	//		//Como implementar el dialogo automatico ¿?
+	//		if (other.tag == "Player")
+	//		{
+	//			if (!requiredButtonPress && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
+	//			{
+	//				IniciaDialogo();
+	//			}
+	//		}
+	//	}
+
+	//	//Inicia el dialogo
+	//	public void IniciaDialogo()
+	//	{
+	//		TextBox.Instance.StartDialogue(this, npc_diag);
+	//	}
+
 	private List<GameObject> AccionesGO;
 	private List<DatosAccion> Acciones;
 	private int accionActiva; //indice de la accion activa, -1 = ninguna
@@ -52,7 +74,8 @@ public class Interactuable : MonoBehaviour {
 		_state = newState;
 	}
 
-	void Start () {
+	protected virtual void Start ()
+	{
 		//Añadimos el interactuable al diccionario para tenerlo disponible
 		Manager.Instance.AddToInteractuables(ID, gameObject);
 
@@ -219,9 +242,15 @@ public class Interactuable : MonoBehaviour {
 		return dialogos;
 	}
 
-	public GameObject DevolverObjeto()
+//	public GameObject DevolverObjeto()
+//	{
+//		return Objeto;
+//	}
+
+	//Devuelve el nombre del interactuable que aparece en el dialogo (no es el mismo que el mostrado en los interactuableobjeto)
+	public virtual string DevuelveNombreDialogo()
 	{
-		return Objeto;
+		return "";
 	}
 
 	public void SetNombre(string n)

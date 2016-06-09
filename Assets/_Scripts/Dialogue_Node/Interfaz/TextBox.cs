@@ -17,7 +17,7 @@ public class TextBox : MonoBehaviour {
 	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo, NO ESTÁ EN USO
 
 	private NPC_Dialogo npc_dialogo;
-	private NPC npc;
+	private Interactuable inter;
 
 	private GameObject dialogue_window;
 	private GameObject dialog_name;
@@ -114,10 +114,10 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-	public void StartDialogue(NPC npc_inst, NPC_Dialogo npcDi)
+	public void StartDialogue(Interactuable interActual, NPC_Dialogo npcDi)
 	{
 		npc_dialogo  = npcDi;
-		npc = npc_inst;
+		inter = interActual;
 
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		EnableTextBox();
@@ -837,7 +837,7 @@ public class TextBox : MonoBehaviour {
 			nombre = Manager.Instance.DevuelveNombreJugador();
 			break;
 		case -1:
-			nombre = npc.DevuelveNombre();
+			nombre = inter.DevuelveNombreDialogo();
 			break;
 		}
 

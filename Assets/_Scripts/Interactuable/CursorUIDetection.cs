@@ -11,15 +11,10 @@ public class CursorUIDetection : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "AccionUI" ) {
-
-
-
-
 			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
 
 			if(aobj.getID() == inter.ID)
 			{
-				Debug.Log("Tocado");
 				inter.cursorSobreAccion = true;
 				inter.AsignarAccion(aobj.getIndice());
 			}
