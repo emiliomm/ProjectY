@@ -48,17 +48,22 @@ public class Lanzador{
 
 				if(diag != null)
 				{
+					diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
+
 					//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
 					//Comprobamos si tenemos que cambiar el indice de dialogo
-					if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo && tipo_dialogo == 0)
+					if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo)
 					{
 						//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
 						//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
-						if(prioridad > diag.intros[num_dialogo].DevuelvePrioridad())
+						if(prioridad > diag.intros[num_dialogo].DevuelvePrioridad() && tipo_dialogo == 0)
 							num_dialogo++;
 					}
-					diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-					diag.AddToColaObjetos();
+					//Si no es el dialogo actual lo añadimos a la cola
+					else
+					{
+						diag.AddToColaObjetos();
+					}
 				}
 				else
 				{
@@ -140,7 +145,12 @@ public class Lanzador{
 				if(diag != null)
 				{
 					diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-					diag.AddToColaObjetos();
+
+					//Si no es el dialogo actual lo añadimos a la cola
+					if(!(ID_NPC == IDNpc && ID_DiagActual == IDDialogo))
+					{
+						diag.AddToColaObjetos();
+					}
 				}
 				else
 				{

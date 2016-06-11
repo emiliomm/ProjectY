@@ -20,10 +20,6 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Por qué? Probablemente por un error de Unity
 	* ¿Cómo solucionarlo? Investigar
 
-- A veces el personaje salta en un punto concreto del mapa1
-	* ¿Por qué? Probablemente debido a una colision box de un objeto que forma parte de la escena, investigar más ¿?
-	* ¿Como solucionarlo?
-
 COSAS POR HACER:
 - Serializar los objetoser como las acciones, sin cambiar el nombre
 - Probar los dialogos, con los cambios hechos pueden fallas cosas

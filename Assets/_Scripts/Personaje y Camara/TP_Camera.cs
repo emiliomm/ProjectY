@@ -16,8 +16,8 @@ public class TP_Camera : MonoBehaviour
 	public float MouseWheelSentitivity = 15f;
 	public float X_Smooth = 0.05f; //Tiempo que tarda en moverse la camara en su posicion en el ejeX
 	public float Y_Smooth = 0.1f; //Tiempo que tarda en moverse la camara en su posicion en el ejeY
-	public float Y_MinLimit = -40f; //Ángulo máximo inferior del ejeY en el que se mueve la cámara
-	public float Y_MaxLimit = 80f; //Ángulo máximo superior del ejeY en el que se mueve la cámara
+	public float Y_MinLimit = -30f; //Ángulo máximo inferior del ejeY en el que se mueve la cámara
+	public float Y_MaxLimit = 40f; //Ángulo máximo superior del ejeY en el que se mueve la cámara
 	public float OcclusionDistanceStep = 0.5f; //Distancia minima que se acerca la camara al encontrar un obstáculo
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
 
@@ -39,7 +39,7 @@ public class TP_Camera : MonoBehaviour
 	public float offset_smooth = 0.5f;
 	public float offset_min = 0f;
 	public float offset_max = 2f;
-	public bool offset_active = true;
+	public bool offset_active = false;
 	private float offset_value = 0f;
 
 	// Use this when the object is created
@@ -271,12 +271,12 @@ public class TP_Camera : MonoBehaviour
 		transform.LookAt(TargetLookAt);
 
 		//Aplicamos el offset
-		if (offset_active)
-			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth);
-		else
-			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
+//		if (offset_active)
+//			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth);
+//		else
+//			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
 
-		transform.LookAt(TargetLookAt.position+transform.right*offset);
+//		transform.LookAt(TargetLookAt.position+transform.right*offset);
 	}
 
 	//establece las variables a valores predeterminados

@@ -202,7 +202,7 @@ public class NPC_Dialogo : ObjetoSer
 		}
 	}
 
-	public void MarcaDialogueNodeComoLeido(int tipo, ref int num_dialogo, int node_id, int num_tema, int ID_DiagActual)
+	public void MarcaDialogueNodeComoLeido(int tipo, ref int num_dialogo, int node_id, int num_tema)
 	{
 		Dialogue d;
 		DialogueNode dn;
@@ -220,7 +220,7 @@ public class NPC_Dialogo : ObjetoSer
 					intros [num_dialogo].Autodestruye = true;
 
 				intros[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema, ID_DiagActual);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema);
 			}
 			break;
 		case 1:
@@ -234,7 +234,7 @@ public class NPC_Dialogo : ObjetoSer
 					mensajes [num_dialogo].Autodestruye = true;
 
 				mensajes[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema, ID_DiagActual);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema);
 			}
 			break;
 		case 2:
@@ -248,14 +248,14 @@ public class NPC_Dialogo : ObjetoSer
 					temaMensajes[num_tema].mensajes[num_dialogo].Autodestruye = true;
 
 				temaMensajes[num_tema].mensajes[num_dialogo].MarcarRecorrido(node_id);
-				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema, ID_DiagActual);
+				AnyadirDialogueAdd(tipo, ref num_dialogo, dn, num_tema);
 			}
 			break;
 		}
 	}
 		
 	//SEPARAR FUNCION EN TROZOS MAS PEQUEÑOS
-	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node, int num_tema, int ID_DiagActual)
+	private void AnyadirDialogueAdd(int tipo_dialogo, ref int num_dialogo, DialogueNode node, int num_tema)
 	{
 		for(int i = 0; i < node.DevuelveNumeroGrupos(); i++)
 		{
@@ -276,7 +276,7 @@ public class NPC_Dialogo : ObjetoSer
 					{
 						ObjetoSer objs = cobj.GetObjeto();
 						Grupo g = objs as Grupo;
-						Grupo.LoadGrupo(g, ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
+						Grupo.LoadGrupo(g, ID_NPC, ID, tipo_dialogo, ref num_dialogo);
 
 						//Borramos el grupo de la cola ahora que ya ha sido añadido
 						Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
@@ -286,12 +286,12 @@ public class NPC_Dialogo : ObjetoSer
 						//Miramos primero en la lista de grupos modificados
 						if (System.IO.File.Exists (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml"))
 						{
-							Grupo.LoadGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
+							Grupo.LoadGrupo (Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml", ID_NPC,ID, tipo_dialogo, ref num_dialogo);
 						}
 						//Si no está ahí, miramos en el directorio predeterminado
 						else
 						{
-							Grupo.LoadGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);	
+							Grupo.LoadGrupo (Manager.rutaGrupos + IDGrupo.ToString () + ".xml", ID_NPC,ID, tipo_dialogo, ref num_dialogo);	
 						}
 					}
 				}
@@ -576,10 +576,6 @@ public class NPC_Dialogo : ObjetoSer
 					}
 				}
 
-				//EL DIALOGO ADEMAS PUEDE HABER SIDO AÑADIDO A LA COLA (EN UN GRUPO), HACIENDO QUE SE COMPRUEBE ALLI O AQUI
-				//AQUI VUELVE A COMPROBAR EL DIALOGO ACTUAL, COMO CAMBIARLO ¿?
-				//ADEMAS TAMBIEN SE COMPRUEBA LOS OTROS DIALOGOS QUE PODRIA TENER EL INTERACTUABLE ACTUAL SI NO ESTÁ EN COLA OBJETOS
-
 				//Ahora comprobamos a los npcs de la escena actual
 				List<GameObject> interactuables = Manager.Instance.GetAllInteractuables();
 
@@ -594,7 +590,8 @@ public class NPC_Dialogo : ObjetoSer
 						NPC_Dialogo n_diag = dialogos[z];
 
 						//Si el diálogo no está en la cola de objetos, miramos si hay que borrar algo
-						if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + inter.ID.ToString() + "-" + n_diag.ID.ToString() + ".xml"))
+						//Y el dialogo no es el actual
+						if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + inter.ID.ToString() + "-" + n_diag.ID.ToString() + ".xml") && !(ID_NPC == inter.ID && ID == n_diag.ID))
 						{
 							bool actualizado = false;
 
@@ -664,56 +661,60 @@ public class NPC_Dialogo : ObjetoSer
 					//Si no existe, comprobamos el dialogo
 					if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + ids  + ".xml"))
 					{
-						bool actualizado = false;
-
 						NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ids  + ".xml");
 
-						for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
+						//Si no es el dialogo actual
+						if(!(ID_NPC == n_diag.ID_NPC && ID == n_diag.ID))
 						{
-							if(n_diag.intros[k].IDGrupo == IDGrupo)
+							bool actualizado = false;
+
+							for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
 							{
-								n_diag.intros.RemoveAt(k);
-								actualizado = true;
-							}
-						}
-						for(int k = 0; k < n_diag.DevuelveNumeroTemaMensajes(); k++)
-						{
-							//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-							if(n_diag.temaMensajes[k].IDGrupo == -1)
-							{
-								for(int l = 0; l < n_diag.temaMensajes[k].mensajes.Count; l++)
+								if(n_diag.intros[k].IDGrupo == IDGrupo)
 								{
-									if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
-									{
-										n_diag.temaMensajes[k].mensajes.RemoveAt(l);
-
-										//Si el temaMensajes se ha quedado vacío, lo destruimos
-										if(n_diag.temaMensajes[k].mensajes.Count == 0)
-										{
-											n_diag.temaMensajes.RemoveAt(k);
-										}
-
-										actualizado = true;
-									}
+									n_diag.intros.RemoveAt(k);
+									actualizado = true;
 								}
 							}
-							else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
+							for(int k = 0; k < n_diag.DevuelveNumeroTemaMensajes(); k++)
 							{
-								n_diag.temaMensajes.RemoveAt(k);
-								actualizado = true;
-							}
-						}
-						for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
-						{
-							if(n_diag.mensajes[k].IDGrupo == IDGrupo)
-							{
-								n_diag.mensajes.RemoveAt(k);
-								actualizado = true;
-							}
-						}
+								//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+								if(n_diag.temaMensajes[k].IDGrupo == -1)
+								{
+									for(int l = 0; l < n_diag.temaMensajes[k].mensajes.Count; l++)
+									{
+										if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
+										{
+											n_diag.temaMensajes[k].mensajes.RemoveAt(l);
 
-						if (actualizado) {
-							n_diag.AddToColaObjetos ();
+											//Si el temaMensajes se ha quedado vacío, lo destruimos
+											if(n_diag.temaMensajes[k].mensajes.Count == 0)
+											{
+												n_diag.temaMensajes.RemoveAt(k);
+											}
+
+											actualizado = true;
+										}
+									}
+								}
+								else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
+								{
+									n_diag.temaMensajes.RemoveAt(k);
+									actualizado = true;
+								}
+							}
+							for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
+							{
+								if(n_diag.mensajes[k].IDGrupo == IDGrupo)
+								{
+									n_diag.mensajes.RemoveAt(k);
+									actualizado = true;
+								}
+							}
+
+							if (actualizado) {
+								n_diag.AddToColaObjetos ();
+							}
 						}
 					}
 				}

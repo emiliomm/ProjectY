@@ -411,7 +411,9 @@ public class TextBox : MonoBehaviour {
 
 	private void GuardarNPCDialogo()
 	{
+		//El dialogo actual se añade solo cuando acaba el dialogo, no antes
 		npc_dialogo.AddToColaObjetos();
+
 		Manager.Instance.ActualizarDatos ();
 	}
 
@@ -438,13 +440,13 @@ public class TextBox : MonoBehaviour {
 		switch(_state)
 		{
 		case State.Intro_Texto:
-			npc_dialogo.MarcaDialogueNodeComoLeido(0, ref num_dialog, node_id, num_tema, npc_dialogo.ID);
+			npc_dialogo.MarcaDialogueNodeComoLeido(0, ref num_dialog, node_id, num_tema);
 			break;
 		case State.Mensajes_Texto:
 			if (num_tema == -1)
-				npc_dialogo.MarcaDialogueNodeComoLeido(1, ref num_dialog, node_id, num_tema, npc_dialogo.ID);
+				npc_dialogo.MarcaDialogueNodeComoLeido(1, ref num_dialog, node_id, num_tema);
 			else
-				npc_dialogo.MarcaDialogueNodeComoLeido(2, ref num_dialog, node_id, num_tema, npc_dialogo.ID);
+				npc_dialogo.MarcaDialogueNodeComoLeido(2, ref num_dialog, node_id, num_tema);
 			break;
 		}
 	}

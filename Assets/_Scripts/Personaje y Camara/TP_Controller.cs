@@ -63,6 +63,7 @@ public class TP_Controller : MonoBehaviour
 
 			//Lo igualamos a 0 para recalcularlo cada frame
 			TP_Motor.Instance.MoveVector = Vector3.zero;
+			//TP_Animator.Instance.MoveDirection = TP_Animator.Direction.Stationary;
 
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;
@@ -112,5 +113,6 @@ public class TP_Controller : MonoBehaviour
 	void Jump()
 	{
 		TP_Motor.Instance.Jump(); //Ejecutamos las operaciones de salto
+		TP_Animator.Instance.Jump(); //Ejecutamos la animación de salto
 	}
 }
