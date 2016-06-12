@@ -157,16 +157,16 @@ public class TP_Camera : MonoBehaviour
 			{
 				isOccluded = true;
 				Distance -= OcclusionDistanceStep; //reducimos la distancia poco a poco
-
-				//A partir de 0.25, la camara empieza a actuar raro (el numero no es fijo, varia segun el personaje, la escena, etc)
-				if (Distance < 0.25f)
-					Distance = 0.25f;
 			}
 			//Si hemos sobrepasado el limite, movemos la camara directamente hacia el lugar "vacio", sin pequeños incrementos
 			else
 			{
 				Distance = nearestDistance - Camera.main.nearClipPlane;
 			}
+
+			//A partir de 0.25, la camara empieza a actuar raro (el numero no es fijo, varia segun el personaje, la escena, etc)
+			if (Distance < 0.25f)
+				Distance = 0.25f;
 
 			desiredDistance = Distance; //moveremos la camara hacia el punto indicado
 			distanceSmooth = DistanceResumeSmooth; //La camara ya no esta bloqueada por ningun objeto, asignamos la fluidez de salida
@@ -268,15 +268,15 @@ public class TP_Camera : MonoBehaviour
 		transform.position = position;
 
 		//Asignamos el lookAt
-		transform.LookAt(TargetLookAt);
+//		transform.LookAt(TargetLookAt);
 
 		//Aplicamos el offset
-//		if (offset_active)
-//			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth);
-//		else
-//			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
+		if (offset_active)
+			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth);
+		else
+			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
 
-//		transform.LookAt(TargetLookAt.position+transform.right*offset);
+		transform.LookAt(TargetLookAt.position+transform.right*offset);
 	}
 
 	//establece las variables a valores predeterminados
