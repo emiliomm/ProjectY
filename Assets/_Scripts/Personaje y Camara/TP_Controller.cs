@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TP_Controller : MonoBehaviour
 {
+	//Radio cápsula de al menos 0.4
 	public static CharacterController CharacterController; //Nos permite lidiar con colisiones sin RigidBody
 	public static TP_Controller Instance; //Instancia propia de la clase
 
