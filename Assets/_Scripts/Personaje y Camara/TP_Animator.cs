@@ -189,6 +189,7 @@ public class TP_Animator : MonoBehaviour
 		Animator anim=GetComponent<Animator>();
 		anim.SetBool("isRunning", false);
 		anim.SetBool("isWalkingBackwards", false);
+		anim.SetBool("isLanding", false);
 	}
 
 	void Running()
