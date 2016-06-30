@@ -18,7 +18,7 @@ public class TP_Camera : MonoBehaviour
 	public float Y_Smooth = 0.1f; //Tiempo que tarda en moverse la camara en su posicion en el ejeY
 	public float Y_MinLimit = -30f; //Ángulo máximo inferior del ejeY en el que se mueve la cámara
 	public float Y_MaxLimit = 40f; //Ángulo máximo superior del ejeY en el que se mueve la cámara
-	public float OcclusionDistanceStep = 0.5f; //Distancia minima que se acerca la camara al encontrar un obstáculo
+	public float OcclusionDistanceStep = 0.05f; //Distancia minima que se acerca la camara al encontrar un obstáculo
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
 
 	private float mouseX = 0f; //Ängulo de giro del ratón en el ejeX
@@ -42,6 +42,13 @@ public class TP_Camera : MonoBehaviour
 	public float offset_max = 2f;
 	public bool offset_active = false;
 	private float offset_value = 0f;
+
+	float percent = 0f;
+	float percent_value = 0f;
+
+	private float block_offset = -1f;
+	private float block_percent = -1f;
+	private Vector3 block_right = Vector3.zero;
 
 	// Use this when the object is created
 	void Awake ()
@@ -127,12 +134,6 @@ public class TP_Camera : MonoBehaviour
 
 		Distance = Mathf.SmoothDamp(Distance, desiredDistance, ref velDistance, distanceSmooth);
 
-		if(desiredDistance == preOccludedDistance)
-		{
-			if(Distance >= desiredDistance - 1f)
-				offset_active = true;
-		}
-
 		//Calculamos la posicion deseada
 		desiredPosition = CalculatePosition(mouseY, mouseX, Distance);
 	}
@@ -153,13 +154,15 @@ public class TP_Camera : MonoBehaviour
 		//-1 si no hemos chocado con ninguno
 		var nearestDistance = CheckCameraPoints(TargetLookAt.position, desiredPosition);
 
-		Debug.Log("nearestDistance occluded: " + nearestDistance);
-
 		//Si le hemos dado a algo
 		if (nearestDistance != -1)
 		{
-			//Desactivamos el offset
-			offset_active = false;
+			if(block_offset == -1f)
+			{
+				block_offset = offset;
+				block_percent = percent;
+				block_right = transform.right;
+			}
 
 			//Si aun no nos hemos pasado con el tope de comprobaciones, acercamos la cámara hacia el personaje
 			if (count < MaxOcclusionChecks)
@@ -173,18 +176,16 @@ public class TP_Camera : MonoBehaviour
 				Distance = nearestDistance - Camera.main.nearClipPlane;
 			}
 
+			offset_active = false;
+
 			//A partir de 0.25, la camara empieza a actuar raro (el numero no es fijo, varia segun el personaje, la escena, etc)
 			if (Distance < 0.25f)
 			{
 				Distance = 0.25f;
-				offset = offset_min;
 			}
 
 			desiredDistance = Distance; //moveremos la camara hacia el punto indicado
 			distanceSmooth = DistanceResumeSmooth; //La camara ya no esta bloqueada por ningun objeto, asignamos la fluidez de salida
-
-			if (count < MaxOcclusionChecks)
-			Debug.Log("desiredDistance final count: " + desiredDistance);
 		}
 			
 		return isOccluded;
@@ -249,26 +250,47 @@ public class TP_Camera : MonoBehaviour
 
 	void ResetDesiredDistance()
 	{
-		//La distancia en la que la cámara estaba obstruida ahora es mayor, podemos moverla hacia
-		//afuera
-		Debug.Log("preOclluded: " + preOccludedDistance);
-		Debug.Log("desireddi: " + desiredDistance);
+		//Si la distancia a la que estaba la cámara era mayor que la que vamos a movernos, comprobamos
+		//si nos podemos alejar
 		if (desiredDistance < preOccludedDistance)
 		{
-			//Calculamos la nueva posicion y distancia ahora que el objeto ya no la obstruye
 			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
-//			var nearestDistance = CheckCameraPoints(TargetLookAt.position, pos);
-			var nearestDistance = CheckCameraPoints2(CalculatePosition(mouseY, mouseX, desiredDistance), pos);
 
+			var offset_used = offset;
+			var percent_used = percent;
+			var right_used = transform.right;
 
-			Debug.Log("nearestDistamce reset: " + nearestDistance);
+			if(block_offset != -1f)
+			{
+				offset_used = block_offset;
+				percent_used = block_percent;
+				right_used = block_right;
+			}
 
-			//No se han detectado nuevas colisiones y la distancia anterior es mayor que la actual
+			transform.LookAt(TargetLookAt.position+right_used*offset_used*percent_used);
+
+			var nearestDistance = CheckCameraPoints2(TargetLookAt.position, pos);
+
+			transform.LookAt(TargetLookAt.position+transform.right*offset*percent);
+
+			//No se han detectado nuevas colisiones o la distancia del choque es mayor que la actual
 			//Movemos la camara hacia atras todo lo que podemos
 			if (nearestDistance == -1 || nearestDistance > preOccludedDistance)
 			{
 				desiredDistance = preOccludedDistance;
 			}
+
+			if(nearestDistance == -1)
+			{
+				block_offset = -1;
+				block_percent = -1;
+				block_right = Vector3.zero;
+			}
+		}
+
+		if(desiredDistance == preOccludedDistance)
+		{
+			offset_active = true;
 		}
 	}
 
@@ -278,11 +300,11 @@ public class TP_Camera : MonoBehaviour
 
 		RaycastHit hitInfo; //aqui almacenaremos info sobre lo que hemos chocado
 
-		Helper.ClipPlanePoints clipPlanePoints = Helper.ClipPlaneAtNear(to); //cogemos el rectangulo de vision
+		Helper.ClipPlanePoints clipPlanePoints = Helper.ClipPlaneAtNear(to);
+
 		Helper.ClipPlanePoints clipPlanePoints2 = Helper.ClipPlaneAtNear(from); //cogemos el rectangulo de vision
 
 		//Dibujamos 4 lineas que van desde el lookAt hasta ĺos 4 puntos de la cámara
-//		Debug.DrawLine(from, to + transform.forward * -Camera.main.nearClipPlane, Color.red); //linea situada detras de la camara desde el centro
 		Debug.DrawLine(clipPlanePoints2.UpperLeft, clipPlanePoints.UpperLeft, Color.red);
 		Debug.DrawLine(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, Color.red);
 		Debug.DrawLine(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, Color.red);
@@ -294,7 +316,7 @@ public class TP_Camera : MonoBehaviour
 		Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft, Color.red);
 		Debug.DrawLine(clipPlanePoints.LowerLeft, clipPlanePoints.UpperLeft, Color.red);
 
-		//Dibujamos el rectángulo de visión de la cámara
+		//Dibujamos el rectángulo de visión 2 de la cámara
 		Debug.DrawLine(clipPlanePoints2.UpperLeft, clipPlanePoints2.UpperRight, Color.red);
 		Debug.DrawLine(clipPlanePoints2.UpperRight, clipPlanePoints2.LowerRight, Color.red);
 		Debug.DrawLine(clipPlanePoints2.LowerRight, clipPlanePoints2.LowerLeft, Color.red);
@@ -307,23 +329,23 @@ public class TP_Camera : MonoBehaviour
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(from + transform.forward * -Camera.main.nearClipPlane, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		return nearestDistance;
 	}
@@ -343,89 +365,24 @@ public class TP_Camera : MonoBehaviour
 		transform.LookAt(TargetLookAt);
 
 		//Aplicamos el offset
-		if (offset_active && !CheckIfOccludedOffset())
-			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth_resume);
-		else
-			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
-
-//		var offsetv = 0f;
-//
-//		if(Distance != 0)
-//			offsetv = 0.5816f*Mathf.Log(Distance)+0.9427f;
-//		else
-//			offsetv = 0f;
-//
-//		offset = Mathf.SmoothDamp(offset, offsetv, ref offset_value, offset_smooth);
-
-		transform.LookAt(TargetLookAt.position+transform.right*offset);
-	}
-
-	bool CheckIfOccludedOffset()
-	{
-		var isOccluded = false;
-
-		//Comprueba la distancia con el objeto con el que hemos colisionado más cercano
-		//-1 si no hemos chocado con ninguno
-		var nearestDistance = CheckCameraPoints3(TargetLookAt.position+transform.right*offset_max, desiredPosition);
-
-		//Si le hemos dado a algo
-		if (nearestDistance != -1)
+		//if (offset_active && !CheckIfOccludedOffset())
+		if (offset_active)
 		{
-			isOccluded = true;
+			offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth_resume);
+		}
+		else
+		{
+			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
 		}
 
-		return isOccluded;
+		if (Mathf.Abs(percent - Distance/preOccludedDistance) > 0.001f )
+			percent = Mathf.SmoothDamp(percent, Distance/preOccludedDistance, ref percent_value, offset_smooth);
+
+		var targetPos = TargetLookAt.position+transform.right*offset*percent;
+
+		transform.LookAt(targetPos);
 	}
-
-	float CheckCameraPoints3(Vector3 from, Vector3 to)
-	{
-		var nearestDistance = -1f;
-
-		RaycastHit hitInfo; //aqui almacenaremos info sobre lo que hemos chocado
-
-		Helper.ClipPlanePoints clipPlanePoints = Helper.ClipPlaneAtNear(to); //cogemos el rectangulo de vision
-
-		//Dibujamos 4 lineas que van desde el lookAt hasta ĺos 4 puntos de la cámara
-		Debug.DrawLine(from, to + transform.forward * -Camera.main.nearClipPlane, Color.red); //linea situada detras de la camara desde el centro
-		Debug.DrawLine(from, clipPlanePoints.UpperLeft, Color.blue);
-		Debug.DrawLine(from, clipPlanePoints.LowerLeft, Color.blue);
-		Debug.DrawLine(from, clipPlanePoints.UpperRight, Color.blue);
-		Debug.DrawLine(from, clipPlanePoints.LowerRight, Color.blue);
-
-		//Dibujamos el rectángulo de visión de la cámara
-		Debug.DrawLine(clipPlanePoints.UpperLeft, clipPlanePoints.UpperRight, Color.blue);
-		Debug.DrawLine(clipPlanePoints.UpperRight, clipPlanePoints.LowerRight, Color.blue);
-		Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft, Color.blue);
-		Debug.DrawLine(clipPlanePoints.LowerLeft, clipPlanePoints.UpperLeft, Color.blue);
-
-		//Comprobamos que hemos dado a algo que no es el jugador
-		//Necesitamos que el objeto que controla al jugador tenga el tag Player
-		if (Physics.Linecast(from, clipPlanePoints.UpperLeft, out hitInfo) && hitInfo.collider.tag != "Player")
-			nearestDistance = hitInfo.distance;
-
-		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.LowerLeft, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
-
-		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.UpperRight, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
-
-		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.LowerRight, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
-
-		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo) && hitInfo.collider.tag != "Player")
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
-
-		return nearestDistance;
-	}
-
+		
 	//establece las variables a valores predeterminados
 	public void Reset()
 	{

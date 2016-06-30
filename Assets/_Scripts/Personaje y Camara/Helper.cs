@@ -64,6 +64,43 @@ public static class Helper
 		return clipPlanePoints;
 	}
 
+	public static ClipPlanePoints ClipPlaneAtNear2(Vector3 pos, Transform cameraTrans, Vector3 targetPos, float offset_used, float percent_used)
+	{
+		var clipPlanePoints = new ClipPlanePoints();
+
+		//Si la camera no existe, no creamos el cuadrado
+		if (Camera.main == null)
+			return clipPlanePoints;
+
+		var transform = Camera.main.transform;
+
+		//Necesitamos la mitad del fov en radianes
+		var halfFOV =  (Camera.main.fieldOfView/2) * Mathf.Deg2Rad;
+		var aspect = Camera.main.aspect;
+		var distance = Camera.main.nearClipPlane;
+		//Como se trata de un triangulo rectangulo, con la tangente de la mitad del FOV, hallamos la altura
+		var height = distance * Mathf.Tan(halfFOV);
+		var width = height * aspect;
+
+		clipPlanePoints.LowerRight = pos + transform.right * width; //lo movemos a la der
+		clipPlanePoints.LowerRight -= transform.up * height; //lo movemos hacia abajo
+		clipPlanePoints.LowerRight += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+
+		clipPlanePoints.LowerLeft = pos - transform.right * width; //lo movemos a la izq
+		clipPlanePoints.LowerLeft -= transform.up * height; //lo movemos hacia abajo
+		clipPlanePoints.LowerLeft += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+
+		clipPlanePoints.UpperRight = pos + transform.right * width; //lo movemos a la der
+		clipPlanePoints.UpperRight += transform.up * height; //lo movemos hacia arriba
+		clipPlanePoints.UpperRight += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+
+		clipPlanePoints.UpperLeft = pos - transform.right * width; //lo movemos a la izq
+		clipPlanePoints.UpperLeft += transform.up * height; //lo movemos hacia arriba
+		clipPlanePoints.UpperLeft += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+
+		return clipPlanePoints;
+	}
+
 }
 
 

@@ -75,6 +75,7 @@
      <Compile Include="Assets\_Scripts\Manager\ColaObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
      <Compile Include="Assets\_Scripts\Manager\ObjetoSer.cs" />
+     <Compile Include="Assets\_Scripts\Personaje y Camara\CS_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />

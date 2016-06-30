@@ -64,7 +64,7 @@ public class TP_Controller : MonoBehaviour
 
 			//Lo igualamos a 0 para recalcularlo cada frame
 			TP_Motor.Instance.MoveVector = Vector3.zero;
-			//TP_Animator.Instance.MoveDirection = TP_Animator.Direction.Stationary;
+			TP_Animator.Instance.MoveDirection = TP_Animator.Direction.Stationary;
 
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;

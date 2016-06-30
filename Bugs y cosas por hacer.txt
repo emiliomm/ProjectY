@@ -4,14 +4,6 @@ BUGS(POR ORDEN DE PRIORIDAD)
 - El texto de las acciones causa colision con el personaje
 - La caja de colision de los npcs colisiona con la camara
 
-- La cámara se vuelve loca al chocar con un objeto cercano con un poco menos de altura
-	* ¿Por qué? Ni idea
-	* ¿Como solucionarlo?
-
-- La cámara tarda demasiado en centrarse al cambiar offset
-	* ¿Por qué? Debido a como está hecho
-	* ¿Como solucionarlo? Investigando y cambiando el sistema
-
 - El personaje principal no tiene sombra ni recibe sombras
 	* ¿Por qué? Debido al sistema de layers
 	* ¿Como solucionarlo? Ni idea, una manera sería duplicar objetos, solo sombras, muy costoso, buscar más opciones
@@ -21,11 +13,10 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? Investigar
 
 COSAS POR HACER:
-- Serializar los objetoser como las acciones, sin cambiar el nombre
+- Probar y mejorar el sistema de animaciones
 - Probar los dialogos, con los cambios hechos pueden fallas cosas
-- Los dialogos en los objetos aun no funcionan por culpa de los nombres
-- Pensar en como separar la clase objetos de la clase NPC
-- Refractorizar partes de NPC
+- Serializar los objetoser como las acciones, sin cambiar el nombre
+- Refractorizar partes de NPC (nombres funciones, parámetros, etc.)
 - Ordenar clase NPC_Dialogo, mirar que es necesario en cada método y quitar lo innecesario
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
 - Añadir una esfera con triggers que almacene una lista de objetos cercanos para no tener que estar comprobando toda la escena con el focus del objeto
