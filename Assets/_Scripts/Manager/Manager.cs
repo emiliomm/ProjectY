@@ -184,6 +184,11 @@ public class Manager : MonoBehaviour {
 		return GruposActivos.Find (x => x.DevolverIDGrupo () == id);
 	}
 
+	//Elimina el grupo indicado de la lista de grupos activos
+	//y lo añade a la de grupos acabados, aunque no estuviera en los grupos activos
+
+	//TAMBIÉN DEBE BORRARLO DE GRUPOS MODIFICADOS
+
 	public void RemoveFromGruposActivos(int id)
 	{
 		Grupo g = DevolverGrupoActivo(id);
@@ -192,6 +197,12 @@ public class Manager : MonoBehaviour {
 		{
 			GruposAcabados.Add (g.idGrupo); //Añadimos la id del grupo acabado
 			GruposActivos.Remove (g);
+		}
+		//Si el grupo no estaba en la lista de grupos activos
+		//se añade igualmente a la lista de grupos acabados
+		else
+		{
+			GruposAcabados.Add (id); //Añadimos la id del grupo acabado
 		}
 	}
 

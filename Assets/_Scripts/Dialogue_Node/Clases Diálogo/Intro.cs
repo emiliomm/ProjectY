@@ -5,29 +5,18 @@ using System.IO;
 
 using DialogueTree;
 
-//Implementa la interfaz System.IComparable para que funcione el metodo compareTo
-//public class Intro : System.IComparable<Intro>
 public class Intro{
 
 	public int ID;
 	public int IDGrupo; //-1 --> Sin grupo, otro --> con grupo
 	public bool Autodestruye; // 0 --> falso, 1 --> verdadero
-	public int prioridad;
+	public int prioridad; //mayor prioridad, aparece antes
 	public int indice_inicial;
 	public Dialogue dia;
 
 	public Intro()
 	{
 		dia = new Dialogue();
-	}
-
-	public static Intro LoadIntro(string path, int prioridad)
-	{
-		Intro intro = Manager.Instance.DeserializeDataWithReturn<Intro>(path);
-
-		intro.prioridad = prioridad;
-
-		return intro;
 	}
 
 	public Dialogue DevuelveDialogo()
@@ -40,8 +29,22 @@ public class Intro{
 		return prioridad;
 	}
 
+	public int DevuelveIDGrupo()
+	{
+		return IDGrupo;
+	}
+
 	public void MarcarRecorrido(int node_id)
 	{
 		dia.MarcarRecorrido(node_id);
+	}
+
+	public static Intro LoadIntro(string path, int prioridad)
+	{
+		Intro intro = Manager.Instance.DeserializeDataWithReturn<Intro>(path);
+
+		intro.prioridad = prioridad;
+
+		return intro;
 	}
 }

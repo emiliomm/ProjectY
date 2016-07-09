@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="xs:NPCDatos">
+	<ID>4</ID>
+	<indiceNombre>0</indiceNombre>
+	<nombres>
+		<string>NPC Misterioso</string>
+		<string>NPC Misterioso cambiado</string>
+		<string>NPC Misterioso cambiado2</string>
+	</nombres>
+</ObjetoSer>

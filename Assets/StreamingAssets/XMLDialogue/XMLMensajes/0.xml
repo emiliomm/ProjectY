@@ -15,6 +15,12 @@
 				<Options />
 				<Mensajes/>
 				<Intros />
+				<Grupos>
+					<DialogueGrupo>
+						<IDGrupo>0</IDGrupo>
+						<tipo>0</tipo>
+					</DialogueGrupo>
+				</Grupos>
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>1</NodeID>

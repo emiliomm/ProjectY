@@ -7,9 +7,9 @@
 		<ID_Diag>0</ID_Diag>
 	</DatosAccion>
 	<DatosAccion xsi:type="xs:DatosAccionDialogo">
-		<ID>1</ID>
-		<nombre>Descripcion</nombre>
+		<ID>2</ID>
+		<nombre>Prueba2</nombre>
 		<ID_NPC>1</ID_NPC>
-		<ID_Diag>0</ID_Diag>
+		<ID_Diag>10</ID_Diag>
 	</DatosAccion>
 </ArrayOfDatosAccion>

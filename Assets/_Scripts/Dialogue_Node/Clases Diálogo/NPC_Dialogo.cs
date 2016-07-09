@@ -106,6 +106,7 @@ public class NPC_Dialogo : ObjetoSer
 			intros.Add (d);
 
 		//Ordena las intros por prioridad de mayor a menor, manteniendo el orden de los elementos iguales
+		//una intro añadida con la misma prioridad será colocada abajo de los iguales, es decir, como si fuera menor.
 		intros = intros.OrderByDescending(x => x.prioridad).ToList();
 	}
 
@@ -114,7 +115,7 @@ public class NPC_Dialogo : ObjetoSer
 		return intros.Any(x => x.ID == id);
 	}
 
-	//num_tema = -1: se añade a la lista de mensajes sin tema
+	//id_tema = -1: se añade a la lista de mensajes sin tema
 	//x: se añade al tema x
 	public void AnyadirMensaje(int id_tema, Mensaje m)
 	{
@@ -126,12 +127,12 @@ public class NPC_Dialogo : ObjetoSer
 		}
 		else
 		{
-			TemaMensaje tm = DevuelveTemaMensajeConID(id_tema);
+			int indice = temaMensajes.FindIndex(x => x.ID == id_tema); //cogemos el indice del temamensaje buscado
 
 			//El tema mensaje no existe, lo creamos
-			if(tm == null)
+			if(indice == -1)
 			{
-				tm = TemaMensaje.LoadTemaMensaje(Manager.rutaTemaMensajes + id_tema.ToString() + ".xml");
+				TemaMensaje tm = TemaMensaje.LoadTemaMensaje(Manager.rutaTemaMensajes + id_tema.ToString() + ".xml");
 				tm.AddMensaje(m);
 				this.AnyadirTemaMensaje(tm);
 			}
@@ -139,13 +140,17 @@ public class NPC_Dialogo : ObjetoSer
 			//Si no existe, lo añadimos
 			else
 			{
-				if(!MensajeExiste(id_tema, ID))
-					temaMensajes[id_tema].mensajes.Add(m);
+				if(!MensajeExiste(indice, m.ID))
+				{
+					temaMensajes[indice].mensajes.Add(m);
+				}
 			}
 		}
 	}
 
-	//Comprobar antes de usar el método si el num_tema existe
+	//num_tema = lugar donde está el tema en el la lista temaMensajes
+	//ATENCIÓN: COMPROBAR ANTES QUE EL TEMA EXISTE
+	//si el num_tema = -1, es que el mensaje no tiene tema
 	private bool MensajeExiste(int num_tema, int id)
 	{
 		bool existe = false;
@@ -153,14 +158,11 @@ public class NPC_Dialogo : ObjetoSer
 		if(num_tema == -1)
 			existe = mensajes.Any(x => x.ID == id);
 		else
+		{
 			existe = temaMensajes[num_tema].mensajes.Any(x => x.ID == id);
+		}
 
 		return existe;
-	}
-
-	private TemaMensaje DevuelveTemaMensajeConID(int id_tema)
-	{
-		return temaMensajes.Find(x => x.ID == id_tema);
 	}
 
 	public void AnyadirTemaMensaje(TemaMensaje tm)
@@ -278,7 +280,7 @@ public class NPC_Dialogo : ObjetoSer
 						Grupo g = objs as Grupo;
 						Grupo.LoadGrupo(g, ID_NPC, ID, tipo_dialogo, ref num_dialogo);
 
-						//Borramos el grupo de la cola ahora que ya ha sido añadido
+						//Borramos el grupo modificado de la cola ahora que ya ha sido añadido
 						Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 					}
 					else
@@ -299,178 +301,46 @@ public class NPC_Dialogo : ObjetoSer
 			//Si es falso, destruimos el grupo indicado y las intros/mensajes asignados a él
 			else
 			{
-				//Empezamos destruyendo los intros/mensajes del dialogo actual
-				switch(tipo_dialogo)
+				//Solo se pueden eliminar grupos activos actualmente
+				if(Manager.Instance.GrupoActivoExiste(IDGrupo))
 				{
-				//Si estamos en una intro, comprobamos que posicionamos correctamente el indice en las intros
-				case 0:
-					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
+					//Empezamos destruyendo los intros/mensajes del dialogo actual
+					switch(tipo_dialogo)
 					{
-						if(this.intros[j].IDGrupo == IDGrupo)
+					//Si estamos en una intro, comprobamos que posicionamos correctamente el indice en las intros
+					case 0:
+						for(int j = this.DevuelveNumeroIntros() - 1; j >= 0; j--)
 						{
-							//Mantenemos el indice en una posicion correcta
-							if (j < num_dialogo)
+							if(this.intros[j].IDGrupo == IDGrupo)
 							{
-								this.intros.RemoveAt(j);
-								num_dialogo--;
-							}
-							//Si la intro a destruir es el actual, lo destruimos al final (activando la autodestruccion)
-							else if(j == num_dialogo)
-							{
-								intros [num_dialogo].Autodestruye = true;
-							}
-							else if(j > num_dialogo)
-							{
-								this.intros.RemoveAt(j);
-							}
-						}
-					}
-
-					//comprobamos los mensajes con tema
-					for(int j = 0; j < this.DevuelveNumeroTemaMensajes(); j++)
-					{
-						//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-						if(this.temaMensajes[j].IDGrupo == -1)
-						{
-							for(int k = 0; k < this.temaMensajes[j].mensajes.Count; k++)
-							{
-								if(this.temaMensajes[j].mensajes[k].IDGrupo == IDGrupo)
+								//Mantenemos el indice en una posicion correcta
+								if (j < num_dialogo)
 								{
-									this.temaMensajes[j].mensajes.RemoveAt(k);
-
-									//Si el temaMensajes se ha quedado vacío, lo destruimos
-									if(temaMensajes[j].mensajes.Count == 0)
-									{
-										this.temaMensajes.RemoveAt(j);
-									}
+									this.intros.RemoveAt(j);
+									num_dialogo--;
 								}
-							}
-							
-						}
-						//si el tema tiene un idgrupo que coincide con el grupo eliminado, eliminamos todo el temaMensaje
-						else if(this.temaMensajes[j].IDGrupo == IDGrupo)
-						{
-							this.temaMensajes.RemoveAt(j);
-						}
-					}
-
-					//comprobamos los mensajes sin tema
-					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
-					{
-						if(this.mensajes[j].IDGrupo == IDGrupo)
-						{
-							this.mensajes.RemoveAt(j);
-						}
-					}
-					break;
-				//Si estamos en un mensaje sin tema, comprobamos que posicionamos correctamente el indice en los mensajes
-				case 1:
-					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
-					{
-						if(this.intros[j].IDGrupo == IDGrupo)
-						{
-							this.intros.RemoveAt(j);
-						}
-					}
-
-					for(int j = 0; j < this.DevuelveNumeroTemaMensajes(); j++)
-					{
-						//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-						if(this.temaMensajes[j].IDGrupo == -1)
-						{
-							for(int k = 0; k < this.temaMensajes[j].mensajes.Count; k++)
-							{
-								if(this.temaMensajes[j].mensajes[k].IDGrupo == IDGrupo)
+								//Si la intro a destruir es el actual, lo destruimos al final (activando la autodestruccion)
+								else if(j == num_dialogo)
 								{
-									this.temaMensajes[j].mensajes.RemoveAt(k);
-
-									//Si el temaMensajes se ha quedado vacío, lo destruimos
-									if(temaMensajes[j].mensajes.Count == 0)
-									{
-										this.temaMensajes.RemoveAt(j);
-									}
+									intros [num_dialogo].Autodestruye = true;
+								}
+								else if(j > num_dialogo)
+								{
+									this.intros.RemoveAt(j);
 								}
 							}
 						}
-						else if(this.temaMensajes[j].IDGrupo == IDGrupo)
-						{
-							this.temaMensajes.RemoveAt(j);
-						}
-					}
 
-					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
-					{
-						if(this.mensajes[j].IDGrupo == IDGrupo)
+						//comprobamos los mensajes con tema
+						for(int j = this.DevuelveNumeroTemaMensajes() - 1; j >= 0; j--)
 						{
-							//Mantenemos el indice en una posicion correcta
-							if (j < num_dialogo)
+							//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+							//Si el temaMensaje es -1, no forma parte de ningún grupo
+							if(this.temaMensajes[j].IDGrupo == -1)
 							{
-								this.mensajes.RemoveAt(j);
-								num_dialogo--;
-							}
-							//Si el mensaje a destruir es el actual, lo destruimos al final (activando la autodestruccion)
-							else if(j == num_dialogo)
-							{
-								mensajes [num_dialogo].Autodestruye = true;
-							}
-							else if(j > num_dialogo)
-							{
-								this.mensajes.RemoveAt(j);
-							}
-						}
-					}
-					break;
-				//si estamos en un mensaje con tema, comprobamos que posicionamos bien el indice de los mensajes
-				case 2:
-					for(int j = 0; j < this.DevuelveNumeroIntros(); j++)
-					{
-						if(this.intros[j].IDGrupo == IDGrupo)
-						{
-							this.intros.RemoveAt(j);
-						}
-					}
-
-					for(int j = 0; j < this.DevuelveNumeroTemaMensajes(); j++)
-					{
-						//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-						if(this.temaMensajes[j].IDGrupo == -1)
-						{
-							for(int k = 0; k < this.temaMensajes[j].mensajes.Count; k++)
-							{
-								if(this.temaMensajes[j].mensajes[k].IDGrupo == IDGrupo)
+								for(int k = this.temaMensajes[j].mensajes.Count - 1; k >= 0; k--)
 								{
-									//Si nos encontramos en el mensaje que queremos destruir, activamos la autodestruccion
-									if(j == num_tema && k == num_dialogo)
-									{
-										//Mantenemos el indice en una posicion correcta
-										if (k < num_dialogo)
-										{
-											this.temaMensajes[j].mensajes.RemoveAt(k);
-											num_dialogo--;
-
-											//Si el temaMensajes se ha quedado vacío, lo destruimos
-											if(temaMensajes[j].mensajes.Count == 0)
-											{
-												this.temaMensajes.RemoveAt(j);
-											}
-										}
-										//Si el mensaje a destruir es el actual, lo destruimos al final (activando la autodestruccion)
-										else if(k == num_dialogo)
-										{
-											temaMensajes[j].mensajes [num_dialogo].Autodestruye = true;
-										}
-										else if(k > num_dialogo)
-										{
-											this.temaMensajes[j].mensajes.RemoveAt(k);
-
-											//Si el temaMensajes se ha quedado vacío, lo destruimos
-											if(temaMensajes[j].mensajes.Count == 0)
-											{
-												this.temaMensajes.RemoveAt(j);
-											}
-										}
-									}
-									else
+									if(this.temaMensajes[j].mensajes[k].IDGrupo == IDGrupo)
 									{
 										this.temaMensajes[j].mensajes.RemoveAt(k);
 
@@ -482,247 +352,393 @@ public class NPC_Dialogo : ObjetoSer
 									}
 								}
 							}
-						}
-						//Si el tema tiene idgrupo y coincide con el que queremos destruir, comprobamos que no nos encontramos en algun mensaje que debemos destruir
-						else if(this.temaMensajes[j].IDGrupo == IDGrupo)
-						{
-							for(int k = 0; k < this.temaMensajes[j].mensajes.Count; k++)
+							//si el tema tiene un idgrupo que coincide con el grupo eliminado, eliminamos todo el temaMensaje
+							else if(this.temaMensajes[j].IDGrupo == IDGrupo)
 							{
-								//Si nos encontramos en el mensaje que queremos destruir, activamos la autodestruccion
-								if(j == num_tema && k == num_dialogo)
-								{
-									temaMensajes[j].mensajes [num_dialogo].Autodestruye = true;
-								}
-								else
-								{
-									this.temaMensajes[j].mensajes.RemoveAt(k);
+								this.temaMensajes.RemoveAt(j);
+							}
+						}
 
-									//Si el mensajetema ya no tiene mensajes, lo destruimos
-									if(temaMensajes[j].mensajes.Count == 0)
-										this.temaMensajes.RemoveAt(j);
+						//comprobamos los mensajes sin tema
+						for(int j = this.DevuelveNumeroMensajes() - 1; j >= 0; j--)
+						{
+							if(this.mensajes[j].IDGrupo == IDGrupo)
+							{
+								this.mensajes.RemoveAt(j);
+							}
+						}
+						break;
+					//Si estamos en un mensaje sin tema, comprobamos que posicionamos correctamente el indice en los mensajes
+					case 1:
+						for(int j = this.DevuelveNumeroIntros() - 1; j >= 0; j--)
+						{
+							if(this.intros[j].IDGrupo == IDGrupo)
+							{
+								this.intros.RemoveAt(j);
+							}
+						}
+
+						for(int j = this.DevuelveNumeroTemaMensajes() - 1; j >= 0; j--)
+						{
+							//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+							//Si el temaMensaje es -1, no forma parte de ningún grupo
+							if(this.temaMensajes[j].IDGrupo == -1)
+							{
+								for(int k = this.temaMensajes[j].mensajes.Count - 1; k >= 0; k--)
+								{
+									if(this.temaMensajes[j].mensajes[k].IDGrupo == IDGrupo)
+									{
+										this.temaMensajes[j].mensajes.RemoveAt(k);
+
+										//Si el temaMensajes se ha quedado vacío, lo destruimos
+										if(temaMensajes[j].mensajes.Count == 0)
+										{
+											this.temaMensajes.RemoveAt(j);
+										}
+									}
+								}
+							}
+							else if(this.temaMensajes[j].IDGrupo == IDGrupo)
+							{
+								this.temaMensajes.RemoveAt(j);
+							}
+						}
+
+						for(int j = this.DevuelveNumeroMensajes() - 1; j >= 0; j--)
+						{
+							if(this.mensajes[j].IDGrupo == IDGrupo)
+							{
+								//Mantenemos el indice en una posicion correcta
+								if (j < num_dialogo)
+								{
+									this.mensajes.RemoveAt(j);
+									num_dialogo--;
+								}
+								//Si el mensaje a destruir es el actual, lo destruimos al final (activando la autodestruccion)
+								else if(j == num_dialogo)
+								{
+									mensajes [num_dialogo].Autodestruye = true;
+								}
+								else if(j > num_dialogo)
+								{
+									this.mensajes.RemoveAt(j);
 								}
 							}
 						}
-					}
-
-					for(int j = 0; j < this.DevuelveNumeroMensajes(); j++)
-					{
-						if(this.mensajes[j].IDGrupo == IDGrupo)
+						break;
+					//si estamos en un mensaje con tema, comprobamos que posicionamos bien el indice de los mensajes
+					case 2:
+						for(int j = this.DevuelveNumeroIntros() -1; j >= 0; j--)
 						{
-							this.mensajes.RemoveAt(j);
-						}
-					}
-					break;
-				}
-
-				//Ahora comprobamos a los npc de la cola de objetos del manager
-				List<ObjetoSer> listCola = new List<ObjetoSer>();
-				listCola = Manager.Instance.GetColaObjetosTipo(typeof(NPC_Dialogo));
-
-				for(var j = 0; j < listCola.Count; j++)
-				{
-					bool actualizado = false;
-
-					//Buscamos en la cola de objetos
-					ObjetoSer objs = listCola[j];
-					NPC_Dialogo n_diag = objs as NPC_Dialogo;
-
-					for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
-					{
-						if(n_diag.intros[k].IDGrupo == IDGrupo)
-						{
-							n_diag.intros.RemoveAt(k);
-							actualizado = true;
-						}
-					}
-					for(int k = 0; k < n_diag.DevuelveNumeroTemaMensajes(); k++)
-					{
-						//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-						if(n_diag.temaMensajes[k].IDGrupo == -1)
-						{
-							for(int l = 0; l < n_diag.temaMensajes[k].mensajes.Count; l++)
+							if(this.intros[j].IDGrupo == IDGrupo)
 							{
-								if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
-								{
-									n_diag.temaMensajes[k].mensajes.RemoveAt(l);
+								this.intros.RemoveAt(j);
+							}
+						}
 
-									//Si el temaMensajes se ha quedado vacío, lo destruimos
-									if(n_diag.temaMensajes[k].mensajes.Count == 0)
+						for(int j = this.DevuelveNumeroTemaMensajes() -1; j >= 0; j--)
+						{
+							//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+							//Si el temaMensaje es -1, no forma parte de ningún grupo
+							if(this.temaMensajes[j].IDGrupo == -1)
+							{
+								for(int k = this.temaMensajes[j].mensajes.Count - 1; k >= 0; k--)
+								{
+									if(this.temaMensajes[j].mensajes[k].IDGrupo == IDGrupo)
+									{
+										//Si nos encontramos en el mensaje que queremos destruir, activamos la autodestruccion
+										if(j == num_tema && k == num_dialogo)
+										{
+											//Mantenemos el indice en una posicion correcta
+											if (k < num_dialogo)
+											{
+												this.temaMensajes[j].mensajes.RemoveAt(k);
+												num_dialogo--;
+
+												//Si el temaMensajes se ha quedado vacío, lo destruimos
+												if(temaMensajes[j].mensajes.Count == 0)
+												{
+													this.temaMensajes.RemoveAt(j);
+												}
+											}
+											//Si el mensaje a destruir es el actual, lo destruimos al final (activando la autodestruccion)
+											else if(k == num_dialogo)
+											{
+												temaMensajes[j].mensajes [num_dialogo].Autodestruye = true;
+											}
+											else if(k > num_dialogo)
+											{
+												this.temaMensajes[j].mensajes.RemoveAt(k);
+
+												//Si el temaMensajes se ha quedado vacío, lo destruimos
+												if(temaMensajes[j].mensajes.Count == 0)
+												{
+													this.temaMensajes.RemoveAt(j);
+												}
+											}
+										}
+										else
+										{
+											this.temaMensajes[j].mensajes.RemoveAt(k);
+
+											//Si el temaMensajes se ha quedado vacío, lo destruimos
+											if(temaMensajes[j].mensajes.Count == 0)
+											{
+												this.temaMensajes.RemoveAt(j);
+											}
+										}
+									}
+								}
+							}
+							//Si el tema tiene idgrupo y coincide con el que queremos destruir, comprobamos que no nos encontramos en algun mensaje que debemos destruir
+							else if(this.temaMensajes[j].IDGrupo == IDGrupo)
+							{
+								for(int k = this.temaMensajes[j].mensajes.Count - 1; k >= 0; k--)
+								{
+									//Si nos encontramos en el mensaje que queremos destruir, activamos la autodestruccion
+									if(j == num_tema && k == num_dialogo)
+									{
+										temaMensajes[j].mensajes [num_dialogo].Autodestruye = true;
+									}
+									else
+									{
+										this.temaMensajes[j].mensajes.RemoveAt(k);
+
+										//Si el mensajetema ya no tiene mensajes, lo destruimos
+										if(temaMensajes[j].mensajes.Count == 0)
+										{
+											this.temaMensajes.RemoveAt(j);
+										}
+									}
+								}
+							}
+						}
+
+						for(int j = this.DevuelveNumeroMensajes() - 1; j >= 0; j--)
+						{
+							if(this.mensajes[j].IDGrupo == IDGrupo)
+							{
+								this.mensajes.RemoveAt(j);
+							}
+						}
+						break;
+					}
+
+					//Ahora comprobamos a los npc de la cola de objetos del manager
+					List<ObjetoSer> listCola = new List<ObjetoSer>();
+					listCola = Manager.Instance.GetColaObjetosTipo(typeof(NPC_Dialogo));
+
+					for(var j = 0; j < listCola.Count; j++)
+					{
+						bool actualizado = false;
+
+						//Buscamos en la cola de objetos
+						ObjetoSer objs = listCola[j];
+						NPC_Dialogo n_diag = objs as NPC_Dialogo;
+
+						for(int k = n_diag.DevuelveNumeroIntros() - 1; k >= 0; k--)
+						{
+							if(n_diag.intros[k].IDGrupo == IDGrupo)
+							{
+								n_diag.intros.RemoveAt(k);
+								actualizado = true;
+							}
+						}
+						for(int k = n_diag.DevuelveNumeroTemaMensajes() - 1; k >= 0; k--)
+						{
+							//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+							//Si el temaMensaje es -1, no forma parte de ningún grupo
+							if(n_diag.temaMensajes[k].IDGrupo == -1)
+							{
+								for(int l = n_diag.temaMensajes[k].mensajes.Count - 1; l >= 0; l--)
+								{
+									if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
+									{
+										n_diag.temaMensajes[k].mensajes.RemoveAt(l);
+
+										//Si el temaMensajes se ha quedado vacío, lo destruimos
+										if(n_diag.temaMensajes[k].mensajes.Count == 0)
+										{
+											n_diag.temaMensajes.RemoveAt(k);
+										}
+
+										actualizado = true;
+									}
+								}
+							}
+							else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
+							{
+								n_diag.temaMensajes.RemoveAt(k);
+								actualizado = true;
+							}
+						}
+						for(int k = n_diag.DevuelveNumeroMensajes() - 1; k >= 0; k--)
+						{
+							if(n_diag.mensajes[k].IDGrupo == IDGrupo)
+							{
+								n_diag.mensajes.RemoveAt(k);
+								actualizado = true;
+							}
+						}
+
+						if (actualizado) {
+							n_diag.AddToColaObjetos ();
+						}
+					}
+
+					//Ahora comprobamos a los npcs de la escena actual
+					List<GameObject> interactuables = Manager.Instance.GetAllInteractuables();
+
+					for(int j = 0; j < interactuables.Count; j++)
+					{
+						GameObject gobj = interactuables[j];
+						Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+						List<NPC_Dialogo> dialogos = inter.DevolverDialogos();
+
+						for(int z = 0; z < dialogos.Count; z ++)
+						{
+							NPC_Dialogo n_diag = dialogos[z];
+
+							//Si el diálogo no está en la cola de objetos, miramos si hay que borrar algo
+							//Y el dialogo no es el actual
+							if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + inter.ID.ToString() + "-" + n_diag.ID.ToString() + ".xml") && !(ID_NPC == inter.ID && ID == n_diag.ID))
+							{
+								bool actualizado = false;
+
+								for(int k = n_diag.DevuelveNumeroIntros() - 1; k >= 0; k--)
+								{
+									if(n_diag.intros[k].IDGrupo == IDGrupo)
+									{
+										n_diag.intros.RemoveAt(k);
+										actualizado = true;
+									}
+								}
+
+								for(int k = n_diag.DevuelveNumeroTemaMensajes() - 1; k >= 0; k--)
+								{
+									//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+									//Si el temaMensaje es -1, no forma parte de ningún grupo
+									if(n_diag.temaMensajes[k].IDGrupo == -1)
+									{
+										for(int l = n_diag.temaMensajes[k].mensajes.Count - 1; l >= 0; l--)
+										{
+											if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
+											{
+												n_diag.temaMensajes[k].mensajes.RemoveAt(l);
+
+												//Si el temaMensajes se ha quedado vacío, lo destruimos
+												if(n_diag.temaMensajes[k].mensajes.Count == 0)
+												{
+													n_diag.temaMensajes.RemoveAt(k);
+												}
+
+												actualizado = true;
+											}
+										}
+									}
+									else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
 									{
 										n_diag.temaMensajes.RemoveAt(k);
+										actualizado = true;
 									}
-
-									actualizado = true;
 								}
-							}
-						}
-						else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
-						{
-							n_diag.temaMensajes.RemoveAt(k);
-							actualizado = true;
-						}
-					}
-					for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
-					{
-						if(n_diag.mensajes[k].IDGrupo == IDGrupo)
-						{
-							n_diag.mensajes.RemoveAt(k);
-							actualizado = true;
-						}
-					}
 
-					if (actualizado) {
-						n_diag.AddToColaObjetos ();
-					}
-				}
-
-				//Ahora comprobamos a los npcs de la escena actual
-				List<GameObject> interactuables = Manager.Instance.GetAllInteractuables();
-
-				for(int j = 0; j < interactuables.Count; j++)
-				{
-					GameObject gobj = interactuables[j];
-					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-					List<NPC_Dialogo> dialogos = inter.DevolverDialogos();
-
-					for(int z = 0; z < dialogos.Count; z ++)
-					{
-						NPC_Dialogo n_diag = dialogos[z];
-
-						//Si el diálogo no está en la cola de objetos, miramos si hay que borrar algo
-						//Y el dialogo no es el actual
-						if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + inter.ID.ToString() + "-" + n_diag.ID.ToString() + ".xml") && !(ID_NPC == inter.ID && ID == n_diag.ID))
-						{
-							bool actualizado = false;
-
-							for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
-							{
-								if(n_diag.intros[k].IDGrupo == IDGrupo)
+								for(int k = n_diag.DevuelveNumeroMensajes() - 1; k >= 0; k--)
 								{
-									n_diag.intros.RemoveAt(k);
-									actualizado = true;
-								}
-							}
-
-							for(int k = 0; k < n_diag.DevuelveNumeroTemaMensajes(); k++)
-							{
-								//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-								if(n_diag.temaMensajes[k].IDGrupo == -1)
-								{
-									for(int l = 0; l < n_diag.temaMensajes[k].mensajes.Count; l++)
+									if(n_diag.mensajes[k].IDGrupo == IDGrupo)
 									{
-										if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
+										n_diag.mensajes.RemoveAt(k);
+										actualizado = true;
+									}
+								}
+
+								if(actualizado)
+									n_diag.AddToColaObjetos();
+							}
+						}
+					}
+
+					//Ahora recorremos los ficheros guardadados
+					var info = new DirectoryInfo(Manager.rutaNPCDialogosGuardados);
+					var fileInfo = info.GetFiles().OrderByDescending( f => f.CreationTime).ToArray(); //los nuevos empiezan al principio de la lista
+
+					for(var j = 0; j < fileInfo.Length; j++)
+					{
+						//Contiene id_npc-id_diag
+						string ids = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
+
+						//Buscamos en la cola de objetos
+						//Si existe, no hacemos nada
+						//Si no existe, comprobamos el dialogo
+						if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + ids  + ".xml"))
+						{
+							NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ids  + ".xml");
+
+							//Si no es el dialogo actual
+							if(!(ID_NPC == n_diag.ID_NPC && ID == n_diag.ID))
+							{
+								bool actualizado = false;
+
+								for(int k = n_diag.DevuelveNumeroIntros() - 1; k >= 0; k--)
+								{
+									if(n_diag.intros[k].IDGrupo == IDGrupo)
+									{
+										n_diag.intros.RemoveAt(k);
+										actualizado = true;
+									}
+								}
+								for(int k = n_diag.DevuelveNumeroTemaMensajes() - 1; k >= 0; k--)
+								{
+									//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
+									//Si el temaMensaje es -1, no forma parte de ningún grupo
+									if(n_diag.temaMensajes[k].IDGrupo == -1)
+									{
+										for(int l = n_diag.temaMensajes[k].mensajes.Count - 1; l >= 0; l--)
 										{
-											n_diag.temaMensajes[k].mensajes.RemoveAt(l);
-
-											//Si el temaMensajes se ha quedado vacío, lo destruimos
-											if(n_diag.temaMensajes[k].mensajes.Count == 0)
+											if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
 											{
-												n_diag.temaMensajes.RemoveAt(k);
-											}
+												n_diag.temaMensajes[k].mensajes.RemoveAt(l);
 
-											actualizado = true;
+												//Si el temaMensajes se ha quedado vacío, lo destruimos
+												if(n_diag.temaMensajes[k].mensajes.Count == 0)
+												{
+													n_diag.temaMensajes.RemoveAt(k);
+												}
+
+												actualizado = true;
+											}
 										}
 									}
-								}
-								else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
-								{
-									n_diag.temaMensajes.RemoveAt(k);
-									actualizado = true;
-								}
-							}
-
-							for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
-							{
-								if(n_diag.mensajes[k].IDGrupo == IDGrupo)
-								{
-									n_diag.mensajes.RemoveAt(k);
-									actualizado = true;
-								}
-							}
-
-							if(actualizado)
-								n_diag.AddToColaObjetos();
-						}
-					}
-				}
-
-				//Ahora recorremos los ficheros guardadados
-				var info = new DirectoryInfo(Manager.rutaNPCDialogosGuardados);
-				var fileInfo = info.GetFiles().OrderByDescending( f => f.CreationTime).ToArray(); //los nuevos empiezan al principio de la lista
-
-				for(var j = 0; j < fileInfo.Length; j++)
-				{
-					//Contiene id_npc-id_diag
-					string ids = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
-
-					//Buscamos en la cola de objetos
-					//Si existe, no hacemos nada
-					//Si no existe, comprobamos el dialogo
-					if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + ids  + ".xml"))
-					{
-						NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ids  + ".xml");
-
-						//Si no es el dialogo actual
-						if(!(ID_NPC == n_diag.ID_NPC && ID == n_diag.ID))
-						{
-							bool actualizado = false;
-
-							for(int k = 0; k < n_diag.DevuelveNumeroIntros(); k++)
-							{
-								if(n_diag.intros[k].IDGrupo == IDGrupo)
-								{
-									n_diag.intros.RemoveAt(k);
-									actualizado = true;
-								}
-							}
-							for(int k = 0; k < n_diag.DevuelveNumeroTemaMensajes(); k++)
-							{
-								//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
-								if(n_diag.temaMensajes[k].IDGrupo == -1)
-								{
-									for(int l = 0; l < n_diag.temaMensajes[k].mensajes.Count; l++)
+									else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
 									{
-										if(n_diag.temaMensajes[k].mensajes[l].IDGrupo == IDGrupo)
-										{
-											n_diag.temaMensajes[k].mensajes.RemoveAt(l);
-
-											//Si el temaMensajes se ha quedado vacío, lo destruimos
-											if(n_diag.temaMensajes[k].mensajes.Count == 0)
-											{
-												n_diag.temaMensajes.RemoveAt(k);
-											}
-
-											actualizado = true;
-										}
+										n_diag.temaMensajes.RemoveAt(k);
+										actualizado = true;
 									}
 								}
-								else if(n_diag.temaMensajes[k].IDGrupo == IDGrupo)
+								for(int k = n_diag.DevuelveNumeroMensajes() - 1; k >= 0; k--)
 								{
-									n_diag.temaMensajes.RemoveAt(k);
-									actualizado = true;
+									if(n_diag.mensajes[k].IDGrupo == IDGrupo)
+									{
+										n_diag.mensajes.RemoveAt(k);
+										actualizado = true;
+									}
 								}
-							}
-							for(int k = 0; k < n_diag.DevuelveNumeroMensajes(); k++)
-							{
-								if(n_diag.mensajes[k].IDGrupo == IDGrupo)
-								{
-									n_diag.mensajes.RemoveAt(k);
-									actualizado = true;
-								}
-							}
 
-							if (actualizado) {
-								n_diag.AddToColaObjetos ();
+								if (actualizado) {
+									n_diag.AddToColaObjetos ();
+								}
 							}
 						}
 					}
 				}
 
 				//Por último, eliminamos el grupo del Manager
+				/*Si el grupo no está en la lista de grupos activos, se añade a la lista
+				de grupos acabados y no podrá ser añadido*/
 				Manager.Instance.RemoveFromGruposActivos(IDGrupo);
 
 				//FALTA ENVIAR LOS MENSAJES/INTROS DE FINALIZACIÓN
+				//ESTOS SOLO PODRÁN SER ENVIADOS SI EL GRUPO ESTABA EN GRUPOS ACTIVOS
 			}
 		}
 		
@@ -733,36 +749,73 @@ public class NPC_Dialogo : ObjetoSer
 			int IDNpc = node.Intros[i].DevuelveIDNpc();
 			int IDDialogo = node.Intros[i].DevuelveIDDialogo();
 
-			if(IDNpc == -1)
+			Intro intro = Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad);
+
+			//Si la intro forma parte de un grupo y ese grupo ya ha acabado, no es añadida
+			if(!Manager.Instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
 			{
-				//Si estamos en una intro y la prioridad es mayor que la actual, cambiamos el indice de dialogo
-				if(tipo_dialogo == 0 && prioridad > intros[num_dialogo].DevuelvePrioridad())
+				//Si nos encontramos en el diálogo el cual queremos añadir una intro
+				if(IDNpc == this.ID_NPC && IDDialogo == this.ID)
 				{
-					num_dialogo++;
-				}
-
-				AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-			}
-			else
-			{
-				//Buscamos en el diccionario y lo añadimos
-				//si no esta en el diccionario, lo añadimos desde el xml
-				GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
-
-				if(gobj != null)
-				{
-					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-					NPC_Dialogo dialog = inter.DevolverDialogo(IDDialogo);
-
-					if(dialog == null)
+					//Si estamos en una intro y la prioridad es mayor que la actual, cambiamos el indice de dialogo
+					if(tipo_dialogo == 0 && prioridad > intros[num_dialogo].DevuelvePrioridad())
 					{
+						num_dialogo++;
+					}
+
+					AnyadirIntro(intro);
+				}
+				else
+				{
+					//Buscamos en el diccionario y lo añadimos
+					//si no esta en el diccionario, lo añadimos desde el xml
+					GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+
+					if(gobj != null)
+					{
+						Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+						NPC_Dialogo dialog = inter.DevolverDialogo(IDDialogo);
+
+						if(dialog == null)
+						{
+							//Buscamos en la cola de objetos
+							ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
+
+							if(cobj != null)
+							{
+								ObjetoSer objs = cobj.GetObjeto();
+								dialog = objs as NPC_Dialogo;
+							}
+							else
+							{
+								//Cargamos el dialogo
+								//Si existe un fichero guardado, cargamos ese fichero, sino
+								//cargamos el fichero por defecto
+								if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
+								{
+									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								}
+								else
+								{
+									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								}
+							}
+						}
+
+						dialog.AnyadirIntro(intro);
+						dialog.AddToColaObjetos();
+					}
+					else
+					{
+						NPC_Dialogo npc_diag;
+
 						//Buscamos en la cola de objetos
-						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
+						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
 
 						if(cobj != null)
 						{
 							ObjetoSer objs = cobj.GetObjeto();
-							dialog = objs as NPC_Dialogo;
+							npc_diag = objs as NPC_Dialogo;
 						}
 						else
 						{
@@ -771,47 +824,17 @@ public class NPC_Dialogo : ObjetoSer
 							//cargamos el fichero por defecto
 							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
 							{
-								dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 							}
 							else
 							{
-								dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 							}
 						}
+
+						npc_diag.AnyadirIntro(intro);
+						npc_diag.AddToColaObjetos ();
 					}
-
-					dialog.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-					dialog.AddToColaObjetos();
-				}
-				else
-				{
-					NPC_Dialogo npc_diag;
-
-					//Buscamos en la cola de objetos
-					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
-
-					if(cobj != null)
-					{
-						ObjetoSer objs = cobj.GetObjeto();
-						npc_diag = objs as NPC_Dialogo;
-					}
-					else
-					{
-						//Cargamos el dialogo
-						//Si existe un fichero guardado, cargamos ese fichero, sino
-						//cargamos el fichero por defecto
-						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-						else
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-					}
-
-					npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-					npc_diag.AddToColaObjetos ();
 				}
 			}
 		}
@@ -823,30 +846,67 @@ public class NPC_Dialogo : ObjetoSer
 			int IDNpc = node.Mensajes[i].DevuelveIDNpc();
 			int IDDialogo = node.Mensajes[i].DevuelveIDDialogo();
 
-			if(IDNpc == -1)
-			{
-				AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-			}
-			else
-			{
-				//Buscamos en el diccionario y lo añadimos
-				//si no esta en el diccionario, lo añadimos desde el xml
-				GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+			Mensaje mensaje =  Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml");
 
-				if(gobj != null)
+			//Si el mensaje forma parte de un grupo y ese grupo ya ha acabado, no es añadido
+			if(!Manager.Instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
+			{
+				//Si nos encontramos en el diálogo el cual queremos añadir un mensaje
+				if(IDNpc == this.ID_NPC && IDDialogo == this.ID)
 				{
-					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-					NPC_Dialogo dialog = inter.DevolverDialogo(IDDialogo);
+					AnyadirMensaje(IDTema, mensaje);
+				}
+				else
+				{
+					//Buscamos en el diccionario y lo añadimos
+					//si no esta en el diccionario, lo añadimos desde el xml
+					GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
 
-					if(dialog == null)
+					if(gobj != null)
 					{
+						Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+						NPC_Dialogo dialog = inter.DevolverDialogo(IDDialogo);
+
+						if(dialog == null)
+						{
+							//Buscamos en la cola de objetos
+							ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
+
+							if(cobj != null)
+							{
+								ObjetoSer objs = cobj.GetObjeto();
+								dialog = objs as NPC_Dialogo;
+							}
+							else
+							{
+								//Cargamos el dialogo
+								//Si existe un fichero guardado, cargamos ese fichero, sino
+								//cargamos el fichero por defecto
+								if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
+								{
+									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								}
+								else
+								{
+									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								}
+							}
+						}
+
+						dialog.AnyadirMensaje(IDTema, mensaje);
+						dialog.AddToColaObjetos();
+					}
+					else
+					{
+						NPC_Dialogo npc_diag;
+
 						//Buscamos en la cola de objetos
 						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
 
 						if(cobj != null)
 						{
 							ObjetoSer objs = cobj.GetObjeto();
-							dialog = objs as NPC_Dialogo;
+							npc_diag = objs as NPC_Dialogo;
 						}
 						else
 						{
@@ -855,47 +915,17 @@ public class NPC_Dialogo : ObjetoSer
 							//cargamos el fichero por defecto
 							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
 							{
-								dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 							}
 							else
 							{
-								dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
 							}
 						}
+
+						npc_diag.AnyadirMensaje(IDTema, mensaje);
+						npc_diag.AddToColaObjetos ();
 					}
-
-					dialog.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-					dialog.AddToColaObjetos();
-				}
-				else
-				{
-					NPC_Dialogo npc_diag;
-
-					//Buscamos en la cola de objetos
-					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-					if(cobj != null)
-					{
-						ObjetoSer objs = cobj.GetObjeto();
-						npc_diag = objs as NPC_Dialogo;
-					}
-					else
-					{
-						//Cargamos el dialogo
-						//Si existe un fichero guardado, cargamos ese fichero, sino
-						//cargamos el fichero por defecto
-						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-						else
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-						}
-					}
-
-					npc_diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-					npc_diag.AddToColaObjetos ();
 				}
 			}
 		}

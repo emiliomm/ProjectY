@@ -1,13 +1,24 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Personaje y Camara\TP_Animator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StreamingAssets\NPCDialogue\0-10.xml">
     <Files>
-      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" Line="29" Column="3" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\Helper.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="15" Column="64" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-10.xml" Line="36" Column="18" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\1-10.xml" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="853" Column="5" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo\Lanzador.cs" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLGrupos\Lanzador\0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLMensajes\0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLMensajes\1.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLMensajes\XMLMensajeTemas\0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLGrupos\0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLIntros\0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\2-0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\4-0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLIntros\1.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\2-10.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDatos\0.xml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -33,13 +33,7 @@
 								<valor>5</valor>
 							</DialogueGrupoVariable>
 						</GruposVariables>
-<!--						<Intros>
-							<DialogueAddIntro>
-								<IDNpc>1</IDNpc>
-								<prioridad>1</prioridad>
-								<IDIntro>1</IDIntro>
-							</DialogueAddIntro>
-						</Intros>-->
+						<Intros />
 <!--						<Grupos>
 							<DialogueGrupo>
 								<IDGrupo>0</IDGrupo>

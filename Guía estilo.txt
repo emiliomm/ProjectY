@@ -1,0 +1,8 @@
+ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
+- Cuando un grupo no está activado y acabamos el grupo, el grupo ya no podrá ser activado en el futuro.
+- El dialogo actual siempre se guarda/serializa, tenga cambios o no (cambiar ¿?, ten en cuenta que en el código ya está pensado, habría que cambiar bastante)
+- Las intros y mensajes incluidos por defecto en los dialogos (al empezar), no pueden tener idGrupo, ya que los elementos de grupo son añadidos al modificar un dialogo, los elementos no podrian ser borrados ya que el grupo solo mira en la lista de dialogos modificados
+- Una intro añadida con la misma prioridad será colocada debajo de las iguales, es decir, como si fuera menor.
+- Si un grupo está en la lista de acabados, si se quiere añadir un mensaje/intro de ese grupo a algún diálogo, este no será lanzado, ya que el grupo ya ha acabado
+- La autodestrucción de la intro/mensajes se activa al cambiar de tema, abandonar una conversación o acabarla. Cuidado con el sitio donde se activa la autodestruccion
+- Los intros/mensajes lanzados por un grupo pueden pertenecer a cualquier grupo o a ninguno, aunque lo recomendable es que pertenezcan al mismo

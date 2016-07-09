@@ -5,7 +5,7 @@ namespace DialogueTree
 {
 	public class DialogueNombre
 	{
-		public int IDNpc;
+		public int IDNpc; //-1: ID propio, x: ID NPC
 		public int indiceNombre;
 
 		public DialogueNombre() {  }

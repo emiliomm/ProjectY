@@ -1,6 +1,6 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
-- El dialogo actual puede ser comprobado mas de una vez al añadir o eliminar grupo, mirar si hay más errores
+- El personaje no cae bien y repite la animación de caerse constantemente
 - El texto de las acciones causa colision con el personaje
 - La caja de colision de los npcs colisiona con la camara
 
@@ -9,14 +9,23 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Como solucionarlo? Ni idea, una manera sería duplicar objetos, solo sombras, muy costoso, buscar más opciones
 
 - La luz del mapa1 no carga correctamente al pasar de inicio al mapa
-	* ¿Por qué? Probablemente por un error de Unity
-	* ¿Cómo solucionarlo? Investigar
+	* ¿Por qué? Se trata de un error de Unity que solo ocurre en el editor
+	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Crear sistema de rutinas de los NPCs
+	- Hacer que los NPCs interactuen entre ellos sin que el jugador intervemga (dos NPCs que se encuentran y dependiendo de los temas, modifican(o no) sus variables y rutinas)
+- Al entrar en un temamensaje, poder ir hacia el menu de mensajes
+- Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
+- Borrar los assets que sobran y mover los que son usados a las carpetas principales
+- Implementar el dialogo a distancia
+- Añadir/eliminar acciones en el dialogo
+- El radio de las acciones es igual pero al no estar centrada la posicion respecto al texto unas acciones son más dificiles de alcanzar
+- Mirar que hacer con el indice_inicial de las intros y ver si hay que implementarlas en los mensajes o eliminarlo totalmente
 - Probar y mejorar el sistema de animaciones
-- Probar los dialogos, con los cambios hechos pueden fallas cosas
 - Serializar los objetoser como las acciones, sin cambiar el nombre
 - Refractorizar partes de NPC (nombres funciones, parámetros, etc.)
+- Comentar todo el código
 - Ordenar clase NPC_Dialogo, mirar que es necesario en cada método y quitar lo innecesario
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
 - Añadir una esfera con triggers que almacene una lista de objetos cercanos para no tener que estar comprobando toda la escena con el focus del objeto
@@ -31,4 +40,4 @@ COSAS POR HACER:
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?
-
+- Seguir patrones de programación(una vez casi acabado el juego)

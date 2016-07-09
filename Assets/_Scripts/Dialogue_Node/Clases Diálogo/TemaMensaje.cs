@@ -6,7 +6,7 @@ using DialogueTree;
 
 public class TemaMensaje{
 
-	public int ID;
+	public int ID; //ID Tema
 	//-1 si no tiene grupo, x si tiene. El grupo del TemaMensaje sustituye al grupo de los mensajes
 	//contenidos en él, excepto si no tiene grupo
 	public int IDGrupo;

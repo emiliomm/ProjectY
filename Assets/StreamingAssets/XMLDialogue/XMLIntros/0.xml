@@ -14,13 +14,19 @@
 				<Options />
 				<Mensajes />
 				<Intros />
+				<Grupos>
+<!--					<DialogueGrupo>
+						<IDGrupo>0</IDGrupo>
+						<tipo>0</tipo>
+					</DialogueGrupo>-->
+				</Grupos>
 				<GruposVariables>
-					<DialogueGrupoVariable>
+<!--					<DialogueGrupoVariable>
 						<IDGrupo>1</IDGrupo>
 						<tipo>0</tipo>
 						<num>2</num>
 						<valor>1</valor>
-					</DialogueGrupoVariable>
+					</DialogueGrupoVariable>-->
 				</GruposVariables>
 			</DialogueNode>
 			<DialogueNode>

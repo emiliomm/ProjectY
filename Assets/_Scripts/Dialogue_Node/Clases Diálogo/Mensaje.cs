@@ -18,16 +18,14 @@ public class Mensaje{
 		dia = new Dialogue();
 	}
 
-	public static Mensaje LoadMensaje(string path)
-	{
-		Mensaje men = Manager.Instance.DeserializeDataWithReturn<Mensaje>(path);
-
-		return men;
-	}
-
 	public Dialogue DevuelveDialogo()
 	{
 		return dia;
+	}
+
+	public int DevuelveIDGrupo()
+	{
+		return IDGrupo;
 	}
 
 	public string DevuelveTexto()
@@ -38,6 +36,13 @@ public class Mensaje{
 	public void MarcarRecorrido(int node_id)
 	{
 		dia.MarcarRecorrido(node_id);
+	}
+
+	public static Mensaje LoadMensaje(string path)
+	{
+		Mensaje men = Manager.Instance.DeserializeDataWithReturn<Mensaje>(path);
+
+		return men;
 	}
 
 }

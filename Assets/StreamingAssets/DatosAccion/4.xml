@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDatosAccion xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<DatosAccion xsi:type="xs:DatosAccionDialogo">
+		<ID>7</ID>
+		<nombre>Prueba3</nombre>
+		<ID_NPC>4</ID_NPC>
+		<ID_Diag>0</ID_Diag>
+	</DatosAccion>
+</ArrayOfDatosAccion>

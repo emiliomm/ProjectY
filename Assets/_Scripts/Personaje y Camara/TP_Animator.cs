@@ -88,6 +88,7 @@ public class TP_Animator : MonoBehaviour
 		if(State == CharacterState.Dead)
 			return;
 
+		//corregir fallo no deja de caer
 		if(!TP_Controller.CharacterController.isGrounded)
 		{
 			if(State != CharacterState.Falling &&
@@ -189,7 +190,6 @@ public class TP_Animator : MonoBehaviour
 		Animator anim=GetComponent<Animator>();
 		anim.SetBool("isRunning", false);
 		anim.SetBool("isWalkingBackwards", false);
-		anim.SetBool("isLanding", false);
 	}
 
 	void Running()
@@ -251,6 +251,7 @@ public class TP_Animator : MonoBehaviour
 	void Landing()
 	{
 		Animator anim=GetComponent<Animator>();
+
 		//Cuando hemos acabado la animación
 		if(anim.GetCurrentAnimatorStateInfo(0).IsName("Landing") && 
 			anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)

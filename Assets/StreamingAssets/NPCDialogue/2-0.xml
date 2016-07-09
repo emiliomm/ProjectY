@@ -5,7 +5,7 @@
 	<intros>
 		<Intro>
 			<ID>301</ID>
-			<IDGrupo>0</IDGrupo>
+			<IDGrupo>-1</IDGrupo>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>

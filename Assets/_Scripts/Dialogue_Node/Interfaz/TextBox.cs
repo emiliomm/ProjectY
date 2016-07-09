@@ -14,8 +14,6 @@ public class TextBox : MonoBehaviour {
 
 	public static TextBox Instance; //Instancia propia de la clase
 
-	public GameObject DialogueWindowPrefab; //prefab que será la ventana de dialogo, NO ESTÁ EN USO
-
 	private NPC_Dialogo npc_dialogo;
 	private Interactuable inter;
 
@@ -144,11 +142,6 @@ public class TextBox : MonoBehaviour {
 		StartCoroutine(run());
 	}
 
-	public void SetSelectedOption(int x)
-	{
-		selected_option = x;
-	}
-
 	public IEnumerator run()
 	{
 		//principio del dialogo
@@ -182,9 +175,11 @@ public class TextBox : MonoBehaviour {
 				switch(selected_option)
 				{
 				case -3: //La conversación acaba
+					EliminarDialogo(ref num_dialog, num_tema);
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
+					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
@@ -211,9 +206,28 @@ public class TextBox : MonoBehaviour {
 					{
 						SetState(State.Intro_Opciones);
 					}
-					else
+					//Comprobamos si se puede avanzar en el dialogo
+					else if(dialog.AvanzaDialogue(node_id))
 					{
 						node_id++;
+					}
+					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
+					else
+					{
+						EliminarDialogo(ref num_dialog, num_tema);
+						//Si hay más dialogos, vamos al siguiente dialogo
+						if (npc_dialogo.AvanzaIntro(num_dialog))
+						{
+							num_dialog++;
+							dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
+							node_id = 0;
+						}
+						//Sino, se muestran las respuestas
+						else
+						{
+							SetState(State.Mensajes_Menu);
+						}
+
 					}
 					break;
 				}
@@ -231,9 +245,11 @@ public class TextBox : MonoBehaviour {
 				switch(selected_option)
 				{
 				case -3: //La conversación acaba
+					EliminarDialogo(ref num_dialog, num_tema);
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
+					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
@@ -344,15 +360,17 @@ public class TextBox : MonoBehaviour {
 				switch(selected_option)
 				{
 				case -3: //La conversación acaba
+					EliminarDialogo(ref num_dialog, num_tema);
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
+					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					SetState(State.Mensajes_Menu);
 					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
 					EliminarDialogo(ref num_dialog, num_tema);
+					SetState(State.Mensajes_Menu);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
 					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
@@ -361,9 +379,16 @@ public class TextBox : MonoBehaviour {
 					{
 						SetState(State.Mensajes_Opciones);
 					}
-					else
+					//Comprobamos si se puede avanzar en el dialogo
+					else if(dialog.AvanzaDialogue(node_id))
 					{
 						node_id++;
+					}
+					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
+					else
+					{
+						SetState(State.Mensajes_Menu);
+						EliminarDialogo(ref num_dialog, num_tema);
 					}
 					break;
 				}
@@ -381,9 +406,11 @@ public class TextBox : MonoBehaviour {
 				switch(selected_option)
 				{
 				case -3: //La conversación acaba
+					EliminarDialogo(ref num_dialog, num_tema);
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
+					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
@@ -449,6 +476,11 @@ public class TextBox : MonoBehaviour {
 				npc_dialogo.MarcaDialogueNodeComoLeido(2, ref num_dialog, node_id, num_tema);
 			break;
 		}
+	}
+
+	public void SetSelectedOption(int x)
+	{
+		selected_option = x;
 	}
 
 	//Muestra texto del diálogo

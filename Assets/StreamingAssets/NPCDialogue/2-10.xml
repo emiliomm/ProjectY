@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID_NPC>2</ID_NPC>
+	<ID>10</ID>
+	<intros>
+		<Intro>
+			<ID>31</ID>
+			<IDGrupo>-1</IDGrupo>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Nombre>-1</Nombre>
+						<Text>ESTE ES EL CUARTO DIALOGO</Text>
+						<recorrido>false</recorrido>
+						<destruido>true</destruido>
+						<Options />
+						<Mensajes />
+						<GruposVariables>
+							<DialogueGrupoVariable>
+								<IDGrupo>0</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>
+							<DialogueGrupoVariable>
+								<IDGrupo>1</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>
+						</GruposVariables>
+						<Intros>
+							<DialogueAddIntro>
+								<IDNpc>1</IDNpc>
+								<prioridad>1</prioridad>
+								<IDIntro>1</IDIntro>
+							</DialogueAddIntro>
+						</Intros>
+						<Grupos>
+							<DialogueGrupo>
+								<IDGrupo>0</IDGrupo>
+								<tipo>1</tipo>
+							</DialogueGrupo>
+						</Grupos>
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+	</intros>
+	<mensajes>
+		<Mensaje>
+			<ID>31</ID>
+			<IDGrupo>-1</IDGrupo>
+			<Autodestruye>false</Autodestruye>
+			<texto>Opcion 0</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Nombre>-1</Nombre>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+	</mensajes>
+</ObjetoSer>

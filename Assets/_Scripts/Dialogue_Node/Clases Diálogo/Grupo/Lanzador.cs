@@ -37,43 +37,84 @@ public class Lanzador{
 			int IDNpc = intros[i].DevuelveIDNpc();
 			int IDDialogo = intros[i].DevuelveIDDialogo();
 
-			//Buscamos en el diccionario y lo añadimos
-			//si no esta en el diccionario, lo añadimos desde el xml
-			GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+			Intro intro = Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad);
 
-			if(gobj != null)
+			//Si la intro forma parte de un grupo y ese grupo ya ha acabado, no es añadida
+			if(!Manager.Instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
 			{
-				Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-				NPC_Dialogo diag = inter.DevolverDialogo(IDDialogo);
 
-				if(diag != null)
+				//Buscamos en el diccionario y lo añadimos
+				//si no esta en el diccionario, lo añadimos desde el xml
+				GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+
+				if(gobj != null)
 				{
-					diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
+					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+					NPC_Dialogo diag = inter.DevolverDialogo(IDDialogo);
 
-					//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
-					//Comprobamos si tenemos que cambiar el indice de dialogo
-					if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo)
+					if(diag != null)
 					{
-						//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
-						//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
-						if(prioridad > diag.intros[num_dialogo].DevuelvePrioridad() && tipo_dialogo == 0)
-							num_dialogo++;
+						
+						//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
+						//Comprobamos si tenemos que cambiar el indice de dialogo
+						if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo)
+						{
+							//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
+							//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
+							if(prioridad > diag.intros[num_dialogo].DevuelvePrioridad() && tipo_dialogo == 0)
+							{
+								num_dialogo++;
+							}
+
+							diag.AnyadirIntro(intro);
+						}
+						//Si no es el dialogo actual lo añadimos a la cola
+						else
+						{
+							diag.AnyadirIntro(intro);
+							diag.AddToColaObjetos();
+						}
 					}
-					//Si no es el dialogo actual lo añadimos a la cola
 					else
 					{
-						diag.AddToColaObjetos();
+						//Buscamos en la cola de objetos
+						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
+
+						if(cobj != null)
+						{
+							ObjetoSer objs = cobj.GetObjeto();
+							diag = objs as NPC_Dialogo;
+						}
+						else
+						{
+							//Cargamos el dialogo
+							//Si existe un fichero guardado, cargamos ese fichero, sino
+							//cargamos el fichero por defecto
+							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
+							{
+								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							}
+							else
+							{
+								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							}
+						}
+
+						diag.AnyadirIntro(intro);
+						diag.AddToColaObjetos ();
 					}
 				}
 				else
 				{
+					NPC_Dialogo npc_diag;
+
 					//Buscamos en la cola de objetos
 					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
 
 					if(cobj != null)
 					{
 						ObjetoSer objs = cobj.GetObjeto();
-						diag = objs as NPC_Dialogo;
+						npc_diag = objs as NPC_Dialogo;
 					}
 					else
 					{
@@ -82,47 +123,17 @@ public class Lanzador{
 						//cargamos el fichero por defecto
 						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
 						{
-							diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 						}
 						else
 						{
-							diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 						}
 					}
 
-					diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-					diag.AddToColaObjetos ();
+					npc_diag.AnyadirIntro(intro);
+					npc_diag.AddToColaObjetos ();
 				}
-			}
-			else
-			{
-				NPC_Dialogo npc_diag;
-
-				//Buscamos en la cola de objetos
-				ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-				if(cobj != null)
-				{
-					ObjetoSer objs = cobj.GetObjeto();
-					npc_diag = objs as NPC_Dialogo;
-				}
-				else
-				{
-					//Cargamos el dialogo
-					//Si existe un fichero guardado, cargamos ese fichero, sino
-					//cargamos el fichero por defecto
-					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-					}
-					else
-					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-					}
-				}
-
-				npc_diag.AnyadirIntro(Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad));
-				npc_diag.AddToColaObjetos ();
 			}
 		}
 
@@ -133,34 +144,70 @@ public class Lanzador{
 			int IDNpc = mensajes[i].DevuelveIDNpc();
 			int IDDialogo = mensajes[i].DevuelveIDDialogo();
 
-			//Buscamos en el diccionario y lo añadimos
-			//si no esta en el diccionario, lo añadimos desde el xml
-			GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+			Mensaje mensaje = Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml");
 
-			if(gobj != null)
+			//Si el mensaje forma parte de un grupo y ese grupo ya ha acabado, no es añadido
+			if(!Manager.Instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
 			{
-				Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-				NPC_Dialogo diag = inter.DevolverDialogo(IDDialogo);
+				//Buscamos en el diccionario y lo añadimos
+				//si no esta en el diccionario, lo añadimos desde el xml
+				GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
 
-				if(diag != null)
+				if(gobj != null)
 				{
-					diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
+					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+					NPC_Dialogo diag = inter.DevolverDialogo(IDDialogo);
 
-					//Si no es el dialogo actual lo añadimos a la cola
-					if(!(ID_NPC == IDNpc && ID_DiagActual == IDDialogo))
+					if(diag != null)
 					{
-						diag.AddToColaObjetos();
+						diag.AnyadirMensaje(IDTema, mensaje);
+
+						//Si no es el dialogo actual lo añadimos a la cola
+						if(!(ID_NPC == IDNpc && ID_DiagActual == IDDialogo))
+						{
+							diag.AddToColaObjetos();
+						}
+					}
+					else
+					{
+						//Buscamos en la cola de objetos
+						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
+
+						if(cobj != null)
+						{
+							ObjetoSer objs = cobj.GetObjeto();
+							diag = objs as NPC_Dialogo;
+						}
+						else
+						{
+							//Cargamos el dialogo
+							//Si existe un fichero guardado, cargamos ese fichero, sino
+							//cargamos el fichero por defecto
+							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
+							{
+								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							}
+							else
+							{
+								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							}
+						}
+
+						diag.AnyadirMensaje(IDTema, mensaje);
+						diag.AddToColaObjetos ();
 					}
 				}
 				else
 				{
+					NPC_Dialogo npc_diag;
+
 					//Buscamos en la cola de objetos
 					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
 
 					if(cobj != null)
 					{
 						ObjetoSer objs = cobj.GetObjeto();
-						diag = objs as NPC_Dialogo;
+						npc_diag = objs as NPC_Dialogo;
 					}
 					else
 					{
@@ -169,47 +216,17 @@ public class Lanzador{
 						//cargamos el fichero por defecto
 						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
 						{
-							diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 						}
 						else
 						{
-							diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 						}
 					}
 
-					diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-					diag.AddToColaObjetos ();
+					npc_diag.AnyadirMensaje(IDTema, mensaje);
+					npc_diag.AddToColaObjetos ();
 				}
-			}
-			else
-			{
-				NPC_Dialogo npc_diag;
-
-				//Buscamos en la cola de objetos
-				ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-				if(cobj != null)
-				{
-					ObjetoSer objs = cobj.GetObjeto();
-					npc_diag = objs as NPC_Dialogo;
-				}
-				else
-				{
-					//Cargamos el dialogo
-					//Si existe un fichero guardado, cargamos ese fichero, sino
-					//cargamos el fichero por defecto
-					if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-					}
-					else
-					{
-						npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-					}
-				}
-
-				npc_diag.AnyadirMensaje(IDTema, Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml"));
-				npc_diag.AddToColaObjetos ();
 			}
 		}
 	}

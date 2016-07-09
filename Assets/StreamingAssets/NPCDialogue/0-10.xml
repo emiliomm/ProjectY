@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID_NPC>0</ID_NPC>
+	<ID>10</ID>
+	<intros>
+		<Intro>
+			<ID>11</ID>
+			<IDGrupo>-1</IDGrupo>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Nombre>-1</Nombre>
+						<Text>ESTE ES EL CUARTO DIALOGO</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Options />
+						<Intros>
+<!--							<DialogueAddIntro>
+								<IDNpc>1</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<prioridad>1</prioridad>
+								<IDIntro>1</IDIntro>
+							</DialogueAddIntro>-->
+						</Intros>
+						<Mensajes>
+							<DialogueAddMensaje>
+								<IDNpc>4</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<IDTema>0</IDTema>
+								<IDMensaje>0</IDMensaje>
+							</DialogueAddMensaje>
+						</Mensajes>
+						<GruposVariables>
+<!--							<DialogueGrupoVariable>
+								<IDGrupo>0</IDGrupo>
+								<tipo>0</tipo>
+								<num>0</num>
+								<valor>5</valor>
+							</DialogueGrupoVariable>-->
+						</GruposVariables>
+						<Grupos>
+<!--							<DialogueGrupo>
+								<IDGrupo>0</IDGrupo>
+								<tipo>1</tipo>
+							</DialogueGrupo>-->
+						</Grupos>
+						<Nombres>
+<!--							<DialogueNombre>
+								<IDNpc>1</IDNpc>
+								<indiceNombre>1</indiceNombre>
+							</DialogueNombre>-->
+						</Nombres>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<Nombre>-1</Nombre>
+						<Text>ESTE ES EL CUARTO DIALOGO (OTRA VEZ)</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Options />
+						<Mensajes>
+							<DialogueAddMensaje>
+								<IDNpc>4</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<IDTema>0</IDTema>
+								<IDMensaje>1</IDMensaje>
+							</DialogueAddMensaje>
+						</Mensajes>
+						<GruposVariables />
+						<Intros>
+<!--							<DialogueAddIntro>
+								<IDNpc>4</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<prioridad>1</prioridad>
+								<IDIntro>1</IDIntro>
+							</DialogueAddIntro>-->
+						</Intros>
+						<Grupos>
+<!--							<DialogueGrupo>
+								<IDGrupo>0</IDGrupo>
+								<tipo>0</tipo>
+							</DialogueGrupo>-->
+						</Grupos>
+						<Nombres>
+<!--							<DialogueNombre>
+								<IDNpc>4</IDNpc>
+								<indiceNombre>2</indiceNombre>
+							</DialogueNombre>-->
+						</Nombres>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<Nombre>-1</Nombre>
+						<Text>ESTE ES EL CUARTO DIALOGO (OTRA VEZ2)</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Options />
+						<Mensajes />
+						<GruposVariables />
+						<Intros>
+<!--							<DialogueAddIntro>
+								<IDNpc>0</IDNpc>
+								<IDDialogo>10</IDDialogo>
+								<prioridad>1</prioridad>
+								<IDIntro>1</IDIntro>
+							</DialogueAddIntro>-->
+						</Intros>
+<!--						<Grupos>
+							<DialogueGrupo>
+								<IDGrupo>0</IDGrupo>
+								<tipo>1</tipo>
+							</DialogueGrupo>
+						</Grupos>-->
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+	</intros>
+	<mensajes>
+		<Mensaje>
+			<ID>11</ID>
+			<IDGrupo>-1</IDGrupo>
+			<Autodestruye>false</Autodestruye>
+			<texto>Opcion 0</texto>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<Nombre>-1</Nombre>
+						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Options />
+						<Mensajes />
+						<Intros />
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Mensaje>
+	</mensajes>
+</ObjetoSer>

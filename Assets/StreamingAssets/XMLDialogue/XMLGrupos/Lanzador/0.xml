@@ -2,21 +2,60 @@
 <Lanzador xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <intros>
   	<DialogueAddIntro>
+		<IDNpc>0</IDNpc>
+		<IDDialogo>10</IDDialogo>
+  		<prioridad>0</prioridad>
+		<IDIntro>0</IDIntro>
+  	</DialogueAddIntro>
+<!--  	<DialogueAddIntro>
+		<IDNpc>0</IDNpc>
+		<IDDialogo>0</IDDialogo>
+  		<prioridad>2</prioridad>
+		<IDIntro>0</IDIntro>
+  	</DialogueAddIntro>
+  	<DialogueAddIntro>
 		<IDNpc>1</IDNpc>
-  		<prioridad>1</prioridad>
+		<IDDialogo>0</IDDialogo>
+  		<prioridad>2</prioridad>
+		<IDIntro>0</IDIntro>
+  	</DialogueAddIntro> -->
+  	<DialogueAddIntro>
+		<IDNpc>4</IDNpc>
+		<IDDialogo>0</IDDialogo>
+  		<prioridad>2</prioridad>
 		<IDIntro>0</IDIntro>
   	</DialogueAddIntro>
   </intros>
   <mensajes>
-  	<DialogueAddMensaje>
-  		<IDNpc>1</IDNpc>
+<!--  	<DialogueAddMensaje>
+  		<IDNpc>0</IDNpc>
+  		<IDDialogo>10</IDDialogo>
   		<IDTema>0</IDTema>
   		<IDMensaje>0</IDMensaje>
   	</DialogueAddMensaje>
   	<DialogueAddMensaje>
-  		<IDNpc>1</IDNpc>
-  		<IDTema>1</IDTema>
+  		<IDNpc>4</IDNpc>
+  		<IDDialogo>0</IDDialogo>
+  		<IDTema>0</IDTema>
+  		<IDMensaje>0</IDMensaje>
+  	</DialogueAddMensaje>
+  	<DialogueAddMensaje>
+  		<IDNpc>4</IDNpc>
+  		<IDDialogo>0</IDDialogo>
+  		<IDTema>0</IDTema>
   		<IDMensaje>1</IDMensaje>
   	</DialogueAddMensaje>
+ 	<DialogueAddMensaje>
+  		<IDNpc>1</IDNpc>
+  		<IDDialogo>0</IDDialogo>
+  		<IDTema>0</IDTema>
+  		<IDMensaje>0</IDMensaje>
+  	</DialogueAddMensaje>
+  	<DialogueAddMensaje>
+  		<IDNpc>4</IDNpc>
+  		<IDDialogo>0</IDDialogo>
+  		<IDTema>0</IDTema>
+  		<IDMensaje>0</IDMensaje>
+  	</DialogueAddMensaje>-->
   </mensajes>
 </Lanzador>
