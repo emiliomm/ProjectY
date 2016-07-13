@@ -20,6 +20,11 @@ public class Grupo : ObjetoSer{
 		variables = new List<int>();
 	}
 
+	public int DevolverIDGrupo()
+	{
+		return idGrupo;
+	}
+
 	//Devuelve un grupo
 	public static Grupo CreateGrupo(string path)
 	{
@@ -45,17 +50,7 @@ public class Grupo : ObjetoSer{
 		Manager.Instance.AddToGruposActivos(g);
 	}
 
-	public int DevolverIDGrupo()
-	{
-		return idGrupo;
-	}
-		
 	//CUIDADO !!! ESTO SERIALIZA EL GRUPO EN EL DIRECTORIO DE GRUPOS MODIFICADOS. DE GUARDAR UN GRUPO EN LA LISTA DE GRUPOS ACTIVOS SE ENCARGA EL MANAGER
-	public void Serialize()
-	{
-		Manager.Instance.SerializeData(this, Manager.rutaGruposModificados, Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml");
-	}
-
 	public void AddToColaObjetos()
 	{
 		Manager.Instance.AddToColaObjetos(Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml", this);

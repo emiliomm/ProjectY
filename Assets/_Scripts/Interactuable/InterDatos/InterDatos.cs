@@ -27,11 +27,6 @@ public class InterDatos : ObjetoSer{
 		return inter_datos;
 	}
 
-	public void Serialize()
-	{
-		Manager.Instance.SerializeData(this, Manager.rutaNPCDatosGuardados, Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml");
-	}
-
 	public void AddToColaObjetos()
 	{
 		Manager.Instance.AddToColaObjetos(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml", this);

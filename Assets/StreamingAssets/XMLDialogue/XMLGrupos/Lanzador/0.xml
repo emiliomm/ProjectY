@@ -7,6 +7,12 @@
   		<prioridad>0</prioridad>
 		<IDIntro>0</IDIntro>
   	</DialogueAddIntro>
+  	<DialogueAddIntro>
+		<IDNpc>0</IDNpc>
+		<IDDialogo>0</IDDialogo>
+  		<prioridad>0</prioridad>
+		<IDIntro>0</IDIntro>
+  	</DialogueAddIntro>
 <!--  	<DialogueAddIntro>
 		<IDNpc>0</IDNpc>
 		<IDDialogo>0</IDDialogo>

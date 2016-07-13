@@ -15,10 +15,6 @@ public class TP_Animator : MonoBehaviour
 		Idle, Running, WalkBackwards, StrafingLeft, StrafingRight, Jumping,
 		Falling, Landing, Climbing, Sliding, Using, Dead, ActionLocked
 	}
-	public static TP_Animator Instance;
-
-	//propiedad que guarda nuestra direccion
-	public Direction MoveDirection {get; set; }
 
 	public CharacterState State {get; set; }
 	public CharacterState PrevState {get; set; }
@@ -27,6 +23,11 @@ public class TP_Animator : MonoBehaviour
 		PrevState = State;
 		State = newState;
 	}
+
+	public static TP_Animator Instance;
+
+	//propiedad que guarda nuestra direccion
+	public Direction MoveDirection {get; set; }
 
 	void Awake()
 	{
@@ -89,7 +90,7 @@ public class TP_Animator : MonoBehaviour
 			return;
 
 		//corregir fallo no deja de caer
-		if(!TP_Controller.CharacterController.isGrounded)
+		if(!TP_Controller.Instance.onGround)
 		{
 			if(State != CharacterState.Falling &&
 			   State != CharacterState.Jumping && 
@@ -220,7 +221,7 @@ public class TP_Animator : MonoBehaviour
 	{
 		Animator anim=GetComponent<Animator>();
 
-		if(TP_Controller.CharacterController.isGrounded)
+		if(TP_Controller.Instance.onGround)
 		{
 			//crouching
 		}
@@ -238,7 +239,7 @@ public class TP_Animator : MonoBehaviour
 
 	void Falling()
 	{
-		if(TP_Controller.CharacterController.isGrounded)
+		if(TP_Controller.Instance.onGround && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Falling"))
 		{
 			Animator anim=GetComponent<Animator>();
 			anim.SetBool("isLanding", true);
@@ -267,7 +268,7 @@ public class TP_Animator : MonoBehaviour
 
 	public void Jump()
 	{
-		if(!TP_Controller.CharacterController.isGrounded || State == CharacterState.Jumping)
+		if(!TP_Controller.Instance.onGround || State == CharacterState.Jumping)
 			return;
 
 		Animator anim=GetComponent<Animator>();
@@ -276,7 +277,6 @@ public class TP_Animator : MonoBehaviour
 		{
 			anim.SetBool("isRunning", false);
 		}
-		
 
 		anim.SetBool("isJumping", true);
 		SetState(CharacterState.Jumping);
@@ -284,10 +284,13 @@ public class TP_Animator : MonoBehaviour
 
 	public void Fall()
 	{
-		SetState(CharacterState.Falling);
-		//if we are too high do something
-		Animator anim=GetComponent<Animator>();
-		anim.SetBool("isFalling", true);
+		if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Idle") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Jumping") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Running"))
+		{
+			SetState(CharacterState.Falling);
+			//if we are too high do something
+			Animator anim=GetComponent<Animator>();
+			anim.SetBool("isFalling", true);
+		}
 	}
 
 	#endregion

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfRutina xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Rutina>
+		<ID>4</ID>
+		<ID_Inter>4</ID_Inter>
+		<tipo_Inter>1</tipo_Inter>
+		<lugares>
+			<Lugar>
+				<Escena>2</Escena>
+				<coordX>-4.17</coordX>
+				<coordY>4.25</coordY>
+				<coordZ>-20.8</coordZ>
+				<eventos>
+				</eventos>
+			</Lugar>
+		</lugares>
+		<eventos>
+			<Evento>
+			</Evento>
+		</eventos>
+		<rutinaSiguiente>-1</rutinaSiguiente>
+	</Rutina>
+	</ArrayOfRutina>

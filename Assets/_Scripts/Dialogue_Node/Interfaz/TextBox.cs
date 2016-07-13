@@ -117,32 +117,30 @@ public class TextBox : MonoBehaviour {
 		npc_dialogo  = npcDi;
 		inter = interActual;
 
-		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		EnableTextBox();
 	}
 
 	public void EnableTextBox()
 	{
+		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
+		Manager.Instance.setPausa(true);
+
 		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
 
-		RunDialogue();
+		StartCoroutine(IniciaDialogo());
 	}
 
 	public void DisableTextBox()
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+		Manager.Instance.setPausa(false);
 
 		dialogue_window.SetActive(false);
 		Cursor.visible = false; //Oculta el cursor del ratón
 	}
 
-	public void RunDialogue()
-	{
-		StartCoroutine(run());
-	}
-
-	public IEnumerator run()
+	public IEnumerator IniciaDialogo()
 	{
 		//principio del dialogo
 		int num_tema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema

@@ -70,15 +70,16 @@ public class TP_Motor : MonoBehaviour
 			MoveVector = new Vector3(MoveVector.x, MoveVector.y - Gravity * Time.deltaTime, MoveVector.z);
 
 		//Si el personaje esta tocando tierra, reseteamos la y a -1 para que no supere valores negativos mas bajos
-		if (TP_Controller.CharacterController.isGrounded && MoveVector.y < -1)
-			MoveVector = new Vector3(MoveVector.x, -1, MoveVector.z);
+		//Unity necesita que siempre se añada gravedad al charactercontroller
+//		if (TP_Controller.Instance.onGround)
+//			MoveVector = new Vector3(MoveVector.x, -1, MoveVector.z);
 	}
 
 	//Miramos si el personaje resbale si la superficie es muy pronunciada
 	private void ApplySlide()
 	{
 		//Si estamos en el aire, no hacemos nada
-		if(!TP_Controller.CharacterController.isGrounded)
+		if(!TP_Controller.Instance.onGround)
 			return;
 
 		slideDirection = Vector3.zero;
@@ -86,8 +87,8 @@ public class TP_Motor : MonoBehaviour
 		RaycastHit hitInfo; //Aqui guardaremos la informacion del rayo lanzado hacia el suelo
 
 		//Si le damos a algo situado debajo del personaje (tierra)
-		//El rayo esta situado 1 unidad encima de los pies del personaje apuntando hacia abajo
-		if(Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hitInfo))
+		//El rayo esta apuntando hacia abajo
+		if(Physics.Raycast(transform.position, Vector3.down, out hitInfo))
 		{
 			if (hitInfo.normal.y < SlideThreshold) //si la normal a la que le hemos dado es menor que nuestro limite, resbalamos
 				slideDirection = new Vector3(hitInfo.normal.x, -hitInfo.normal.y, hitInfo.normal.z); //Aplicamos la direccion del terreno que hemos tocado, invirtiendo la y, ya que nos movemos hacia abajo al resbalar
@@ -108,7 +109,7 @@ public class TP_Motor : MonoBehaviour
 	public void Jump()
 	{
 		//Comprobamos si estamos tocamos tierra y aplicamos la velocidad de salto
-		if (TP_Controller.CharacterController.isGrounded)
+		if (TP_Controller.Instance.onGround)
 			VerticalVelocity = JumpSpeed;
 	}
 
@@ -168,4 +169,3 @@ public class TP_Motor : MonoBehaviour
 		return moveSpeed;
 	}
 }
-

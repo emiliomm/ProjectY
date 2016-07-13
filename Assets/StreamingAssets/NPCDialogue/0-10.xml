@@ -43,10 +43,10 @@
 							</DialogueGrupoVariable>-->
 						</GruposVariables>
 						<Grupos>
-<!--							<DialogueGrupo>
+							<DialogueGrupo>
 								<IDGrupo>0</IDGrupo>
 								<tipo>1</tipo>
-							</DialogueGrupo>-->
+							</DialogueGrupo>
 						</Grupos>
 						<Nombres>
 <!--							<DialogueNombre>
@@ -80,10 +80,10 @@
 							</DialogueAddIntro>-->
 						</Intros>
 						<Grupos>
-<!--							<DialogueGrupo>
+							<DialogueGrupo>
 								<IDGrupo>0</IDGrupo>
 								<tipo>0</tipo>
-							</DialogueGrupo>-->
+							</DialogueGrupo>
 						</Grupos>
 						<Nombres>
 <!--							<DialogueNombre>

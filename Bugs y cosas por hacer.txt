@@ -1,6 +1,5 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
-- El personaje no cae bien y repite la animación de caerse constantemente
 - El texto de las acciones causa colision con el personaje
 - La caja de colision de los npcs colisiona con la camara
 
@@ -40,4 +39,5 @@ COSAS POR HACER:
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?
+- Convertir la colaobjetos en una cola, en vez de una lista ¿?
 - Seguir patrones de programación(una vez casi acabado el juego)

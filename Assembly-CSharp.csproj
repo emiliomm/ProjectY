@@ -75,6 +75,9 @@
      <Compile Include="Assets\_Scripts\Manager\ColaObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
      <Compile Include="Assets\_Scripts\Manager\ObjetoSer.cs" />
+     <Compile Include="Assets\_Scripts\Manager\Rutina\Evento.cs" />
+     <Compile Include="Assets\_Scripts\Manager\Rutina\Lugar.cs" />
+     <Compile Include="Assets\_Scripts\Manager\Rutina\Rutina.cs" />
      <Compile Include="Assets\_Scripts\Otros\Transporte.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\CS_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
@@ -98,6 +101,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceRaytrace.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\2.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
@@ -182,6 +186,7 @@
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\1.xml" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />

@@ -25,6 +25,12 @@ public class TP_Controller : MonoBehaviour
 		_state = newState;
 	}
 
+	//indica si está tocando el suelo
+	public bool onGround;
+
+	//Indica con que colisiona el objeto
+	public LayerMask layerMask;
+
 	// Use this when the object is created
 	void Awake ()
 	{
@@ -41,6 +47,8 @@ public class TP_Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		onGround = isOnGround();
+
 		//Dependiendo del estado, hacemos unas cosas u otras
 		switch(_state)
 		{
@@ -63,7 +71,7 @@ public class TP_Controller : MonoBehaviour
 			TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;
 
 			//Lo igualamos a 0 para recalcularlo cada frame
-			TP_Motor.Instance.MoveVector = Vector3.zero;
+			TP_Motor.Instance.MoveVector = new Vector3(0f, -1f, 0f); //Unity necesita tener gravedad siempre activa para el CharacterController
 			TP_Animator.Instance.MoveDirection = TP_Animator.Direction.Stationary;
 
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
@@ -115,5 +123,21 @@ public class TP_Controller : MonoBehaviour
 	{
 		TP_Motor.Instance.Jump(); //Ejecutamos las operaciones de salto
 		TP_Animator.Instance.Jump(); //Ejecutamos la animación de salto
+	}
+
+	//Comprobamos si estamos en el suelo
+	private bool isOnGround()
+	{
+		bool retVal = false;
+
+		Vector3 origin = transform.position + new Vector3(0, 0.05f, 0);
+		RaycastHit hit;
+
+		if(Physics.Raycast(origin, - Vector3.up, out hit, 0.5f, layerMask))
+		{
+			retVal = true;
+		}
+
+		return retVal;
 	}
 }

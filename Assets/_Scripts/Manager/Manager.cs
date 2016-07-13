@@ -15,11 +15,31 @@ public class Manager : MonoBehaviour {
 
 	public static Manager Instance { get; private set; } //singleton
 
-	public Dictionary<int,GameObject> interactuables; //grupos de npcs cargados en la escena
+	public Dictionary<int, List<Rutina>> rutinas; //Diccionario con el lugar actual y una lista con la rutina de los npcs
 
-	public List<ColaObjeto> ColaObjetos; //cola con los objetos por serializar
+	public Dictionary<int,GameObject> interactuables; //grupos de npcs cargados en la escena actual (id, gameobject)
+
+	public List<ColaObjeto> ColaObjetos; //cola con los objetos por serializar ¿convertir a cola?
+
 	public List<Grupo> GruposActivos; //grupos activos
 	private List<int> GruposAcabados; //ids de los grupos acabados
+
+	private int SegundosEntreSeccion = 2;
+	private int Hora = 0;
+
+	//Estados del Manager
+	public enum EstadoJuego
+	{
+		Pausa, Activo
+	}
+
+	public EstadoJuego State {get; set; }
+	public EstadoJuego PrevState {get; set; }
+
+	public void SetState(EstadoJuego newState) {
+		PrevState = State;
+		State = newState;
+	}
 
 	private string nombreJugador;
 
@@ -38,6 +58,7 @@ public class Manager : MonoBehaviour {
 	public static string rutaGruposActivos;
 	public static string rutaGruposAcabados;
 	public static string rutaLanzadores;
+	public static string rutaRutinas;
 
 	void Awake()
 	{
@@ -50,16 +71,21 @@ public class Manager : MonoBehaviour {
 
 		Instance = this;
 
-		DontDestroyOnLoad(gameObject);
+		DontDestroyOnLoad(gameObject); //Hacemos que el objeto no pueda ser destruido entre escenas
+
+		SetState(EstadoJuego.Activo); //Estado Inicial
 
 		Cursor.visible = false; //Oculta el cursor del ratón
 
-		nombreJugador = "Jugador";
+		nombreJugador = "Jugador"; //Nombre por defecto del jugador
+
+		rutinas = new Dictionary<int,List<Rutina>>();
+		interactuables = new Dictionary<int,GameObject>();
+
+		ColaObjetos = new List<ColaObjeto>();
 
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
-		interactuables = new Dictionary<int,GameObject>();
-		ColaObjetos = new List<ColaObjeto>();
 
 		//Cargamos las rutas
 		rutaDatosAccion = Application.dataPath + "/StreamingAssets/DatosAccion/";
@@ -76,9 +102,16 @@ public class Manager : MonoBehaviour {
 		rutaGruposActivos = Application.persistentDataPath + "/Grupos_Activos/";
 		rutaGruposAcabados = Application.persistentDataPath + "/Grupos_Acabados/";
 		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
+		rutaRutinas = Application.dataPath + "/StreamingAssets/Rutinas/";
 
 		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
 		ComprobarArchivosDirectorios();
+
+		//Cargamos las rutinas de los interactuables
+		cargarRutinas();
+
+		//Empieza a calcular el tiempo hasta la siguiente sección de las noticias
+		StartCoroutine(SiguienteSeccion());
 
 		//Cargamos el escenario
 		SceneManager.LoadScene("Demo");
@@ -136,6 +169,120 @@ public class Manager : MonoBehaviour {
 		return nombreJugador;
 	}
 
+	/*
+	 * 
+	 * 
+	 *  RUTINAS
+	 * 
+	 * 
+	 */
+
+	private void cargarRutinas()
+	{
+		var info = new DirectoryInfo(Manager.rutaRutinas);
+		var fileInfo = info.GetFiles().ToArray();
+
+		for(var j = 0; j < fileInfo.Length; j++)
+		{
+			if(Path.GetExtension(fileInfo[j].Name) == ".xml")
+			{
+				//Cogemos el nombre del archivo
+				string nombre = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
+
+				//Deserializamos la lista de rutinas de la zona
+				List<Rutina> rutina = new List<Rutina>();
+
+				DeserializeData(ref rutina, Manager.rutaRutinas + nombre + ".xml");
+
+				//La añadimos al diccionario
+				rutinas.Add(Int32.Parse(nombre), rutina);
+			}
+		}
+	}
+		
+	//Carga los interactuables al cargar una escena
+	void OnLevelWasLoaded(int level)
+	{
+		List<Rutina> rutinaNiveles = new List<Rutina>();
+
+		//Creamos los interactuables de la escena actual (si existen)
+		if(rutinas.TryGetValue(level, out rutinaNiveles))
+		{
+			for(int i = 0; i < rutinaNiveles.Count; i++)
+			{
+				int ID_Interactuable = rutinaNiveles[i].ID_Inter;
+				int tipo_Inter = rutinaNiveles[i].tipo_Inter;
+
+				GameObject interactuable;
+
+				switch(tipo_Inter)
+				{
+				default:
+				case 0: //Tipo NPC
+					interactuable = (GameObject)Instantiate(Resources.Load("InteractuableNPC"));
+					InteractuableNPC iNPC = interactuable.gameObject.GetComponent<InteractuableNPC>();
+					iNPC.ID = ID_Interactuable;
+					break;
+				case 1: //Tipo Objeto
+					interactuable = (GameObject)Instantiate(Resources.Load("InteractuableObjeto"));
+					InteractuableObjeto iObj = interactuable.gameObject.GetComponent<InteractuableObjeto>();
+					iObj.ID = ID_Interactuable;
+					break;
+				}
+
+				interactuable.transform.position = new Vector3(rutinaNiveles[i].lugares[0].coordX, rutinaNiveles[i].lugares[0].coordY, rutinaNiveles[i].lugares[0].coordZ);
+			}
+		}
+	}
+
+	//Pasa a la siguiente sección de las rutinas
+	public IEnumerator SiguienteSeccion()
+	{
+		int TiempoActualEntreSecciones = SegundosEntreSeccion;
+
+		while(true)
+		{
+			yield return new WaitForSeconds (1f);
+
+			switch(State)
+			{
+			case EstadoJuego.Activo:
+				TiempoActualEntreSecciones--;
+
+				if(TiempoActualEntreSecciones == 0)
+				{
+					//Comprobamos si tenemos que cambiar la sección horaria de las rutinas
+
+
+					//Aumentamos la hora
+					Hora++;
+					Hora = Hora % 24;
+
+					TiempoActualEntreSecciones = SegundosEntreSeccion;
+				}
+				break;
+			case EstadoJuego.Pausa:
+				break;
+			}
+		}
+	}
+
+	public void setPausa(bool pausa)
+	{
+		if(pausa)
+			SetState(EstadoJuego.Activo);
+		else
+			SetState(EstadoJuego.Pausa);
+	}
+
+	/*
+	 * 
+	 * 
+	 *  INTERACTUABLES
+	 * 
+	 * 
+	 */
+
 	public void AddToInteractuables(int id, GameObject gobj)
 	{
 		interactuables.Add(id, gobj);
@@ -162,6 +309,14 @@ public class Manager : MonoBehaviour {
 		return interactuables.Select(d => d.Value).ToList();
 	}
 
+	/*
+	 * 
+	 * 
+	 *  GRUPOS
+	 * 
+	 * 
+	 */
+
 	public void AddToGruposActivos(Grupo g)
 	{
 		GruposActivos.Add(g);
@@ -186,23 +341,25 @@ public class Manager : MonoBehaviour {
 
 	//Elimina el grupo indicado de la lista de grupos activos
 	//y lo añade a la de grupos acabados, aunque no estuviera en los grupos activos
-
-	//TAMBIÉN DEBE BORRARLO DE GRUPOS MODIFICADOS
-
 	public void RemoveFromGruposActivos(int id)
 	{
+		//Buscamos el grupo en la lista de grupos activos
 		Grupo g = DevolverGrupoActivo(id);
 
 		if (g != null)
 		{
-			GruposAcabados.Add (g.idGrupo); //Añadimos la id del grupo acabado
-			GruposActivos.Remove (g);
+			GruposActivos.Remove (g); //lo borramos de la lista de grupos activos
 		}
-		//Si el grupo no estaba en la lista de grupos activos
-		//se añade igualmente a la lista de grupos acabados
-		else
+
+		//El grupo se añade a la lista de grupos acabados, estuviera o no en
+		//la lista de grupos activos
+		GruposAcabados.Add (id); //Añadimos la id del grupo acabado
+
+		//Buscamos si el grupo estaba en la lista de grupos modificados
+		//y lo borramos de ahí también
+		if(System.IO.File.Exists(rutaGruposModificados + id.ToString () + ".xml"))
 		{
-			GruposAcabados.Add (id); //Añadimos la id del grupo acabado
+			System.IO.File.Delete(rutaGruposModificados + id.ToString () + ".xml");
 		}
 	}
 
@@ -253,6 +410,14 @@ public class Manager : MonoBehaviour {
 	{
 		SerializeData(GruposAcabados, rutaGruposAcabados, rutaGruposAcabados + "GruposAcabados.xml");
 	}
+
+	/*
+	 * 
+	 * 
+	 *  COLAOBJETOS
+	 * 
+	 * 
+	 */
 
 	public void AddToColaObjetos(string path, ObjetoSer obj)
 	{
@@ -324,7 +489,9 @@ public class Manager : MonoBehaviour {
 
 	/*
 	 * 
-	 * SERIALIZACIÓN Y DESERIALIZACIÓN
+	 * 
+	 *  SERIALIZACION Y DESERIALIZACION
+	 * 
 	 * 
 	 */
 

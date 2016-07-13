@@ -8,6 +8,9 @@ using System.IO;
 using System.Text; 
 using System.Linq;
 
+
+using System;
+
 using DialogueTree;
 
 [XmlRoot("ObjetoSer")]
@@ -270,8 +273,7 @@ public class NPC_Dialogo : ObjetoSer
 				//Si el grupo no está activo y no está en la lista de grupos acabados, lo añadimos
 				if (!Manager.Instance.GrupoActivoExiste(IDGrupo) && !Manager.Instance.GrupoAcabadoExiste(IDGrupo))
 				{
-					//Comprobamos si el grupo modificado existe en la colaObjetos del Manager
-					//Buscamos en la cola de objetos
+					//Comprobamos si el grupo se encuentra como grupo modificado en la lista colaObjetos del Manager
 					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 
 					if(cobj != null)
@@ -589,6 +591,9 @@ public class NPC_Dialogo : ObjetoSer
 					//Ahora comprobamos a los npcs de la escena actual
 					List<GameObject> interactuables = Manager.Instance.GetAllInteractuables();
 
+					//Lista de dialogos no actualizados, utilizado al comprobar los ficheros
+					List<NPC_Dialogo> dialogosNoActualizados = new List<NPC_Dialogo>();
+
 					for(int j = 0; j < interactuables.Count; j++)
 					{
 						GameObject gobj = interactuables[j];
@@ -652,8 +657,12 @@ public class NPC_Dialogo : ObjetoSer
 									}
 								}
 
+								//Si se ha actualizado, se añade a la colaObjetos
+								//sino, se añade a una lista utilizada a continuación
 								if(actualizado)
 									n_diag.AddToColaObjetos();
+								else
+									dialogosNoActualizados.Add(n_diag);
 							}
 						}
 					}
@@ -667,16 +676,22 @@ public class NPC_Dialogo : ObjetoSer
 						//Contiene id_npc-id_diag
 						string ids = Path.GetFileNameWithoutExtension(fileInfo[j].Name);
 
-						//Buscamos en la cola de objetos
-						//Si existe, no hacemos nada
-						//Si no existe, comprobamos el dialogo
-						if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + ids  + ".xml"))
-						{
-							NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ids  + ".xml");
+						//Divide el string en
+						//arr[0] = ID_NPC
+						//arr[1] = ID_DIAG
+						string[] arr = ids.Split('-');
 
-							//Si no es el dialogo actual
-							if(!(ID_NPC == n_diag.ID_NPC && ID == n_diag.ID))
+						//Comprobamos que no es el dialogo actual
+						//O uno de los dialogos que hemos comprobado anteriormente de la escena
+						if(!(ID_NPC == Int32.Parse(arr[0]) && ID == Int32.Parse(arr[1])) && !(dialogosNoActualizados.Any(x => x.ID_NPC == Int32.Parse(arr[0]) && x.ID == Int32.Parse(arr[1]))))
+						{
+							//Buscamos en la cola de objetos
+							//Si existe, no hacemos nada
+							//Si no existe, comprobamos el dialogo
+							if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + ids  + ".xml"))
 							{
+								NPC_Dialogo n_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ids  + ".xml");
+
 								bool actualizado = false;
 
 								for(int k = n_diag.DevuelveNumeroIntros() - 1; k >= 0; k--)
@@ -687,6 +702,7 @@ public class NPC_Dialogo : ObjetoSer
 										actualizado = true;
 									}
 								}
+
 								for(int k = n_diag.DevuelveNumeroTemaMensajes() - 1; k >= 0; k--)
 								{
 									//si el tema no tiene idgrupo, comprobamos los idgrupos de los mensajes de su interior
@@ -715,6 +731,7 @@ public class NPC_Dialogo : ObjetoSer
 										actualizado = true;
 									}
 								}
+
 								for(int k = n_diag.DevuelveNumeroMensajes() - 1; k >= 0; k--)
 								{
 									if(n_diag.mensajes[k].IDGrupo == IDGrupo)
@@ -1086,10 +1103,5 @@ public class NPC_Dialogo : ObjetoSer
 	public void AddToColaObjetos()
 	{
 		Manager.Instance.AddToColaObjetos (Manager.rutaNPCDialogosGuardados + ID_NPC.ToString() + "-" + ID.ToString()  + ".xml", this);
-	}
-
-	public void Serialize()
-	{
-		Manager.Instance.SerializeData(this, Manager.rutaNPCDialogosGuardados, Manager.rutaNPCDialogosGuardados + ID_NPC.ToString() + "-" + ID.ToString()  + ".xml");
 	}
 }
