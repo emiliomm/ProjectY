@@ -1095,7 +1095,7 @@ public class NPC_Dialogo : ObjetoSer
 
 	public static NPC_Dialogo LoadNPCDialogue(string path)
 	{
-		NPC_Dialogo npc_dialogo = Manager.Instance.DeserializeDataWithReturn<NPC_Dialogo>(path);
+		NPC_Dialogo npc_dialogo = Manager.Instance.DeserializeData<NPC_Dialogo>(path);
 
 		return npc_dialogo;
 	}

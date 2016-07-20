@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class Lugar{
 
-	public int Escena;
-	public float coordX, coordY, coordZ;
+	public int IDInter;
 
-	public List<Evento> eventos;
+	public int IDEscena;
+	public float coordX, coordY, coordZ;
 
 	public Lugar()
 	{
-		eventos = new List<Evento>();
+		
 	}
 
 }

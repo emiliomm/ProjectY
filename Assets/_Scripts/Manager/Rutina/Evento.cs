@@ -7,4 +7,11 @@ public class Evento {
 	{
 		
 	}
+
+	public static Evento LoadEvento(string path)
+	{
+		Evento evento = Manager.Instance.DeserializeData<Evento>(path);
+
+		return evento;
+	}
 }

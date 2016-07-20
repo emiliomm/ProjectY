@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Rutina xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID>3</ID>
+	<posLugarSiguientes>
+		<PosicionLugarSiguiente>
+			<hora>0</hora>
+			<lugarSiguiente>
+				<IDRutina>3</IDRutina>
+				<lugar>
+					<IDInter>3</IDInter>
+					<IDEscena>1</IDEscena>
+					<coordX>5.24</coordX>
+					<coordY>5.846</coordY>
+					<coordZ>-17.19</coordZ>
+				</lugar>
+				<eventos>
+<!--					<int></int>-->
+				</eventos>
+			</lugarSiguiente>
+		</PosicionLugarSiguiente>
+	</posLugarSiguientes>
+</Rutina>

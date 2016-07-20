@@ -40,7 +40,7 @@ public class TemaMensaje{
 
 	public static TemaMensaje LoadTemaMensaje(string path)
 	{
-		TemaMensaje temaMensaje = Manager.Instance.DeserializeDataWithReturn<TemaMensaje>(path);
+		TemaMensaje temaMensaje = Manager.Instance.DeserializeData<TemaMensaje>(path);
 
 		return temaMensaje;
 	}

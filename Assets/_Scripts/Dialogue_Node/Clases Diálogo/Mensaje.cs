@@ -40,7 +40,7 @@ public class Mensaje{
 
 	public static Mensaje LoadMensaje(string path)
 	{
-		Mensaje men = Manager.Instance.DeserializeDataWithReturn<Mensaje>(path);
+		Mensaje men = Manager.Instance.DeserializeData<Mensaje>(path);
 
 		return men;
 	}

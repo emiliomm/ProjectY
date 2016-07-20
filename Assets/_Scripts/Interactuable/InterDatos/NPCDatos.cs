@@ -31,7 +31,7 @@ public class NPCDatos : InterDatos{
 
 	public new static NPCDatos LoadInterDatos(string path)
 	{
-		NPCDatos inter_datos = Manager.Instance.DeserializeDataWithReturn<NPCDatos>(path);
+		NPCDatos inter_datos = Manager.Instance.DeserializeData<NPCDatos>(path);
 
 		return inter_datos;
 	}

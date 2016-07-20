@@ -21,6 +21,9 @@ public class TP_Camera : MonoBehaviour
 	public float OcclusionDistanceStep = 0.05f; //Distancia minima que se acerca la camara al encontrar un obstáculo
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
 
+	//Indica con que colisiona el objeto
+	public LayerMask layerMask;
+
 	private float mouseX = 0f; //Ängulo de giro del ratón en el ejeX
 	private float mouseY = 0f; //Ängulo de giro del ratón en el ejeY
 	private float velX = 0f;
@@ -195,8 +198,8 @@ public class TP_Camera : MonoBehaviour
 	//devuelve la distancia mas cercana de lo que hemos chocado, si hemos chocado con algo
 	//sino, devuelve negativo
 	/*
-	 * Para que un objeto no afecte a la cámara y lo pueda atravesar podemos poner
-	 * en el Inspector > Layer > Ignore Raycast
+	 * Para que un objeto no afecte a la cámara y lo pueda atravesar podemos modificar
+	 * la layerMask
 	 * 
 	*/
 	float CheckCameraPoints(Vector3 from, Vector3 to)
@@ -220,28 +223,27 @@ public class TP_Camera : MonoBehaviour
 		Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft);
 		Debug.DrawLine(clipPlanePoints.LowerLeft, clipPlanePoints.UpperLeft);
 
-		//Comprobamos que hemos dado a algo que no es el jugador
-		//Necesitamos que el objeto que controla al jugador tenga el tag Player
-		if (Physics.Linecast(from, clipPlanePoints.UpperLeft, out hitInfo) && hitInfo.collider.tag != "Player")
+		//Comprobamos que hemos dado a algo que no es la layermask
+		if (Physics.Linecast(from, clipPlanePoints.UpperLeft, out hitInfo, layerMask))
 			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.LowerLeft, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(from, clipPlanePoints.LowerLeft, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.UpperRight, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(from, clipPlanePoints.UpperRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.LowerRight, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(from, clipPlanePoints.LowerRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(from, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
@@ -322,28 +324,27 @@ public class TP_Camera : MonoBehaviour
 		Debug.DrawLine(clipPlanePoints2.LowerRight, clipPlanePoints2.LowerLeft, Color.red);
 		Debug.DrawLine(clipPlanePoints2.LowerLeft, clipPlanePoints2.UpperLeft, Color.red);
 
-		//Comprobamos que hemos dado a algo que no es el jugador
-		//Necesitamos que el objeto que controla al jugador tenga el tag Player
-		if (Physics.Linecast(clipPlanePoints2.UpperLeft, clipPlanePoints.UpperLeft, out hitInfo) && hitInfo.collider.tag != "Player")
+		//Comprobamos que hemos dado a algo que no es la layermask
+		if (Physics.Linecast(clipPlanePoints2.UpperLeft, clipPlanePoints.UpperLeft, out hitInfo, layerMask))
 			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from + transform.forward * -Camera.main.nearClipPlane, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo) && hitInfo.collider.tag != "Player")
+		if (Physics.Linecast(from + transform.forward * -Camera.main.nearClipPlane, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 

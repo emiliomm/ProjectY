@@ -34,12 +34,12 @@
 							</DialogueGrupoVariable>
 						</GruposVariables>
 						<Intros />
-<!--						<Grupos>
-							<DialogueGrupo>
-								<IDGrupo>0</IDGrupo>
+						<Grupos>
+<!--							<DialogueGrupo>
+								<IDGrupo>1</IDGrupo>
 								<tipo>1</tipo>
-							</DialogueGrupo>
-						</Grupos>-->
+							</DialogueGrupo>-->
+						</Grupos>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>

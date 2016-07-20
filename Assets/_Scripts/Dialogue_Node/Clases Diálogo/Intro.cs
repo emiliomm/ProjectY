@@ -41,7 +41,7 @@ public class Intro{
 
 	public static Intro LoadIntro(string path, int prioridad)
 	{
-		Intro intro = Manager.Instance.DeserializeDataWithReturn<Intro>(path);
+		Intro intro = Manager.Instance.DeserializeData<Intro>(path);
 
 		intro.prioridad = prioridad;
 

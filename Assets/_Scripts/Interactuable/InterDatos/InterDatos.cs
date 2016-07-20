@@ -22,7 +22,7 @@ public class InterDatos : ObjetoSer{
 
 	public static InterDatos LoadInterDatos(string path)
 	{
-		InterDatos inter_datos = Manager.Instance.DeserializeDataWithReturn<InterDatos>(path);
+		InterDatos inter_datos = Manager.Instance.DeserializeData<InterDatos>(path);
 
 		return inter_datos;
 	}

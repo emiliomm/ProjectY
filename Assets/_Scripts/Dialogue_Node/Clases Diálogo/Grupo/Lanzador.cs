@@ -22,7 +22,7 @@ public class Lanzador{
 
 	public static void LoadLanzador(string path, int ID_NPC,int ID_DiagActual, int tipo_dialogo, ref int num_dialogo)
 	{
-		Lanzador lanz = Manager.Instance.DeserializeDataWithReturn<Lanzador>(path);
+		Lanzador lanz = Manager.Instance.DeserializeData<Lanzador>(path);
 
 		lanz.AnyadirDialogueAdd(ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
 	}

@@ -146,7 +146,7 @@ public class Interactuable : MonoBehaviour {
 
 	public static List<DatosAccion> LoadDatosAccion(string path)
 	{
-		List<DatosAccion> datosAccion = Manager.Instance.DeserializeDataWithReturn<List<DatosAccion>>(path);
+		List<DatosAccion> datosAccion = Manager.Instance.DeserializeData<List<DatosAccion>>(path);
 
 		return datosAccion;
 	}

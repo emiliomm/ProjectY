@@ -19,7 +19,7 @@ public class ObjetoDatos : InterDatos{
 
 	public new static ObjetoDatos LoadInterDatos(string path)
 	{
-		ObjetoDatos inter_datos = Manager.Instance.DeserializeDataWithReturn<ObjetoDatos>(path);
+		ObjetoDatos inter_datos = Manager.Instance.DeserializeData<ObjetoDatos>(path);
 
 		return inter_datos;
 	}

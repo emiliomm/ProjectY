@@ -610,6 +610,8 @@ public class TextBox : MonoBehaviour {
 		{
 			Grupo gp = Manager.Instance.DevolverGrupoActivo(num_grupo);
 
+			Debug.Log(gp == null);
+
 			if (gp != null)
 			{
 				List<DialogueOptionGrupoVariables> variables = opt.DevuelveVariables();

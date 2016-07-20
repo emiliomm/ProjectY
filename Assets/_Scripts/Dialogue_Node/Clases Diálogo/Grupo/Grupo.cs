@@ -28,13 +28,13 @@ public class Grupo : ObjetoSer{
 	//Devuelve un grupo
 	public static Grupo CreateGrupo(string path)
 	{
-		return Manager.Instance.DeserializeDataWithReturn<Grupo>(path);
+		return Manager.Instance.DeserializeData<Grupo>(path);
 	}
 
 	//Carga un grupo, lo añade al manager y lanza los intros/mensajes de este
 	public static void LoadGrupo(string path, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int num_dialogo)
 	{
-		Grupo grup = Manager.Instance.DeserializeDataWithReturn<Grupo>(path);
+		Grupo grup = Manager.Instance.DeserializeData<Grupo>(path);
 
 		Lanzador.LoadLanzador(Manager.rutaLanzadores + grup.idGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
 
