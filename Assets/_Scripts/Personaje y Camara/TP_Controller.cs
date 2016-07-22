@@ -43,6 +43,25 @@ public class TP_Controller : MonoBehaviour
 		//creamos o buscamos una camara
 		TP_Camera.UseExistingOrCreateMainCamera();
 	}
+
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == "Interactuable" ) {
+			Manager.Instance.addInteractuableCercano(other.transform.parent.gameObject);
+			Interactuable inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
+			inter.SetState (Interactuable.State.Accionable);
+			inter.desactivado = false;
+		}
+	}
+
+	void OnTriggerExit(Collider other) {
+		if (other.tag == "Interactuable") {
+			Manager.Instance.deleteInteractuableCercano(other.transform.parent.gameObject);
+			Interactuable inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
+			inter.SetState (Interactuable.State.Desactivado);
+			inter.OcultaCanvas();
+			inter.desactivado = true;
+		}
+	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -78,6 +97,11 @@ public class TP_Controller : MonoBehaviour
 			break;
 		}
 
+	}
+
+	private void getInteractuablesCercanos()
+	{
+		
 	}
 
 	//Asignamos el movimiento del input

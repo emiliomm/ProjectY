@@ -71,40 +71,37 @@ public class TextBox : MonoBehaviour {
 	void Start () {
 		SetState(State.Ninguno);
 
-		//Cargamos el prefab del canvas de Resources, así como la ventana de dialogo
-		var canvas = (GameObject)Instantiate(Resources.Load("CanvasPrefab"));
+		//Cargamos el prefab de la ventana de dialogo
 		dialogue_window = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab"));
 
-		dialogue_window.transform.SetParent(canvas.transform, false);
+		dialogue_window.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
 
 		RectTransform dia_window_transform = (RectTransform) dialogue_window.transform;
 
 		dia_window_transform.localPosition = new Vector3(0, 0, 0);
 
-		//Quitar gameobject find
-		dialog_name = GameObject.Find("Text_NpcName");
-		dialog_text = GameObject.Find("Text_DiaNodeText");
+		dialog_name = dialogue_window.transform.GetChild(1).gameObject;
+		dialog_text = dialogue_window.transform.GetChild(2).gameObject;
+		dialog_options =  dialogue_window.transform.GetChild(3).gameObject;
 
-		dialog_options = GameObject.Find("ScrollView");
+		option_1 = dialog_options.transform.GetChild(0).GetChild(0).gameObject;
+		option_2 = dialog_options.transform.GetChild(0).GetChild(1).gameObject;
+		option_3 = dialog_options.transform.GetChild(0).GetChild(2).gameObject;
+		option_4 = dialog_options.transform.GetChild(0).GetChild(3).gameObject;
+		option_5 = dialog_options.transform.GetChild(0).GetChild(4).gameObject;
+		option_6 = dialog_options.transform.GetChild(0).GetChild(5).gameObject;
+		option_7 = dialog_options.transform.GetChild(0).GetChild(6).gameObject;
+		option_8 = dialog_options.transform.GetChild(0).GetChild(7).gameObject;
+		option_9 = dialog_options.transform.GetChild(0).GetChild(8).gameObject;
+		option_10 = dialog_options.transform.GetChild(0).GetChild(9).gameObject;
+		option_11 = dialog_options.transform.GetChild(0).GetChild(10).gameObject;
+		option_12 = dialog_options.transform.GetChild(0).GetChild(11).gameObject;
+		option_13 = dialog_options.transform.GetChild(0).GetChild(12).gameObject;
+		option_14 = dialog_options.transform.GetChild(0).GetChild(13).gameObject;
+		option_15 = dialog_options.transform.GetChild(0).GetChild(14).gameObject;
 
-		option_1 = GameObject.Find("Button_Option1");
-		option_2 = GameObject.Find("Button_Option2");
-		option_3 = GameObject.Find("Button_Option3");
-		option_4 = GameObject.Find("Button_Option4");
-		option_5 = GameObject.Find("Button_Option5");
-		option_6 = GameObject.Find("Button_Option6");
-		option_7 = GameObject.Find("Button_Option7");
-		option_8 = GameObject.Find("Button_Option8");
-		option_9 = GameObject.Find("Button_Option9");
-		option_10 = GameObject.Find("Button_Option10");
-		option_11 = GameObject.Find("Button_Option11");
-		option_12 = GameObject.Find("Button_Option12");
-		option_13 = GameObject.Find("Button_Option13");
-		option_14 = GameObject.Find("Button_Option14");
-		option_15 = GameObject.Find("Button_Option15");
-
-		change_theme = GameObject.Find("Button_ChangeTheme");
-		exit = GameObject.Find("Button_End");
+		change_theme = dialogue_window.transform.GetChild(4).gameObject;
+		exit = dialogue_window.transform.GetChild(5).gameObject;
 
 		change_theme.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
 		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-3);});
@@ -127,6 +124,13 @@ public class TextBox : MonoBehaviour {
 
 		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
+
+		if (Debug.isDebugBuild)
+		{
+			Debug.Log(exit.transform.GetChild(0).GetComponent<Text>().text);
+			Debug.Log(exit.transform.GetChild(0).GetComponent<Text>().font);
+			Debug.Log(exit.transform.GetChild(0).GetComponent<Text>().fontSize);
+		}
 
 		StartCoroutine(IniciaDialogo());
 	}

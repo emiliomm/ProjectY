@@ -19,6 +19,8 @@ public class Interactuable : MonoBehaviour {
 
 	public bool cursorSobreAccion;
 
+	public bool desactivado = false;
+
 	//implementar esto aqui o en acciones dialogo, donde el dialogo se marque como automatico
 	//public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
 
@@ -56,9 +58,9 @@ public class Interactuable : MonoBehaviour {
 	private Vector3 initialPosition; //posición inicial del cursorUI
 	private Vector3 moveVector; //vector de movimiento del ratón
 
-	public enum State { Alejado, Accionable, Accionando, Accionado }
+	public enum State { Desactivado, Accionable, Seleccionado, Accionando, Accionado }
 
-	State _state = State.Alejado;
+	State _state = State.Desactivado;
 	State _prevState;
 
 	public State CurrentState {
@@ -72,6 +74,16 @@ public class Interactuable : MonoBehaviour {
 	public void SetState(State newState) {
 		_prevState = _state;
 		_state = newState;
+	}
+
+	public void checkDesactivado()
+	{
+		if(desactivado)
+		{
+			SetState(State.Desactivado);
+			DesactivarTextoAcciones();
+			OcultaCanvas();
+		}
 	}
 
 	protected virtual void Start ()
@@ -96,7 +108,8 @@ public class Interactuable : MonoBehaviour {
 		moveVector = new Vector3(0f, 0f, 0f);
 
 		//Asignamos el estado inicial
-		SetState(State.Alejado);
+		SetState(State.Desactivado);
+		OcultaCanvas();
 
 		cursorSobreAccion = false;
 
@@ -142,6 +155,8 @@ public class Interactuable : MonoBehaviour {
 
 		//Cargamos la UI de las acciones actuales
 		CargarAccionesUI();
+
+		DesactivarTextoAcciones();
 	}
 
 	public static List<DatosAccion> LoadDatosAccion(string path)
@@ -169,14 +184,6 @@ public class Interactuable : MonoBehaviour {
 
 		AccionesGO.Add(AccionGO);
 	}
-
-//	public void AddAccion(DatosAccion acc)
-//	{
-//		CargaAccion(AccionGO);
-//
-//		//Actualiza la UI de las acciones, ahora que se ha añadido una más
-//		CargarAccionesUI();
-//	}
 
 	private void CargarAccionesUI()
 	{
@@ -242,11 +249,6 @@ public class Interactuable : MonoBehaviour {
 		return dialogos;
 	}
 
-//	public GameObject DevolverObjeto()
-//	{
-//		return Objeto;
-//	}
-
 	//Devuelve el nombre del interactuable que aparece en el dialogo (no es el mismo que el mostrado en los interactuableobjeto)
 	public virtual string DevuelveNombreDialogo()
 	{
@@ -269,16 +271,18 @@ public class Interactuable : MonoBehaviour {
 	}
 		
 	void Update() {
-		switch(_state)
+		switch(CurrentState)
 		{
-		case State.Alejado:
-			CalcularDistancia();
-			ShowCanvas();
-			MoverCanvas();
+		case State.Desactivado:
 			break;
 		case State.Accionable:
 			CalcularDistancia();
 			ShowCanvas();
+			MoverCanvas();
+			checkDesactivado();
+			break;
+		case State.Seleccionado:
+			CanvasSeleccionado();
 			MoverCanvas();
 
 			//Si pulsamos click izquierdo
@@ -288,10 +292,9 @@ public class Interactuable : MonoBehaviour {
 				SetState(State.Accionando);
 				ChangeCursorUI(Resources.Load<Sprite>("cursor"));
 			}
+			checkDesactivado();
 			break;
 		case State.Accionando:
-			ShowCanvas();
-
 			if (Input.GetMouseButton(0))
 			{
 				MoviendoCursorUI();
@@ -300,15 +303,17 @@ public class Interactuable : MonoBehaviour {
 			{
 				DefaultCursorUI();
 				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-				SetState(State.Accionable);
+				SetState(State.Seleccionado);
 			}
 			else
 			{
 				SetState(State.Accionado);
 			}
+			checkDesactivado();
 			break;
 		case State.Accionado:
 			EjecutarAccion();
+			checkDesactivado();
 			break;
 		}
 	}
@@ -318,10 +323,21 @@ public class Interactuable : MonoBehaviour {
 		distance = Vector3.Distance(TP_Controller.CharacterController.transform.position, transform.position);
 	}
 
+	private void CanvasSeleccionado()
+	{
+		canvas.GetComponent<CanvasGroup>().alpha = 1;
+	}
+
+	public void OcultaCanvas()
+	{
+		canvas.GetComponent<CanvasGroup>().alpha = 0;
+	}
+
 	private void ShowCanvas() {
 		//Regula la transparencia del canvas según la distancia
-		//		float alpha = 3 - distance / 2.0f;
-		//		canvas.GetComponent<CanvasGroup>().alpha = alpha;
+		//Dist max - distance/2
+		float alpha = 3.1f - distance / 2.0f;
+		canvas.GetComponent<CanvasGroup>().alpha = alpha;
 	}
 
 	private void MoverCanvas()
@@ -368,7 +384,7 @@ public class Interactuable : MonoBehaviour {
 	public void EjecutarAccion()
 	{
 		DefaultCursorUI();
-		SetState(State.Alejado);
+		SetState(State.Accionable);
 		Acciones[accionActiva].EjecutarAccion();
 	}
 

@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 [XmlInclude(typeof(DatosAccionDialogo))]
+[XmlInclude(typeof(DatosAccionObjeto))]
 public class DatosAccion {
 
 	public int ID; //necesario ¿?

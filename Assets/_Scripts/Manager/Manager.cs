@@ -20,10 +20,14 @@ public class Manager : MonoBehaviour {
 
 	private Dictionary<int,GameObject> interactuables; //grupos de npcs cargados en la escena actual (id, gameobject)
 
+	public List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
+
 	private List<ColaObjeto> ColaObjetos; //cola con los objetos por serializar ¿convertir a cola?
 
 	private List<Grupo> GruposActivos; //grupos activos
 	private List<int> GruposAcabados; //ids de los grupos acabados
+
+	public GameObject canvasGlobal;
 
 	//Estados del Manager
 	public enum EstadoJuego
@@ -80,6 +84,9 @@ public class Manager : MonoBehaviour {
 
 		Cursor.visible = false; //Oculta el cursor del ratón
 
+		//Cargamos los gameObject estáticos
+		CargarGameObjectsEstaticos();
+
 		//Cargamos las rutas
 		rutaDatosInteractuable = Application.dataPath + "/StreamingAssets/DatosInteractuable/";
 		rutaDatosInteractuableGuardados = Application.persistentDataPath + "/DatosInteractuable/";
@@ -107,6 +114,7 @@ public class Manager : MonoBehaviour {
 		managerTiempo = new ManagerTiempo();
 		managerRutinas = new ManagerRutinas();
 		interactuables = new Dictionary<int,GameObject>();
+		interactuablesCercanos = new List<GameObject>();
 
 		ColaObjetos = new List<ColaObjeto>();
 
@@ -116,7 +124,6 @@ public class Manager : MonoBehaviour {
 		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
 		ComprobarArchivosDirectorios();
 
-
 		cargarDatosInteractuable();
 
 		//Empieza a calcular el tiempo hasta la siguiente sección de las noticias
@@ -124,6 +131,21 @@ public class Manager : MonoBehaviour {
 
 		//Cargamos el escenario
 		SceneManager.LoadScene("Demo");
+	}
+
+	private void CargarGameObjectsEstaticos()
+	{
+		canvasGlobal = (GameObject)Instantiate(Resources.Load("CanvasPrefab"));
+
+		DontDestroyOnLoad(canvasGlobal); //Hacemos que el objeto no pueda ser destruido entre escenas
+
+		GameObject Obj = (GameObject)Instantiate(Resources.Load("Text Box Manager"));
+
+		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
+
+		Obj = (GameObject)Instantiate(Resources.Load("EventSystem"));
+
+		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
 	}
 
 	private void ComprobarArchivosDirectorios()
@@ -365,6 +387,24 @@ public class Manager : MonoBehaviour {
 	public List<GameObject> GetAllInteractuables()
 	{
 		return interactuables.Select(d => d.Value).ToList();
+	}
+
+	/*
+	 * 
+	 * 
+	 *  INTERACTUABLES CERCANOS
+	 * 
+	 * 
+	 */
+
+	public void addInteractuableCercano(GameObject gObj)
+	{
+		interactuablesCercanos.Add(gObj);
+	}
+
+	public void deleteInteractuableCercano(GameObject gObj)
+	{
+		interactuablesCercanos.Remove(gObj);
 	}
 
 	/*

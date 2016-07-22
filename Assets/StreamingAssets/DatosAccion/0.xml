@@ -12,4 +12,9 @@
 		<ID_NPC>0</ID_NPC>
 		<ID_Diag>10</ID_Diag>
 	</DatosAccion>
+	<DatosAccion xsi:type="xs:DatosAccionObjeto">
+		<ID>3</ID>
+		<nombre>Objeto</nombre>
+		<nombreObjecto>Cube</nombreObjecto>
+	</DatosAccion>
 </ArrayOfDatosAccion>
