@@ -31,6 +31,9 @@ public class TP_Controller : MonoBehaviour
 	//Indica con que colisiona el objeto
 	public LayerMask layerMask;
 
+	//Guarda el interactuable más cercano
+	Transform nearestInteractuable = null;
+
 	// Use this when the object is created
 	void Awake ()
 	{
@@ -81,7 +84,7 @@ public class TP_Controller : MonoBehaviour
 			HandleActionInput();
 
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
-			TP_Camera.Instance.GetNearestTaggedObject();
+			GetNearestTaggedObject();
 			break;
 		case State.Dialogo:
 		case State.Interactuables:
@@ -97,11 +100,6 @@ public class TP_Controller : MonoBehaviour
 			break;
 		}
 
-	}
-
-	private void getInteractuablesCercanos()
-	{
-		
 	}
 
 	//Asignamos el movimiento del input
@@ -163,5 +161,57 @@ public class TP_Controller : MonoBehaviour
 		}
 
 		return retVal;
+	}
+
+	private void GetNearestTaggedObject()
+	{
+		var nearestDistanceSqr = Mathf.Infinity;
+
+		//Creamos un rayo que va desde la cámara hacia adelante
+		//Guardar en una variable
+		Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
+
+		//Dubujamos el rayo
+		Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);
+
+		//Recorremos todos los objetos, guardando el más cercano
+		//Poniéndolos en estado alejado
+		foreach (var obj in Manager.Instance.interactuablesCercanos)
+		{
+			Interactuable inter = obj.GetComponent<Interactuable> ();
+
+			Vector3 objectPos = obj.transform.position;
+			float distanceSqr, distancePlayerNPC;
+
+			distanceSqr = DistanceToLine (ray, objectPos);
+			distancePlayerNPC = (objectPos - transform.position).sqrMagnitude;
+
+			if (distanceSqr < nearestDistanceSqr && inter.isRendered())
+			{
+				if(nearestInteractuable != null)
+				{
+					inter = nearestInteractuable.gameObject.GetComponent<Interactuable>();
+					inter.SetState (Interactuable.State.Accionable);
+					inter.DesactivarTextoAcciones();
+				}
+
+				nearestInteractuable = obj.transform;
+				nearestDistanceSqr = distanceSqr;
+			}
+		}
+
+		//Si existe el más cercano, le cambiamos el estado a accionable
+		//Dándole foco
+		if(nearestInteractuable != null && Manager.Instance.interactuablesCercanos.Count != 0)
+		{
+			Interactuable inter = nearestInteractuable.gameObject.GetComponent<Interactuable>();
+			inter.SetState(Interactuable.State.Seleccionado);
+			inter.ActivarTextoAcciones();
+		}
+	}
+
+	private float DistanceToLine(Ray ray, Vector3 point)
+	{
+		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
 	}
 }

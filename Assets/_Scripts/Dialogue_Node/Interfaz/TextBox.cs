@@ -125,13 +125,6 @@ public class TextBox : MonoBehaviour {
 		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
 
-		if (Debug.isDebugBuild)
-		{
-			Debug.Log(exit.transform.GetChild(0).GetComponent<Text>().text);
-			Debug.Log(exit.transform.GetChild(0).GetComponent<Text>().font);
-			Debug.Log(exit.transform.GetChild(0).GetComponent<Text>().fontSize);
-		}
-
 		StartCoroutine(IniciaDialogo());
 	}
 

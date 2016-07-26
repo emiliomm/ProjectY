@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Evento {
 
+	//añadir variables
+
 	public Evento()
 	{
 		

@@ -61,12 +61,12 @@ public class ManagerRutinas{
 	public void cargarInteractuable(Datos_Interactuable dInt)
 	{
 		Info_Interactuable infoInter = new Info_Interactuable();
-		infoInter.tipoInter = dInt.tipoInter;
-		infoInter.IDRutina = dInt.IDRutinaActual;
+		infoInter.setTipoInter(dInt.tipoInter);
+		infoInter.setIDRutina(dInt.IDRutinaActual);
 
 		infoInteractuable[dInt.IDInter] = infoInter;
 
-		cargarRutina(infoInter.IDRutina);
+		cargarRutina(infoInter.devolverIDRutina());
 	}
 
 	public void cargarRutina(int idRutina)
@@ -78,7 +78,7 @@ public class ManagerRutinas{
 
 		if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 		{
-			infoInter.IDRutina = idRutina;
+			infoInter.setIDRutina(idRutina);
 			MarcarEventosDesactualizados(infoInter);
 			AddLugaresSiguientes(IDInter, infoInter, rutina.posLugarSiguientes);
 			AddLugarActual(rutina.posLugarSiguientes[CalculaPosicionRutina(rutina)].lugarSiguiente.lugar);
@@ -87,9 +87,9 @@ public class ManagerRutinas{
 
 	private void MarcarEventosDesactualizados(Info_Interactuable infoInter)
 	{
-		for(int i = 0; i < infoInter.eventos.Count; i ++)
+		for(int i = 0; i < infoInter.devolverNumeroEventos(); i ++)
 		{
-			infoInter.eventos[i].actualizado = false;
+			infoInter.actualizarEvento(i);
 		}
 	}
 
@@ -154,12 +154,12 @@ public class ManagerRutinas{
 
 	private void EliminarEventosDesactualizados(int IDInter, Info_Interactuable infoInter)
 	{
-		for(int i = infoInter.eventos.Count - 1; i >= 0; i--)
+		for(int i = infoInter.devolverNumeroEventos() - 1; i >= 0; i--)
 		{
-			if(!infoInter.eventos[i].actualizado)
+			if(!infoInter.devuelveEventoActualizado(i))
 			{
-				int IDEvento = infoInter.eventos[i].IDEvento;
-				infoInter.eventos.RemoveAt(i);
+				int IDEvento = infoInter.devuelveIDEvento(i);
+				infoInter.eliminarEvento(i);
 
 				EventoLista eventoLista;
 
@@ -225,9 +225,9 @@ public class ManagerRutinas{
 		Info_Interactuable infoInter;
 		if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 		{
-			ComprobarInteractuableEscenaActual(IDInter, infoInter.tipoInter, infoInter.IDEscena, IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ));
-			infoInter.IDEscena = IDEscena;
-			infoInter.fechaAnyadido = fechaActual;
+			ComprobarInteractuableEscenaActual(IDInter, infoInter.devolverTipo(), infoInter.devolverIDEscena(), IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ));
+			infoInter.setIDEscena(IDEscena);
+			infoInter.setFecha(fechaActual);
 		}
 	}
 
@@ -262,7 +262,7 @@ public class ManagerRutinas{
 				Info_Interactuable infoInter;
 				if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 				{
-					if (infoInter.IDRutina != lista[i].IDRutina)
+					if (infoInter.devolverIDRutina() != lista[i].IDRutina)
 					{
 						lista.RemoveAt(i);
 					}
@@ -294,22 +294,19 @@ public class ManagerRutinas{
 		{
 			for(int i = lista.Count - 1; i >= 0; i--)
 			{
-				int IDInter = lista[i].lugarActual.IDInter;
+				int IDInter = lista[i].getIDInter();
 				Info_Interactuable infoInter;
 				if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 				{
-					if(infoInter.fechaAnyadido > lista[i].fechaAnyadido)
+					if(infoInter.getFecha() > lista[i].getFecha())
 					{
 						lista.RemoveAt(i);
 					}
 					else
 					{
-						int tipo = infoInter.tipoInter;
-						float coordX = lista[i].lugarActual.coordX;
-						float coordY = lista[i].lugarActual.coordY;
-						float coordZ = lista[i].lugarActual.coordZ;
+						int tipo = infoInter.devolverTipo();
 
-						Manager.Instance.crearInteractuable(IDInter, tipo, new Vector3(coordX, coordY, coordZ));
+						Manager.Instance.crearInteractuable(IDInter, tipo, lista[i].getCoordLugar());
 					}
 				}
 			}

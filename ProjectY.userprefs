@@ -1,15 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs">
     <Files>
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" Line="34" Column="55" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" Line="44" Column="19" />
-      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="333" Column="4" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="439" Column="53" />
-      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="132" Column="70" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoDato.cs" Line="21" Column="3" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" Line="307" Column="43" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

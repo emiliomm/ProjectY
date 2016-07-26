@@ -53,10 +53,6 @@ public class TP_Camera : MonoBehaviour
 	private float block_percent = -1f;
 	private Vector3 block_right = Vector3.zero;
 
-
-
-	Transform nearestObj = null;
-
 	// Use this when the object is created
 	void Awake ()
 	{
@@ -445,62 +441,5 @@ public class TP_Camera : MonoBehaviour
 		Camera.main.cullingMask = 1 << 5; //UI
 		Camera.main.clearFlags = CameraClearFlags.SolidColor;
 		Camera.main.backgroundColor = new Color32(73, 67, 67, 0);
-	}
-		
-	public void GetNearestTaggedObject()
-	{
-		var nearestDistanceSqr = Mathf.Infinity;
-
-		//Creamos un rayo que va desde la cámara hacia adelante
-		Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
-
-		//Dubujamos el rayo
-		Debug.DrawRay(ray.origin, ray.direction*100, Color.blue);
-
-		//Recorremos todos los objetos, guardando el más cercano
-		//Poniéndolos en estado alejado
-		foreach (var obj in Manager.Instance.interactuablesCercanos)
-		{
-			Interactuable inter = obj.GetComponent<Interactuable> ();
-
-//			inter.SetState (Interactuable.State.Accionable);
-//			inter.DesactivarTextoAcciones();
-
-			Vector3 objectPos = obj.transform.position;
-			float distanceSqr, distancePlayerNPC;
-
-			distanceSqr = DistanceToLine (ray, objectPos);
-			distancePlayerNPC = (objectPos - TP_Controller.Instance.transform.position).sqrMagnitude;
-
-			//AUMENTAR DISTANCEPLAYER O CAUSA PROBLEMAS, QUITAR DIRECTAMENTE ¿?
-//			if (distanceSqr < nearestDistanceSqr && distancePlayerNPC < 16.0f && inter.isRendered())
-//			{
-			if (distanceSqr < nearestDistanceSqr && inter.isRendered())
-			{
-				if(nearestObj != null)
-				{
-					inter = nearestObj.gameObject.GetComponent<Interactuable>();
-					inter.SetState (Interactuable.State.Accionable);
-					inter.DesactivarTextoAcciones();
-				}
-
-				nearestObj = obj.transform;
-				nearestDistanceSqr = distanceSqr;
-			}
-		}
-
-		//Si existe el más cercano, le cambiamos el estado a accionable
-		//Dándole foco
-		if(nearestObj != null && Manager.Instance.interactuablesCercanos.Count != 0)
-		{
-			Interactuable inter = nearestObj.gameObject.GetComponent<Interactuable>();
-			inter.SetState(Interactuable.State.Seleccionado);
-			inter.ActivarTextoAcciones();
-		}
-	}
-
-	private float DistanceToLine(Ray ray, Vector3 point)
-	{
-		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
 	}
 }

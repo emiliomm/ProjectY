@@ -67,6 +67,7 @@
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoDato.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\CursorUIDetection.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\InterDatos\InterDatos.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\InterDatos\NPCDatos.cs" />
