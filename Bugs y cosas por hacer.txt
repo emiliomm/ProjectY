@@ -3,9 +3,7 @@ BUGS(POR ORDEN DE PRIORIDAD)
 - El texto de las acciones causa colision con el personaje
 - La caja de colision de los npcs colisiona con la camara
 
-- El personaje principal no tiene sombra ni recibe sombras
-	* ¿Por qué? Debido al sistema de layers
-	* ¿Como solucionarlo? Ni idea, una manera sería duplicar objetos, solo sombras, muy costoso, buscar más opciones
+- Algunas animaciones con salto y hacia atrás causan bugs en la animación
 
 - La luz del mapa1 no carga correctamente al pasar de inicio al mapa
 	* ¿Por qué? Se trata de un error de Unity que solo ocurre en el editor

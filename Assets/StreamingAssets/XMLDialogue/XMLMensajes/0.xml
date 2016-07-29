@@ -8,6 +8,12 @@
 		<Nodes>
 			<DialogueNode>
 				<NodeID>0</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>Dialogo añadido a partir de otro NPC</Text>
 				<recorrido>false</recorrido>
@@ -24,6 +30,12 @@
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>1</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>Te vamos a hacer unas preguntas y tú tienes que contestarlas, ¿lo has entendido?</Text>
 				<recorrido>false</recorrido>
@@ -56,6 +68,12 @@
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>2</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>De acuerdo, comencemos</Text>
 				<recorrido>false</recorrido>
@@ -66,6 +84,12 @@
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>3</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>¿Ha tenido problemas familiares recientemente?</Text>
 				<recorrido>false</recorrido>
@@ -105,6 +129,12 @@
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>4</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>¿Le ha afectado en su rendimiento al trabajar?</Text>
 				<recorrido>false</recorrido>
@@ -130,6 +160,12 @@
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>5</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>Ya esta. Puede irse</Text>
 				<recorrido>false</recorrido>
@@ -155,6 +191,12 @@
 			</DialogueNode>
 			<DialogueNode>
 				<NodeID>6</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
 				<Nombre>-1</Nombre>
 				<Text>Debe rellenar un informe. Ahí tiene un bolí con una tapa azul. </Text>
 				<recorrido>false</recorrido>

@@ -13,6 +13,12 @@
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
 						<Nombre>-1</Nombre>
 						<Text>ESTE ES EL CUARTO DIALOGO</Text>
 						<recorrido>false</recorrido>
@@ -61,6 +67,12 @@
 				<Nodes>
 					<DialogueNode>
 						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
 						<Nombre>-1</Nombre>
 						<Text>Este es un dialogo de prueba distinto a todos los conocidos</Text>
 						<recorrido>false</recorrido>

@@ -170,6 +170,7 @@ public class Interactuable : MonoBehaviour {
 	{
 		AccionGO.transform.SetParent(canvas.transform, false);
 		AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
+		AccionGO.layer = 5; //UI
 		AccionGO.tag = "AccionUI";
 
 		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();

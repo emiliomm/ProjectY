@@ -305,13 +305,13 @@ public class Manager : MonoBehaviour {
 
 	public void moverInteractuable(int IDInter, Vector3 coord)
 	{
-		GameObject Inter = GetInteractuables(IDInter);
+		GameObject Inter = GetInteractuable(IDInter);
 		Inter.transform.position = coord;
 	}
 
 	public void destruirInteractuable(int IDInter)
 	{
-		GameObject Inter = GetInteractuables(IDInter);
+		GameObject Inter = GetInteractuable(IDInter);
 		Destroy(Inter);
 	}
 
@@ -373,7 +373,7 @@ public class Manager : MonoBehaviour {
 		interactuables.Remove(id);
 	}
 
-	public GameObject GetInteractuables(int id)
+	public GameObject GetInteractuable(int id)
 	{
 		GameObject npc;
 

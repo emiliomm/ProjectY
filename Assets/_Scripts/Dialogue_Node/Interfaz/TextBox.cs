@@ -120,6 +120,7 @@ public class TextBox : MonoBehaviour {
 	public void EnableTextBox()
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
+		TP_Camera.Instance.toDialogMode();
 		Manager.Instance.setPausa(true);
 
 		dialogue_window.SetActive(true);
@@ -131,6 +132,7 @@ public class TextBox : MonoBehaviour {
 	public void DisableTextBox()
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+		TP_Camera.Instance.fromDialogMode();
 		Manager.Instance.setPausa(false);
 
 		dialogue_window.SetActive(false);
@@ -481,6 +483,8 @@ public class TextBox : MonoBehaviour {
 	//Muestra texto del diálogo
 	private void display_node_text(DialogueNode node)
 	{
+		PosicionaCamara(node.posCamara);
+
 		dialog_options.SetActive(false);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
@@ -606,8 +610,6 @@ public class TextBox : MonoBehaviour {
 		else
 		{
 			Grupo gp = Manager.Instance.DevolverGrupoActivo(num_grupo);
-
-			Debug.Log(gp == null);
 
 			if (gp != null)
 			{
@@ -857,6 +859,10 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
+	private void PosicionaCamara(PosicionCamara posC)
+	{
+		TP_Camera.Instance.PosicionDialogo(posC, Manager.Instance.GetInteractuable(npc_dialogo.ID_NPC));
+	}
 
 	private string DevuelveNombre(int num)
 	{

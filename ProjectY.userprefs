@@ -1,9 +1,24 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StreamingAssets\NPCDialogue\0-0.xml">
     <Files>
-      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoDato.cs" Line="21" Column="3" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" Line="307" Column="43" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" Line="612" Column="63" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="453" Column="19" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueNode.cs" Line="29" Column="37" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\PosicionCamara.cs" Line="10" Column="21" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" Line="54" Column="22" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" Line="89" Column="19" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-0.xml" Line="647" Column="26" />
+      <File FileName="Assets\_Scripts\Dialogue_Node\Clases Diálogo\NPC_Dialogo.cs" Line="17" Column="25" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="376" Column="36" />
+      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="173" Column="20" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoDato.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" Line="30" Column="45" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-10.xml" Line="9" Column="16" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLMensajes\0.xml" Line="170" Column="17" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLMensajes\1.xml" Line="164" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

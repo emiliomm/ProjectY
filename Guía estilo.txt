@@ -7,3 +7,23 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - La autodestrucción de la intro/mensajes se activa al cambiar de tema, abandonar una conversación o acabarla. Cuidado con el sitio donde se activa la autodestruccion
 - Los intros/mensajes lanzados por un grupo pueden pertenecer a cualquier grupo o a ninguno, aunque lo recomendable es que pertenezcan al mismo
 - El radio de la capsula del character controller a de ser al menos de 0.4
+
+CHULETAS
+
+Posicion camara Jugador
+
+<posCamara>
+	<lookAt>-1</lookAt>
+	<coordX>1</coordX>
+	<coordY>0</coordY>
+	<coordZ>-1</coordZ>
+</posCamara>
+
+Posicion camara NPC (temporal)
+
+<posCamara>
+	<lookAt>0</lookAt>
+	<coordX>-0.5</coordX>
+	<coordY>1</coordY>
+	<coordZ>1</coordZ>
+</posCamara>

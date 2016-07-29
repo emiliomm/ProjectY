@@ -42,7 +42,7 @@ public class DatosAccionDialogo : DatosAccion{
 
 	public override void EjecutarAccion()
 	{
-		GameObject gobj = Manager.Instance.GetInteractuables(ID_NPC);
+		GameObject gobj = Manager.Instance.GetInteractuable(ID_NPC);
 
 		if(gobj != null)
 		{

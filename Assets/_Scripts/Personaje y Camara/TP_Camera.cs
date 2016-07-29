@@ -436,10 +436,78 @@ public class TP_Camera : MonoBehaviour
 		Camera.main.backgroundColor = new Color32(49, 77, 121, 5);
 	}
 
+	public void toDialogMode()
+	{
+		Camera camara = Camera.main.transform.GetChild(0).gameObject.GetComponent<Camera>();
+		camara.cullingMask = ~(1 << 5); //Desactiva la capa UI
+
+		camara = camara.transform.GetChild(0).gameObject.GetComponent<Camera>();
+		camara.cullingMask = ~(1 << 5); //Desactiva la capa UI
+	}
+
+	public void fromDialogMode()
+	{
+		Camera camara = Camera.main.transform.GetChild(0).gameObject.GetComponent<Camera>();
+		camara.cullingMask = -1; //Activa todas las capas
+
+		camara = camara.transform.GetChild(0).gameObject.GetComponent<Camera>();
+		camara.cullingMask = ~(1 << 5); //Desactiva la capa UI
+	}
+
 	public void setObjectMode()
 	{
 		Camera.main.cullingMask = 1 << 5; //UI
 		Camera.main.clearFlags = CameraClearFlags.SolidColor;
 		Camera.main.backgroundColor = new Color32(73, 67, 67, 0);
+	}
+
+	public void PosicionDialogo(PosicionCamara posC, GameObject inter)
+	{
+		float posX, posY, posZ;
+
+		if (posC.lookAt == -1)
+		{
+//			//Aplicamos el offset
+//			//if (offset_active && !CheckIfOccludedOffset())
+//			if (offset_active)
+//			{
+//				offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth_resume);
+//			}
+//			else
+//			{
+//				offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
+//			}
+//
+//			if (Mathf.Abs(percent - Distance/preOccludedDistance) > 0.001f )
+//				percent = Mathf.SmoothDamp(percent, Distance/preOccludedDistance, ref percent_value, offset_smooth);
+//
+//			var targetPos = TargetLookAt.position+transform.right*offset*percent;
+//
+//			transform.LookAt(targetPos);
+
+			//- 1.769/2 temporal
+			posX = TargetLookAt.position.x+ posC.coordX;
+			posY = TargetLookAt.position.y - 1.769f/2 + posC.coordY;
+			posZ = TargetLookAt.position.z + posC.coordZ;
+
+			//Asignamos la posicion actual con la posicion suavizada
+			transform.position = new Vector3(posX, posY, posZ);
+
+			//Asignamos el lookAt
+			transform.LookAt(TargetLookAt.position - new Vector3(0f,1.769f/2,0f));
+		}
+		else
+		{
+			
+
+			posX = inter.transform.position.x + posC.coordX;
+			posY = inter.transform.position.y + posC.coordY;
+			posZ = inter.transform.position.z + posC.coordZ;
+
+			//Asignamos la posicion actual con la posicion suavizada
+			transform.position = new Vector3(posX, posY, posZ);
+
+			transform.LookAt(inter.transform);
+		}
 	}
 }

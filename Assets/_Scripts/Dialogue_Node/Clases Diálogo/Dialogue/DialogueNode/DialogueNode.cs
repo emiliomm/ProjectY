@@ -8,6 +8,7 @@ namespace DialogueTree
     {
         public int NodeID = -1;
 
+		public PosicionCamara posCamara;
 		// -1 --> nombre del NPC del dialogo
 		// -2 --> nombre del jugador
 		// >= 0 --> nombre del NPC con el número
@@ -25,6 +26,7 @@ namespace DialogueTree
         // parameterless constructor for serialization
         public DialogueNode()
         {
+			posCamara = new PosicionCamara();
             Options = new List<DialogueOption>();
 			Intros = new List<DialogueAddIntro>();
 			Mensajes = new List<DialogueAddMensaje>();

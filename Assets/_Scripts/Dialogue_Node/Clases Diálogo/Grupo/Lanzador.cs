@@ -45,7 +45,7 @@ public class Lanzador{
 
 				//Buscamos en el diccionario y lo añadimos
 				//si no esta en el diccionario, lo añadimos desde el xml
-				GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+				GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
 
 				if(gobj != null)
 				{
@@ -151,7 +151,7 @@ public class Lanzador{
 			{
 				//Buscamos en el diccionario y lo añadimos
 				//si no esta en el diccionario, lo añadimos desde el xml
-				GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+				GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
 
 				if(gobj != null)
 				{

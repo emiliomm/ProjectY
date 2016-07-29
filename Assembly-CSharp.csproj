@@ -55,6 +55,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialgueOption.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupo.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupoVariables.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\PosicionCamara.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo\Grupo.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Grupo\Lanzador.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Intro.cs" />

@@ -786,7 +786,7 @@ public class NPC_Dialogo : ObjetoSer
 				{
 					//Buscamos en el diccionario y lo añadimos
 					//si no esta en el diccionario, lo añadimos desde el xml
-					GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+					GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
 
 					if(gobj != null)
 					{
@@ -877,7 +877,7 @@ public class NPC_Dialogo : ObjetoSer
 				{
 					//Buscamos en el diccionario y lo añadimos
 					//si no esta en el diccionario, lo añadimos desde el xml
-					GameObject gobj = Manager.Instance.GetInteractuables(IDNpc);
+					GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
 
 					if(gobj != null)
 					{
@@ -1023,11 +1023,11 @@ public class NPC_Dialogo : ObjetoSer
 
 			if(IDNpc == -1)
 			{
-				gobj = Manager.Instance.GetInteractuables(ID);
+				gobj = Manager.Instance.GetInteractuable(ID);
 			}
 			else
 			{
-				gobj = Manager.Instance.GetInteractuables(IDNpc);
+				gobj = Manager.Instance.GetInteractuable(IDNpc);
 			}
 
 			if(gobj != null)
