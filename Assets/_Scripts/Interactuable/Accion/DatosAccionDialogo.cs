@@ -57,7 +57,7 @@ public class DatosAccionDialogo : DatosAccion{
 			//Si el objeto es un NPC
 			if(inter != null)
 			{
-				TextBox.Instance.StartDialogue(inter, diag);
+				TextBox.Instance.EmpezarDialogo(inter, diag);
 			}
 		}
 	}

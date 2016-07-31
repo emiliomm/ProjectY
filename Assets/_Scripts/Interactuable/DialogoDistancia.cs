@@ -30,9 +30,15 @@ public class DialogoDistancia : MonoBehaviour {
 		}
 	}
 
-	//Inicia el dialogo
-	public void IniciaDialogo()
+	//Inicia el dialogo a distancia
+	private void IniciaDialogo()
 	{
-		TextBox.Instance.StartDialogue(inter, datosAccionDialogo.diag);
+		StartCoroutine(DialogoEnCurso());
+	}
+
+	private IEnumerator DialogoEnCurso()
+	{
+		yield return StartCoroutine(TextBox.Instance.DialogoCoroutine(inter, datosAccionDialogo.diag));
+		Destroy(gameObject);
 	}
 }

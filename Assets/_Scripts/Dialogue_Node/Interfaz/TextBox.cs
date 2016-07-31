@@ -109,15 +109,23 @@ public class TextBox : MonoBehaviour {
 		DisableTextBox();
 	}
 
-	public void StartDialogue(Interactuable interActual, NPC_Dialogo npcDi)
+	public void EmpezarDialogo(Interactuable interActual, NPC_Dialogo npcDi)
+	{
+		StartCoroutine(DialogoCoroutine(interActual, npcDi));
+	}
+
+	public IEnumerator DialogoCoroutine(Interactuable interActual, NPC_Dialogo npcDi)
 	{
 		npc_dialogo  = npcDi;
 		inter = interActual;
 
 		EnableTextBox();
+
+		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
+		yield return StartCoroutine(IniciaDialogo());
 	}
 
-	public void EnableTextBox()
+	private void EnableTextBox()
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		TP_Camera.Instance.toDialogMode();
@@ -125,11 +133,9 @@ public class TextBox : MonoBehaviour {
 
 		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
-
-		StartCoroutine(IniciaDialogo());
 	}
 
-	public void DisableTextBox()
+	private void DisableTextBox()
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
 		TP_Camera.Instance.fromDialogMode();
@@ -139,7 +145,7 @@ public class TextBox : MonoBehaviour {
 		Cursor.visible = false; //Oculta el cursor del ratón
 	}
 
-	public IEnumerator IniciaDialogo()
+	private IEnumerator IniciaDialogo()
 	{
 		//principio del dialogo
 		int num_tema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema

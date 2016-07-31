@@ -11,7 +11,6 @@ public class InteractuableCollider : MonoBehaviour {
 	Ray ray;
 
 	void Awake () {
-		
 		//Inicializamos la variable instancia
 		Instance = this;
 	}

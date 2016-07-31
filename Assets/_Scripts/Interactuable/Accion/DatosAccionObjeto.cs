@@ -8,7 +8,7 @@ public class DatosAccionObjeto : DatosAccion{
 
 	public string nombreObjecto;
 
-	int layerMask = 5; //UI
+	int layerMask = 8; //UIObjeto
 
 	public DatosAccionObjeto()
 	{

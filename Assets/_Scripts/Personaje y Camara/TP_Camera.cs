@@ -456,7 +456,7 @@ public class TP_Camera : MonoBehaviour
 
 	public void setObjectMode()
 	{
-		Camera.main.cullingMask = 1 << 5; //UI
+		Camera.main.cullingMask = 1 << 8; //UIObjeto
 		Camera.main.clearFlags = CameraClearFlags.SolidColor;
 		Camera.main.backgroundColor = new Color32(73, 67, 67, 0);
 	}
