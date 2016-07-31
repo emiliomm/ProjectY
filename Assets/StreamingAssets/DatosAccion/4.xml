@@ -5,5 +5,9 @@
 		<nombre>Prueba3</nombre>
 		<ID_NPC>4</ID_NPC>
 		<ID_Diag>0</ID_Diag>
+		<aDistancia>false</aDistancia>
+		<tamX>0</tamX>
+		<tamY>0</tamY>
+		<tamZ>0</tamZ>
 	</DatosAccion>
 </ArrayOfDatosAccion>

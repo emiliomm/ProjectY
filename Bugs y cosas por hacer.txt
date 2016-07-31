@@ -12,11 +12,12 @@ BUGS(POR ORDEN DE PRIORIDAD)
 COSAS POR HACER:
 - Mejorar sistema de rutinas
 	- Crear los eventos
-- Mejorar el código de las rutinas
+	- Mejorar el código de las rutinas
 - Al entrar en un temamensaje, poder ir hacia el menu de mensajes
 - Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
 - Borrar los assets que sobran y mover los que son usados a las carpetas principales
-- Implementar el dialogo a distancia
+- Mejorar el dialogo a distancia
+	- Cuando un dialogo deja de ser a distancia, etc
 - Acciones
 	- Añadir/eliminar acciones en el dialogo
 	- Mirar como relacionar acciones y rutinas

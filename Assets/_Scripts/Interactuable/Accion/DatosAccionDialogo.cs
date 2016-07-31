@@ -10,6 +10,12 @@ public class DatosAccionDialogo : DatosAccion{
 	public int ID_NPC;
 	public int ID_Diag;
 
+	public bool aDistancia;
+
+	public int tamX;
+	public int tamY;
+	public int tamZ;
+
 	public DatosAccionDialogo()
 	{
 		diag = new NPC_Dialogo();

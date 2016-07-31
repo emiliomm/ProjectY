@@ -21,28 +21,6 @@ public class Interactuable : MonoBehaviour {
 
 	public bool desactivado = false;
 
-	//implementar esto aqui o en acciones dialogo, donde el dialogo se marque como automatico
-	//public bool requiredButtonPress; //indica si se requiere que se pulse una tecla para iniciar la conversación
-
-	//	void OnTriggerEnter(Collider other)
-	//	{
-	//		//Sirve para los dialogos automaticos
-	//		//Como implementar el dialogo automatico ¿?
-	//		if (other.tag == "Player")
-	//		{
-	//			if (!requiredButtonPress && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
-	//			{
-	//				IniciaDialogo();
-	//			}
-	//		}
-	//	}
-
-	//	//Inicia el dialogo
-	//	public void IniciaDialogo()
-	//	{
-	//		TextBox.Instance.StartDialogue(this, npc_diag);
-	//	}
-
 	private List<GameObject> AccionesGO;
 	private List<DatosAccion> Acciones;
 	private int accionActiva; //indice de la accion activa, -1 = ninguna
@@ -148,6 +126,21 @@ public class Interactuable : MonoBehaviour {
 			{
 				DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
 				d.CargaDialogo();
+
+				//Si el dialogo es a distancia creamos el box collider
+				if(d.aDistancia)
+				{
+					GameObject dialogoDistancia = new GameObject("Dialogo Distancia");
+					dialogoDistancia.transform.position = Objeto.transform.position;
+					dialogoDistancia.transform.SetParent(Objeto.transform, true);
+
+					DialogoDistancia dd = dialogoDistancia.AddComponent<DialogoDistancia>();
+					dd.cargarDialogo(this, d);
+
+					BoxCollider col = dialogoDistancia.AddComponent<BoxCollider>();
+					col.isTrigger = true;
+					col.size = new Vector3(d.tamX, d.tamY, d.tamZ);
+				}
 			}
 
 			CargaAccion(AccionGO);

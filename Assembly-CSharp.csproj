@@ -70,6 +70,7 @@
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoDato.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\CursorUIDetection.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\DialogoDistancia.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\InterDatos\InterDatos.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\InterDatos\NPCDatos.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\InterDatos\ObjetoDatos.cs" />
@@ -94,6 +95,7 @@
      <Compile Include="Assets\_Scripts\Otros\Transporte.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\CS_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
+     <Compile Include="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
