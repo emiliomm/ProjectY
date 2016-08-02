@@ -57,12 +57,16 @@ public class TP_Controller : MonoBehaviour
 			if (Camera.main == null)
 				return;
 
-			GetLocomotionInput();//Asignamos el movimiento del input
+			//Si el menú no se ha activado, continuamos
+			if(!MenuInput())
+			{
+				GetLocomotionInput();//Asignamos el movimiento del input
 
-			HandleActionInput();
+				HandleActionInput();
 
-			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
-			InteractuableCollider.Instance.GetNearestTaggedObject();
+				TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+				InteractuableCollider.Instance.GetNearestTaggedObject();
+			}
 			break;
 		case State.Dialogo:
 		case State.Interactuables:
@@ -77,6 +81,25 @@ public class TP_Controller : MonoBehaviour
 			break;
 		}
 
+	}
+
+	//Controla el input de los menus
+	//Devuelve true si se ha activado un menu
+	private bool MenuInput()
+	{
+		bool activado = false;
+
+		if (Input.GetKeyDown((KeyCode.I)))
+		{
+			activado = true;
+
+			GameObject InventarioManager = (GameObject)Instantiate(Resources.Load("PanelInventarioPrefab"));
+			InventarioManager.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
+
+			SetState(State.Dialogo);
+		}
+
+		return activado;
 	}
 
 	//Asignamos el movimiento del input

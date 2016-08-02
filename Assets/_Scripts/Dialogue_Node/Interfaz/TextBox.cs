@@ -21,7 +21,7 @@ public class TextBox : MonoBehaviour {
 	private GameObject dialog_name;
 	private GameObject dialog_text;
 	private GameObject dialog_options;
-	private GameObject change_theme;
+	private GameObject iramensajesmenu;
 	private GameObject exit;
 
 	private GameObject option_1;
@@ -61,7 +61,6 @@ public class TextBox : MonoBehaviour {
 	}
 
 	// Use this when the object is created
-	//HACER OBJETO PERDURABLE ENTRE ESCENAS, QUE SEA CREADO POR EL MANAGER
 	void Awake ()
 	{
 		Instance = this;
@@ -100,10 +99,10 @@ public class TextBox : MonoBehaviour {
 		option_14 = dialog_options.transform.GetChild(0).GetChild(13).gameObject;
 		option_15 = dialog_options.transform.GetChild(0).GetChild(14).gameObject;
 
-		change_theme = dialogue_window.transform.GetChild(4).gameObject;
+		iramensajesmenu = dialogue_window.transform.GetChild(4).gameObject;
 		exit = dialogue_window.transform.GetChild(5).gameObject;
 
-		change_theme.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
+		iramensajesmenu.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
 		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-3);});
 
 		DisableTextBox();
@@ -178,10 +177,12 @@ public class TextBox : MonoBehaviour {
 				switch(selected_option)
 				{
 				case -3: //La conversación acaba
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema); //Dejar si el dialogo se deja como ahora
 					EliminarDialogo(ref num_dialog, num_tema);
 					conversacion_activa = false;
 					break;
 				case -2: //Se muestran las respuestas
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema); //Dejar si el dialogo se deja como ahora
 					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
@@ -200,7 +201,6 @@ public class TextBox : MonoBehaviour {
 					{
 						SetState(State.Mensajes_Menu);
 					}
-
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
 					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
@@ -212,7 +212,8 @@ public class TextBox : MonoBehaviour {
 					//Comprobamos si se puede avanzar en el dialogo
 					else if(dialog.AvanzaDialogue(node_id))
 					{
-						node_id++;
+						//es lo mismo que node_id++;
+						node_id = selected_option;
 					}
 					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
 					else
@@ -230,11 +231,9 @@ public class TextBox : MonoBehaviour {
 						{
 							SetState(State.Mensajes_Menu);
 						}
-
 					}
 					break;
 				}
-
 				break;
 			case State.Intro_Opciones:
 				display_node_options(dialog.DevuelveNodo(node_id));
@@ -276,7 +275,6 @@ public class TextBox : MonoBehaviour {
 					SetState(State.Intro_Texto);
 					break;
 				}
-
 				break;
 			case State.Mensajes_Menu:
 				if ((npc_dialogo.DevuelveNumeroMensajes() + npc_dialogo.DevuelveNumeroTemaMensajes()) != 0)
@@ -314,7 +312,6 @@ public class TextBox : MonoBehaviour {
 							num_tema = -1;
 							node_id = 0;
 						}
-
 						break;
 					}
 				}
@@ -322,7 +319,6 @@ public class TextBox : MonoBehaviour {
 				{
 					conversacion_activa = false;
 				}
-
 				break;
 			case State.Mensajes_Tema:
 				display_npc_temaMensajes(npc_dialogo.DevuelveTemaMensaje(node_id));
@@ -349,7 +345,6 @@ public class TextBox : MonoBehaviour {
 					node_id = 0;
 					break;
 				}
-
 				break;
 			case State.Mensajes_Texto:
 				display_node_text(dialog.DevuelveNodo(node_id));
@@ -360,13 +355,17 @@ public class TextBox : MonoBehaviour {
 					yield return new WaitForSeconds(0.25f);
 				}
 
+				//Cambiar sistema de dialogo si sigue con botones
+				//salir y cambiar_tema como ahora
 				switch(selected_option)
 				{
 				case -3: //La conversación acaba
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema); //Dejar si el dialogo se deja como ahora
 					EliminarDialogo(ref num_dialog, num_tema);
 					conversacion_activa = false;
 					break;
-				case -2: //Se muestran las respuestas
+				case -2: //Se muestran los mensajes
+					RecorreDialogoNPC(ref num_dialog, node_id, num_tema); //Dejar si el dialogo se deja como ahora
 					EliminarDialogo(ref num_dialog, num_tema);
 					SetState(State.Mensajes_Menu);
 					break;
@@ -385,7 +384,8 @@ public class TextBox : MonoBehaviour {
 					//Comprobamos si se puede avanzar en el dialogo
 					else if(dialog.AvanzaDialogue(node_id))
 					{
-						node_id++;
+						//es lo mismo que node_id++;
+						node_id = selected_option;
 					}
 					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
 					else
@@ -395,7 +395,6 @@ public class TextBox : MonoBehaviour {
 					}
 					break;
 				}
-
 				break;
 			case State.Mensajes_Opciones:
 				display_node_options(dialog.DevuelveNodo(node_id));
@@ -425,7 +424,6 @@ public class TextBox : MonoBehaviour {
 					SetState(State.Mensajes_Texto);
 					break;
 				}
-
 				break;
 			}
 		}
@@ -507,7 +505,8 @@ public class TextBox : MonoBehaviour {
 		option_13.SetActive(false);
 		option_14.SetActive(false);
 		option_15.SetActive(false);
-		change_theme.SetActive(true);
+		iramensajesmenu.SetActive(false);
+		exit.SetActive(false);
 
 		dialog_name.SetActive(true);
 		dialog_text.SetActive(true);
@@ -515,7 +514,26 @@ public class TextBox : MonoBehaviour {
 		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
 		dialog_text.GetComponentInChildren<Text>().text = node.DevuelveTexto();
 		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
-		dialog_text.GetComponent<Button>().onClick.AddListener(delegate {SetSelectedOption(selected_option+1);}); //Listener del botón
+		dialog_text.GetComponent<Button>().onClick.AddListener(delegate
+		{
+				int sigOpcion = selected_option+1;
+				switch(node.DevuelveSiguienteNodo())
+				{
+				//El dialogo acaba
+				case -2:
+					sigOpcion = -3;
+					break;
+				//Va hacia el menú de mensajes
+				case -1:
+					sigOpcion = -2;
+					break;
+				//opción por defecto(selected_option+1)
+				case 0:
+				default:
+					break;
+				}
+				SetSelectedOption(sigOpcion);
+		}); //Listener del botón
 	}
 
 	//Muestra las opciones del dialogo
@@ -528,7 +546,6 @@ public class TextBox : MonoBehaviour {
 
 		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
-		change_theme.SetActive(true);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
 		option_3.SetActive(false);
@@ -544,6 +561,8 @@ public class TextBox : MonoBehaviour {
 		option_13.SetActive(false);
 		option_14.SetActive(false);
 		option_15.SetActive(false);
+		iramensajesmenu.SetActive(false);
+		exit.SetActive(false);
 
 		for(int i = 0; i < node.DevuelveNumeroOpciones() && i < 14; i++)
 		{
@@ -652,7 +671,6 @@ public class TextBox : MonoBehaviour {
 		dialog_options.SetActive(true);
 		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
-		change_theme.SetActive(false);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
 		option_3.SetActive(false);
@@ -668,6 +686,8 @@ public class TextBox : MonoBehaviour {
 		option_13.SetActive(false);
 		option_14.SetActive(false);
 		option_15.SetActive(false);
+		iramensajesmenu.SetActive(false);
+		exit.SetActive(true);
 
 		int i = 0; //indice
 
@@ -795,7 +815,6 @@ public class TextBox : MonoBehaviour {
 		dialog_options.SetActive(true);
 		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
-		change_theme.SetActive(false);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
 		option_3.SetActive(false);
@@ -811,6 +830,8 @@ public class TextBox : MonoBehaviour {
 		option_13.SetActive(false);
 		option_14.SetActive(false);
 		option_15.SetActive(false);
+		iramensajesmenu.SetActive(true);
+		exit.SetActive(true);
 
 		for(int i = 0; i < tm.DevuelveNumeroMensajes() && i < 14; i++)
 		{

@@ -15,6 +15,8 @@ public class Manager : MonoBehaviour {
 
 	public static Manager Instance { get; private set; } //singleton
 
+	public string escenaInicial;
+
 	private ManagerTiempo managerTiempo;
 	private ManagerRutinas managerRutinas;
 
@@ -66,6 +68,7 @@ public class Manager : MonoBehaviour {
 	public static string rutaGruposActivos;
 	public static string rutaGruposAcabados;
 	public static string rutaLanzadores;
+	public static string rutaInventario;
 
 	void Awake()
 	{
@@ -108,6 +111,7 @@ public class Manager : MonoBehaviour {
 		rutaGruposActivos = Application.persistentDataPath + "/Grupos_Activos/";
 		rutaGruposAcabados = Application.persistentDataPath + "/Grupos_Acabados/";
 		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
+		rutaInventario = Application.persistentDataPath + "/Inventario/";
 
 		nombreJugador = "Jugador"; //Nombre por defecto del jugador
 
@@ -130,7 +134,7 @@ public class Manager : MonoBehaviour {
 		StartCoroutine(SiguienteSeccion());
 
 		//Cargamos el escenario
-		SceneManager.LoadScene("Demo");
+		SceneManager.LoadScene(escenaInicial);
 	}
 
 	private void CargarGameObjectsEstaticos()
@@ -211,6 +215,12 @@ public class Manager : MonoBehaviour {
 		else if(System.IO.File.Exists(rutaGruposAcabados + "GruposAcabados.xml"))
 		{
 			CargarGruposAcabados();
+		}
+
+		if(!System.IO.Directory.Exists(rutaInventario))
+		{    
+			//if it doesn't, create it
+			System.IO.Directory.CreateDirectory(rutaInventario);
 		}
 	}
 

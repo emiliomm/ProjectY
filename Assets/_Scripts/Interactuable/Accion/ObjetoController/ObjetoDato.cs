@@ -12,6 +12,7 @@ public class ObjetoDato : MonoBehaviour {
 	void Start () {
 		SpriteRenderer s = GetComponent<SpriteRenderer>();
 		m = s.material;
+		layerMask = 1 << 8; //UIObjeto
 	}
 	
 	// Update is called once per frame
@@ -19,7 +20,7 @@ public class ObjetoDato : MonoBehaviour {
 		Ray rayToCameraPos = new Ray(transform.position, Camera.main.transform.position-transform.position);
 		Debug.DrawRay(rayToCameraPos.origin, rayToCameraPos.direction*100, Color.blue);
 
-		if(Physics.Raycast(rayToCameraPos, out hitInfo, 1000))
+		if(Physics.Raycast(rayToCameraPos, out hitInfo, 1000, layerMask))
 		{
 			transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
 			SpriteRenderer s = GetComponent<SpriteRenderer>();

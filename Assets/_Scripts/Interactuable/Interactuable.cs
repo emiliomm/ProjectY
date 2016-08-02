@@ -355,7 +355,7 @@ public class Interactuable : MonoBehaviour {
 		moveVector.y += Input.GetAxis ("Mouse Y") * Y_MouseSensitivity;
 
 		//Limitamos el módulo del vector convirtiéndolo en unitario
-		//y haciendo que el rango de movimiento esté limitado a un círculo
+		//y haciendo que el rango de movimiento esté limitado a un círculo de radio 1
 		moveVector = Vector3.ClampMagnitude(moveVector, 1.0f);
 
 		//Transforma los movimientos del ratón según el punto de vista de la cámara

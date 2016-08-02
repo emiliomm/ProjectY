@@ -1,7 +1,7 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
 - El texto de las acciones causa colision con el personaje
-- La caja de colision de los npcs colisiona con la camara
+- La caja de colision de los dialogos a distancia colisiona con la cámara
 
 - Algunas animaciones con salto y hacia atrás causan bugs en la animación
 
@@ -16,6 +16,7 @@ COSAS POR HACER:
 - Al entrar en un temamensaje, poder ir hacia el menu de mensajes
 - Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
 - Borrar los assets que sobran y mover los que son usados a las carpetas principales
+- Eliminar todos los findGameobjects del código
 - Mejorar el dialogo a distancia
 	- Cuando un dialogo deja de ser a distancia, etc
 - Acciones

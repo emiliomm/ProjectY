@@ -467,45 +467,25 @@ public class TP_Camera : MonoBehaviour
 
 		if (posC.lookAt == -1)
 		{
-//			//Aplicamos el offset
-//			//if (offset_active && !CheckIfOccludedOffset())
-//			if (offset_active)
-//			{
-//				offset = Mathf.SmoothDamp(offset, offset_max, ref offset_value, offset_smooth_resume);
-//			}
-//			else
-//			{
-//				offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
-//			}
-//
-//			if (Mathf.Abs(percent - Distance/preOccludedDistance) > 0.001f )
-//				percent = Mathf.SmoothDamp(percent, Distance/preOccludedDistance, ref percent_value, offset_smooth);
-//
-//			var targetPos = TargetLookAt.position+transform.right*offset*percent;
-//
-//			transform.LookAt(targetPos);
+			//- 1.769/2 (mitad cuerpo) temporal
+			Vector3 translado = TargetLookAt.TransformDirection(new Vector3(posC.coordX, posC.coordY - 1.769f/2, posC.coordZ));
 
-			//- 1.769/2 temporal
-			posX = TargetLookAt.position.x+ posC.coordX;
-			posY = TargetLookAt.position.y - 1.769f/2 + posC.coordY;
-			posZ = TargetLookAt.position.z + posC.coordZ;
+			Vector3 pos = TargetLookAt.position + translado;
 
 			//Asignamos la posicion actual con la posicion suavizada
-			transform.position = new Vector3(posX, posY, posZ);
+			transform.position = pos;
 
 			//Asignamos el lookAt
+			//- 1.769/2 (mitad cuerpo) temporal
 			transform.LookAt(TargetLookAt.position - new Vector3(0f,1.769f/2,0f));
 		}
 		else
 		{
-			
+			Vector3 translado = inter.transform.TransformDirection(new Vector3(posC.coordX, posC.coordY, posC.coordZ));
 
-			posX = inter.transform.position.x + posC.coordX;
-			posY = inter.transform.position.y + posC.coordY;
-			posZ = inter.transform.position.z + posC.coordZ;
+			Vector3 pos = inter.transform.position + translado;
 
-			//Asignamos la posicion actual con la posicion suavizada
-			transform.position = new Vector3(posX, posY, posZ);
+			transform.position = pos;
 
 			transform.LookAt(inter.transform);
 		}

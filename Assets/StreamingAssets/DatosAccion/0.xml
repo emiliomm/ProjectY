@@ -6,23 +6,8 @@
 		<ID_NPC>0</ID_NPC>
 		<ID_Diag>0</ID_Diag>
 		<aDistancia>true</aDistancia>
-		<tamX>5</tamX>
-		<tamY>5</tamY>
-		<tamZ>5</tamZ>
-	</DatosAccion>
-	<DatosAccion xsi:type="xs:DatosAccionDialogo">
-		<ID>2</ID>
-		<nombre>Prueba</nombre>
-		<ID_NPC>0</ID_NPC>
-		<ID_Diag>10</ID_Diag>
-		<aDistancia>false</aDistancia>
-		<tamX>0</tamX>
-		<tamY>0</tamY>
-		<tamZ>0</tamZ>
-	</DatosAccion>
-	<DatosAccion xsi:type="xs:DatosAccionObjeto">
-		<ID>3</ID>
-		<nombre>Objeto</nombre>
-		<nombreObjecto>Cube</nombreObjecto>
+		<tamX>7</tamX>
+		<tamY>7</tamY>
+		<tamZ>14</tamZ>
 	</DatosAccion>
 </ArrayOfDatosAccion>

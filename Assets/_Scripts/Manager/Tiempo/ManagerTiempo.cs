@@ -4,7 +4,7 @@ using System.Collections;
 public class ManagerTiempo{
 
 	//Segundos reales que tarda en cambiar de hora el juego
-	private int SegundosHora = 2;
+	private int SegundosHora = 60;
 
 	public int Dia = 0;
 	public int Hora = 0;

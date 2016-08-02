@@ -7,6 +7,7 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - La autodestrucción de la intro/mensajes se activa al cambiar de tema, abandonar una conversación o acabarla. Cuidado con el sitio donde se activa la autodestruccion
 - Los intros/mensajes lanzados por un grupo pueden pertenecer a cualquier grupo o a ninguno, aunque lo recomendable es que pertenezcan al mismo
 - El radio de la capsula del character controller a de ser al menos de 0.4
+- Los npcs/objetos deben mirar hacia el eje Z (azul) local, así como el modelado del personaje principal.
 
 CHULETAS
 
@@ -27,3 +28,12 @@ Posicion camara NPC (temporal)
 	<coordY>1</coordY>
 	<coordZ>1</coordZ>
 </posCamara>
+
+DestinationNodeID en DialogueOption
+/* 
+		 * Valor
+		 * -1 : Acaba dialogo cargado
+		 * -2 : Va a las respuestas (NO SE DEBE USAR EN UN XML) - CON EL SISTEMA ACTUAL SÍ
+		 * -3: Acaba la conversación (NO SE DEBE USAR EN UN XML) - CON EL SISTEMA ACTUAL SÍ
+		 * Otro: Va al nodo indicado
+*/
