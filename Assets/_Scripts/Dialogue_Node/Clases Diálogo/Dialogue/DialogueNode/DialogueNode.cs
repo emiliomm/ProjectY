@@ -27,6 +27,7 @@ namespace DialogueTree
 		public List<DialogueAddMensaje> Mensajes;
 		public List<DialogueGrupo> Grupos;
 		public List<DialogueGrupoVariable> GruposVariables;
+		public List<DialogueAddObjeto> Objetos;
 		public List<DialogueNombre> Nombres;
 
         // parameterless constructor for serialization
@@ -38,7 +39,9 @@ namespace DialogueTree
 			Mensajes = new List<DialogueAddMensaje>();
 			Grupos = new List<DialogueGrupo>();
 			GruposVariables = new List<DialogueGrupoVariable>();
+			Objetos = new List<DialogueAddObjeto>();
 			Nombres = new List<DialogueNombre>();
+
         }
 
 		public int DevuelveNombre()
@@ -94,6 +97,11 @@ namespace DialogueTree
 		public int DevuelveNumeroGruposVariables()
 		{
 			return GruposVariables.Count;
+		}
+
+		public int DevuelveNumeroObjetos()
+		{
+			return Objetos.Count;
 		}
 
 		public int DevuelveNumeroNombres()

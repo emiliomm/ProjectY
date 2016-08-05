@@ -1014,6 +1014,41 @@ public class NPC_Dialogo : ObjetoSer
 			}
 		}
 
+		for(int i = 0; i < node.DevuelveNumeroObjetos(); i++)
+		{
+			int IDObjeto = node.Objetos[i].DevuelveIDObjeto();
+			//Mover fuera para que no se creen tantas instancias del inventario
+			Inventario inventario;
+
+			//Buscamos el inventario en la colaobjetos
+			ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
+
+			if(cobj != null)
+			{
+				ObjetoSer objs = cobj.GetObjeto();
+				inventario = objs as Inventario;
+			}
+			else
+			{
+				//Cargamos el inventario si existe, sino lo creamos
+				if(System.IO.File.Exists(Manager.rutaInventario + "Inventario.xml"))
+				{
+					inventario = Inventario.LoadInventario(Manager.rutaInventario + "Inventario.xml");
+				}
+				else
+				{
+					inventario = new Inventario();
+				}
+			}
+
+			//Si el objeto se ha añadido correctamente
+			//se añade el objeto a la cola de objetos
+			if(inventario.addObjeto(IDObjeto))
+			{
+				inventario.AddToColaObjetos();
+			}
+		}
+
 		for(int i = 0; i < node.DevuelveNumeroNombres(); i++)
 		{
 			int IDNpc = node.Nombres[i].DevuelveIDNpc();
@@ -1087,7 +1122,7 @@ public class NPC_Dialogo : ObjetoSer
 						dnpc.SetIndiceNombre(Indice);
 					}
 
-					dnpc.AddToColaObjetos ();
+					dnpc.AddToColaObjetos();
 				}
 			}
 		}

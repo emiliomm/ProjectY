@@ -48,6 +48,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\Dialogue.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueAddIntro.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueAddMensaje.cs" />
+     <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueAddObjeto.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueGrupo.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueGrupoVariable.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\Dialogue\DialogueNode\DialogueNode.cs" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\_Scripts\Dialogue_Node\Clases Diálogo\TemaMensaje.cs" />
      <Compile Include="Assets\_Scripts\Dialogue_Node\Interfaz\TextBox.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\Accion\ComprobarObjeto.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccion.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" />
@@ -130,6 +132,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
+     <None Include="Assets\StreamingAssets\ObjetoInventario\70.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
      <None Include="Assets\StreamingAssets\NPCDialogue\0-0.xml" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />

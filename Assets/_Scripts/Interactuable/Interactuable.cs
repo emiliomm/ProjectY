@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 
+using System.Linq;
+
 using UnityEngine.UI;
 
 public class Interactuable : MonoBehaviour {
@@ -115,41 +117,149 @@ public class Interactuable : MonoBehaviour {
 			Acciones = LoadDatosAccion(Manager.rutaDatosAccion + ID.ToString()  + ".xml");
 		}
 
+		//Cargamos el inventario, necesario para comprobar si ciertas acciones se muestran
+		Inventario inventario;
+
+		//Cargamos el inventario si existe, sino lo creamos
+		if(System.IO.File.Exists(Manager.rutaInventario + "Inventario.xml"))
+		{
+			inventario = Inventario.LoadInventario(Manager.rutaInventario + "Inventario.xml");
+		}
+		else
+		{
+			inventario = new Inventario();
+		}
+
 		for(int i = 0; i < Acciones.Count; i++)
 		{
-			GameObject AccionGO = new GameObject("Accion");
-			AccionObjeto aobj = AccionGO.AddComponent<AccionObjeto>();
-			aobj.setIndice(i);
-			aobj.setID(ID);
+			//Comprobamos si los requisitos para mostrar la accion
+			//son correctos. Si lo son, creamos la accion
+			if(mostrarAccion(Acciones[i], inventario))
+			{
+				GameObject AccionGO = new GameObject("Accion" + i.ToString());
+				AccionObjeto aobj = AccionGO.AddComponent<AccionObjeto>();
+				aobj.setIndice(i);
+				aobj.setID(ID);
 
+				if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
+				{
+					DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
+
+					//Si el dialogo es a distancia creamos el box collider
+					if(d.aDistancia)
+					{
+						GameObject dialogoDistancia = new GameObject("Dialogo Distancia");
+						dialogoDistancia.transform.position = Objeto.transform.position;
+						dialogoDistancia.transform.SetParent(Objeto.transform, true);
+
+						DialogoDistancia dd = dialogoDistancia.AddComponent<DialogoDistancia>();
+						dd.cargarDialogo(this, d);
+
+						BoxCollider col = dialogoDistancia.AddComponent<BoxCollider>();
+						col.isTrigger = true;
+						col.size = new Vector3(d.tamX, d.tamY, d.tamZ);
+					}
+				}
+
+				CargaAccion(AccionGO, i);
+			}
+
+			//Carga el dialogo si la accion es de tipo dialogo
+			//aunque no se muestre
 			if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
 			{
 				DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
 				d.CargaDialogo();
-
-				//Si el dialogo es a distancia creamos el box collider
-				if(d.aDistancia)
-				{
-					GameObject dialogoDistancia = new GameObject("Dialogo Distancia");
-					dialogoDistancia.transform.position = Objeto.transform.position;
-					dialogoDistancia.transform.SetParent(Objeto.transform, true);
-
-					DialogoDistancia dd = dialogoDistancia.AddComponent<DialogoDistancia>();
-					dd.cargarDialogo(this, d);
-
-					BoxCollider col = dialogoDistancia.AddComponent<BoxCollider>();
-					col.isTrigger = true;
-					col.size = new Vector3(d.tamX, d.tamY, d.tamZ);
-				}
 			}
-
-			CargaAccion(AccionGO);
 		}
 
 		//Cargamos la UI de las acciones actuales
 		CargarAccionesUI();
 
 		DesactivarTextoAcciones();
+	}
+
+	public void RecargarAcciones()
+	{
+		//Cargamos el inventario, necesario para comprobar si ciertas acciones se muestran
+		Inventario inventario;
+
+		//Cargamos el inventario si existe, sino lo creamos
+		if(System.IO.File.Exists(Manager.rutaInventario + "Inventario.xml"))
+		{
+			inventario = Inventario.LoadInventario(Manager.rutaInventario + "Inventario.xml");
+		}
+		else
+		{
+			inventario = new Inventario();
+		}
+
+		for(int i = Acciones.Count - 1; i >= 0; i--)
+		{
+			//Comprobamos si los requisitos para mostrar la accion
+			//son correctos. Si lo son, creamos la accion si no existía anteriormente
+			if(mostrarAccion(Acciones[i], inventario))
+			{
+				GameObject accionGO =  AccionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
+
+				//Si la accion no existe, la añadimos
+				if(accionGO == null)
+				{
+					accionGO = new GameObject("Accion" + i.ToString());
+					AccionObjeto aobj = accionGO.AddComponent<AccionObjeto>();
+					aobj.setIndice(i);
+					aobj.setID(ID);
+
+					CargaAccion(accionGO, i);
+				}
+			}
+			//comprobamos si la acción ya existía para eliminarla
+			else
+			{
+				GameObject accionGO =  AccionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
+
+				//Si la accion existe, la eliminamos
+				if(accionGO != null)
+				{
+					AccionesGO.Remove(accionGO);
+					Destroy(accionGO);
+				}
+			}
+		}
+
+		//Cargamos la UI de las acciones actuales
+		CargarAccionesUI();
+
+		DesactivarTextoAcciones();
+	}
+
+	private bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
+	{
+		bool mostrarAccion = true;
+
+		for(int i = 0; i < dAcc.objetos.Count; i++)
+		{
+			//Si equipado es true
+			//Si no tenemos el objeto la acción no se muestra
+			if(dAcc.objetos[i].equipado)
+			{
+				if(!inventario.ObjetoInventarioExiste(dAcc.objetos[i].IDObjeto))
+				{
+					mostrarAccion = false;
+				}
+			}
+			//Si equipado es false
+			//Si tenemos el objeto la acción no se muestra
+			else
+			{
+				if(inventario.ObjetoInventarioExiste(dAcc.objetos[i].IDObjeto))
+				{
+					mostrarAccion = false;
+				}
+			}
+		}
+
+		return mostrarAccion;
 	}
 
 	public static List<DatosAccion> LoadDatosAccion(string path)
@@ -159,7 +269,7 @@ public class Interactuable : MonoBehaviour {
 		return datosAccion;
 	}
 
-	private void CargaAccion(GameObject AccionGO)
+	private void CargaAccion(GameObject AccionGO, int i)
 	{
 		AccionGO.transform.SetParent(canvas.transform, false);
 		AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -170,7 +280,7 @@ public class Interactuable : MonoBehaviour {
 		collider.size =  new Vector2(430f, 140f);
 
 		Text myText = AccionGO.AddComponent<Text>();
-		myText.text = Acciones[AccionesGO.Count].DevolverNombre();
+		myText.text = Acciones[i].DevolverNombre();
 		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
 		myText.fontSize = 80;
 		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);

@@ -97,6 +97,9 @@ public class TP_Controller : MonoBehaviour
 			InventarioManager.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
 
 			SetState(State.Dialogo);
+			Manager.Instance.setPausa(true);
+			Cursor.visible = true; //Muestra el cursor del ratón
+			Camera.main.GetComponent<TP_Camera>().setObjectMode();
 		}
 
 		return activado;

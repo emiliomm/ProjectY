@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ObjetoInventario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID>70</ID>
+	<nombre>LLave Especial</nombre>
+	<nombreImagen>llave</nombreImagen>
+	<descripcion>Una llave diferente a todas las demás</descripcion>
+</ObjetoInventario>

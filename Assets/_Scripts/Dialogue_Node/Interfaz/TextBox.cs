@@ -144,11 +144,65 @@ public class TextBox : MonoBehaviour {
 		Cursor.visible = false; //Oculta el cursor del ratón
 	}
 
+	private IEnumerator Objetos()
+	{
+		dialogue_window.SetActive(false);
+
+		GameObject panelObjeto = (GameObject)Instantiate(Resources.Load("PanelPopupObjeto"));
+		panelObjeto.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
+
+		Inventario inventario;
+
+		//Buscamos el inventario en la colaobjetos
+		ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
+
+		if(cobj != null)
+		{
+			ObjetoSer objs = cobj.GetObjeto();
+			inventario = objs as Inventario;
+		}
+		else
+		{
+
+		if(System.IO.File.Exists(Manager.rutaInventario + "Inventario.xml"))
+		{
+			inventario = Inventario.LoadInventario(Manager.rutaInventario + "Inventario.xml");
+		}
+			else
+			{
+				inventario = new Inventario();
+			}
+
+		}
+			
+		for(int i = 0; i < inventario.objetosRecientes.Count; i++)
+		{
+			panelObjeto.transform.GetChild(0).GetChild(0).transform.GetComponent<Text>().text = "Has obtenido " + inventario.objetosRecientes[i].nombre;
+
+			selected_option = -4;
+
+			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate
+				{ SetSelectedOption(selected_option + 1); }); //Listener del botón
+
+			while (selected_option == -4) {
+				yield return new WaitForSeconds (0.25f);
+			}
+		}
+
+		inventario.objetosRecientes.Clear();
+
+		Destroy(panelObjeto);
+
+		dialogue_window.SetActive(true);
+	}
+
+
 	private IEnumerator IniciaDialogo()
 	{
 		//principio del dialogo
-		int num_tema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema
 		int num_dialog = 0;
+		int num_tema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema
 		int node_id = 0;
 		bool conversacion_activa = true;
 
@@ -234,6 +288,9 @@ public class TextBox : MonoBehaviour {
 					}
 					break;
 				}
+
+				yield return StartCoroutine(Objetos());
+
 				break;
 			case State.Intro_Opciones:
 				display_node_options(dialog.DevuelveNodo(node_id));
@@ -516,7 +573,7 @@ public class TextBox : MonoBehaviour {
 		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
 		dialog_text.GetComponent<Button>().onClick.AddListener(delegate
 		{
-				int sigOpcion = selected_option+1;
+				int sigOpcion = selected_option + 1;
 				switch(node.DevuelveSiguienteNodo())
 				{
 				//El dialogo acaba

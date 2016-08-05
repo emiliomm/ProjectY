@@ -2,13 +2,64 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Inventario{
+using System.Linq;
+using System.Xml; 
+using System.Xml.Serialization; 
 
+[XmlRoot("ObjetoSer")]
+public class Inventario : ObjetoSer
+{
 	public List<ObjetoInventario> objetos;
+	public List<ObjetoInventario> objetosRecientes; //mover a manager
 
 	public Inventario()
 	{
 		objetos = new List<ObjetoInventario>();
+		objetosRecientes = new List<ObjetoInventario>();
+	}
+
+	//Devuelve true si el objeto ha sido añadido
+	//false si no lo ha sido
+	public bool addObjeto(int ID)
+	{
+		bool anyadido = false;
+
+		//Si no existe el objeto, lo añadimos
+		if(!ObjetoInventarioExiste(ID))
+		{
+			ObjetoInventario obj = ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + ID.ToString() + ".xml");
+			objetos.Add(obj);
+			objetosRecientes.Add(obj); //lo añade también a la lista de objetos recientes
+
+			anyadido = true;
+		}
+
+		return anyadido;
+	}
+
+	public bool ObjetoInventarioExiste(int id)
+	{
+		return objetos.Any(x => x.ID == id);
+	}
+
+	public int devolverNumeroObjetos()
+	{
+		return objetos.Count;
+	}
+
+	public string devolverNombre(int indice)
+	{
+		return objetos[indice].nombre;
+	}
+
+	public string devolverNombreImagen(int indice)
+	{
+		return objetos[indice].nombreImagen;
+	}
+
+	public string devolverDescripcion(int indice)
+	{
+		return objetos[indice].descripcion;
 	}
 
 	public static Inventario LoadInventario(string path)
@@ -16,5 +67,10 @@ public class Inventario{
 		Inventario inventario = Manager.Instance.DeserializeData<Inventario>(path);
 
 		return inventario;
+	}
+
+	public void AddToColaObjetos()
+	{
+		Manager.Instance.AddToColaObjetos(Manager.rutaInventario + "Inventario.xml", this);
 	}
 }

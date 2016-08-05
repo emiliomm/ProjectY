@@ -29,6 +29,11 @@
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
+						<Objetos>
+							<DialogueAddObjeto>
+								<ID>70</ID>
+							</DialogueAddObjeto>
+						</Objetos>
 						<Nombres/>
 					</DialogueNode>
 					<DialogueNode>

@@ -5,18 +5,21 @@ BUGS(POR ORDEN DE PRIORIDAD)
 
 - Algunas animaciones con salto y hacia atrás causan bugs en la animación
 
+- Cuando estás en el menú de mensajes o temamensajes la cámara no tiene posición definida, lo que causa problemas al cargar una escena con un dialogo a distancia que se inicia instantaneamente
+
 - La luz del mapa1 no carga correctamente al pasar de inicio al mapa
 	* ¿Por qué? Se trata de un error de Unity que solo ocurre en el editor
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Hacer que los objetos que hay en el dialoguenode sean hijos de una misma clase base para no incluir clases que no se van a usar
 - Mejorar sistema de rutinas
 	- Crear los eventos
 	- Mejorar el código de las rutinas
-- Al entrar en un temamensaje, poder ir hacia el menu de mensajes
 - Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
 - Borrar los assets que sobran y mover los que son usados a las carpetas principales
 - Eliminar todos los findGameobjects del código
+- Falta implementar los mensajes de finalización de los grupos
 - Mejorar el dialogo a distancia
 	- Cuando un dialogo deja de ser a distancia, etc
 - Acciones
@@ -43,4 +46,9 @@ COSAS POR HACER:
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?
-- Seguir patrones de programación(una vez casi acabado el juego)
+- Seguir patrones de programación(una vez casi acabado el juego) y optimizar el código
+	- No usar LINQ
+	- Si vas a mantener listas grandes casi constantemente o listas que aguegan y borran elementos rápidamente, lo mejor es crearlas con
+	un número estimado de elementos para ahorrar asignación de memoria (new List(100))
+	- Evitar los foreach por otra estructura
+	- http://www.gamasutra.com/blogs/WendelinReich/20131109/203841/C_Memory_Management_for_Unity_Developers_part_1_of_3.php

@@ -69,6 +69,7 @@ public class Manager : MonoBehaviour {
 	public static string rutaGruposAcabados;
 	public static string rutaLanzadores;
 	public static string rutaInventario;
+	public static string rutaObjetoInventario;
 
 	void Awake()
 	{
@@ -112,6 +113,7 @@ public class Manager : MonoBehaviour {
 		rutaGruposAcabados = Application.persistentDataPath + "/Grupos_Acabados/";
 		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
 		rutaInventario = Application.persistentDataPath + "/Inventario/";
+		rutaObjetoInventario = Application.dataPath + "/StreamingAssets/ObjetoInventario/";
 
 		nombreJugador = "Jugador"; //Nombre por defecto del jugador
 
@@ -399,6 +401,16 @@ public class Manager : MonoBehaviour {
 		return interactuables.Select(d => d.Value).ToList();
 	}
 
+	private void actualizarAcciones()
+	{
+		foreach(KeyValuePair<int, GameObject> entry in interactuables)
+		{
+			// do something with entry.Value or entry.Key
+			Interactuable inter = entry.Value.GetComponent<Interactuable>() as Interactuable;
+			inter.RecargarAcciones();
+		}
+	}
+
 	/*
 	 * 
 	 * 
@@ -583,6 +595,13 @@ public class Manager : MonoBehaviour {
 			ObjetoSer obj = ColaObjetos[i].GetObjeto();
 
 			SerializeData(obj, Path.GetDirectoryName(ruta), Path.GetFileName(ruta));
+
+			//Si el inventario se ha actualizado, actualizamos el estado
+			//de las acciones de los interactuables
+			if(ruta == rutaInventario + "Inventario.xml")
+			{
+				actualizarAcciones();
+			}
 		}
 
 		ColaObjetos.Clear();
@@ -596,7 +615,7 @@ public class Manager : MonoBehaviour {
 		GuardarTiempo();
 		SerializarCola();
 	}
-
+		
 	/*
 	 * 
 	 * 
