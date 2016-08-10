@@ -11,6 +11,7 @@ public class InventarioController : MonoBehaviour {
 	GameObject imagenObjeto;
 	GameObject nombreObjeto;
 	GameObject descripcionObjeto;
+	GameObject salir;
 
 	int indice = 0;
 
@@ -28,6 +29,9 @@ public class InventarioController : MonoBehaviour {
 		imagenObjeto = transform.GetChild(1).GetChild(0).gameObject;
 		nombreObjeto = transform.GetChild(1).GetChild(1).gameObject;
 		descripcionObjeto = transform.GetChild(1).GetChild(2).gameObject;
+
+		salir = transform.GetChild(2).gameObject;
+		salir.GetComponent<Button>().onClick.AddListener(delegate { Salir(); }); //Listener del botón
 
 		if(inventario.devolverNumeroObjetos() == 0)
 		{
@@ -96,13 +100,18 @@ public class InventarioController : MonoBehaviour {
 		
 		if (Input.GetKeyDown(KeyCode.I))
 		{
-			TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-			Manager.Instance.setPausa(false);
-			Cursor.visible = false;
-			Camera.main.GetComponent<TP_Camera>().setNormalMode();
-
-			Destroy(gameObject);
+			Salir();
 		}
+	}
+
+	private void Salir()
+	{
+		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+		Manager.Instance.setPausa(false);
+		Cursor.visible = false;
+		Camera.main.GetComponent<TP_Camera>().setNormalMode();
+
+		Destroy(gameObject);
 	}
 
 	private void actualizarVistaObjeto()

@@ -1,15 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using DialogueTree;
-
+/*
+ * 	Clase que contiene mensajes relacionados con un tema común
+ */
 public class TemaMensaje{
 
 	public int ID; //ID Tema
-	//-1 si no tiene grupo, x si tiene. El grupo del TemaMensaje sustituye al grupo de los mensajes
-	//contenidos en él, excepto si no tiene grupo
+
+	//-1 si no tiene grupo, x si tiene. El grupo del TemaMensaje sustituye al grupo de los mensajes, excepto si el temamensaje no tiene grupo
 	public int IDGrupo;
+
 	public string texto;
 	public List<Mensaje> mensajes;
 
@@ -38,6 +38,7 @@ public class TemaMensaje{
 		return mensajes[num_mensaje].DevuelveTexto();
 	}
 
+	//Devuelve el temamensaje de un xml indicado en la ruta
 	public static TemaMensaje LoadTemaMensaje(string path)
 	{
 		TemaMensaje temaMensaje = Manager.Instance.DeserializeData<TemaMensaje>(path);

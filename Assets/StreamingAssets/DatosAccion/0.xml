@@ -3,28 +3,12 @@
 	<DatosAccion xsi:type="xs:DatosAccionDialogo">
 		<ID>0</ID>
 		<nombre>Hablar</nombre>
-		<objetos>
-			<ComprobarObjeto>
-				<equipado>false</equipado>
-				<IDObjeto>70</IDObjeto>
-			</ComprobarObjeto>
-		</objetos>
+		<objetos/>
 		<ID_NPC>0</ID_NPC>
 		<ID_Diag>0</ID_Diag>
 		<aDistancia>true</aDistancia>
 		<tamX>7</tamX>
 		<tamY>7</tamY>
 		<tamZ>14</tamZ>
-	</DatosAccion>
-	<DatosAccion xsi:type="xs:DatosAccionObjeto">
-		<ID>1</ID>
-		<nombre>Objeto</nombre>
-		<objetos>
-			<ComprobarObjeto>
-				<equipado>true</equipado>
-				<IDObjeto>70</IDObjeto>
-			</ComprobarObjeto>
-		</objetos>
-		<nombreObjecto>Cube</nombreObjecto>
 	</DatosAccion>
 </ArrayOfDatosAccion>

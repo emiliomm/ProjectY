@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID>3</ID>
+	<IDGrupo>-1</IDGrupo>
+	<Autodestruye>0</Autodestruye>
+	<texto>¿Me puede repetir lo del inhibidor?</texto>
+	<dia>
+		<Nodes>
+			<DialogueNode>
+				<NodeID>0</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
+				<Nombre>-1</Nombre>
+				<siguienteNodo>0</siguienteNodo>
+				<Text>El inhibidor le permite hibernar dutante la duración del viaje. No presenta ningún efecto secundario, aunque su uso es opcional, puede dormir en la cama de su habitación si desea disfrutar del viaje despierto el tiempo restante.</Text>
+				<recorrido>false</recorrido>
+				<destruido>false</destruido>
+				<Options/>
+				<Intros/>
+				<Mensajes/>
+				<Grupos/>
+				<GruposVariables/>
+				<Objetos/>
+				<Nombres/>
+			</DialogueNode>
+		</Nodes>
+	</dia>
+</Mensaje>

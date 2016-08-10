@@ -1,12 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace DialogueTree
+﻿namespace DialogueTree
 {
+	/*
+	 * Clase que añade o elimina el grupo indicado mientras se recorre un diálogo
+	*/
 	public class DialogueGrupo
 	{
 		public int IDGrupo;
-		public bool tipo; //verdadero(1) = añade grupo, falso(0) = elimina el grupo
+
+		//verdadero(1) = añade grupo, falso(0) = elimina el grupo
+		public bool tipo;
 
 		DialogueGrupo() { }
 
@@ -15,6 +17,7 @@ namespace DialogueTree
 			return IDGrupo;
 		}
 
+		//verdadero(1) = añade grupo, falso(0) = elimina el grupo
 		public bool DevuelveTipo()
 		{
 			return tipo;

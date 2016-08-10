@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿/*
+ * 	Clase hija de Interactuable que contiene datos sobre la subclase de los interactuables llamada NPC
+ */
 public class InteractuableNPC : Interactuable {
 
-	NPCDatos datos;
+	NPCDatos datos; //Almacena los datos de esta clase
 
 	protected override void Start()
 	{
 		//Ejecuta el metodo del padre
 		base.Start();
 
+		//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
 		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
 		{
 			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml");
@@ -19,6 +20,7 @@ public class InteractuableNPC : Interactuable {
 			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 		}
 
+		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());
 	}
 
@@ -37,13 +39,15 @@ public class InteractuableNPC : Interactuable {
 		return datos.DevuelveNombreActual();
 	}
 
-	public void AddDatosToColaObjetos()
-	{
-		datos.AddToColaObjetos();
-	}
-
+	//Igual que la función DevuelveNombreActual() es este caso, pero necesaria de implementar por la clase base
 	public override string DevuelveNombreDialogo()
 	{
 		return DevuelveNombreActual();
+	}
+
+	//Añade los datos a la cola de objetos para que sean serializados
+	public void AddDatosToColaObjetos()
+	{
+		datos.AddToColaObjetos();
 	}
 }

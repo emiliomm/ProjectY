@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+/*
+ * 	Clase que se encarga de animar al objeto del jugador, cambiando entre estados según el movimiento y/o acciones
+ */
 public class TP_Animator : MonoBehaviour
 {
-	//Estados, en este caso, las direcciones del personaje
+	//Instancia de la clase (singleton)
+	public static TP_Animator Instance;
+
+	//Guarda el componente Animator del objeto de la clase
+	Animator animator;
+
+	//Estados de las direcciones del personaje
 	public enum Direction
 	{
 		Stationary, Forward, Backward, Left, Right,
 		LeftForward, RightForward, LeftBackward, RightBackward
 	}
 
+	//Estados que representan que esta haciendo el personaje
 	public enum CharacterState
 	{
 		Idle, Running, WalkBackwards, StrafingLeft, StrafingRight, Jumping,
@@ -24,14 +33,13 @@ public class TP_Animator : MonoBehaviour
 		State = newState;
 	}
 
-	public static TP_Animator Instance;
-
 	//propiedad que guarda nuestra direccion
 	public Direction MoveDirection {get; set; }
 
 	void Awake()
 	{
 		Instance = this;
+		animator = GetComponent<Animator>();
 	}
 
 	//Determina el Estado de Direction dependiendo del vector de direccion
@@ -84,6 +92,7 @@ public class TP_Animator : MonoBehaviour
 		ProcessCurrentState();
 	}
 
+	//Determina el estado
 	private void DetermineCurrentState()
 	{
 		if(State == CharacterState.Dead)
@@ -142,6 +151,7 @@ public class TP_Animator : MonoBehaviour
 		}
 	}
 
+	//Según el estado en el que nos encontremos, ejecutamos determinadas funciones
 	private void ProcessCurrentState()
 	{
 		switch(State)
@@ -186,41 +196,36 @@ public class TP_Animator : MonoBehaviour
 
 	#region Character State Methods
 
-	void Idle()
+	private void Idle()
 	{
-		Animator anim=GetComponent<Animator>();
-		anim.SetBool("isRunning", false);
-		anim.SetBool("isWalkingBackwards", false);
+		animator.SetBool("isRunning", false);
+		animator.SetBool("isWalkingBackwards", false);
 	}
 
-	void Running()
+	private void Running()
 	{
-		Animator anim=GetComponent<Animator>();
-		anim.SetBool("isRunning", true);
-		anim.SetBool("isWalkingBackwards", false);
+		animator.SetBool("isRunning", true);
+		animator.SetBool("isWalkingBackwards", false);
 	}
 
-	void WalkBackwards()
+	private void WalkBackwards()
 	{
-		Animator anim=GetComponent<Animator>();
-		anim.SetBool("isRunning", false);
-		anim.SetBool("isWalkingBackwards", true);
+		animator.SetBool("isRunning", false);
+		animator.SetBool("isWalkingBackwards", true);
 	}
 
-	void StrafingLeft()
+	private void StrafingLeft()
 	{
-//		Animator anim=GetComponent<Animator>();
+
 	}
 
-	void StrafingRight()
+	private void StrafingRight()
 	{
-//		Animator anim=GetComponent<Animator>();
+
 	}
 
-	void Jumping()
+	private void Jumping()
 	{
-		Animator anim=GetComponent<Animator>();
-
 		if(TP_Controller.Instance.onGround)
 		{
 			//crouching
@@ -237,28 +242,25 @@ public class TP_Animator : MonoBehaviour
 		}
 	}
 
-	void Falling()
+	private void Falling()
 	{
 		if(TP_Controller.Instance.onGround && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Falling"))
 		{
-			Animator anim=GetComponent<Animator>();
-			anim.SetBool("isLanding", true);
-			anim.SetBool("isFalling", false);
-			anim.SetBool("isJumping", false);
+			animator.SetBool("isLanding", true);
+			animator.SetBool("isFalling", false);
+			animator.SetBool("isJumping", false);
 			SetState(CharacterState.Landing);
 		}
 	}
 
-	void Landing()
+	private void Landing()
 	{
-		Animator anim=GetComponent<Animator>();
-
 		//Cuando hemos acabado la animación
-		if(anim.GetCurrentAnimatorStateInfo(0).IsName("Landing") && 
-			anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+		if(animator.GetCurrentAnimatorStateInfo(0).IsName("Landing") && 
+			animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
 		{
 			SetState(CharacterState.Idle);
-			anim.SetBool("isLanding", false);
+			animator.SetBool("isLanding", false);
 		}
 	}
 
@@ -271,14 +273,12 @@ public class TP_Animator : MonoBehaviour
 		if(!TP_Controller.Instance.onGround || State == CharacterState.Jumping)
 			return;
 
-		Animator anim=GetComponent<Animator>();
-
 		if(State == CharacterState.Running)
 		{
-			anim.SetBool("isRunning", false);
+			animator.SetBool("isRunning", false);
 		}
 
-		anim.SetBool("isJumping", true);
+		animator.SetBool("isJumping", true);
 		SetState(CharacterState.Jumping);
 	}
 
@@ -288,8 +288,7 @@ public class TP_Animator : MonoBehaviour
 		{
 			SetState(CharacterState.Falling);
 			//if we are too high do something
-			Animator anim=GetComponent<Animator>();
-			anim.SetBool("isFalling", true);
+			animator.SetBool("isFalling", true);
 		}
 	}
 

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+/*
+ * 	Clase que se encarga de detectar y ajustar el movimeitno del jugador
+ */
 public class TP_Motor : MonoBehaviour
 {
+	//patrón singleton
 	public static TP_Motor Instance;
 
 	public float ForwardSpeed = 10f; //Velocidad de movimiento hacia delante
@@ -69,6 +72,7 @@ public class TP_Motor : MonoBehaviour
 			//Restamos a y la gravedad en m/s
 			MoveVector = new Vector3(MoveVector.x, MoveVector.y - Gravity * Time.deltaTime, MoveVector.z);
 
+		//ACTUALMENTE USANDO OTRO MÉTODO
 		//Si el personaje esta tocando tierra, reseteamos la y a -1 para que no supere valores negativos mas bajos
 		//Unity necesita que siempre se añada gravedad al charactercontroller
 //		if (TP_Controller.Instance.onGround)
@@ -115,7 +119,7 @@ public class TP_Motor : MonoBehaviour
 
 	//MODIFICAR CUANDO HAY OFFSET
 	//Mira si el personaje se mueve, si nos movemos alinea el personaje con la camara
-	void SnapAlignCharacterWithCamera()
+	private void SnapAlignCharacterWithCamera()
 	{
 		//Si no nos movemos
 		if (MoveVector.x != 0 || MoveVector.z != 0)
@@ -126,7 +130,7 @@ public class TP_Motor : MonoBehaviour
 	}
 
 	//Calculamos la velocidad de movimiento
-	float MoveSpeed()
+	private float MoveSpeed()
 	{
 		var moveSpeed = 0f;
 

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID>4</ID>
+	<IDGrupo>-1</IDGrupo>
+	<Autodestruye>0</Autodestruye>
+	<texto>¿Dónde ha dicho que se encuentra el bar?</texto>
+	<dia>
+		<Nodes>
+			<DialogueNode>
+				<NodeID>0</NodeID>
+				<posCamara>
+					<lookAt>0</lookAt>
+					<coordX>-0.5</coordX>
+					<coordY>1</coordY>
+					<coordZ>1</coordZ>
+				</posCamara>
+				<Nombre>-1</Nombre>
+				<siguienteNodo>0</siguienteNodo>
+				<Text>En la planta de abajo. Siga recto hasta llegar a las escaleras.</Text>
+				<recorrido>false</recorrido>
+				<destruido>false</destruido>
+				<Options/>
+				<Intros/>
+				<Mensajes/>
+				<Grupos/>
+				<GruposVariables/>
+				<Objetos/>
+				<Nombres/>
+			</DialogueNode>
+		</Nodes>w
+	</dia>
+</Mensaje>

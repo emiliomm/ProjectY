@@ -27,4 +27,9 @@ public class Lugar_Actual {
 	{
 		return new Vector3(lugarActual.coordX, lugarActual.coordY, lugarActual.coordZ);
 	}
+
+	public Quaternion getCoordRotacion()
+	{
+		return new Quaternion(lugarActual.X, lugarActual.Y, lugarActual.Z, lugarActual.W);
+	}
 }

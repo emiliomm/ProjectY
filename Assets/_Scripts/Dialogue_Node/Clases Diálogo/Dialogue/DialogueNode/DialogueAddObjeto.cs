@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-
-namespace DialogueTree
+﻿namespace DialogueTree
 {
+	/*
+	 * Clase que es usada para añadir un objeto al inventario mientras se recorre un diálogo
+	*/
 	public class DialogueAddObjeto
 	{
-		public int ID;
+		public int ID; //ID del objeto a añadir
 
 		public DialogueAddObjeto()
 		{

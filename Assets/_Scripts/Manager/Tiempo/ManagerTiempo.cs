@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿/*
+ * 	Clase que se encarga de controlar el tiempo cronológico en el juego
+ */
 public class ManagerTiempo{
 
 	//Segundos reales que tarda en cambiar de hora el juego
-	private int SegundosHora = 60;
+	private int SegundosHora = 2;
 
 	public int Dia = 0;
 	public int Hora = 0;
@@ -20,6 +20,7 @@ public class ManagerTiempo{
 		return Hora;
 	}
 
+	//Si los Minutos han llegado al máximo de tiempo que establece SegundosHora, devuelve true
 	public bool continuaHora()
 	{
 		bool continua = false;
@@ -47,10 +48,11 @@ public class ManagerTiempo{
 
 		Minutos = 0;
 
-		//Guardamos el progreso
+		//Guardamos el progreso de las variables del tiempo
 		Serialize();
 	}
 
+	//Devuelve una instancia de managertiempo de un xml indicado en la ruta
 	public static ManagerTiempo LoadManagerTiempo()
 	{
 		ManagerTiempo managerTiempo = Manager.Instance.DeserializeData<ManagerTiempo>(Manager.rutaTiempo + "Tiempo.xml");
@@ -58,8 +60,9 @@ public class ManagerTiempo{
 		return managerTiempo;
 	}
 
+	//Guarda la instancia en un fichero xml en la ruta especificada
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData(this, Manager.rutaTiempo, "Tiempo.xml");
+		Manager.Instance.SerializeData(this, Manager.rutaTiempo, "Tiempo.xml"); //AÑADIR A MANAGER.RUTATIEMPO TIEMPO.XML
 	}
 }

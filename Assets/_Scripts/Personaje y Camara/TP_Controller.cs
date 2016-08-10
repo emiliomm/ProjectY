@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+/*
+ * 	Clase que se encarga de controlar el movimiento del jugador
+ */
 public class TP_Controller : MonoBehaviour
 {
 	//Radio cápsula de al menos 0.4
@@ -28,8 +30,8 @@ public class TP_Controller : MonoBehaviour
 	//indica si está tocando el suelo
 	public bool onGround;
 
-	//Indica con que colisiona el objeto
-	public LayerMask layerMask;
+	//Indica que layers se detectan como suelo
+	public LayerMask layerMaskSuelo;
 
 	// Use this when the object is created
 	void Awake ()
@@ -43,10 +45,10 @@ public class TP_Controller : MonoBehaviour
 		//creamos o buscamos una camara
 		TP_Camera.UseExistingOrCreateMainCamera();
 	}
-	
-	// Update is called once per frame
+
 	void Update ()
 	{
+		//Comprobamos si estamos tocando el suelo
 		onGround = isOnGround();
 
 		//Dependiendo del estado, hacemos unas cosas u otras
@@ -65,7 +67,7 @@ public class TP_Controller : MonoBehaviour
 				HandleActionInput();
 
 				TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
-				InteractuableCollider.Instance.GetNearestTaggedObject();
+				InteractuableCollider.Instance.EncontrarInteractuablesCercanos();
 			}
 			break;
 		case State.Dialogo:
@@ -80,7 +82,6 @@ public class TP_Controller : MonoBehaviour
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;
 		}
-
 	}
 
 	//Controla el input de los menus
@@ -110,8 +111,7 @@ public class TP_Controller : MonoBehaviour
 	 * NOTA: Input.getAxis es una tecla predeterminada llamada Axis, no es el eje
 	 * Para ver los Inputs, ir a Edit > Project Settings > Input
 	 */
-
-	void GetLocomotionInput()
+	private void GetLocomotionInput()
 	{
 		var deadZone = 0.1f;//zona muerta del controlador
 
@@ -134,7 +134,7 @@ public class TP_Controller : MonoBehaviour
 	}
 
 	//Comprobamos si el jugador pulsa alguna tecla para realizar alguna acción, como saltar
-	void HandleActionInput()
+	private void HandleActionInput()
 	{
 		//Si el jugador pulsa el boton de salto
 		if (Input.GetButton("Jump"))
@@ -144,7 +144,7 @@ public class TP_Controller : MonoBehaviour
 	}
 
 	//Aplicamos el salto
-	void Jump()
+	private void Jump()
 	{
 		TP_Motor.Instance.Jump(); //Ejecutamos las operaciones de salto
 		TP_Animator.Instance.Jump(); //Ejecutamos la animación de salto
@@ -158,7 +158,7 @@ public class TP_Controller : MonoBehaviour
 		Vector3 origin = transform.position + new Vector3(0, 0.05f, 0);
 		RaycastHit hit;
 
-		if(Physics.Raycast(origin, - Vector3.up, out hit, 0.5f, layerMask))
+		if(Physics.Raycast(origin, - Vector3.up, out hit, 0.5f, layerMaskSuelo))
 		{
 			retVal = true;
 		}

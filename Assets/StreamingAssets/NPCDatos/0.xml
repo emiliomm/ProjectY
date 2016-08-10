@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ObjetoSer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="xs:NPCDatos">
+<ObjetoSerializable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="xs:NPCDatos">
 	<ID>0</ID>
 	<indiceNombre>0</indiceNombre>
 	<nombres>
 		<string>¿?</string>
 	</nombres>
-</ObjetoSer>
+</ObjetoSerializable>

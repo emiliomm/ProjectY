@@ -20,15 +20,11 @@
 				<recorrido>false</recorrido>
 				<destruido>false</destruido>
 				<Options/>
-				<Intros>
-					<IDNpc>0</IDNpc>
-					<IDDialogo>0</IDDialogo>
-					<IDTema>-1</IDTema>
-					<IDMensaje>0</IDMensaje>
-				</Intros>
+				<Intros/>
 				<Mensajes/>
 				<Grupos/>
 				<GruposVariables/>
+				<Objetos/>
 				<Nombres/>
 			</DialogueNode>
 		</Nodes>

@@ -6,16 +6,14 @@ using System.Linq;
 using System.Xml; 
 using System.Xml.Serialization; 
 
-[XmlRoot("ObjetoSer")]
-public class Inventario : ObjetoSer
+[XmlRoot("ObjetoSerializable")]
+public class Inventario : ObjetoSerializable
 {
 	public List<ObjetoInventario> objetos;
-	public List<ObjetoInventario> objetosRecientes; //mover a manager
 
 	public Inventario()
 	{
 		objetos = new List<ObjetoInventario>();
-		objetosRecientes = new List<ObjetoInventario>();
 	}
 
 	//Devuelve true si el objeto ha sido añadido
@@ -29,7 +27,7 @@ public class Inventario : ObjetoSer
 		{
 			ObjetoInventario obj = ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + ID.ToString() + ".xml");
 			objetos.Add(obj);
-			objetosRecientes.Add(obj); //lo añade también a la lista de objetos recientes
+			Manager.Instance.addObjetoReciente(obj); //se añade también a la lista de objetos recientes
 
 			anyadido = true;
 		}

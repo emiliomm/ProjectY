@@ -9,6 +9,13 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - El radio de la capsula del character controller a de ser al menos de 0.4
 - Los npcs/objetos deben mirar hacia el eje Z (azul) local, así como el modelado del personaje principal.
 
+OTROS
+
+Tipos interactuables:
+- Los que son puestos directamente en la escena (DEBEN TENER UN ARCHIVO EN LA CARPETA DATOSINTERACTUABLE): No están añadidos al ManagerRutinas, por lo que son interactuables que no cambian de posición y no interactúan con las rutinas de otros.
+- Los que tienen rutina = -1 (NO SE PONEN DIRECTAMENTE EN LA ESCENA). Influyen en las rutinas de otros interactuables, aunque no suelen variar lugar (en el futuro quizá sí ¿?).
+- Los que tienen rutina = x. (NO SE PONEN DIRECTAMENTE EN LA ESCENA). Influyen en las rutinas de otros interactuables, y suelen cambiar de lugar.
+
 CHULETAS
 
 Posicion camara Jugador

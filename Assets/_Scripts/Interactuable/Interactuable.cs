@@ -1,43 +1,47 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-using System;
-using System.IO;
-using System.Xml.Serialization;
-
-using System.Linq;
-
 using UnityEngine.UI;
 
+using System.Collections.Generic;
+using System.Linq;
+
+/*
+ * 	Clase que almacena datos sobre un interactuable, que almacena objetos los cuales permiten al jugador realizar determinadas acciones
+ */
 public class Interactuable : MonoBehaviour {
 
-	public int ID;
+	public int ID; //ID único que identifica al interactuable
 
-	//Sensibilidad del ratón
+	//Parámetros sobre la sensibilidad del ratón (PASAR AL MANAGER)
 	public float X_MouseSensitivity = 0.02f;
 	public float Y_MouseSensitivity = 0.02f;
-	public float distanciaMin = 4.0f; //Distancia máxima con la que se puede interactuar NO ASIGNADA
 
-	public bool cursorSobreAccion;
+	//Indica si el interactuable está desactivado, esto es, está fuera del collider
+	//que almacena los interactuables cercanos al jugador
+	private bool desactivado;
 
-	public bool desactivado = false;
-
+	//Dos listas almacenan las acciones que puede ejecutar un interactuable. Los datos de las
+	//acciones se guardan separados en la clase DatosAccion debido a la serialización
 	private List<GameObject> AccionesGO;
 	private List<DatosAccion> Acciones;
-	private int accionActiva; //indice de la accion activa, -1 = ninguna
 
-	private GameObject canvas;
+	//-1 = ninguna
+	//x = lugar de la accion activa en la lista de DatosAccion
+	//Indica que acción está siendo apuntada por el cursor
+	private int accionActiva;
+
+	private GameObject canvas; //Canvas propio del interactuable que contiene toda la UI
 	private GameObject nombre; //Nombre del interactuable
-	private GameObject Objeto;
+	private GameObject Objeto; //GameObject que se usa como apariencia del interactuable
 	private GameObject cursorUI; //Objeto que representa al cursor
-	private Camera camara; //La cámara del juego
+	private Camera camara; //Referencia a la cámara del juego
 
-	private bool moverCanvas; //Indica si el canvas debe moverse con respecto a la cámara
-	private float distance; //distancia entre el jugador y el objeto
+	private float distance; //Distancia entre el jugador y el interactuable que es usada para aplicar transparencia a la UI según distancia
 	private Vector3 initialPosition; //posición inicial del cursorUI
-	private Vector3 moveVector; //vector de movimiento del ratón
+	private Vector3 moveVector; //vector de movimiento del cursorUI
 
+	private bool cursorSobreAccion; //indica si el cursor está encima de alguna acción
+
+	//Estados de la clase
 	public enum State { Desactivado, Accionable, Seleccionado, Accionando, Accionado }
 
 	State _state = State.Desactivado;
@@ -56,16 +60,6 @@ public class Interactuable : MonoBehaviour {
 		_state = newState;
 	}
 
-	public void checkDesactivado()
-	{
-		if(desactivado)
-		{
-			SetState(State.Desactivado);
-			DesactivarTextoAcciones();
-			OcultaCanvas();
-		}
-	}
-
 	protected virtual void Start ()
 	{
 		//Añadimos el interactuable al diccionario para tenerlo disponible
@@ -77,8 +71,6 @@ public class Interactuable : MonoBehaviour {
 		nombre = canvas.transform.GetChild(0).gameObject;
 		cursorUI = canvas.transform.GetChild(1).gameObject;
 
-		accionActiva = -1;
-
 		//Buscamos la cámara activa y se la asignamos al canvas
 		camara = GameObject.FindWithTag("MainCamera").GetComponent<Camera> ();
 		canvas.GetComponent<Canvas>().worldCamera = camara;
@@ -89,25 +81,31 @@ public class Interactuable : MonoBehaviour {
 
 		//Asignamos el estado inicial
 		SetState(State.Desactivado);
+
+		//Ocultamos el canvas
 		OcultaCanvas();
 
-		cursorSobreAccion = false;
+		//Otros valores por defecto
+		setAccionActivaNull();
+		desactivado = false;
 
+		//Cargamos las listas de acciones
 		CargarAcciones();
 	}
 
+	//Al destruirse esta instancia, lo borramos de la lista del Manager que almacena los interactuables de la escena actual
 	void OnDestroy()
 	{
 		//Borramos el valor del diccionario cuando el npc no existe
 		Manager.Instance.RemoveFromInteractuables(ID);
 	}
 
+	//Rellena las listas de acciones
 	private void CargarAcciones()
 	{
 		AccionesGO = new List<GameObject>();
 
-		//Si existe un fichero guardado, cargamos ese fichero, sino
-		//cargamos el fichero por defecto
+		//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
 		if (System.IO.File.Exists(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml"))
 		{
 			Acciones = LoadDatosAccion(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml");
@@ -130,17 +128,18 @@ public class Interactuable : MonoBehaviour {
 			inventario = new Inventario();
 		}
 
+		//Creamos los gameObject que representan las acciones
 		for(int i = 0; i < Acciones.Count; i++)
 		{
-			//Comprobamos si los requisitos para mostrar la accion
-			//son correctos. Si lo son, creamos la accion
+			//Comprobamos si los requisitos para mostrar la accion son correctos. Si lo son, creamos la accion
 			if(mostrarAccion(Acciones[i], inventario))
 			{
 				GameObject AccionGO = new GameObject("Accion" + i.ToString());
 				AccionObjeto aobj = AccionGO.AddComponent<AccionObjeto>();
-				aobj.setIndice(i);
-				aobj.setID(ID);
 
+				aobj.Inicializar(ID, i);
+
+				//Si la acción es de tipo Dialogo, realizamos acciones específicas
 				if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
 				{
 					DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
@@ -161,11 +160,11 @@ public class Interactuable : MonoBehaviour {
 					}
 				}
 
-				CargaAccion(AccionGO, i);
+				//Carga la acción en la lista de acciones GameObjects
+				CargaAccionGO(AccionGO, i);
 			}
 
-			//Carga el dialogo si la accion es de tipo dialogo
-			//aunque no se muestre
+			//Carga el dialogo si la accion es de tipo dialogo aunque no se muestre
 			if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
 			{
 				DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
@@ -176,30 +175,20 @@ public class Interactuable : MonoBehaviour {
 		//Cargamos la UI de las acciones actuales
 		CargarAccionesUI();
 
+		//Ocultamos el texto de las acciones
 		DesactivarTextoAcciones();
 	}
 
-	public void RecargarAcciones()
+	//Elimina o añade acciones que dependen de los objetos disponibles en el inventario
+	public void RecargarAcciones(Inventario inventario)
 	{
-		//Cargamos el inventario, necesario para comprobar si ciertas acciones se muestran
-		Inventario inventario;
-
-		//Cargamos el inventario si existe, sino lo creamos
-		if(System.IO.File.Exists(Manager.rutaInventario + "Inventario.xml"))
-		{
-			inventario = Inventario.LoadInventario(Manager.rutaInventario + "Inventario.xml");
-		}
-		else
-		{
-			inventario = new Inventario();
-		}
-
 		for(int i = Acciones.Count - 1; i >= 0; i--)
 		{
 			//Comprobamos si los requisitos para mostrar la accion
-			//son correctos. Si lo son, creamos la accion si no existía anteriormente
+			//son correctos. Si lo son, creamos la accion, solo si no existía anteriormente
 			if(mostrarAccion(Acciones[i], inventario))
 			{
+				//Comprobamos si la acción que queremos añadir ya está actualmente en la lista
 				GameObject accionGO =  AccionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
 
 				//Si la accion no existe, la añadimos
@@ -207,10 +196,9 @@ public class Interactuable : MonoBehaviour {
 				{
 					accionGO = new GameObject("Accion" + i.ToString());
 					AccionObjeto aobj = accionGO.AddComponent<AccionObjeto>();
-					aobj.setIndice(i);
-					aobj.setID(ID);
+					aobj.Inicializar(ID, i);
 
-					CargaAccion(accionGO, i);
+					CargaAccionGO(accionGO, i);
 				}
 			}
 			//comprobamos si la acción ya existía para eliminarla
@@ -230,9 +218,11 @@ public class Interactuable : MonoBehaviour {
 		//Cargamos la UI de las acciones actuales
 		CargarAccionesUI();
 
+		//Ocultamos el texto de las acciones
 		DesactivarTextoAcciones();
 	}
 
+	//Comprueba si los requisitos para que la acción se muestre. Si no se cumplen, devuelve falso
 	private bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
 	{
 		bool mostrarAccion = true;
@@ -262,14 +252,8 @@ public class Interactuable : MonoBehaviour {
 		return mostrarAccion;
 	}
 
-	public static List<DatosAccion> LoadDatosAccion(string path)
-	{
-		List<DatosAccion> datosAccion = Manager.Instance.DeserializeData<List<DatosAccion>>(path);
-
-		return datosAccion;
-	}
-
-	private void CargaAccion(GameObject AccionGO, int i)
+	//Establece la posición del gameObject Acción, así como el texto, tamaño, etc.
+	private void CargaAccionGO(GameObject AccionGO, int i)
 	{
 		AccionGO.transform.SetParent(canvas.transform, false);
 		AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -289,6 +273,8 @@ public class Interactuable : MonoBehaviour {
 		AccionesGO.Add(AccionGO);
 	}
 
+	//Distribuye las acciones en la lista de acciones GameObject en un circulo en la UI
+	//donde la distancia en grados entre cada acción es la misma
 	private void CargarAccionesUI()
 	{
 		float ang = 0;
@@ -313,7 +299,7 @@ public class Interactuable : MonoBehaviour {
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
 	}
 
-	//Devuelve un objeto NPC_Dialogo null si no lo ha encontrado
+	//Devuelve un objeto NPC_Dialogo con la ID pasada (null si no lo ha encontrado)
 	public NPC_Dialogo DevolverDialogo(int ID_Dialogo)
 	{
 		NPC_Dialogo diag = null;
@@ -335,6 +321,7 @@ public class Interactuable : MonoBehaviour {
 		return diag;
 	}
 
+	//Devuelve una lista con los objetos NPC_Dialogo del interactuable, vacía si no tiene ninguno
 	public List<NPC_Dialogo> DevolverDialogos()
 	{
 		List<NPC_Dialogo> dialogos = new List<NPC_Dialogo>();
@@ -353,52 +340,65 @@ public class Interactuable : MonoBehaviour {
 		return dialogos;
 	}
 
-	//Devuelve el nombre del interactuable que aparece en el dialogo (no es el mismo que el mostrado en los interactuableobjeto)
+	//Devuelve el nombre del interactuable que aparece en el dialogo
+	//(no es el mismo para la clase derivada interactuableobjeto, sí que lo es para el interactuableNPC)
 	public virtual string DevuelveNombreDialogo()
 	{
 		return "";
 	}
 
+	//Establece el nombre del interactuable que se muestra en la UI, no el del dialogo
+	//(no es el mismo para la clase derivada interactuableobjeto, sí que lo es para el interactuableNPC)
 	public void SetNombre(string n)
 	{
 		nombre.GetComponent<Text>().text = n;
 	}
 
-	public void AsignarAccion(int num)
+	//Establece la acción activa y, como el cursor está sobre esta acción, el booleano que lo indica pasa a true
+	public void AsignarAccionActiva(int num)
 	{
 		accionActiva = num;
+		setCursorSobreAccion(true);
 	}
 
-	public void setAccionNull()
+	//Establece la acción activa a ninguna(-1) y, como el cursor no está sobre ninguna acción, el booleano que lo indica pasa a false
+	public void setAccionActivaNull()
 	{
 		accionActiva = -1;
+		setCursorSobreAccion(false);
+	}
+
+	private void setCursorSobreAccion(bool estado)
+	{
+		cursorSobreAccion = estado;
 	}
 		
-	void Update() {
+	void Update()
+	{
 		switch(CurrentState)
 		{
-		case State.Desactivado:
+		case State.Desactivado: //El interactuable no realiza ninguna acción
 			break;
-		case State.Accionable:
+		case State.Accionable: //La UI del interactuable se muestra, pero solo su nombre
 			CalcularDistancia();
 			ShowCanvas();
 			MoverCanvas();
 			checkDesactivado();
 			break;
-		case State.Seleccionado:
-			CanvasSeleccionado();
+		case State.Seleccionado://La UI del interactuable cambia, ahora se muestran las acciones asociadas
+			MuestraCanvasSinTransparencia();
 			MoverCanvas();
 
-			//Si pulsamos click izquierdo
+			//Si pulsamos click izquierdo, significa que estamos interactuando con la UI
 			if (Input.GetMouseButton(0) && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
 			{
 				TP_Controller.Instance.SetState(TP_Controller.State.Interactuables);
 				SetState(State.Accionando);
-				ChangeCursorUI(Resources.Load<Sprite>("cursor"));
+				ChangeCursorUI(Resources.Load<Sprite>("cursor")); //MOVER LA REFERENCIA DEL RESOURCE AL MANAGER PARA NO TENER QUE ESTAR CARGÁNDOLA CONTINUAMENTE
 			}
 			checkDesactivado();
 			break;
-		case State.Accionando:
+		case State.Accionando://El cursor se está moviendo
 			if (Input.GetMouseButton(0))
 			{
 				MoviendoCursorUI();
@@ -415,19 +415,38 @@ public class Interactuable : MonoBehaviour {
 			}
 			checkDesactivado();
 			break;
-		case State.Accionado:
+		case State.Accionado://El cursor ha dejado de moverse sobre una acción, activamos esa acción
 			EjecutarAccion();
 			checkDesactivado();
 			break;
 		}
 	}
 
+	//Comprueba si el interactuable está desactivado al final de cada estado excenpto el estado Desactivado
+	//Como se puede pasar a este estado a mitad de la ejecución de un estado por otro objeto, es necesario
+	//comprobar si la variable ha cambiado al final de cada estado
+	private void checkDesactivado()
+	{
+		if(desactivado)
+		{
+			SetState(State.Desactivado);
+			DesactivarTextoAcciones();
+			OcultaCanvas();
+		}
+	}
+
+	public void setDesactivado(bool estado)
+	{
+		desactivado = estado;
+	}
+
+	//Calcula la distancia entre el jugador y el interactuable
 	private void CalcularDistancia()
 	{
 		distance = Vector3.Distance(TP_Controller.CharacterController.transform.position, transform.position);
 	}
 
-	private void CanvasSeleccionado()
+	private void MuestraCanvasSinTransparencia()
 	{
 		canvas.GetComponent<CanvasGroup>().alpha = 1;
 	}
@@ -437,24 +456,27 @@ public class Interactuable : MonoBehaviour {
 		canvas.GetComponent<CanvasGroup>().alpha = 0;
 	}
 
+	//Regula la transparencia del canvas según la distancia
 	private void ShowCanvas() {
-		//Regula la transparencia del canvas según la distancia
 		//Dist max - distance/2
 		float alpha = 3.1f - distance / 2.0f;
 		canvas.GetComponent<CanvasGroup>().alpha = alpha;
 	}
 
+	//Mueve el canvas según la posición de la cámara, mirando a esta
 	private void MoverCanvas()
 	{
 		canvas.transform.LookAt(canvas.transform.position + camara.transform.rotation * Vector3.forward, camara.transform.rotation * Vector3.up);
 	}
 
-	public void ChangeCursorUI(Sprite im2)
+	//Cambia la imagen del objeto cursor
+	public void ChangeCursorUI(Sprite sprite)
 	{
-		Image im = cursorUI.GetComponent<Image>();
-		im.sprite = im2;
+		Image imagen = cursorUI.GetComponent<Image>();
+		imagen.sprite = sprite;
 	}
 
+	//Controla cuanto se mueve el cursorUI cuando se interactúa con él moviendo el ratón
 	private void MoviendoCursorUI()
 	{
 		//Movemos las coordenadas del raton segun el movimiento
@@ -478,13 +500,15 @@ public class Interactuable : MonoBehaviour {
 		cursorUI.transform.position = CursorLimit;
 	}
 
+	//Mueve el cursorUI a su posición inicial
 	private void DefaultCursorUI()
 	{
 		moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
 		cursorUI.transform.position = initialPosition; //Asignamos la posición inicial al objeto
-		ChangeCursorUI(Resources.Load<Sprite>("mouse"));
+		ChangeCursorUI(Resources.Load<Sprite>("mouse")); //MOVER LA REFERENCIA DEL RESOURCE AL MANAGER PARA NO TENER QUE ESTAR CARGÁNDOLA CONTINUAMENTE
 	}
 
+	//Ejecuta la acción de la lista de acciones indicado en la variable accionActiva
 	public void EjecutarAccion()
 	{
 		DefaultCursorUI();
@@ -492,11 +516,13 @@ public class Interactuable : MonoBehaviour {
 		Acciones[accionActiva].EjecutarAccion();
 	}
 
-	public bool isRendered()
+	//Devuelve un booleano indicando si el interactuable es visible, solo su apariencia (el gameobject llamado Objeto)
+	public bool isVisible()
 	{
 		return Objeto.GetComponent<Renderer>().isVisible;
 	}
 
+	//Muestra el texto de las acciones, el cursorUI y oculta el nombre del interactuable
 	public void ActivarTextoAcciones()
 	{
 		nombre.SetActive(false);
@@ -507,6 +533,7 @@ public class Interactuable : MonoBehaviour {
 		}
 	}
 
+	//Oculta el texto de las acciones, el cursorUI y muestra el nombre del interactuable
 	public void DesactivarTextoAcciones()
 	{
 		nombre.SetActive(true);
@@ -515,5 +542,19 @@ public class Interactuable : MonoBehaviour {
 		{
 			AccionesGO[i].SetActive(false);
 		}
+	}
+
+	//Devuelve la lista de DatosAccion de un xml indicado en la ruta
+	public static List<DatosAccion> LoadDatosAccion(string path)
+	{
+		List<DatosAccion> datosAccion = Manager.Instance.DeserializeData<List<DatosAccion>>(path);
+
+		return datosAccion;
+	}
+
+	//Guarda la lista de acciones en un fichero xml
+	public void GuardarAcciones()
+	{
+		Manager.Instance.SerializeData(Acciones, Manager.rutaDatosAccionGuardados, ID.ToString()  + ".xml");
 	}
 }

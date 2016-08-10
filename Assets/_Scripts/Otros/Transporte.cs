@@ -1,20 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
+
+/*
+ * 	Clase de prueba que al chocar con el jugador te lleva a la escena indicada
+ */
 
 public class Transporte : MonoBehaviour {
 
 	public string nombreEscena;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player" ) {

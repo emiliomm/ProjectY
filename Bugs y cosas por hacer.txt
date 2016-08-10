@@ -12,10 +12,24 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Modificar la alineación de la cámara con respecto al jugador cuando hay offset (funcion SnapAlignCharacterWithCamera() del TP_Motor)
+- Crear unas reglas para el nombre de funciones y parámetros
+- Faltan algunas rutas de archivos por añadir al manager, mirar código
+- Guardar las variables de sensibilidad del ratón del objetocontroller en el Manager, así como otras variables similares, como el layermask de datosaccionobjeto
+- Añadir mostrar/ocultar opciones de dialogo según si se tiene equipado un objeto
+- Mirar que hacer con el prefab botoninventario
+- Comprobar si en la funcion MirarSiDialogoSeAutodestruye el pos_dialogo-- es necesario
+- Mirar que hacer con el indice_inicial de las intros y ver si hay que implementarlas en los mensajes o eliminarlo totalmente
+- Ordenar código interactuable
 - Hacer que los objetos que hay en el dialoguenode sean hijos de una misma clase base para no incluir clases que no se van a usar
+- Añadir control por teclado al dialogo, a la interaccion de interactuables y a la interaccion con objetos
 - Mejorar sistema de rutinas
 	- Crear los eventos
 	- Mejorar el código de las rutinas
+	- Hacer que algunos interactuables no tengan rutinas
+- Mejorar inventario
+	- Aspecto visual
+	- Interaccion teclado
 - Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
 - Borrar los assets que sobran y mover los que son usados a las carpetas principales
 - Eliminar todos los findGameobjects del código
@@ -27,12 +41,13 @@ COSAS POR HACER:
 	- Mirar como relacionar acciones y rutinas
 - Implementar lo que falta del sistema de objetos
 	- Puntos de información
-	- Algunos objetos interactuables (móvil, etc...)
+	- Algunos objetos interactuables, que no se muevan en 3d como los actuales, sino que son fijos con botones, etc (móvil, ordenador, etc...)
 - El radio de las acciones es igual pero al no estar centrada la posicion respecto al texto unas acciones son más dificiles de alcanzar
-- Mirar que hacer con el indice_inicial de las intros y ver si hay que implementarlas en los mensajes o eliminarlo totalmente
-- Probar y mejorar el sistema de animaciones
+- Probar y mejorar el sistema de animaciones.
+	- Eliminar estados de animaciones que no se usan
 - Serializar los objetoser como las acciones, sin cambiar el nombre
 - Refractorizar partes de NPC (nombres funciones, parámetros, etc.)
+- Refractorizar nombres de funciones, parámetros... Por todo el código
 - Comentar todo el código
 - Ordenar clase NPC_Dialogo, mirar que es necesario en cada método y quitar lo innecesario
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados

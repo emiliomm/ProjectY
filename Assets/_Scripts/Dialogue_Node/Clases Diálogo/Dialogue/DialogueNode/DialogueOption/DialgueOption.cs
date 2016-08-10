@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
 
 namespace DialogueTree
 {
-    public class DialogueOption
+	/*
+	 * Clase con los datos de una opción en el diálogo
+	*/
+	public class DialogueOption
     {
-        public string Text;
-        public int DestinationNodeID;
+        public string Text; //Texto de la opción
+
 		/* 
 		 * Valor
 		 * -1 : Acaba dialogo cargado
@@ -15,10 +16,11 @@ namespace DialogueTree
 		 * -3: Acaba la conversación (NO SE DEBE USAR EN UN XML) - CON EL SISTEMA ACTUAL SÍ
 		 * Otro: Va al nodo indicado
 	     */
+        public int DestinationNodeID;
 
+		//Guarda variables de grupo que determinan si mostrar una opción o no
 		public DialogueOptionGrupo Grupo;
 
-        // parameterless constructor for serialization
         public DialogueOption() {
 		}
 

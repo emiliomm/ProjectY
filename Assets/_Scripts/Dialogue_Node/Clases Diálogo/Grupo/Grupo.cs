@@ -1,19 +1,19 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
-using System.IO;
 
-using System.Xml; 
-using System.Text; 
+/*
+ * 	Clase que contiene un grupo y sus variables. Es usado para comprobar si está "activo". Cuando es activado lanza intros/mensajes a determinados diálogos
+ *  Se mantiene en memoria en una lista y se usa para controlar determinados parámetros de un diálogo
+ * 
+ *  Es una clase derivada de ObjetoSerializable, que permite que esta clase sea añadida a una cola con objetos a serializar
+ *  También se reescribe el nombre a ObjetoSer al ser serializado en un xml para que funcione la serialización/deserialización de objetos de clase ObjetoSer
+ */
 
-using DialogueTree;
-
-[XmlRoot("ObjetoSer")]
-public class Grupo : ObjetoSer{
+[XmlRoot("ObjetoSerializable")]
+public class Grupo : ObjetoSerializable{
 	
-	public int idGrupo;
-	public List<int> variables;
+	public int IDGrupo; //ID que identifica al grupo
+	public List<int> variables; //lista de variables con valores enteros
 
 	public Grupo()
 	{
@@ -22,37 +22,54 @@ public class Grupo : ObjetoSer{
 
 	public int DevolverIDGrupo()
 	{
-		return idGrupo;
+		return IDGrupo;
 	}
 
-	//Devuelve un grupo
+	//Lee un grupo de un archivo xml en la ruta indicada en el path y lo devuelve
 	public static Grupo CreateGrupo(string path)
 	{
 		return Manager.Instance.DeserializeData<Grupo>(path);
 	}
-
-	//Carga un grupo, lo añade al manager y lanza los intros/mensajes de este
-	public static void LoadGrupo(string path, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int num_dialogo)
+		
+	/*
+ 	 *  Lee un grupo de un archivo xml en la ruta indicada en el path
+ 	 *  Lo añade a la lista de grupos activos de la clase Manager
+ 	 *  Añade los intros/mensajes asociados al grupo a los diálogos correspondientes
+ 	 *
+ 	 *  Los parámetros que se le pasan son la ruta del archivo
+ 	 *  el ID del interactuable del diálogo actual, el ID del dialogo actual, el tipo de diálogo actual y la posición del dialogo actual
+	 */
+	public static void LoadGrupo(string path, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int pos_dialogo)
 	{
 		Grupo grup = Manager.Instance.DeserializeData<Grupo>(path);
 
-		Lanzador.LoadLanzador(Manager.rutaLanzadores + grup.idGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
+		//Se encarga de cargar los intros/mensajes iniciales para añadirlos a los diálogos correspondientes
+		Lanzador.LoadLanzador(Manager.rutaLanzadores + grup.IDGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref pos_dialogo);
 
 		Manager.Instance.AddToGruposActivos(grup);
 	}
 
-	//Similar a la función anterior, pero pasándole el grupo
-	//Carga un grupo, lo añade al manager y lanza los intros/mensajes de este
-	public static void LoadGrupo(Grupo g, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int num_dialogo)
+	/*
+ 	 *  Igual que la función anterior, pero pasándole un objeto grupo directamente
+ 	 *  Lo añade a la lista de grupos activos de la clase Manager
+ 	 *  Añade los intros/mensajes asociados al grupo a los diálogos correspondientes
+ 	 *
+ 	 *  Los parámetros que se le pasan son la ruta del archivo
+ 	 *  el ID del interactuable del diálogo actual, el ID del dialogo actual, el tipo de diálogo actual y la posición del dialogo actual
+	 */
+	public static void LoadGrupo(Grupo g, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int pos_dialogo)
 	{
-		Lanzador.LoadLanzador(Manager.rutaLanzadores + g.idGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref num_dialogo);
+		//Se encarga de cargar los intros/mensajes iniciales para añadirlos a los diálogos correspondientes
+		Lanzador.LoadLanzador(Manager.rutaLanzadores + g.IDGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref pos_dialogo);
 
 		Manager.Instance.AddToGruposActivos(g);
 	}
 
-	//CUIDADO !!! ESTO SERIALIZA EL GRUPO EN EL DIRECTORIO DE GRUPOS MODIFICADOS. DE GUARDAR UN GRUPO EN LA LISTA DE GRUPOS ACTIVOS SE ENCARGA EL MANAGER
+	//Añade el grupo a la cola de objetos serializables
+	//El grupo se serializa en el directorio de grupos modificados
+	//Los grupos activos se serializan directamente en la clase Manager
 	public void AddToColaObjetos()
 	{
-		Manager.Instance.AddToColaObjetos(Manager.rutaGruposModificados + idGrupo.ToString()  + ".xml", this);
+		Manager.Instance.AddToColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString()  + ".xml", this);
 	}
 }

@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+/*
+ * 	Clase que se encarga de controlar la cámara
+ */
 public class TP_Camera : MonoBehaviour
 {
+	//Patrón singleton
 	public static TP_Camera Instance;
+
+	//Variable que guarda la transformación de un objeto llamado LookAt, que será hacia donde mirará la cámara
 	public Transform TargetLookAt;
 
+	//Valores editables de la cámara
 	public float Distance = 5f;
 	public float DistanceMin = 3f;
 	public float DistanceMax = 10f;
@@ -21,7 +27,14 @@ public class TP_Camera : MonoBehaviour
 	public float OcclusionDistanceStep = 0.05f; //Distancia minima que se acerca la camara al encontrar un obstáculo
 	public int MaxOcclusionChecks = 10; //numero maximo de comprobaciones antes de que la camara adopte la posicion directamente, sin pequeños incrementos
 
-	//Indica con que colisiona el objeto
+	//Valores del offset
+	public float offset = 1f;
+	public float offset_smooth = 0.5f;
+	public float offset_smooth_resume = 0.5f; //el offset al volver
+	public float offset_min = 0f;
+	public float offset_max = 2f;
+
+	//Indica con que colisiona la cámara
 	public LayerMask layerMask;
 
 	private float mouseX = 0f; //Ängulo de giro del ratón en el ejeX
@@ -37,18 +50,14 @@ public class TP_Camera : MonoBehaviour
 	private float distanceSmooth = 0f;
 	private float preOccludedDistance = 0f; //almacena la distancia actual de la camara hasta que el jugador cambie el zoom
 
-	//Valores del offset
-	public float offset = 1f;
-	public float offset_smooth = 0.5f;
-	public float offset_smooth_resume = 0.5f; //el offset al volver
-	public float offset_min = 0f;
-	public float offset_max = 2f;
-	public bool offset_active = false;
+	private bool offset_active = false; //Indica si el offset está activado o no
 	private float offset_value = 0f;
 
-	float percent = 0f;
-	float percent_value = 0f;
+	//Indica el porcentaje de offser aplicado
+	private float offsetPercent = 0f;
+	private float percent_value = 0f;
 
+	//Valores que se usan cuando la cámara ha chocado con algo
 	private float block_offset = -1f;
 	private float block_percent = -1f;
 	private Vector3 block_right = Vector3.zero;
@@ -103,7 +112,7 @@ public class TP_Camera : MonoBehaviour
 	}
 
 	//Al mover el raton, cambiamos las coordenadas de la camara
-	void HandlePlayerInput()
+	private void HandlePlayerInput()
 	{
 		var deadZone = 0.01f;
 
@@ -130,7 +139,7 @@ public class TP_Camera : MonoBehaviour
 		}
 	}
 
-	void CalculateDesiredPosition()
+	private void CalculateDesiredPosition()
 	{
 		//Comprobamos si ya no hay obstáculos
 		ResetDesiredDistance();
@@ -140,7 +149,8 @@ public class TP_Camera : MonoBehaviour
 		//Calculamos la posicion deseada
 		desiredPosition = CalculatePosition(mouseY, mouseX, Distance);
 	}
-		
+
+	//Calcula la posición de la cámara según su distancia y la rotación desde el lookat
 	Vector3 CalculatePosition(float rotationX, float rotationY, float distance)
 	{
 		Vector3 direction = new Vector3(0, 0, -distance);
@@ -148,8 +158,9 @@ public class TP_Camera : MonoBehaviour
 		return TargetLookAt.position + rotation * direction;
 	}
 
+	//Comprueba si se interpone algo entre la cámara y el lookat
 	//count = numero de veces que hemos comprobado hasta el momento
-	bool CheckIfOccluded(int count)
+	private bool CheckIfOccluded(int count)
 	{
 		var isOccluded = false;
 
@@ -160,10 +171,14 @@ public class TP_Camera : MonoBehaviour
 		//Si le hemos dado a algo
 		if (nearestDistance != -1)
 		{
+			//Desactivamos el offset
+			offset_active = false;
+
+			//Si no lo hemos hecho antes, guardamos determinadas variables
 			if(block_offset == -1f)
 			{
 				block_offset = offset;
-				block_percent = percent;
+				block_percent = offsetPercent;
 				block_right = transform.right;
 			}
 
@@ -179,8 +194,6 @@ public class TP_Camera : MonoBehaviour
 				Distance = nearestDistance - Camera.main.nearClipPlane;
 			}
 
-			offset_active = false;
-
 			//A partir de 0.25, la camara empieza a actuar raro (el numero no es fijo, varia segun el personaje, la escena, etc)
 			if (Distance < 0.25f)
 			{
@@ -194,15 +207,15 @@ public class TP_Camera : MonoBehaviour
 		return isOccluded;
 	}
 
-	//calculamos los puntos que la camara necesita para moverse si un objeto tapa la vista
-	//devuelve la distancia mas cercana de lo que hemos chocado, si hemos chocado con algo
+	//Calculamos los puntos que la camara necesita para moverse si un objeto tapa la vista
+	//Devuelve la distancia mas cercana de lo que hemos chocado, si hemos chocado con algo
 	//sino, devuelve negativo
 	/*
 	 * Para que un objeto no afecte a la cámara y lo pueda atravesar podemos modificar
 	 * la layerMask
 	 * 
 	*/
-	float CheckCameraPoints(Vector3 from, Vector3 to)
+	private float CheckCameraPoints(Vector3 from, Vector3 to)
 	{
 		var nearestDistance = -1f;
 
@@ -250,60 +263,14 @@ public class TP_Camera : MonoBehaviour
 		return nearestDistance;
 	}
 
-	void ResetDesiredDistance()
-	{
-		//Si la distancia a la que estaba la cámara era mayor que la que vamos a movernos, comprobamos
-		//si nos podemos alejar
-		if (desiredDistance < preOccludedDistance)
-		{
-			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
-
-			var offset_used = offset;
-			var percent_used = percent;
-			var right_used = transform.right;
-
-			if(block_offset != -1f)
-			{
-				offset_used = block_offset;
-				percent_used = block_percent;
-				right_used = block_right;
-			}
-
-			transform.LookAt(TargetLookAt.position+right_used*offset_used*percent_used);
-
-			var nearestDistance = CheckCameraPoints2(TargetLookAt.position, pos);
-
-			transform.LookAt(TargetLookAt.position+transform.right*offset*percent);
-
-			//No se han detectado nuevas colisiones o la distancia del choque es mayor que la actual
-			//Movemos la camara hacia atras todo lo que podemos
-			if (nearestDistance == -1 || nearestDistance > preOccludedDistance)
-			{
-				desiredDistance = preOccludedDistance;
-			}
-
-			if(nearestDistance == -1)
-			{
-				block_offset = -1;
-				block_percent = -1;
-				block_right = Vector3.zero;
-			}
-		}
-
-		if(desiredDistance == preOccludedDistance)
-		{
-			offset_active = true;
-		}
-	}
-
-	float CheckCameraPoints2(Vector3 from, Vector3 to)
+	//Realiza la misma función que CheckCameraPoints, solo que utilizando el reactángulo de visión de la cámara en los dos extremos
+	private float CheckCameraPoints2(Vector3 from, Vector3 to)
 	{
 		var nearestDistance = -1f;
 
 		RaycastHit hitInfo; //aqui almacenaremos info sobre lo que hemos chocado
 
 		Helper.ClipPlanePoints clipPlanePoints = Helper.ClipPlaneAtNear(to);
-
 		Helper.ClipPlanePoints clipPlanePoints2 = Helper.ClipPlaneAtNear(from); //cogemos el rectangulo de vision
 
 		//Dibujamos 4 lineas que van desde el lookAt hasta ĺos 4 puntos de la cámara
@@ -330,18 +297,18 @@ public class TP_Camera : MonoBehaviour
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, out hitInfo, layerMask))
-			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-				nearestDistance = hitInfo.distance;
+		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, out hitInfo, layerMask))
-			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-				nearestDistance = hitInfo.distance;
+		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, out hitInfo, layerMask))
-			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-				nearestDistance = hitInfo.distance;
+		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(from + transform.forward * -Camera.main.nearClipPlane, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo, layerMask))
@@ -351,7 +318,56 @@ public class TP_Camera : MonoBehaviour
 		return nearestDistance;
 	}
 
-	void UpdatePosition()
+	private void ResetDesiredDistance()
+	{
+		//Si la distancia a la que estaba la cámara era mayor que la que nos estamos moviendo, comprobamos
+		//si nos podemos alejar
+		if (desiredDistance < preOccludedDistance)
+		{
+			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
+
+			//Si nos hemos chocado con algo, usamos las variables block
+			var offset_used = offset;
+			var percent_used = offsetPercent;
+			var right_used = transform.right;
+
+			if(block_offset != -1f)
+			{
+				offset_used = block_offset;
+				percent_used = block_percent;
+				right_used = block_right;
+			}
+
+			//Comprobamos si nos hemos chocado con algo con el lookat con el offset aplicado
+			transform.LookAt(TargetLookAt.position+right_used*offset_used*percent_used);
+			var nearestDistance = CheckCameraPoints2(TargetLookAt.position, pos);
+			transform.LookAt(TargetLookAt.position+transform.right*offset*offsetPercent);
+
+			//No se han detectado nuevas colisiones o la distancia del choque es mayor que la actual
+			//Movemos la camara hacia atras todo lo que podemos
+			if (nearestDistance == -1 || nearestDistance > preOccludedDistance)
+			{
+				desiredDistance = preOccludedDistance;
+			}
+
+			//Si no nos hemos chocado con nada, aplicamos valores por defecto a las variables block
+			if(nearestDistance == -1)
+			{
+				block_offset = -1;
+				block_percent = -1;
+				block_right = Vector3.zero;
+			}
+		}
+
+		//Si vamos a estar en la posición que queremos antes del choque, activamos el offset
+		if(desiredDistance == preOccludedDistance)
+		{
+			offset_active = true;
+		}
+	}
+		
+	//Movemos la cámara a la posición deseada
+	private void UpdatePosition()
 	{
 		//posiciones con los valores suavizados
 		var posX = Mathf.SmoothDamp(position.x, desiredPosition.x, ref velX, X_Smooth);
@@ -376,10 +392,12 @@ public class TP_Camera : MonoBehaviour
 			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
 		}
 
-		if (Mathf.Abs(percent - Distance/preOccludedDistance) > 0.001f )
-			percent = Mathf.SmoothDamp(percent, Distance/preOccludedDistance, ref percent_value, offset_smooth);
+		//Calculamos el porcentaje de offset que aplicamos según distancia si la diferencia es mayor que 0.001
+		if (Mathf.Abs(offsetPercent - Distance/preOccludedDistance) > 0.001f )
+			offsetPercent = Mathf.SmoothDamp(offsetPercent, Distance/preOccludedDistance, ref percent_value, offset_smooth);
 
-		var targetPos = TargetLookAt.position+transform.right*offset*percent;
+		//Aplicamos el lookat de nuevo, pero con valores del offset aplicados
+		var targetPos = TargetLookAt.position+transform.right*offset*offsetPercent;
 
 		transform.LookAt(targetPos);
 	}
@@ -429,6 +447,7 @@ public class TP_Camera : MonoBehaviour
 		myCamera.TargetLookAt = targetLookAt.transform;
 	}
 
+	//Establecemos el modo de visión normal de las cámaras
 	public void setNormalMode()
 	{
 		Camera.main.cullingMask = 1 << 9; //Jugador
@@ -436,6 +455,7 @@ public class TP_Camera : MonoBehaviour
 		Camera.main.backgroundColor = new Color32(49, 77, 121, 5);
 	}
 
+	//Cuando vamos a dialogar, desactivamos la cámara UI de dos cámaras para no ver la UI
 	public void toDialogMode()
 	{
 		Camera camara = Camera.main.transform.GetChild(0).gameObject.GetComponent<Camera>();
@@ -445,6 +465,7 @@ public class TP_Camera : MonoBehaviour
 		camara.cullingMask = ~(1 << 5); //Desactiva la capa UI
 	}
 
+	//Cuando acabamos el diálogo, activamos todas las capas de la cámara principal
 	public void fromDialogMode()
 	{
 		Camera camara = Camera.main.transform.GetChild(0).gameObject.GetComponent<Camera>();
@@ -454,6 +475,7 @@ public class TP_Camera : MonoBehaviour
 		camara.cullingMask = ~(1 << 5); //Desactiva la capa UI
 	}
 
+	//Establecemos el modo de visión objeto, cuando estamos manipulando el objeto de alguna acción
 	public void setObjectMode()
 	{
 		Camera.main.cullingMask = 1 << 8; //UIObjeto
@@ -461,10 +483,10 @@ public class TP_Camera : MonoBehaviour
 		Camera.main.backgroundColor = new Color32(73, 67, 67, 0);
 	}
 
+	//Calcula la posición de la cámara durante el diálogo según el que está hablando actualmente y
+	//lo que debemos mover la cámara respecto a la dirección de este
 	public void PosicionDialogo(PosicionCamara posC, GameObject inter)
 	{
-		float posX, posY, posZ;
-
 		if (posC.lookAt == -1)
 		{
 			//- 1.769/2 (mitad cuerpo) temporal

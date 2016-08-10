@@ -1,20 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Xml; 
-using System.Xml.Serialization; 
-using System;
-
+﻿/*
+ * 	Clase que se usa para almacenar un objetoSer (serializable) en una lista donde todos los objetos son de esta clase
+ */
 public class ColaObjeto{
-	private ObjetoSer objeto;
-	private string ruta;
+	private ObjetoSerializable objeto;
+	private string ruta; //Indica en que directorio, con el nombre del fichero, se debe serializar el objetoSer
 
-	public ColaObjeto(ObjetoSer obj, string r) 
+	public ColaObjeto(ObjetoSerializable obj, string r) 
 	{
 		objeto = obj;
 		ruta = r;
 	}
 
-	public ObjetoSer GetObjeto()
+	public ObjetoSerializable GetObjeto()
 	{
 		return objeto;
 	}

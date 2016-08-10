@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObjetoSer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ObjetoSerializable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ID_NPC>0</ID_NPC>
 	<ID>0</ID>
 	<intros>
@@ -29,11 +29,7 @@
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
-						<Objetos>
-							<DialogueAddObjeto>
-								<ID>70</ID>
-							</DialogueAddObjeto>
-						</Objetos>
+						<Objetos/>
 						<Nombres/>
 					</DialogueNode>
 					<DialogueNode>
@@ -61,6 +57,7 @@
 						</Mensajes>
 						<Grupos/>
 						<GruposVariables/>
+						<Objetos/>
 						<Nombres/>
 					</DialogueNode>
 					<DialogueNode>
@@ -81,6 +78,7 @@
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
+						<Objetos/>
 						<Nombres/>
 					</DialogueNode>
 					<DialogueNode>
@@ -98,9 +96,29 @@
 						<destruido>false</destruido>
 						<Options/>
 						<Intros/>
-						<Mensajes/>
+						<Mensajes>
+							<DialogueAddMensaje>
+								<IDNpc>0</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<IDTema>-1</IDTema>
+								<IDMensaje>1</IDMensaje>
+							</DialogueAddMensaje>
+							<DialogueAddMensaje>
+								<IDNpc>0</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<IDTema>-1</IDTema>
+								<IDMensaje>2</IDMensaje>
+							</DialogueAddMensaje>
+							<DialogueAddMensaje>
+								<IDNpc>0</IDNpc>
+								<IDDialogo>0</IDDialogo>
+								<IDTema>-1</IDTema>
+								<IDMensaje>3</IDMensaje>
+							</DialogueAddMensaje>
+						</Mensajes>
 						<Grupos/>
 						<GruposVariables/>
+						<Objetos/>
 						<Nombres/>
 					</DialogueNode>
 					<DialogueNode>
@@ -121,6 +139,7 @@
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
+						<Objetos/>
 						<Nombres/>
 					</DialogueNode>
 					<DialogueNode>
@@ -141,6 +160,7 @@
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
+						<Objetos/>
 						<Nombres/>
 					</DialogueNode>
 				</Nodes>
@@ -148,4 +168,4 @@
 		</Intro>
 	</intros>
 	<mensajes></mensajes>
-</ObjetoSer>
+</ObjetoSerializable>

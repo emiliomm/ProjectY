@@ -1,41 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
-
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace DialogueTree
 {
+	/*
+	 * Clase que contiene un díalogo que forma pare de una conversación
+	*/
 	public class Dialogue
     {
         public List<DialogueNode> Nodes;
 
-		//Para serialización
 		public Dialogue()
 		{
 			Nodes = new List<DialogueNode>();
 		}
 
-		public DialogueNode DevuelveNodo(int node_id)
+		//Devuelve un objeto DialogueNode según la posición de la lista indicada
+		public DialogueNode DevuelveNodo(int pos)
 		{
-			return Nodes[node_id];
+			return Nodes[pos];
 		}
 
-		//Comprueba si se puede avanzar en el dialogo o este ha llegado a su fin
-		public bool AvanzaDialogue(int node_id)
+		//Comprueba si existen más nodos delante de la posición indicada, comprobando si se puede continuar con el diálogo
+		//Devuelve true si existen más nodos delante y false si no
+		public bool AvanzaDialogue(int pos)
 		{
 			bool avanza = false;
 
-			if (node_id + 1 < Nodes.Count)
+			if (pos + 1 < Nodes.Count)
 				avanza = true;
 
 			return avanza;
 		}
 
-		public void MarcarRecorrido(int node_id)
+		//Marca la variable recorrido a true, indicando que el nodo ya ha sido recorrido
+		//y no se volverán a comprobar algunas de sus funciones si se vuelve a recorrer en el futuro
+		public void MarcarRecorrido(int pos)
 		{
-			Nodes[node_id].MarcarRecorrido();
+			Nodes[pos].MarcarRecorrido();
 		}
     }
 }

@@ -1,34 +1,43 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+/*
+ * 	Clase que controla que acción es activada por el cursor de la interfaz de un interactuable
+ */
 public class CursorUIDetection : MonoBehaviour {
 
-	Interactuable inter;
+	Interactuable inter; //Referencia al interactuable al cual pertenece el cursor
 
 	void Start () {
 		inter = transform.parent.parent.gameObject.GetComponent<Interactuable>();
 	}
 
-	void OnTriggerEnter(Collider other) {
-		if (other.tag == "AccionUI" ) {
+	//Al detectar una colisión con un trigger, comprueba que se trata de un gameObject Accion
+	void OnTriggerEnter(Collider other)
+	{
+		//Si se ha colisionado con un gameObject Accion, se activa la acción en la clase interactuable
+		//para que este sepa que acción está en contacto con el cursor
+		if (other.tag == "AccionUI")
+		{
 			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
 
 			if(aobj.getID() == inter.ID)
 			{
-				inter.cursorSobreAccion = true;
-				inter.AsignarAccion(aobj.getIndice());
+				inter.AsignarAccionActiva(aobj.getIndice());
 			}
 		}
 	}
 
-	void OnTriggerExit(Collider other) {
-		if (other.tag == "AccionUI") {
+	//Al detectar la salida de una colisión con un trigger, comprueba que se trata de un gameObject Accion
+	void OnTriggerExit(Collider other)
+	{
+		//Si se ha colisionado con un gameObject Accion, se desactiva la acción en la clase interactuable
+		if (other.tag == "AccionUI")
+		{
 			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
 
 			if(aobj.getID() == inter.ID)
 			{
-				inter.cursorSobreAccion = false;
-				inter.setAccionNull();
+				inter.setAccionActivaNull();
 			}
 		}
 	}
