@@ -19,13 +19,13 @@
 				<Text>Estamos preparando las habitaciones. No le puedo dar un tiempo exacto, pero aproximadamente en media hora como máximo.</Text>
 				<recorrido>false</recorrido>
 				<destruido>false</destruido>
-				<Options/>
 				<Intros/>
 				<Mensajes/>
 				<Grupos/>
 				<GruposVariables/>
 				<Objetos/>
 				<Nombres/>
+				<Options/>
 			</DialogueNode>
 		</Nodes>
 	</dia>

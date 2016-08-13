@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjetoSerializable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID_NPC>1</ID_NPC>
+	<ID>0</ID>
+	<intros>
+		<Intro>
+			<ID>200</ID>
+			<IDGrupo>-1</IDGrupo>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>Ah, hola, no te había visto, estaba distraído mirando al espacio.</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Options/>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>Me llamo Richard, encantado de conocerte.</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres>
+							<DialogueNombre>
+								<IDNpc>-1</IDNpc>
+								<indiceNombre>1</indiceNombre>
+							</DialogueNombre>
+						</Nombres>
+						<Options>
+							<DialogueOption>
+								<Text>Hola, yo soy jugador.</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>[No decir nada]</Text>
+								<DestinationNodeID>2</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+						</Options>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>2</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>La verdad es que me apetece tomar algo, podríamos ir al bar de abajo a tomar algo, ¿qué me dices?</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Options>
+							<DialogueOption>
+								<Text>Estoy de acuerdo, vamos.</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>Prefiero quedarme aquí, pero a lo mejor bajo luego.</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No me interesa ir contigo.</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+						</Options>
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+	</intros>
+	<mensajes></mensajes>
+</ObjetoSerializable>

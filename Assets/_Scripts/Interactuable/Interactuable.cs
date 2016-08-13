@@ -15,14 +15,10 @@ public class Interactuable : MonoBehaviour {
 	public float X_MouseSensitivity = 0.02f;
 	public float Y_MouseSensitivity = 0.02f;
 
-	//Indica si el interactuable está desactivado, esto es, está fuera del collider
-	//que almacena los interactuables cercanos al jugador
-	private bool desactivado;
-
 	//Dos listas almacenan las acciones que puede ejecutar un interactuable. Los datos de las
 	//acciones se guardan separados en la clase DatosAccion debido a la serialización
-	private List<GameObject> AccionesGO;
-	private List<DatosAccion> Acciones;
+	private List<DatosAccion> Acciones; //Contiene todas las acciones, incluso las que no se han cargado
+	private List<GameObject> AccionesGO; //Los acciones GameObject solo contienen las acciones cargadas
 
 	//-1 = ninguna
 	//x = lugar de la accion activa en la lista de DatosAccion
@@ -40,6 +36,9 @@ public class Interactuable : MonoBehaviour {
 	private Vector3 moveVector; //vector de movimiento del cursorUI
 
 	private bool cursorSobreAccion; //indica si el cursor está encima de alguna acción
+
+	private RaycastHit hitInfo; //Rayo usado para averiguar si el interactuable es visible por la cámara
+	public LayerMask layerMask; //Layermask usada en la colisión del rayo. Se usa la layer 10 (pared)
 
 	//Estados de la clase
 	public enum State { Desactivado, Accionable, Seleccionado, Accionando, Accionado }
@@ -65,6 +64,10 @@ public class Interactuable : MonoBehaviour {
 		//Añadimos el interactuable al diccionario para tenerlo disponible
 		Manager.Instance.AddToInteractuables(ID, gameObject);
 
+		//Carga la layerMask para que el rayo detecte todos las colisiones con objetos
+		//con la layer 10 (Pared), es decir, las colisiones con el objeto, que contiene esta layer
+		layerMask = 1 << 10;
+
 		//Asignamos los objetos correspondientes
 		Objeto = gameObject.transform.GetChild(0).gameObject;
 		canvas = gameObject.transform.GetChild(1).gameObject;
@@ -78,6 +81,7 @@ public class Interactuable : MonoBehaviour {
 		//Asignamos la posicion inicial y el vector de movimientos
 		initialPosition = cursorUI.transform.position;
 		moveVector = new Vector3(0f, 0f, 0f);
+		reiniciarDistancia();
 
 		//Asignamos el estado inicial
 		SetState(State.Desactivado);
@@ -87,7 +91,6 @@ public class Interactuable : MonoBehaviour {
 
 		//Otros valores por defecto
 		setAccionActivaNull();
-		desactivado = false;
 
 		//Cargamos las listas de acciones
 		CargarAcciones();
@@ -299,6 +302,13 @@ public class Interactuable : MonoBehaviour {
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
 	}
 
+	//Devuelve el número de acciones creadas, o lo que es lo mismo, el número de acciones en la lista
+	//de accionesGO
+	public int DevolverAccionesCreadas()
+	{
+		return AccionesGO.Count;
+	}
+
 	//Devuelve un objeto NPC_Dialogo con la ID pasada (null si no lo ha encontrado)
 	public NPC_Dialogo DevolverDialogo(int ID_Dialogo)
 	{
@@ -341,6 +351,7 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	//Devuelve el nombre del interactuable que aparece en el dialogo
+	//La función es sustituida por las clases hijas
 	//(no es el mismo para la clase derivada interactuableobjeto, sí que lo es para el interactuableNPC)
 	public virtual string DevuelveNombreDialogo()
 	{
@@ -373,7 +384,7 @@ public class Interactuable : MonoBehaviour {
 		cursorSobreAccion = estado;
 	}
 		
-	void Update()
+	void LateUpdate()
 	{
 		switch(CurrentState)
 		{
@@ -383,7 +394,6 @@ public class Interactuable : MonoBehaviour {
 			CalcularDistancia();
 			ShowCanvas();
 			MoverCanvas();
-			checkDesactivado();
 			break;
 		case State.Seleccionado://La UI del interactuable cambia, ahora se muestran las acciones asociadas
 			MuestraCanvasSinTransparencia();
@@ -396,7 +406,6 @@ public class Interactuable : MonoBehaviour {
 				SetState(State.Accionando);
 				ChangeCursorUI(Resources.Load<Sprite>("cursor")); //MOVER LA REFERENCIA DEL RESOURCE AL MANAGER PARA NO TENER QUE ESTAR CARGÁNDOLA CONTINUAMENTE
 			}
-			checkDesactivado();
 			break;
 		case State.Accionando://El cursor se está moviendo
 			if (Input.GetMouseButton(0))
@@ -413,31 +422,11 @@ public class Interactuable : MonoBehaviour {
 			{
 				SetState(State.Accionado);
 			}
-			checkDesactivado();
 			break;
 		case State.Accionado://El cursor ha dejado de moverse sobre una acción, activamos esa acción
 			EjecutarAccion();
-			checkDesactivado();
 			break;
 		}
-	}
-
-	//Comprueba si el interactuable está desactivado al final de cada estado excenpto el estado Desactivado
-	//Como se puede pasar a este estado a mitad de la ejecución de un estado por otro objeto, es necesario
-	//comprobar si la variable ha cambiado al final de cada estado
-	private void checkDesactivado()
-	{
-		if(desactivado)
-		{
-			SetState(State.Desactivado);
-			DesactivarTextoAcciones();
-			OcultaCanvas();
-		}
-	}
-
-	public void setDesactivado(bool estado)
-	{
-		desactivado = estado;
 	}
 
 	//Calcula la distancia entre el jugador y el interactuable
@@ -454,6 +443,12 @@ public class Interactuable : MonoBehaviour {
 	public void OcultaCanvas()
 	{
 		canvas.GetComponent<CanvasGroup>().alpha = 0;
+	}
+
+	//Asigna a la distancia su valor inicial
+	public void reiniciarDistancia()
+	{
+		distance = 1;
 	}
 
 	//Regula la transparencia del canvas según la distancia
@@ -516,10 +511,20 @@ public class Interactuable : MonoBehaviour {
 		Acciones[accionActiva].EjecutarAccion();
 	}
 
-	//Devuelve un booleano indicando si el interactuable es visible, solo su apariencia (el gameobject llamado Objeto)
+	//Devuelve un booleano indicando si el interactuable es visible desde la cámara (el gameobject llamado Objeto)
+	//Comprobando la propiedad isVisible del render y haciendo un rayline hacia la cámara
 	public bool isVisible()
 	{
-		return Objeto.GetComponent<Renderer>().isVisible;
+		bool visible = false;
+
+		Debug.DrawLine(transform.position, Camera.main.transform.position);
+
+		if(Objeto.GetComponent<Renderer>().isVisible && !Physics.Linecast(transform.position, Camera.main.transform.position, out hitInfo, layerMask))
+		{
+			visible = true;
+		}
+
+		return visible;
 	}
 
 	//Muestra el texto de las acciones, el cursorUI y oculta el nombre del interactuable

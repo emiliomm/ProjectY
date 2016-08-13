@@ -5,13 +5,31 @@
 		<PosicionLugarSiguiente>
 			<hora>0</hora>
 			<lugarSiguiente>
-				<IDRutina>0</IDRutina>
 				<lugar>
 					<IDInter>0</IDInter>
 					<IDEscena>3</IDEscena>
 					<coordX>9.57</coordX>
-					<coordY>16.5</coordY>
+					<coordY>16.6</coordY>
 					<coordZ>-17.19</coordZ>
+					<X>0</X>
+					<Y>0.9656171</Y>
+					<Z>0</Z>
+					<W>-0.2599689</W>
+				</lugar>
+				<eventos>
+<!--					<int></int>-->
+				</eventos>
+			</lugarSiguiente>
+		</PosicionLugarSiguiente>
+		<PosicionLugarSiguiente>
+			<hora>5</hora>
+			<lugarSiguiente>
+				<lugar>
+					<IDInter>0</IDInter>
+					<IDEscena>3</IDEscena>
+					<coordX>3.55</coordX>
+					<coordY>11.93</coordY>
+					<coordZ>-10.93</coordZ>
 					<X>0</X>
 					<Y>0.9656171</Y>
 					<Z>0</Z>

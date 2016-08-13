@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Autorutina{
 
+	public int ID;
 	public int IDInter;
 
 	//Número de horas que deben pasar antes de que la hora cambie
@@ -32,6 +33,9 @@ public class Autorutina{
 
 		numRecorridosActuales++;
 
+		//Guardamos los datos
+		Serialize();
+
 		if(numRecorridosActuales == numRecorridosMaximos)
 			SigRutina = true;
 		
@@ -43,5 +47,10 @@ public class Autorutina{
 		Autorutina autorut = Manager.Instance.DeserializeData<Autorutina>(path);
 
 		return autorut;
+	}
+		
+	public void Serialize()
+	{
+		Manager.Instance.SerializeData(this, Manager.rutaAutoRutinasGuardadas, ID.ToString()  + ".xml");
 	}
 }

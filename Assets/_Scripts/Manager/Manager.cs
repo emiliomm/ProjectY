@@ -27,7 +27,7 @@ public class Manager : MonoBehaviour {
 	private ManagerRutinas managerRutinas; //Controla las rutinas del juego
 
 	private Dictionary<int,GameObject> interactuables; //grupos de npcs cargados en la escena actual (id, gameobject)
-	public List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
+	private List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
 
 	private List<ColaObjeto> ColaObjetos; //lista con los objetos por serializar
 
@@ -339,11 +339,19 @@ public class Manager : MonoBehaviour {
 		interactuable.transform.rotation = rot;
 	}
 
-	public void moverInteractuable(int IDInter, Vector3 coord, Quaternion rot)
+	public void moverInteractuable(int tipo, int IDInter, Vector3 coord, Quaternion rot)
 	{
 		GameObject Inter = GetInteractuable(IDInter);
-		Inter.transform.position = coord;
-		Inter.transform.rotation = rot;
+		if(tipo != 0)
+		{
+			Inter.transform.position = coord;
+			Inter.transform.rotation = rot;
+		}
+		else
+		{
+			InteractuableNPC intNPC = Inter.GetComponent<InteractuableNPC>();
+			intNPC.setRuta(coord);
+		}
 	}
 
 	public void destruirInteractuable(int IDInter)
@@ -447,6 +455,16 @@ public class Manager : MonoBehaviour {
 	 * 
 	 * 
 	 */
+
+	public int devuelveNumeroInteractuablesCercanos()
+	{
+		return interactuablesCercanos.Count;
+	}
+
+	public GameObject devuelveInteractuableCercano(int num)
+	{
+		return interactuablesCercanos[num];
+	}
 
 	public void addInteractuableCercano(GameObject gObj)
 	{

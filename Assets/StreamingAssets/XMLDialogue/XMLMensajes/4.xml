@@ -19,13 +19,13 @@
 				<Text>En la planta de abajo. Siga recto hasta llegar a las escaleras.</Text>
 				<recorrido>false</recorrido>
 				<destruido>false</destruido>
-				<Options/>
 				<Intros/>
 				<Mensajes/>
 				<Grupos/>
 				<GruposVariables/>
 				<Objetos/>
 				<Nombres/>
+				<Options/>
 			</DialogueNode>
 		</Nodes>w
 	</dia>

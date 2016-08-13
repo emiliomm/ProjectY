@@ -1,9 +1,13 @@
-﻿/*
+﻿using UnityEngine;
+
+/*
  * 	Clase hija de Interactuable que contiene datos sobre la subclase de los interactuables llamada NPC
  */
 public class InteractuableNPC : Interactuable {
 
 	NPCDatos datos; //Almacena los datos de esta clase
+
+	NavMeshAgent agent; //Agente de prueba
 
 	protected override void Start()
 	{
@@ -20,8 +24,18 @@ public class InteractuableNPC : Interactuable {
 			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 		}
 
+		agent = GetComponent<NavMeshAgent>();
+//		agent.SetDestination(new Vector3(0f,0f,0f)); para mover el interactuable al lugar indicado
+
 		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());
+	}
+
+	//prueba
+	public void setRuta(Vector3 ruta)
+	{
+		agent.enabled = true;
+		agent.SetDestination(ruta);// para mover el interactuable al lugar indicado
 	}
 
 	public int DevuelveIndiceNombre()

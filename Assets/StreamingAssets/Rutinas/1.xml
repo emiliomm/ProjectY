@@ -5,7 +5,6 @@
 		<PosicionLugarSiguiente>
 			<hora>0</hora>
 			<lugarSiguiente>
-				<IDRutina>0</IDRutina>
 				<lugar>
 					<IDInter>0</IDInter>
 					<IDEscena>1</IDEscena>

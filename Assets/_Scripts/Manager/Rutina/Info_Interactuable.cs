@@ -8,9 +8,13 @@ public class Info_Interactuable{
 
 	private int tipoInter;
 	private int IDEscena;
-	private int IDRutina;
+
+	//-1: El interactuable no tiene rutina
+	//x: ID de la rutina
+	private int IDRutina; //ACTUALMENTE NO SE USA
 	private List<EventoInteractuable> eventos;
-	private DateTime fechaAnyadido;
+	private DateTime ultimaFechaCambioLugar;
+	private DateTime ultimaFechaCambioRutina;
 
 	public Info_Interactuable()
 	{
@@ -42,10 +46,10 @@ public class Info_Interactuable{
 		IDRutina = IDR;
 	}
 
-	public int devolverIDRutina()
-	{
-		return IDRutina;
-	}
+//	public int devolverIDRutina()
+//	{
+//		return IDRutina;
+//	}
 
 	public int devolverNumeroEventos()
 	{
@@ -72,14 +76,24 @@ public class Info_Interactuable{
 		eventos.RemoveAt(num);
 	}
 
-	public DateTime getFecha()
+	public DateTime getFechaCambioLugar()
 	{
-		return fechaAnyadido;
+		return ultimaFechaCambioLugar;
 	}
 
-	public void setFecha(DateTime fecha)
+	public void setFechaCambioLugar(DateTime fecha)
 	{
-		fechaAnyadido = fecha;
+		ultimaFechaCambioLugar = fecha;
+	}
+
+	public DateTime getFechaCambioRutina()
+	{
+		return ultimaFechaCambioRutina;
+	}
+
+	public void setFechaCambioRutina(DateTime fecha)
+	{
+		ultimaFechaCambioRutina = fecha;
 	}
 
 	public void addEvento(int IDEvento)

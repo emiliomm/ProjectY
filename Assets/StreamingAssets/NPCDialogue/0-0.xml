@@ -24,13 +24,13 @@
 						<Text>Bienvenido a la nave que le llevará hacia el planeta Quros.</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Options/>
 						<Intros />
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Options/>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>1</NodeID>
@@ -45,7 +45,6 @@
 						<Text>La nave tardará unos cuantos días en llegar a su destino.</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Options/>
 						<Intros/>
 						<Mensajes>
 							<DialogueAddMensaje>
@@ -59,6 +58,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Options/>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>2</NodeID>
@@ -73,13 +73,13 @@
 						<Text>Le recomendamos que se tomen un tiempo para familiarizarse con el entorno. Es normal que experimenten mareos durante los primeros minutos.</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Options/>
 						<Intros/>
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Options/>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>3</NodeID>
@@ -94,7 +94,6 @@
 						<Text>En breves momentos cada uno de ustedes recibirá la llave de su habitación. Dentro de ella podrá usar el inhibidor para hibernar durante la duración de todo el viaje si así lo desea.</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Options/>
 						<Intros/>
 						<Mensajes>
 							<DialogueAddMensaje>
@@ -120,6 +119,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Options/>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>4</NodeID>
@@ -134,13 +134,13 @@
 						<Text>También disponen de un bar en la planta inferior.</Text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Options/>
 						<Intros/>
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Options/>
 					</DialogueNode>
 					<DialogueNode>
 						<NodeID>5</NodeID>
@@ -155,13 +155,13 @@
 						<Text>Le deseamos un feliz viaje.</Text>
 						<recorrido>false</recorrido>
 						<destruido>true</destruido>
-						<Options/>
 						<Intros/>
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Options/>
 					</DialogueNode>
 				</Nodes>
 			</dia>

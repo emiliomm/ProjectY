@@ -22,9 +22,10 @@ public class ManagerRutinas{
 	//<id_interactuable, info_interactuable>
 	//info_interactuable: tipo_interactuable --> Indica el tipo de interactuable(npc u objeto)
 	//					  id_escena --> indica el numero de escena actual del interactuable *Se sustituye cada vez que el interactuable avance de lugar o se cambie de rutina
-	//					  id_rutina --> indica la rutina actual del interactuable *Se sustituye cada vez que el interactuable cambie rutina
+	//					  id_rutina --> indica la rutina actual del interactuable (ACTUALMENTE NO SE USA, VEREMOS SI EN EL FUTURO SÍ O HAY QUE ELIMINAR EL VALOR *Se sustituye cada vez que el interactuable cambie rutina
 	//					  eventos --> lista con los ids de la eventos actuales *Se sustituye cada vez que el interactuable cambie rutina
-	//					  fecha_añadido --> indica la fecha en la que se ha cambiado el lugar por última vez *Se sustituye cada vez que el interactuable avance de lugar o cambie de rutina
+	//					  ultimaFechaCambioLugar --> indica la fecha en la que se ha cambiado el lugar por última vez *Se sustituye cada vez que el interactuable avance de lugar o cambie de rutina
+	//					  ultimaFechaCambioRutina --> indica la fecha en la que se ha cambiado la rutina por última vez *Se sustituye cada vez que el interactuable cambie de rutina
 	public Dictionary<int, Info_Interactuable> infoInteractuable;
 
 	//<hora_cambio_lugar, lista - contenedor>
@@ -68,14 +69,14 @@ public class ManagerRutinas{
 
 		infoInteractuable[dInt.IDInter] = infoInter;
 
-		cargarRutina(infoInter.devolverIDRutina());
+		//Si el interactuable tiene rutina, cargamos la rutina
+		if(dInt.IDRutinaActual != -1)
+			cargarRutina(dInt.IDRutinaActual, true);
 	}
-
-	//falta usar este método en el futuro para cambiar de rutina
-	//al cambiar de rutina, se cambia el lugar actual inmediatamente, eliminando a un interactuable que no deba estar en la escena actual
-	public void cargarRutina(int idRutina)
+		
+	public void cargarRutina(int idRutina, bool InicioJuego)
 	{
-		Rutina rutina = Manager.Instance.DeserializeData<Rutina>(Manager.rutaRutinas + idRutina.ToString() + ".xml");
+		Rutina rutina = Rutina.LoadRutina(Manager.rutaRutinas + idRutina.ToString() + ".xml");
 		int IDInter = rutina.posLugarSiguientes[0].lugarSiguiente.lugar.IDInter;
 
 		Info_Interactuable infoInter;
@@ -86,6 +87,12 @@ public class ManagerRutinas{
 			MarcarEventosDesactualizados(infoInter);
 			AddLugaresSiguientes(IDInter, infoInter, rutina.posLugarSiguientes, rutina.Autorutina, idRutina);
 			AddLugarActual(rutina.posLugarSiguientes[CalculaPosicionRutina(rutina)].lugarSiguiente.lugar);
+
+			if(!InicioJuego)
+			{
+				Datos_Interactuable dInt = new Datos_Interactuable(IDInter, infoInter.devolverTipo(), idRutina);
+				dInt.Serialize();
+			}
 		}
 	}
 
@@ -96,11 +103,12 @@ public class ManagerRutinas{
 			infoInter.actualizarEvento(i);
 		}
 	}
-
-	//PUEDEN DUPLICARSE LOS LUG_SIGUIENTES SI SE AÑADE UNA RUTINA AÑADIDA ANTERIORMENTE SIN HABER BORRADO TODOS LOS RESTOS DE LAS ANTERIORES HORAS
-	//UNA POSIBLE SOLUCIÓN PODRÍA SER SUSTITUIR LA COMPROBACION DE ID RUTINA POR UNA DE FECHA
+		
 	private void AddLugaresSiguientes(int IDInter, Info_Interactuable infoInter, List<PosicionLugarSiguiente> posLugarSiguiente, bool autorutina, int IDRutina)
 	{
+		DateTime fechaRutina = DateTime.Now;
+		infoInter.setFechaCambioRutina(fechaRutina);
+	
 		for(int i = 0; i < posLugarSiguiente.Count; i++)
 		{
 			Contenedor cont;
@@ -110,7 +118,8 @@ public class ManagerRutinas{
 				cont = new Contenedor();
 				contenedores.Add(posLugarSiguiente[i].hora, cont);
 			}
-
+				
+			posLugarSiguiente[i].lugarSiguiente.setFechaRutina(fechaRutina);
 			cont.addLugarSig(posLugarSiguiente[i].lugarSiguiente);
 
 			for(int j = 0; j < posLugarSiguiente[i].lugarSiguiente.eventos.Count; j++)
@@ -147,13 +156,13 @@ public class ManagerRutinas{
 			if(autorut.numHoras % 24 != 0)
 				numRecorridosMaximos++;
 
-			Debug.Log("recorridos max" + numRecorridosMaximos);
-
 			poshora = hora + autorut.numHoras % 24;
 
 			autorut.posHora = poshora;
 			autorut.numRecorridosActuales = 0;
 			autorut.numRecorridosMaximos = numRecorridosMaximos;
+
+			autorut.Serialize(); //Guardamos los datos una vez se haya cargado la autorutina
 		}
 
 		Contenedor cont;
@@ -277,20 +286,18 @@ public class ManagerRutinas{
 		{
 			ComprobarInteractuableEscenaActual(IDInter, infoInter.devolverTipo(), infoInter.devolverIDEscena(), IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ), new Quaternion(lugar.X, lugar.Y, lugar.Z, lugar.W));
 			infoInter.setIDEscena(IDEscena);
-			infoInter.setFecha(fechaActual);
+			infoInter.setFechaCambioLugar(fechaActual);
 		}
 	}
 
 	private void ComprobarInteractuableEscenaActual(int IDInter, int tipoInter, int IDEscenaAnterior, int IDEscenaActual, Vector3 coord, Quaternion rot)
 	{
-		Debug.Log(IDEscenaAnterior);
-		Debug.Log(IDEscenaActual);
-
 		if(IDEscenaAnterior == escenaActual)
 		{
 			if(IDEscenaAnterior == IDEscenaActual)
 			{
-				Manager.Instance.moverInteractuable(IDInter, coord, rot);
+				Debug.Log("Hola");
+				Manager.Instance.moverInteractuable(tipoInter, IDInter, coord, rot);
 			}
 			else
 			{
@@ -303,6 +310,7 @@ public class ManagerRutinas{
 		}
 	}
 
+	//FALTA ELIMINAR AUTORUTINAS DESACTUALIZADAS, POR EJEMPLO CUANDO EL INTERACTUABLE YA NO TIENE ESA RUTINA
 	public void ComprobarRutinas(int horaActual)
 	{
 		Contenedor cont;
@@ -317,8 +325,7 @@ public class ManagerRutinas{
 				{
 					if(lista_autorutinas[i].Recorrido())
 					{
-						//Falta guardar autorutina en archivo al hacer recorrido
-						cargarRutina(lista_autorutinas[i].IDSigRutina);
+						cargarRutina(lista_autorutinas[i].IDSigRutina, false);
 						lista_autorutinas.RemoveAt(i);
 					}
 				}
@@ -334,7 +341,8 @@ public class ManagerRutinas{
 					Info_Interactuable infoInter;
 					if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 					{
-						if (infoInter.devolverIDRutina() != lista_lugarsiguiente[i].IDRutina)
+						//Si las fechas de rutina no coinciden, eliminamos el lugarSiguiente de la lista
+						if (infoInter.getFechaCambioRutina() != lista_lugarsiguiente[i].getFechaRutina())
 						{
 							lista_lugarsiguiente.RemoveAt(i);
 						}
@@ -371,7 +379,7 @@ public class ManagerRutinas{
 				Info_Interactuable infoInter;
 				if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 				{
-					if(infoInter.getFecha() > lista[i].getFecha())
+					if(infoInter.getFechaCambioLugar() > lista[i].getFecha())
 					{
 						lista.RemoveAt(i);
 					}

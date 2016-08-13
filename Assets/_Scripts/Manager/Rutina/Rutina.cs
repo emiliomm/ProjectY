@@ -13,4 +13,11 @@ public class Rutina{
 	{
 		posLugarSiguientes = new List<PosicionLugarSiguiente>();
 	}
+		
+	public static Rutina LoadRutina(string path)
+	{
+		Rutina rutina = Manager.Instance.DeserializeData<Rutina>(path);
+
+		return rutina;
+	}
 }

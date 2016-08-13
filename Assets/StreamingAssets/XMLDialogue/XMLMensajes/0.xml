@@ -19,13 +19,13 @@
 				<Text>Aproximadamente unos 2 días si no nos encontramos ningún problema por el camino.</Text>
 				<recorrido>false</recorrido>
 				<destruido>false</destruido>
-				<Options/>
 				<Intros/>
 				<Mensajes/>
 				<Grupos/>
 				<GruposVariables/>
 				<Objetos/>
 				<Nombres/>
+				<Options/>
 			</DialogueNode>
 		</Nodes>
 	</dia>

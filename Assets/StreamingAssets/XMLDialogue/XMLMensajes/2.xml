@@ -19,13 +19,13 @@
 				<Text>Lo sabrá cuando reciba la llave.</Text>
 				<recorrido>false</recorrido>
 				<destruido>false</destruido>
-				<Options/>
 				<Intros/>
 				<Mensajes/>
 				<Grupos/>
 				<GruposVariables/>
 				<Objetos/>
 				<Nombres/>
+				<Options/>
 			</DialogueNode>
 		</Nodes>
 	</dia>

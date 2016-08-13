@@ -40,6 +40,7 @@ public class TP_Controller : MonoBehaviour
 		//Inicializamos la variable instancia
 		CharacterController = GetComponent("CharacterController") as CharacterController; 
 		Instance = this;
+		layerMaskSuelo = -1; //Establecemos la layerMask a Everything
 		SetState(State.Normal);
 
 		//creamos o buscamos una camara
