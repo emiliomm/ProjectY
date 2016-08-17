@@ -71,7 +71,7 @@ public class TP_Controller : MonoBehaviour
 				InteractuableCollider.Instance.EncontrarInteractuablesCercanos();
 			}
 			break;
-		case State.Dialogo:
+		case State.Dialogo: //También se usa en la pantalla de Inventario, de momento
 		case State.Interactuables:
 			//guardamos el valor del movevector.y ya que vamos a transformarlo a 0 despues, pero necesitamos el valor
 			TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;
@@ -100,6 +100,7 @@ public class TP_Controller : MonoBehaviour
 
 			SetState(State.Dialogo);
 			Manager.Instance.setPausa(true);
+			Manager.Instance.stopNavMeshAgents();
 			Cursor.visible = true; //Muestra el cursor del ratón
 			Camera.main.GetComponent<TP_Camera>().setObjectMode();
 		}

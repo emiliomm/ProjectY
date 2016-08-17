@@ -22,7 +22,7 @@ public class ManagerRutinas{
 	//<id_interactuable, info_interactuable>
 	//info_interactuable: tipo_interactuable --> Indica el tipo de interactuable(npc u objeto)
 	//					  id_escena --> indica el numero de escena actual del interactuable *Se sustituye cada vez que el interactuable avance de lugar o se cambie de rutina
-	//					  id_rutina --> indica la rutina actual del interactuable (ACTUALMENTE NO SE USA, VEREMOS SI EN EL FUTURO SÍ O HAY QUE ELIMINAR EL VALOR *Se sustituye cada vez que el interactuable cambie rutina
+	//					  id_rutina --> indica la rutina actual del interactuable *Se sustituye cada vez que el interactuable cambie rutina
 	//					  eventos --> lista con los ids de la eventos actuales *Se sustituye cada vez que el interactuable cambie rutina
 	//					  ultimaFechaCambioLugar --> indica la fecha en la que se ha cambiado el lugar por última vez *Se sustituye cada vez que el interactuable avance de lugar o cambie de rutina
 	//					  ultimaFechaCambioRutina --> indica la fecha en la que se ha cambiado la rutina por última vez *Se sustituye cada vez que el interactuable cambie de rutina
@@ -294,23 +294,24 @@ public class ManagerRutinas{
 	{
 		if(IDEscenaAnterior == escenaActual)
 		{
+			//El interactuable se mueve desde un punto de la escena actual a otro
 			if(IDEscenaAnterior == IDEscenaActual)
 			{
-				Debug.Log("Hola");
-				Manager.Instance.moverInteractuable(tipoInter, IDInter, coord, rot);
+				Manager.Instance.moverInteractuableEnEscena(tipoInter, IDInter, coord, rot);
 			}
+			//El interactuable debe abandonar la escena actual hacia otra
 			else
 			{
-				Manager.Instance.destruirInteractuable(IDInter);
+				Manager.Instance.moverInteractuableHaciaOtraEscena(tipoInter, IDInter, IDEscenaActual);
 			}
 		}
+		//El interactuable no existe, se crea en la escena
 		else if(IDEscenaActual == escenaActual)
 		{
-			Manager.Instance.crearInteractuable(IDInter, tipoInter, coord, rot);
+			Manager.Instance.moverInteractuableDesdeOtraEscena(IDInter, tipoInter, IDEscenaAnterior, coord, rot);
 		}
 	}
 
-	//FALTA ELIMINAR AUTORUTINAS DESACTUALIZADAS, POR EJEMPLO CUANDO EL INTERACTUABLE YA NO TIENE ESA RUTINA
 	public void ComprobarRutinas(int horaActual)
 	{
 		Contenedor cont;
@@ -323,9 +324,27 @@ public class ManagerRutinas{
 			{
 				for(int i = lista_autorutinas.Count - 1; i >= 0; i--)
 				{
-					if(lista_autorutinas[i].Recorrido())
+					Info_Interactuable infoInter;
+					if (infoInteractuable.TryGetValue(lista_autorutinas[i].IDInter, out infoInter))
 					{
-						cargarRutina(lista_autorutinas[i].IDSigRutina, false);
+						if(lista_autorutinas[i].ID == infoInter.devolverIDRutina())
+						{
+							if(lista_autorutinas[i].Recorrido())
+							{
+								cargarRutina(lista_autorutinas[i].IDSigRutina, false);
+								lista_autorutinas.RemoveAt(i);
+							}
+						}
+						//El interactuable no tiene la misma rutina que la que marca la autorutina, la destruimos
+						else
+						{
+							lista_autorutinas.RemoveAt(i);
+						}
+					}
+					//El interactuable ya no existe, destruimos la autorutina
+					//(ESTE CASO AÚN NO SE PRODUCE)
+					else
+					{
 						lista_autorutinas.RemoveAt(i);
 					}
 				}

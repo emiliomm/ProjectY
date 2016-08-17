@@ -1,4 +1,6 @@
-﻿/*
+﻿using UnityEngine;
+
+/*
  * 	Clase que se encarga de controlar el tiempo cronológico en el juego
  */
 public class ManagerTiempo{

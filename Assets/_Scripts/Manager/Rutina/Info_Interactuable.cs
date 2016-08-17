@@ -11,7 +11,7 @@ public class Info_Interactuable{
 
 	//-1: El interactuable no tiene rutina
 	//x: ID de la rutina
-	private int IDRutina; //ACTUALMENTE NO SE USA
+	private int IDRutina;
 	private List<EventoInteractuable> eventos;
 	private DateTime ultimaFechaCambioLugar;
 	private DateTime ultimaFechaCambioRutina;
@@ -19,6 +19,7 @@ public class Info_Interactuable{
 	public Info_Interactuable()
 	{
 		eventos = new List<EventoInteractuable>();
+		IDEscena = -1; //valor inicial
 	}
 
 	public void setTipoInter(int tipo)
@@ -46,10 +47,10 @@ public class Info_Interactuable{
 		IDRutina = IDR;
 	}
 
-//	public int devolverIDRutina()
-//	{
-//		return IDRutina;
-//	}
+	public int devolverIDRutina()
+	{
+		return IDRutina;
+	}
 
 	public int devolverNumeroEventos()
 	{

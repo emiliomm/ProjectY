@@ -21,6 +21,7 @@ public class DatosAccionObjeto : DatosAccion{
 	public override void EjecutarAccion()
 	{
 		Manager.Instance.setPausa(true);
+		Manager.Instance.stopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		//Carga el objeto de Resources, lo mueve delante de la cámara y le establece una layermask

@@ -1,4 +1,5 @@
 ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
+- La pared de los escenarios debe estar marcada con el tag "Pared"
 - El NodeID de DialogueNode debe coincidir con su posición en la lista de nodos del diálogo
 - Cuando un grupo no está activado y acabamos el grupo, el grupo ya no podrá ser activado en el futuro.
 - El dialogo actual siempre se guarda/serializa, tenga cambios o no (cambiar ¿?, ten en cuenta que en el código ya está pensado, habría que cambiar bastante)

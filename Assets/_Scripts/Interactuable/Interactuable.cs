@@ -410,10 +410,12 @@ public class Interactuable : MonoBehaviour {
 		case State.Accionando://El cursor se está moviendo
 			if (Input.GetMouseButton(0))
 			{
+				Manager.Instance.stopNavMeshAgents();
 				MoviendoCursorUI();
 			}
 			else if (!cursorSobreAccion)
 			{
+				Manager.Instance.resumeNavMeshAgents();
 				DefaultCursorUI();
 				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
 				SetState(State.Seleccionado);
@@ -491,7 +493,7 @@ public class Interactuable : MonoBehaviour {
 
 		//Asignamos la posición al objeto que hace de cursor
 		Vector3 CursorLimit = new Vector3(0f, 0f, 0f);
-		CursorLimit = initialPosition + delta;
+		CursorLimit = canvas.transform.position + delta;
 		cursorUI.transform.position = CursorLimit;
 	}
 
@@ -499,7 +501,7 @@ public class Interactuable : MonoBehaviour {
 	private void DefaultCursorUI()
 	{
 		moveVector = new Vector3(0f, 0f, 0f); //Reseteamos el vector de movimiento
-		cursorUI.transform.position = initialPosition; //Asignamos la posición inicial al objeto
+		cursorUI.transform.position = canvas.transform.position; //Asignamos la posición inicial al objeto
 		ChangeCursorUI(Resources.Load<Sprite>("mouse")); //MOVER LA REFERENCIA DEL RESOURCE AL MANAGER PARA NO TENER QUE ESTAR CARGÁNDOLA CONTINUAMENTE
 	}
 

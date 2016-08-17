@@ -17,13 +17,18 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Hacer que el botón de texto del dialogo ocupe toda la caja o que se avance el dialogo clicando en cualquier lugar
+- Hacer que las acciones del interactuable se vuelvan "interactuables" cuando el jugador está más cerca y no el sistema actual
+- Probar la navegación de los interactuables en busca de fallos
+- Mejorar función setPausa del Manager
+- Añadir los tags y layers que hay en el juego en el documento Guía Estilo
 - Hacer que la cámara no se mueva cuando el jugador salta o quitar el salto (mov. de cámara lioso al saltar en espacios cerrados)
 - Hacer que los interactuables puedan tener un offset respecto a la UI, que no toda la UI esté en el centro del personaje
 - Modificar la alineación de la cámara con respecto al jugador cuando hay offset (funcion SnapAlignCharacterWithCamera() del TP_Motor)
 - Crear unas reglas para el nombre de funciones y parámetros
 - Faltan algunas rutas de archivos por añadir al manager, mirar código
 - Guardar las variables de sensibilidad del ratón del objetocontroller en el Manager, así como otras variables similares, como el layermask de datosaccionobjeto
-- Añadir mostrar/ocultar opciones de dialogo según si se tiene equipado un objeto
+- Añadir mostrar/ocultar opciones de dialogo según si se tiene equipado un objeto, como actualmente está en las opciones
 - Mirar que hacer con el prefab botoninventario
 - Comprobar si en la funcion MirarSiDialogoSeAutodestruye el pos_dialogo-- es necesario
 - Mirar que hacer con el indice_inicial de las intros y ver si hay que implementarlas en los mensajes o eliminarlo totalmente
@@ -39,7 +44,6 @@ COSAS POR HACER:
 - Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
 - Borrar los assets que sobran y mover los que son usados a las carpetas principales
 - Eliminar todos los findGameobjects del código
-- Falta implementar los mensajes de finalización de los grupos
 - Mejorar el dialogo a distancia
 	- Cuando un dialogo deja de ser a distancia, etc
 - Acciones
@@ -47,6 +51,7 @@ COSAS POR HACER:
 	- Mirar como relacionar acciones y rutinas
 - Implementar lo que falta del sistema de objetos
 	- Puntos de información
+		- Que salgan según grupos activos y otras variables
 	- Algunos objetos interactuables, que no se muevan en 3d como los actuales, sino que son fijos con botones, etc (móvil, ordenador, etc...)
 - El radio de las acciones es igual pero al no estar centrada la posicion respecto al texto unas acciones son más dificiles de alcanzar
 - Probar y mejorar el sistema de animaciones.
@@ -57,13 +62,11 @@ COSAS POR HACER:
 - Comentar todo el código
 - Ordenar clase NPC_Dialogo, mirar que es necesario en cada método y quitar lo innecesario
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
-- Probar en como funciona el focus cuando hay una pared ¿Que hacer en esos casos ¿? Cuando hay una pared no debería verse la interfaz de los objetos, lanzar un cast hacia camara ¿?
 - Cuando el jugador sabe un nombre de un NPC y otro NPC nombra a ese con un nombre diferente, como implementar caminos diferentes:
 	- Si el NPC nombra al otro NPC con el nombre que el jugador sabe, va por un camino
 	- Si el NPC nombra al otro NPC con el nombre diferente al que el jugador sabe, va por otro camino
 - Falta implementar los mensajes de finalización de los Grupos, serán diferentes dependiendo de como haya acabado el Grupo
 - Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
-- Hacer que la interfaz del diálogo se pueda mover con teclado
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?
@@ -73,3 +76,4 @@ COSAS POR HACER:
 	un número estimado de elementos para ahorrar asignación de memoria (new List(100))
 	- Evitar los foreach por otra estructura
 	- http://www.gamasutra.com/blogs/WendelinReich/20131109/203841/C_Memory_Management_for_Unity_Developers_part_1_of_3.php
+	- Ver tweets guardados

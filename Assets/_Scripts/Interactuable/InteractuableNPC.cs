@@ -5,9 +5,8 @@
  */
 public class InteractuableNPC : Interactuable {
 
-	NPCDatos datos; //Almacena los datos de esta clase
-
-	NavMeshAgent agent; //Agente de prueba
+	private NavMeshAgent agente; //Agente que permite al interactuable moverse por la escena
+	private NPCDatos datos; //Almacena los datos de esta clase
 
 	protected override void Start()
 	{
@@ -24,18 +23,31 @@ public class InteractuableNPC : Interactuable {
 			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 		}
 
-		agent = GetComponent<NavMeshAgent>();
-//		agent.SetDestination(new Vector3(0f,0f,0f)); para mover el interactuable al lugar indicado
+		agente = GetComponent<NavMeshAgent>();
 
 		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());
 	}
-
-	//prueba
+		
+	//Establece la ruta a seguir por el interactuable hacia la posición indicada
 	public void setRuta(Vector3 ruta)
 	{
-		agent.enabled = true;
-		agent.SetDestination(ruta);// para mover el interactuable al lugar indicado
+		//Comprobamos que el agent está inicializado, ya que hay casos en los que la función es llamada
+		//antes de Start()
+		if(agente == null)
+			agente = GetComponent<NavMeshAgent>();
+
+		//Añadimos el NavMesh a la lista del Manager con NavMeshActivos
+		Manager.Instance.addNavMeshAgent(agente);
+
+		//Activamos el agente y establecemos la ruta
+		agente.enabled = true;
+		agente.SetDestination(ruta);// para mover el interactuable al lugar indicado
+	}
+
+	public NavMeshAgent devuelveNavhMeshAgent()
+	{
+		return agente;
 	}
 
 	public int DevuelveIndiceNombre()

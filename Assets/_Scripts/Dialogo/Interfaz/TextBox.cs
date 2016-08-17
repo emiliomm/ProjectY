@@ -128,6 +128,7 @@ public class TextBox : MonoBehaviour {
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		TP_Camera.Instance.toDialogMode();
 		Manager.Instance.setPausa(true);
+		Manager.Instance.stopNavMeshAgents();
 
 		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
@@ -139,6 +140,7 @@ public class TextBox : MonoBehaviour {
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
 		TP_Camera.Instance.fromDialogMode();
 		Manager.Instance.setPausa(false);
+		Manager.Instance.resumeNavMeshAgents();
 
 		dialogue_window.SetActive(false);
 		Cursor.visible = false; //Oculta el cursor del ratón
@@ -551,7 +553,6 @@ public class TextBox : MonoBehaviour {
 		iramensajesmenu.SetActive(false);
 		exit.SetActive(false);
 
-		dialog_name.SetActive(true);
 		dialog_text.SetActive(true);
 
 		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
@@ -588,7 +589,6 @@ public class TextBox : MonoBehaviour {
 		//Mantiene el scroll arriba del todo al mostrar opciones
 		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
-		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
@@ -607,6 +607,8 @@ public class TextBox : MonoBehaviour {
 		option_15.SetActive(false);
 		iramensajesmenu.SetActive(false);
 		exit.SetActive(false);
+
+		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
 
 		for(int i = 0; i < node.DevuelveNumeroOpciones() && i < 14; i++)
 		{
@@ -713,7 +715,6 @@ public class TextBox : MonoBehaviour {
 		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
 		dialog_options.SetActive(true);
-		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
 		option_1.SetActive(false);
 		option_2.SetActive(false);
@@ -858,7 +859,6 @@ public class TextBox : MonoBehaviour {
 		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
 		dialog_options.SetActive(true);
-		dialog_name.SetActive(false);
 		dialog_text.SetActive(false);
 		option_1.SetActive(false);
 		option_2.SetActive(false);

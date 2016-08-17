@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Autorutina{
 
-	public int ID;
+	public int ID; //El ID de la autorutina es el mismo que el de la rutina que acompaña
 	public int IDInter;
 
 	//Número de horas que deben pasar antes de que la hora cambie

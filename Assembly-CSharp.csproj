@@ -103,7 +103,6 @@
      <Compile Include="Assets\_Scripts\Manager\Rutina\PosicionLugarSiguiente.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\Rutina.cs" />
      <Compile Include="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" />
-     <Compile Include="Assets\_Scripts\Otros\Transporte.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\CS_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs" />
@@ -111,6 +110,9 @@
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
+     <Compile Include="Assets\_Scripts\Transporte\RutaCollider.cs" />
+     <Compile Include="Assets\_Scripts\Transporte\Transporte.cs" />
+     <Compile Include="Assets\_Scripts\Transporte\TransporteCollider.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
@@ -131,6 +133,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceRaytrace.cginc" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\2.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
@@ -156,6 +159,7 @@
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_HideVertices.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\StreamingAssets\DatosInteractuable\0.xml" />
+     <None Include="Assets\StreamingAssets\DatosInteractuable\1.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />

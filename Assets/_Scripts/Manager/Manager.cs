@@ -18,7 +18,7 @@ public class Manager : MonoBehaviour {
 	//Singleton pattern
 	public static Manager Instance { get; private set; }
 
-	//Indica el nombre de primera escena que cargará
+	//Indica el nombre de primera escena que se cargará
 	//Contiene [SerializeField] para mostrar una variable privada en el editor de Unity
 	[SerializeField]
 	private string escenaInicial;
@@ -26,8 +26,11 @@ public class Manager : MonoBehaviour {
 	private ManagerTiempo managerTiempo; //Controla el tiempo cronológico del juego
 	private ManagerRutinas managerRutinas; //Controla las rutinas del juego
 
-	private Dictionary<int,GameObject> interactuables; //grupos de npcs cargados en la escena actual (id, gameobject)
+	private Dictionary<int, GameObject> interactuables; //grupos de npcs cargados en la escena actual (id_interactuable, gameobject)
 	private List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
+	private List<NavMeshAgent> navMeshAgentRutasActivas; //lista con los navmesh agent con rutas activas
+
+	private Dictionary<int, List<GameObject>> transportes; //diccionario con listas de los transportes de la escena (num_escena, lista con gameobject)
 
 	private List<ColaObjeto> ColaObjetos; //lista con los objetos por serializar
 
@@ -51,6 +54,8 @@ public class Manager : MonoBehaviour {
 		PrevState = State;
 		State = newState;
 	}
+
+	private int escenaTransporte; //Variable usada para saber en que escena se encuentran los teletransportes (ya que el orden de ejecución de onloadlevel no es fiable)
 
 	private string nombreJugador;
 
@@ -127,6 +132,7 @@ public class Manager : MonoBehaviour {
 		rutaInventario = Application.persistentDataPath + "/Inventario/";
 		rutaObjetoInventario = Application.dataPath + "/StreamingAssets/ObjetoInventario/";
 
+		escenaTransporte = -1;
 		nombreJugador = "Jugador"; //Nombre por defecto del jugador
 
 		//Inicializa algunas variables
@@ -134,6 +140,8 @@ public class Manager : MonoBehaviour {
 		managerRutinas = new ManagerRutinas();
 		interactuables = new Dictionary<int,GameObject>();
 		interactuablesCercanos = new List<GameObject>();
+		navMeshAgentRutasActivas = new List<NavMeshAgent>();
+		transportes = new Dictionary<int, List<GameObject>>();
 		ColaObjetos = new List<ColaObjeto>();
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
@@ -339,14 +347,64 @@ public class Manager : MonoBehaviour {
 		interactuable.transform.rotation = rot;
 	}
 
-	public void moverInteractuable(int tipo, int IDInter, Vector3 coord, Quaternion rot)
+	//Crea un interactuable en la escena en un transporte de la escena anterior
+	public void moverInteractuableDesdeOtraEscena(int IDInter, int tipo, int IDEscenaAnterior, Vector3 coord, Quaternion rot)
+	{
+		GameObject interactuable;
+
+		switch(tipo)
+		{
+		default:
+		case 0: //Tipo NPC
+			interactuable = (GameObject)Instantiate(Resources.Load("InteractuableNPC"));
+			InteractuableNPC iNPC = interactuable.gameObject.GetComponent<InteractuableNPC>();
+			iNPC.ID = IDInter;
+
+			//Si el interactuable es de tipo NPC, lo creamos en un transporte
+			GameObject transporte = EncontrarTransporteEscena(IDEscenaAnterior);
+
+			if(transporte != null)
+			{
+				interactuable.transform.position = transporte.transform.position;
+				iNPC.setRuta(coord);
+
+				GameObject interactuableCollider = new GameObject("RutaCollider");
+				interactuableCollider.transform.position = coord;
+				BoxCollider collider = interactuableCollider.AddComponent<BoxCollider>();
+				collider.size =  new Vector3(3.7f, 6.68f, 1f);
+
+				RutaCollider tc = interactuableCollider.AddComponent<RutaCollider>();
+				tc.setIDInteractuable(IDInter);
+			}
+			else
+			{
+				interactuable.transform.position = coord;
+				interactuable.transform.rotation = rot;
+			}
+			break;
+		case 1: //Tipo Objeto
+			//Si el interatuable es de tipo objeto, lo creamos directamente
+			interactuable = (GameObject)Instantiate(Resources.Load("InteractuableObjeto"));
+			InteractuableObjeto iObj = interactuable.gameObject.GetComponent<InteractuableObjeto>();
+			iObj.ID = IDInter;
+
+			interactuable.transform.position = coord;
+			interactuable.transform.rotation = rot;
+			break;
+		}
+	}
+
+	public void moverInteractuableEnEscena(int tipo, int IDInter, Vector3 coord, Quaternion rot)
 	{
 		GameObject Inter = GetInteractuable(IDInter);
+
+		//Si el interactuable no es un NPC, lo movemos directamente
 		if(tipo != 0)
 		{
 			Inter.transform.position = coord;
 			Inter.transform.rotation = rot;
 		}
+		//Si es un NPC, establecemos la ruta que debe seguir
 		else
 		{
 			InteractuableNPC intNPC = Inter.GetComponent<InteractuableNPC>();
@@ -354,10 +412,37 @@ public class Manager : MonoBehaviour {
 		}
 	}
 
-	public void destruirInteractuable(int IDInter)
+	public void moverInteractuableHaciaOtraEscena(int tipo, int IDInter, int IDEscena)
 	{
 		GameObject Inter = GetInteractuable(IDInter);
-		Destroy(Inter);
+
+		if(tipo != 0)
+		{
+			Destroy(Inter);
+		}
+		//Si es de tipo NPC, buscamos un transporte al que movernos
+		else
+		{
+			GameObject transporteMasCercano = encontrarTransporteInteractuable(Inter, IDEscena);
+
+			if(transporteMasCercano != null)
+			{
+				Inter.GetComponent<InteractuableNPC>().setRuta(transporteMasCercano.transform.position);
+
+				GameObject transporteCollider = new GameObject("TransporteCollider");
+				transporteCollider.transform.SetParent(transporteMasCercano.transform, false);
+				BoxCollider collider = transporteCollider.AddComponent<BoxCollider>();
+				collider.size =  new Vector3(3.7f, 6.68f, 1f);
+
+				TransporteCollider tc = transporteCollider.AddComponent<TransporteCollider>();
+				tc.setIDInteractuable(IDInter);
+			}
+			//si no existe un transporte que nos lleve a la escena que queremos, destruimos el interactuable
+			else
+			{
+				Destroy(Inter);
+			}
+		}
 	}
 
 	//Pasa a la siguiente sección de las rutinas
@@ -394,6 +479,7 @@ public class Manager : MonoBehaviour {
 		managerRutinas.ComprobarRutinas(managerTiempo.getHora());
 	}
 
+	//MIRAR SI SE PUEDE ESTANDARIZAR, AÑADIR COSAS QUE SE LLAMAN AL USAR ESTA FUNCIÓN
 	//Establece el estado de pausa
 	public void setPausa(bool pausa)
 	{
@@ -474,6 +560,127 @@ public class Manager : MonoBehaviour {
 	public void deleteInteractuableCercano(GameObject gObj)
 	{
 		interactuablesCercanos.Remove(gObj);
+	}
+
+	/*
+	 * 
+	 * 
+	 *  NAVMESH AGENT CON RUTAS ACTIVAS
+	 * 
+	 * 
+	 */
+
+	public void addNavMeshAgent(NavMeshAgent nav)
+	{
+		if(!navMeshAgentRutasActivas.Contains(nav))
+			navMeshAgentRutasActivas.Add(nav);
+	}
+
+	public void deleteNavhMeshAgent(NavMeshAgent nav)
+	{
+		navMeshAgentRutasActivas.Remove(nav);
+	}
+
+	//Pausa las navMesh de la lista de navMesh con rutas activas
+	public void stopNavMeshAgents()
+	{
+		for(int i = 0; i < navMeshAgentRutasActivas.Count; i++)
+		{
+			navMeshAgentRutasActivas[i].velocity = Vector3.zero; //Detiene el navmesh totalmente, sin desaceleración
+			navMeshAgentRutasActivas[i].Stop();
+		}
+	}
+
+	//Reanuda las navMesh de la lista de navMesh con rutas activas
+	public void resumeNavMeshAgents()
+	{
+		for(int i = 0; i < navMeshAgentRutasActivas.Count; i++)
+		{
+			navMeshAgentRutasActivas[i].Resume();
+		}
+	}
+
+	/*
+	 * 
+	 * 
+	 *  TRANSPORTES
+	 * 
+	 * 
+	 */
+
+	//Añadimos el transporte al diccionario de transportes
+	public void anyadirTransporte(int numEscenaTransporte, GameObject transporte, List<int> escenas)
+	{
+		//Si la escena del transporte no se corresponde a la escena del Manager, significa que hemos cambiado
+		//de escena, vaciamos el diccionario de transportes
+		if(escenaTransporte != numEscenaTransporte)
+		{
+			transportes.Clear();
+			escenaTransporte = numEscenaTransporte;
+		}
+
+		//Añadimos el número de las escenas conectadas al transporte en el diccionario
+		for(int i = 0; i < escenas.Count; i++)
+		{
+			List<GameObject> listaTransportes;
+
+			if (!transportes.TryGetValue(escenas[i], out listaTransportes))
+			{
+				listaTransportes = new List<GameObject>();
+				transportes.Add(escenas[i], listaTransportes);
+			}
+	
+			listaTransportes.Add(transporte);
+		}
+	}
+
+	//Busca el transporte más cercano del interactuable especificado hacia la IDEscena especificada
+	//Devuelve un GameObject null si no ha encontrado ninguno
+	private GameObject encontrarTransporteInteractuable(GameObject interactuable, int IDEscena)
+	{
+		List<GameObject> listaTransportes;
+		GameObject transporteMasCercano = null;
+
+		if (transportes.TryGetValue(IDEscena, out listaTransportes))
+		{
+			float distanciaMasCercana = Mathf.Infinity;
+
+			for(int i = 0; i < listaTransportes.Count; i++)
+			{
+				float distancia = Vector3.Distance(interactuable.transform.position, listaTransportes[i].transform.position);
+				if (distancia < distanciaMasCercana)
+				{
+					distanciaMasCercana = distancia;
+					transporteMasCercano = listaTransportes[i];
+				}
+			}
+		}
+
+		return transporteMasCercano;
+	}
+		
+	//Devuelve la distancia entre una recta con un punto
+	private float DistanceToLine(Ray ray, Vector3 point)
+	{
+		return Vector3.Cross(ray.direction, point - ray.origin).sqrMagnitude;
+	}
+
+	//Busca el transporte que conecte con la escena indicada
+	//Devuelve un GameObject null si no ha encontrado ninguno
+	private GameObject EncontrarTransporteEscena(int IDEscena)
+	{
+		List<GameObject> listaTransportes;
+		GameObject transporteMasCercano = null;
+
+		if (transportes.TryGetValue(IDEscena, out listaTransportes))
+		{
+			System.Random rnd = new System.Random();
+
+			//Cogemos un transporte aleatorio de la lista
+			transporteMasCercano = listaTransportes[rnd.Next(listaTransportes.Count-1)];
+		}
+
+		return transporteMasCercano;
 	}
 
 	/*
