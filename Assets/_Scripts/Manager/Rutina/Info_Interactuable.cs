@@ -12,7 +12,7 @@ public class Info_Interactuable{
 	//-1: El interactuable no tiene rutina
 	//x: ID de la rutina
 	private int IDRutina;
-	private List<EventoInteractuable> eventos;
+	private List<EventoInteractuable> eventos; //usado para saber cuales son los eventos del lugar actual
 	private DateTime ultimaFechaCambioLugar;
 	private DateTime ultimaFechaCambioRutina;
 
@@ -57,9 +57,9 @@ public class Info_Interactuable{
 		return eventos.Count;
 	}
 
-	public void actualizarEvento(int num)
+	public void desactualizarEvento(int num)
 	{
-		eventos[num].setActualizado(true);
+		eventos[num].setActualizado(false);
 	}
 
 	public bool devuelveEventoActualizado(int num)

@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 
 [XmlInclude(typeof(DatosAccionDialogo))]
 [XmlInclude(typeof(DatosAccionObjeto))]
+[XmlInclude(typeof(DatosAccionTienda))]
 public class DatosAccion {
 
 	public int ID; //ID que identifica a la acción (aún sin usar)

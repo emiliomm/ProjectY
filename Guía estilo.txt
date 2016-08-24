@@ -1,4 +1,5 @@
 ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
+- Los objetos de los interactuables deben tener collider para ser detectador y rigidbody si son nav agents (se mueven)
 - La pared de los escenarios debe estar marcada con el tag "Pared"
 - El NodeID de DialogueNode debe coincidir con su posición en la lista de nodos del diálogo
 - Cuando un grupo no está activado y acabamos el grupo, el grupo ya no podrá ser activado en el futuro.
@@ -23,13 +24,14 @@ Hay zoom manual en la cámara
 Dialogo con opciones
 	- Que se muestran siempre
 	- Que se muestran según variables de grupo
-Grupos que crean y destruyen sobre temas similares
 Intros (partes del dialogo al principio) ordenados por prioridad
 Mensajes en la conversación (Tipo Fallout, al hablar con un NPC)
 Mensajes con un tema en común
 Añadir intros/mensajes a otros dialogos, pero no eliminarlos
+Grupos que crean y destruyen intros/mensajes vinculados a él
+Los grupos tienen variables
 Dar objetos durante el diálogo
-Los interactuables pueden tener varios nombres, pero solo se pueden cambiar hacia adelante en la lista de nombres(p ej: ¿? cuando no lo conoces, Luis cuando te lo dice).
+Los interactuables pueden tener varios nombres, pero solo se pueden cambiar hacia adelante en la lista de nombres(p ej: El nombre de un npc es¿? cuando no lo conoces, en cambio cambia a Luis cuando te lo dice).
 Acción Dialogo normal y a distancia
 Acción manipular objetos
 Mostrar acciones según que objetos hay en el inventario

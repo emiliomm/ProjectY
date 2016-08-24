@@ -13,6 +13,8 @@ public class TemaMensaje{
 	public string texto;
 	public List<Mensaje> mensajes;
 
+	private bool visible;
+
 	public TemaMensaje()
 	{
 		mensajes = new List<Mensaje>();
@@ -31,6 +33,33 @@ public class TemaMensaje{
 	public int DevuelveNumeroMensajes()
 	{
 		return mensajes.Count;
+	}
+
+	//Devuelve el número de mensajes que están activos, es decir, que se pueden mostrar actualmente
+	//(Ya sea porque su evento está activo, las variables del evento permiten mostrarla o no tienen un evento vinculado)
+	public int DevuelveNumeroMensajesActivos()
+	{
+		int count = 0;
+
+		for(int i = 0; i < DevuelveNumeroMensajes(); i++)
+		{
+			if(mensajes[i].seMuestra())
+			{
+				count++;
+			}
+		}
+
+		if(count == 0)
+			visible = false;
+		else
+			visible = true;
+
+		return count;
+	}
+
+	public bool EstadoVisible()
+	{
+		return visible;
 	}
 
 	public string DevuelveTextoMensaje(int num_mensaje)

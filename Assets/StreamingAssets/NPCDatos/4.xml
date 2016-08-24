@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ObjetoSerializable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="xs:ObjetoDatos">
+	<ID>4</ID>
+	<nombres>Menú</nombres>
+</ObjetoSerializable>

@@ -2,6 +2,7 @@
 <Mensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<ID>2</ID>
 	<IDGrupo>-1</IDGrupo>
+	<eventos/>
 	<Autodestruye>0</Autodestruye>
 	<texto>¿Cuál es mi habitación?</texto>
 	<dia>
@@ -25,6 +26,7 @@
 				<GruposVariables/>
 				<Objetos/>
 				<Nombres/>
+				<Rutinas/>
 				<Options/>
 			</DialogueNode>
 		</Nodes>

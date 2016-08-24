@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Rutina xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID>4</ID>
+	<Autorutina>false</Autorutina>
+	<posLugarSiguientes>
+		<PosicionLugarSiguiente>
+			<hora>0</hora>
+			<lugarSiguiente>
+				<lugar>
+					<IDInter>1</IDInter>
+					<IDEscena>3</IDEscena>
+					<coordX>7.61</coordX>
+					<coordY>11.81</coordY>
+					<coordZ>-12.77</coordZ>
+					<X>0</X>
+					<Y>0.45169</Y>
+					<Z>0</Z>
+					<W>-0.892175</W>
+				</lugar>
+				<eventos>
+<!--					<int>0</int>-->
+				</eventos>
+			</lugarSiguiente>
+		</PosicionLugarSiguiente>
+	</posLugarSiguientes>
+</Rutina>

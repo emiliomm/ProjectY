@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Autorutina{
 
-	public int ID; //El ID de la autorutina es el mismo que el de la rutina que acompaña
+	public int ID; //El ID de la autorutina es el mismo que el de la rutina que acompaña (ACTUALMENTE NO SE USA)
 	public int IDInter;
 
 	//Número de horas que deben pasar antes de que la hora cambie
@@ -21,6 +22,9 @@ public class Autorutina{
 
 	//ID de la rutina a la que pasa el interactuable
 	public int IDSigRutina;
+
+	//Fecha de la rutina añadida, para encontrar rutinas duplicadas (no se serializa)
+	private DateTime fechaRutina;
 
 	public Autorutina()
 	{
@@ -40,6 +44,16 @@ public class Autorutina{
 			SigRutina = true;
 		
 		return SigRutina;
+	}
+
+	public void setFechaRutina(DateTime fecha)
+	{
+		fechaRutina = fecha;
+	}
+
+	public DateTime getFechaRutina()
+	{
+		return fechaRutina;
 	}
 
 	public static Autorutina LoadAutoRutina(string path)

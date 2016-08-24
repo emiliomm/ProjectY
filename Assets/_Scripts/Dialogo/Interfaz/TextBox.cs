@@ -24,21 +24,8 @@ public class TextBox : MonoBehaviour {
 	private GameObject iramensajesmenu;
 	private GameObject exit;
 
-	private GameObject option_1;
-	private GameObject option_2;
-	private GameObject option_3;
-	private GameObject option_4;
-	private GameObject option_5;
-	private GameObject option_6;
-	private GameObject option_7;
-	private GameObject option_8;
-	private GameObject option_9;
-	private GameObject option_10;
-	private GameObject option_11;
-	private GameObject option_12;
-	private GameObject option_13;
-	private GameObject option_14;
-	private GameObject option_15;
+	//Hay 15 botones de opciones
+	private GameObject[] options;
 
 	private int selected_option = 0; //Almacena la opción escogida
 
@@ -85,23 +72,13 @@ public class TextBox : MonoBehaviour {
 		iramensajesmenu.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
 		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-3);});
 
-		option_1 = dialog_options.transform.GetChild(0).GetChild(0).gameObject;
-		option_2 = dialog_options.transform.GetChild(0).GetChild(1).gameObject;
-		option_3 = dialog_options.transform.GetChild(0).GetChild(2).gameObject;
-		option_4 = dialog_options.transform.GetChild(0).GetChild(3).gameObject;
-		option_5 = dialog_options.transform.GetChild(0).GetChild(4).gameObject;
-		option_6 = dialog_options.transform.GetChild(0).GetChild(5).gameObject;
-		option_7 = dialog_options.transform.GetChild(0).GetChild(6).gameObject;
-		option_8 = dialog_options.transform.GetChild(0).GetChild(7).gameObject;
-		option_9 = dialog_options.transform.GetChild(0).GetChild(8).gameObject;
-		option_10 = dialog_options.transform.GetChild(0).GetChild(9).gameObject;
-		option_11 = dialog_options.transform.GetChild(0).GetChild(10).gameObject;
-		option_12 = dialog_options.transform.GetChild(0).GetChild(11).gameObject;
-		option_13 = dialog_options.transform.GetChild(0).GetChild(12).gameObject;
-		option_14 = dialog_options.transform.GetChild(0).GetChild(13).gameObject;
-		option_15 = dialog_options.transform.GetChild(0).GetChild(14).gameObject;
+		options = new GameObject[15];
+		for(int i = 0; i < 15; i++)
+		{
+			options[i] = dialog_options.transform.GetChild(0).GetChild(i).gameObject;
+		}
 
-		DisableTextBox();
+		AcabaDialogo();
 	}
 
 	//Función que empieza el diálogo
@@ -116,15 +93,6 @@ public class TextBox : MonoBehaviour {
 		npc_dialogo  = npcDi;
 		inter = interActual;
 
-		EnableTextBox();
-
-		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
-		yield return StartCoroutine(IniciaDialogo());
-	}
-
-	//Activa el cuadro de diálogo
-	private void EnableTextBox()
-	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		TP_Camera.Instance.toDialogMode();
 		Manager.Instance.setPausa(true);
@@ -132,18 +100,9 @@ public class TextBox : MonoBehaviour {
 
 		dialogue_window.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
-	}
 
-	//Desactiva el cuadro de diálogo
-	private void DisableTextBox()
-	{
-		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-		TP_Camera.Instance.fromDialogMode();
-		Manager.Instance.setPausa(false);
-		Manager.Instance.resumeNavMeshAgents();
-
-		dialogue_window.SetActive(false);
-		Cursor.visible = false; //Oculta el cursor del ratón
+		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
+		yield return StartCoroutine(IniciaDialogo());
 	}
 
 	private IEnumerator IniciaDialogo()
@@ -155,15 +114,23 @@ public class TextBox : MonoBehaviour {
 		bool conversacion_activa = true;
 		Dialogue dialog = new Dialogue();
 
-		//Si el diálogo tiene intros, asignamos un estado, sino otro
-		if (npc_dialogo.DevuelveNumeroIntros() == 0)
+		SetState(State.Intro_Texto);//Estado inicial de la conversación
+
+		//Si el diálogo tiene intros activas, asignamos un estado, sino otro
+		if(npc_dialogo.DevuelveNumeroIntrosActivas(ref num_dialog) != 0)
+		{
+			dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
+		}
+		else if ((npc_dialogo.DevuelveNumeroMensajesActivos() + npc_dialogo.DevuelveNumeroTemaMensajesActivos()) != 0)
 		{
 			SetState(State.Mensajes_Menu);
 		}
+		//El dialogo está vacío, no contiene ningún elemento activo
+		//Mostramos un mensaje por defecto
 		else
 		{
-			dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
-			SetState(State.Intro_Texto);
+			npc_dialogo  = NPC_Dialogo.LoadNPCDialogue(Manager.rutaDialogoVacio);
+			dialog = npc_dialogo.intros[0].DevuelveDialogo();
 		}
 
 		//Bucle que controla la conversación
@@ -195,9 +162,8 @@ public class TextBox : MonoBehaviour {
 					RecorreDialogoNPC(ref num_dialog, node_id, num_tema);
 					EliminarDialogo(ref num_dialog, num_tema);
 					//Si hay más dialogos, vamos al siguiente dialogo
-					if (npc_dialogo.AvanzaIntro(num_dialog))
+					if (npc_dialogo.AvanzaIntro(ref num_dialog))
 					{
-						num_dialog++;
 						dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
 						node_id = 0;
 					}
@@ -225,9 +191,8 @@ public class TextBox : MonoBehaviour {
 					{
 						EliminarDialogo(ref num_dialog, num_tema);
 						//Si hay más dialogos, vamos al siguiente dialogo
-						if (npc_dialogo.AvanzaIntro(num_dialog))
+						if (npc_dialogo.AvanzaIntro(ref num_dialog))
 						{
-							num_dialog++;
 							dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
 							node_id = 0;
 						}
@@ -262,9 +227,8 @@ public class TextBox : MonoBehaviour {
 				case -1: //Acaba el dialogo actual
 					EliminarDialogo(ref num_dialog, num_tema);
 					//Si hay más dialogos, vamos al siguiente dialogo
-					if (npc_dialogo.AvanzaIntro(num_dialog))
+					if (npc_dialogo.AvanzaIntro(ref num_dialog))
 					{
-						num_dialog++;
 						dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
 						node_id = 0;
 						SetState(State.Intro_Texto);
@@ -282,7 +246,7 @@ public class TextBox : MonoBehaviour {
 				}
 				break;
 			case State.Mensajes_Menu:  //Cuando se muestran el menu de mensajes
-				if ((npc_dialogo.DevuelveNumeroMensajes() + npc_dialogo.DevuelveNumeroTemaMensajes()) != 0)
+				if ((npc_dialogo.DevuelveNumeroMensajesActivos() + npc_dialogo.DevuelveNumeroTemaMensajesActivos()) != 0)
 				{
 					display_npc_mensajes();
 					selected_option = -4;
@@ -433,7 +397,8 @@ public class TextBox : MonoBehaviour {
 				}
 				break;
 			}
-				
+
+			//CAMBIAR DE SITIO
 			//Si la lista de objetos recientes tiene algún objeto, mostramos un popup de los objetos obtenidos
 			if(Manager.Instance.devuelveNumeroObjetosRecientes() != 0)
 				yield return StartCoroutine(MostrarPopupObjetos());
@@ -474,8 +439,20 @@ public class TextBox : MonoBehaviour {
 		
 	private void FinNPCDialogo()
 	{
-		DisableTextBox();
+		AcabaDialogo();
 		GuardarNPCDialogo();
+	}
+
+	//Desactiva el cuadro de diálogo
+	private void AcabaDialogo()
+	{
+		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+		TP_Camera.Instance.fromDialogMode();
+		Manager.Instance.setPausa(false);
+		Manager.Instance.resumeNavMeshAgents();
+
+		dialogue_window.SetActive(false);
+		Cursor.visible = false; //Oculta el cursor del ratón
 	}
 
 	//Serializa determinados objetos cambiados durante el diálogo
@@ -523,33 +500,18 @@ public class TextBox : MonoBehaviour {
 		}
 	}
 
-	//Guarda en una variable la opción actual
-	private void SetSelectedOption(int x)
-	{
-		selected_option = x;
-	}
-
 	//Muestra texto del diálogo
 	private void display_node_text(DialogueNode node)
 	{
 		PosicionaCamara(node.posCamara); //Posiciona la cámara
 
 		dialog_options.SetActive(false);
-		option_1.SetActive(false);
-		option_2.SetActive(false);
-		option_3.SetActive(false);
-		option_4.SetActive(false);
-		option_5.SetActive(false);
-		option_6.SetActive(false);
-		option_7.SetActive(false);
-		option_8.SetActive(false);
-		option_9.SetActive(false);
-		option_10.SetActive(false);
-		option_11.SetActive(false);
-		option_12.SetActive(false);
-		option_13.SetActive(false);
-		option_14.SetActive(false);
-		option_15.SetActive(false);
+
+		for(int i = 0; i < options.Length; i++)
+		{
+			options[i].SetActive(false);
+		}
+
 		iramensajesmenu.SetActive(false);
 		exit.SetActive(false);
 
@@ -558,6 +520,7 @@ public class TextBox : MonoBehaviour {
 		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
 		dialog_text.GetComponentInChildren<Text>().text = node.DevuelveTexto();
 		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
+
 		//Dice hacia adonde continua el dialogo
 		dialog_text.GetComponent<Button>().onClick.AddListener(delegate
 		{
@@ -590,21 +553,12 @@ public class TextBox : MonoBehaviour {
 		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
 		dialog_text.SetActive(false);
-		option_1.SetActive(false);
-		option_2.SetActive(false);
-		option_3.SetActive(false);
-		option_4.SetActive(false);
-		option_5.SetActive(false);
-		option_6.SetActive(false);
-		option_7.SetActive(false);
-		option_8.SetActive(false);
-		option_9.SetActive(false);
-		option_10.SetActive(false);
-		option_11.SetActive(false);
-		option_12.SetActive(false);
-		option_13.SetActive(false);
-		option_14.SetActive(false);
-		option_15.SetActive(false);
+
+		for(int i = 0; i < options.Length; i++)
+		{
+			options[i].SetActive(false);
+		}
+
 		iramensajesmenu.SetActive(false);
 		exit.SetActive(false);
 
@@ -612,54 +566,7 @@ public class TextBox : MonoBehaviour {
 
 		for(int i = 0; i < node.DevuelveNumeroOpciones() && i < 14; i++)
 		{
-			switch(i)
-			{
-			case 0:
-				set_option_button(option_1, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 1:
-				set_option_button(option_2, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 2:
-				set_option_button(option_3, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 3:
-				set_option_button(option_4, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 4:
-				set_option_button(option_5, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 5:
-				set_option_button(option_6, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 6:
-				set_option_button(option_7, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 7:
-				set_option_button(option_8, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 8:
-				set_option_button(option_9, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 9:
-				set_option_button(option_10, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 10:
-				set_option_button(option_11, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 11:
-				set_option_button(option_12, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 12:
-				set_option_button(option_13, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 13:
-				set_option_button(option_14, node.DevuelveNumNodoOpciones(i));
-				break;
-			case 14:
-				set_option_button(option_15, node.DevuelveNumNodoOpciones(i));
-				break;
-			}
+			set_option_button(options[i], node.DevuelveNumNodoOpciones(i));
 		}
 	}
 
@@ -716,21 +623,12 @@ public class TextBox : MonoBehaviour {
 
 		dialog_options.SetActive(true);
 		dialog_text.SetActive(false);
-		option_1.SetActive(false);
-		option_2.SetActive(false);
-		option_3.SetActive(false);
-		option_4.SetActive(false);
-		option_5.SetActive(false);
-		option_6.SetActive(false);
-		option_7.SetActive(false);
-		option_8.SetActive(false);
-		option_9.SetActive(false);
-		option_10.SetActive(false);
-		option_11.SetActive(false);
-		option_12.SetActive(false);
-		option_13.SetActive(false);
-		option_14.SetActive(false);
-		option_15.SetActive(false);
+
+		for(int k = 0; k < options.Length; k++)
+		{
+			options[k].SetActive(false);
+		}
+
 		iramensajesmenu.SetActive(false);
 		exit.SetActive(true);
 
@@ -738,108 +636,16 @@ public class TextBox : MonoBehaviour {
 
 		for(i = 0; i < npc_dialogo.DevuelveNumeroTemaMensajes() && i < 14; i++)
 		{
-			switch(i)
-			{
-			case 0:
-				set_mensaje_button(option_1, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 1:
-				set_mensaje_button(option_2, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 2:
-				set_mensaje_button(option_3, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 3:
-				set_mensaje_button(option_4, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 4:
-				set_mensaje_button(option_5, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 5:
-				set_mensaje_button(option_6, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 6:
-				set_mensaje_button(option_7, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 7:
-				set_mensaje_button(option_8, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 8:
-				set_mensaje_button(option_9, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 9:
-				set_mensaje_button(option_10, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 10:
-				set_mensaje_button(option_11, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 11:
-				set_mensaje_button(option_12, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 12:
-				set_mensaje_button(option_13, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 13:
-				set_mensaje_button(option_14, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			case 14:
-				set_mensaje_button(option_15, npc_dialogo.DevuelveTextoTemaMensaje(i), i);
-				break;
-			}
+			if(npc_dialogo.TemaMensajeEsVisible(i))
+				set_mensaje_button(options[i], npc_dialogo.DevuelveTextoTemaMensaje(i), i);
 		}
 
 		int j = i;
 
 		for(i = j; i < npc_dialogo.DevuelveNumeroMensajes() + j && i < 14; i++)
 		{
-			switch(i)
-			{
-			case 0:
-				set_mensaje_button(option_1, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 1:
-				set_mensaje_button(option_2, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 2:
-				set_mensaje_button(option_3, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 3:
-				set_mensaje_button(option_4, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 4:
-				set_mensaje_button(option_5, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 5:
-				set_mensaje_button(option_6, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 6:
-				set_mensaje_button(option_7, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 7:
-				set_mensaje_button(option_8, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 8:
-				set_mensaje_button(option_9, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 9:
-				set_mensaje_button(option_10, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 10:
-				set_mensaje_button(option_11, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 11:
-				set_mensaje_button(option_12, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 12:
-				set_mensaje_button(option_13, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 13:
-				set_mensaje_button(option_14, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			case 14:
-				set_mensaje_button(option_15, npc_dialogo.DevuelveTextoMensaje(i-j), i);
-				break;
-			}
+			if(npc_dialogo.MensajeEsVisible(i))
+				set_mensaje_button(options[i], npc_dialogo.DevuelveTextoMensaje(i-j), i);
 		}
 	}
 
@@ -860,81 +666,31 @@ public class TextBox : MonoBehaviour {
 
 		dialog_options.SetActive(true);
 		dialog_text.SetActive(false);
-		option_1.SetActive(false);
-		option_2.SetActive(false);
-		option_3.SetActive(false);
-		option_4.SetActive(false);
-		option_5.SetActive(false);
-		option_6.SetActive(false);
-		option_7.SetActive(false);
-		option_8.SetActive(false);
-		option_9.SetActive(false);
-		option_10.SetActive(false);
-		option_11.SetActive(false);
-		option_12.SetActive(false);
-		option_13.SetActive(false);
-		option_14.SetActive(false);
-		option_15.SetActive(false);
+
+		for(int k = 0; k < options.Length; k++)
+		{
+			options[k].SetActive(false);
+		}
+
 		iramensajesmenu.SetActive(true);
 		exit.SetActive(true);
 
 		for(int i = 0; i < tm.DevuelveNumeroMensajes() && i < 14; i++)
 		{
-			switch(i)
-			{
-			case 0:
-				set_mensaje_button(option_1, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 1:
-				set_mensaje_button(option_2, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 2:
-				set_mensaje_button(option_3, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 3:
-				set_mensaje_button(option_4, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 4:
-				set_mensaje_button(option_5, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 5:
-				set_mensaje_button(option_6, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 6:
-				set_mensaje_button(option_7, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 7:
-				set_mensaje_button(option_8, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 8:
-				set_mensaje_button(option_9, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 9:
-				set_mensaje_button(option_10, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 10:
-				set_mensaje_button(option_11, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 11:
-				set_mensaje_button(option_12, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 12:
-				set_mensaje_button(option_13, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 13:
-				set_mensaje_button(option_14, tm.DevuelveTextoMensaje(i), i);
-				break;
-			case 14:
-				set_mensaje_button(option_15, tm.DevuelveTextoMensaje(i), i);
-				break;
-			}
+			set_mensaje_button(options[i], tm.DevuelveTextoMensaje(i), i);
 		}
+	}
+
+	//Guarda en una variable la opción actual
+	private void SetSelectedOption(int x)
+	{
+		selected_option = x;
 	}
 
 	//Posiciona la cámara
 	private void PosicionaCamara(PosicionCamara posC)
 	{
-		TP_Camera.Instance.PosicionDialogo(posC, Manager.Instance.GetInteractuable(npc_dialogo.ID_NPC));
+		TP_Camera.Instance.PosicionDialogo(posC, Manager.Instance.GetInteractuable(inter.ID));
 	}
 
 	//Devuelve el nombre de quién habla según un entero

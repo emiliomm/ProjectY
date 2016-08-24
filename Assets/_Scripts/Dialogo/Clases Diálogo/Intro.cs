@@ -1,4 +1,7 @@
 ﻿using DialogueTree;
+using UnityEngine;
+
+using System.Collections.Generic;
 
 /*
  * 	Clase que contiene los dialogos que se muestran al principio de las conversaciones
@@ -10,6 +13,8 @@ public class Intro{
 	//-1 --> Sin grupo, otro --> con grupo
 	public int IDGrupo;
 
+	public List<EventoDialogo> eventos;
+
 	// 0 --> falso, 1 --> verdadero
 	//Indica si la intro se va a destruir al acabar de recorrerla
 	public bool Autodestruye;
@@ -20,6 +25,7 @@ public class Intro{
 
 	public Intro()
 	{
+		eventos = new List<EventoDialogo>();
 		dia = new Dialogue();
 	}
 
@@ -36,6 +42,19 @@ public class Intro{
 	public int DevuelveIDGrupo()
 	{
 		return IDGrupo;
+	}
+
+	public bool seMuestra()
+	{
+		bool mostrar = true;
+
+		for(int i = 0; i < eventos.Count; i++)
+		{
+			if(!eventos[i].estaActivo())
+				mostrar = false;
+		}
+
+		return mostrar;
 	}
 
 	//Marca la variable recorrido a true, indicando que el nodo ya ha sido recorrido

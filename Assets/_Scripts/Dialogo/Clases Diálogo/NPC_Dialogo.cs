@@ -41,14 +41,82 @@ public class NPC_Dialogo : ObjetoSerializable
 		return intros.Count;
 	}
 
+	//Devuelve el número de intros que están activos, es decir, que se pueden mostrar actualmente
+	//(Ya sea porque su evento está activo, las variables del evento permiten mostrarla o no tienen un evento vinculado)
+
+	//Además, devuelve la posición de la primera intro activa en el dialogo (0 si no hay ninguna)
+	public int DevuelveNumeroIntrosActivas(ref int primerIntroActiva)
+	{
+		int count = 0;
+		primerIntroActiva = 0;
+		bool primera = false;
+
+		for(int i = 0; i < DevuelveNumeroIntros(); i++)
+		{
+			if(intros[i].seMuestra())
+			{
+				count++;
+				if(!primera)
+				{
+					primerIntroActiva = i;
+					primera = true;
+				}
+			}
+		}
+
+		return count;
+	}
+
 	public int DevuelveNumeroTemaMensajes()
 	{
 		return temaMensajes.Count;
 	}
 
+	public int DevuelveNumeroTemaMensajesActivos()
+	{
+		int count = 0;
+
+		for(int i = 0; i < DevuelveNumeroTemaMensajes(); i++)
+		{
+			if(temaMensajes[i].DevuelveNumeroMensajesActivos() != 0)
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	public bool TemaMensajeEsVisible(int pos)
+	{
+		return temaMensajes[pos].EstadoVisible();
+	}
+
 	public int DevuelveNumeroMensajes()
 	{
 		return mensajes.Count;
+	}
+
+	//Devuelve el número de mensajes que están activos, es decir, que se pueden mostrar actualmente
+	//(Ya sea porque su evento está activo, las variables del evento permiten mostrarla o no tienen un evento vinculado)
+	public int DevuelveNumeroMensajesActivos()
+	{
+		int count = 0;
+
+		for(int i = 0; i < DevuelveNumeroMensajes(); i++)
+		{
+			if(mensajes[i].seMuestra())
+			{
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	public bool MensajeEsVisible(int pos)
+	{
+		return mensajes[pos].EstadoVisible();
 	}
 
 	//Devuelve el temamensaje de la lista con la posición indicada
@@ -87,13 +155,28 @@ public class NPC_Dialogo : ObjetoSerializable
 		return mensajes[pos].DevuelveTexto();
 	}
 
-	//Comprueba si hay más intros delante de la posición indicada
+	//Comprueba si hay más intros activas delante de la posición indicada
 	//Si devuelve true, es que hay más intros
-	public bool AvanzaIntro(int pos)
+	//Además guarda en la variable pos pasada por referencia la siguiente intro activa
+	public bool AvanzaIntro(ref int pos)
 	{
 		bool avanza = false;
-		if (pos + 1 < this.DevuelveNumeroIntros())
-			avanza = true;
+		bool primera = false;
+
+		var posActual = pos;
+
+		for(int i = posActual + 1; i < this.DevuelveNumeroIntros(); i++)
+		{
+			if(intros[i].seMuestra())
+			{
+				avanza = true;
+				if(!primera)
+				{
+					pos = i;
+					primera = true;
+				}
+			}
+		}
 
 		return avanza;
 	}
@@ -1214,6 +1297,14 @@ public class NPC_Dialogo : ObjetoSerializable
 					dnpc.AddToColaObjetos();
 				}
 			}
+		}
+
+		//Comprobamos si hay alguna rutina que cambiar
+		for(int i = 0; i < node.DevuelveNumeroRutinas(); i++)
+		{
+			int IDRutina = node.Rutinas[i].devuelveIDRutina();
+
+			Manager.Instance.cambiarRutina(IDRutina);
 		}
 	}
 

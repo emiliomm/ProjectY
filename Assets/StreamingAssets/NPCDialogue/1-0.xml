@@ -6,6 +6,7 @@
 		<Intro>
 			<ID>200</ID>
 			<IDGrupo>-1</IDGrupo>
+			<eventos/>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>
@@ -30,6 +31,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 					<DialogueNode>
@@ -85,17 +87,18 @@
 						<siguienteNodo>0</siguienteNodo>
 						<Text>La verdad es que me apetece tomar algo, podríamos ir al bar de abajo a tomar algo, ¿qué me dices?</Text>
 						<recorrido>false</recorrido>
-						<destruido>false</destruido>
+						<destruido>true</destruido>
 						<Intros />
 						<Mensajes/>
 						<Grupos/>
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options>
 							<DialogueOption>
 								<Text>Estoy de acuerdo, vamos.</Text>
-								<DestinationNodeID>-1</DestinationNodeID>
+								<DestinationNodeID>3</DestinationNodeID>
 								<Grupo>
 									<IDGrupo>-1</IDGrupo>
 								</Grupo>
@@ -115,6 +118,126 @@
 								</Grupo>
 							</DialogueOption>
 						</Options>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>3</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>-2</siguienteNodo>
+						<Text>Sígueme</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Rutinas>
+							<DialogueRutina>
+								<IDRutina>3</IDRutina>
+							</DialogueRutina>
+						</Rutinas>
+						<Options/>
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+		<Intro>
+			<ID>201</ID>
+			<IDGrupo>-1</IDGrupo>
+			<eventos>
+				<EventoDialogo>
+					<ID>0</ID>
+					<variables/>
+				</EventoDialogo>
+			</eventos>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>¿Has visto a esa chica de ahí?¿Crees que debería hablar con ella?</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Rutinas/>
+						<Options>
+							<DialogueOption>
+								<Text>Sí</Text>
+								<DestinationNodeID>1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>No parece tu tipo</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>La he visto yo antes, es mía.</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+							<DialogueOption>
+								<Text>¿Y a mi que me importa?</Text>
+								<DestinationNodeID>-1</DestinationNodeID>
+								<Grupo>
+									<IDGrupo>-1</IDGrupo>
+								</Grupo>
+							</DialogueOption>
+						</Options>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>1</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>Deséame suerte</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Rutinas>
+							<DialogueRutina>
+								<IDRutina>4</IDRutina>
+							</DialogueRutina>
+						</Rutinas>
+						<Options/>
 					</DialogueNode>
 				</Nodes>
 			</dia>

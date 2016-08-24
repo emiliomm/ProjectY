@@ -12,7 +12,12 @@ public class EventoLista{
 		inter = new List<int>();
 		inter.Add(IDInterInicial);
 
-		evento = new Evento();
+		evento = ev;
+	}
+
+	public Evento devuelveEvento()
+	{
+		return evento;
 	}
 
 	public void addInter(int IDInter)

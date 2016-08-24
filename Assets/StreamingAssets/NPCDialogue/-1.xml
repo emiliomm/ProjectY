@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjetoSerializable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID_NPC>-1</ID_NPC>
+	<ID>-1</ID>
+	<intros>
+		<Intro>
+			<ID>-1</ID>
+			<IDGrupo>-1</IDGrupo>
+			<eventos/>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>Lo siento, en estos momentos estoy ocupado.</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Rutinas/>
+						<Options/>
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+	</intros>
+	<mensajes></mensajes>
+</ObjetoSerializable>

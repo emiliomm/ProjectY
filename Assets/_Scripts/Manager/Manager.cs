@@ -24,7 +24,6 @@ public class Manager : MonoBehaviour {
 	private string escenaInicial;
 
 	private ManagerTiempo managerTiempo; //Controla el tiempo cronológico del juego
-	private ManagerRutinas managerRutinas; //Controla las rutinas del juego
 
 	private Dictionary<int, GameObject> interactuables; //grupos de npcs cargados en la escena actual (id_interactuable, gameobject)
 	private List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
@@ -84,6 +83,9 @@ public class Manager : MonoBehaviour {
 	public static string rutaLanzadores;
 	public static string rutaInventario;
 	public static string rutaObjetoInventario;
+	public static string rutaInventarioTienda;
+
+	public static string rutaDialogoVacio;
 
 	void Awake()
 	{
@@ -131,13 +133,15 @@ public class Manager : MonoBehaviour {
 		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
 		rutaInventario = Application.persistentDataPath + "/Inventario/";
 		rutaObjetoInventario = Application.dataPath + "/StreamingAssets/ObjetoInventario/";
+		rutaInventarioTienda = Application.dataPath + "/StreamingAssets/Tiendas/";
+
+		rutaDialogoVacio = Application.dataPath + "/StreamingAssets/NPCDialogue/-1.xml";
 
 		escenaTransporte = -1;
 		nombreJugador = "Jugador"; //Nombre por defecto del jugador
 
 		//Inicializa algunas variables
 		managerTiempo = new ManagerTiempo();
-		managerRutinas = new ManagerRutinas();
 		interactuables = new Dictionary<int,GameObject>();
 		interactuablesCercanos = new List<GameObject>();
 		navMeshAgentRutasActivas = new List<NavMeshAgent>();
@@ -170,6 +174,10 @@ public class Manager : MonoBehaviour {
 
 		Obj = (GameObject)Instantiate(Resources.Load("EventSystem"));
 		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
+
+		Obj = new GameObject("ManagerRutinas");
+		Obj.transform.SetParent(gameObject.transform, false);
+		Obj.AddComponent<ManagerRutinas>();
 	}
 
 	//Crea algunos directorios al inicio del juego si no están creados, así como algunos ficheros
@@ -284,7 +292,6 @@ public class Manager : MonoBehaviour {
 	private void cargarDatosInteractuable()
 	{
 		Datos_Interactuable dInter;
-		int IDDatosInter = 0;
 
 		var info = new DirectoryInfo(rutaDatosInteractuable);
 		var fileInfo = info.GetFiles().ToArray();
@@ -295,20 +302,18 @@ public class Manager : MonoBehaviour {
 			{
 				dInter = null;
 
-				if (System.IO.File.Exists(rutaDatosInteractuableGuardados + IDDatosInter.ToString() + ".xml"))
+				if (System.IO.File.Exists(rutaDatosInteractuableGuardados + fileInfo[j].Name))
 				{
-					dInter = DeserializeData<Datos_Interactuable>(rutaDatosInteractuableGuardados + IDDatosInter.ToString() + ".xml");
+					dInter = DeserializeData<Datos_Interactuable>(rutaDatosInteractuableGuardados + fileInfo[j].Name);
 				}
-				else if(System.IO.File.Exists(rutaDatosInteractuable + IDDatosInter.ToString() + ".xml"))
+				else if(System.IO.File.Exists(rutaDatosInteractuable + fileInfo[j].Name))
 				{
-					dInter = DeserializeData<Datos_Interactuable>(rutaDatosInteractuable + IDDatosInter.ToString() + ".xml");
+					dInter = DeserializeData<Datos_Interactuable>(rutaDatosInteractuable + fileInfo[j].Name);
 				}
 
 				//Si el archivo DatosInteractuable con el ID existe, lo cargamos en el Manager
 				if(dInter != null)
-					managerRutinas.cargarInteractuable(dInter);
-
-				IDDatosInter++;
+					ManagerRutinas.Instance.cargarInteractuable(dInter);
 			}
 		}
 	}
@@ -320,7 +325,7 @@ public class Manager : MonoBehaviour {
 		GuardarTiempo();
 
 		//Cargamos los interactuables de la escena
-		managerRutinas.CargarEscena(level);
+		ManagerRutinas.Instance.CargarEscena(level);
 	}
 
 	//Crea un interactuable en la escena con las coordenadas y rotación especificadas
@@ -476,7 +481,12 @@ public class Manager : MonoBehaviour {
 	//Comprueba las rutinas en el ManagerRutinas
 	private void ComprobarRutinas()
 	{
-		managerRutinas.ComprobarRutinas(managerTiempo.getHora());
+		ManagerRutinas.Instance.ComprobarRutinas(managerTiempo.getHora());
+	}
+
+	public void cambiarRutina(int IDRutina)
+	{
+		ManagerRutinas.Instance.cargarRutina(IDRutina, false, false);
 	}
 
 	//MIRAR SI SE PUEDE ESTANDARIZAR, AÑADIR COSAS QUE SE LLAMAN AL USAR ESTA FUNCIÓN

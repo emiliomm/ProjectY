@@ -31,7 +31,7 @@ public class InteractuableCollider : MonoBehaviour {
 	void OnTriggerExit(Collider other) {
 		if (other.tag == "Interactuable") {
 			Manager.Instance.deleteInteractuableCercano(other.transform.parent.gameObject);
-			Interactuable interactuable = other.transform.parent.gameObject.GetComponent<Interactuable> ();
+			inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
 			inter.SetState (Interactuable.State.Desactivado);
 			inter.OcultaCanvas();
 			inter.reiniciarDistancia();

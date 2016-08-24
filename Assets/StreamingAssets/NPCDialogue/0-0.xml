@@ -6,6 +6,7 @@
 		<Intro>
 			<ID>100</ID>
 			<IDGrupo>-1</IDGrupo>
+			<eventos/>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
 			<indice_inicial>0</indice_inicial>
@@ -30,6 +31,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 					<DialogueNode>
@@ -58,6 +60,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 					<DialogueNode>
@@ -79,6 +82,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 					<DialogueNode>
@@ -119,6 +123,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 					<DialogueNode>
@@ -140,6 +145,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 					<DialogueNode>
@@ -161,6 +167,7 @@
 						<GruposVariables/>
 						<Objetos/>
 						<Nombres/>
+						<Rutinas/>
 						<Options/>
 					</DialogueNode>
 				</Nodes>

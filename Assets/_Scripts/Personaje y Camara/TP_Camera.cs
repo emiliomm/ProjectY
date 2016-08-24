@@ -487,6 +487,7 @@ public class TP_Camera : MonoBehaviour
 	//lo que debemos mover la cámara respecto a la dirección de este
 	public void PosicionDialogo(PosicionCamara posC, GameObject inter)
 	{
+		//La cámara mira al jugador
 		if (posC.lookAt == -1)
 		{
 			//- 1.769/2 (mitad cuerpo) temporal
@@ -501,6 +502,7 @@ public class TP_Camera : MonoBehaviour
 			//- 1.769/2 (mitad cuerpo) temporal
 			transform.LookAt(TargetLookAt.position - new Vector3(0f,1.769f/2,0f));
 		}
+		//La cámara mira al Interactuable
 		else
 		{
 			Vector3 translado = inter.transform.TransformDirection(new Vector3(posC.coordX, posC.coordY, posC.coordZ));

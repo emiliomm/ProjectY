@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ObjetoSerializable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<objetos>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+		<ObjetoInventario>
+			<ID>0</ID>
+			<nombre>Cubata</nombre>
+			<nombreImagen></nombreImagen>
+			<descripcion>Un cubata sucio y asqueroso</descripcion>
+		</ObjetoInventario>
+	</objetos>
+</ObjetoSerializable>

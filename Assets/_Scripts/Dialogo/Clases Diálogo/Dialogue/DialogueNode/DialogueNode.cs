@@ -22,8 +22,8 @@ namespace DialogueTree
 
 		//Hacia donde va el diálogo en el caso de que no haya opciones
 		// 0 --> El dialogo sigue hacia el siguiente nodo (situado en +1)
-		// -1 --> El dialogo va directamente al menú de mensajes, saltándose lo que venga por delante
-		// -2 --> El dialogo acaba aquí
+		// -1 --> El dialogo va directamente al menú de mensajes
+		// -2 --> El dialogo acaba
 		public int siguienteNodo;
 
         public string Text;
@@ -36,6 +36,7 @@ namespace DialogueTree
 		public List<DialogueGrupoVariable> GruposVariables; //Modifica variables de un grupo. Puede estar vacío
 		public List<DialogueAddObjeto> Objetos; //Contiene objetos a añadir al inventario. Puede estar vacío
 		public List<DialogueNombre> Nombres; //Modifica el nombre de los NPCs. Puede estar vacío
+		public List<DialogueRutina> Rutinas; //Modifica la rutina actual del npc. Puede estar vacío
 		public List<DialogueOption> Options; //Contiene las opciones del nodo. Puede estar vacío
 
         // parameterless constructor for serialization
@@ -48,6 +49,7 @@ namespace DialogueTree
 			GruposVariables = new List<DialogueGrupoVariable>();
 			Objetos = new List<DialogueAddObjeto>();
 			Nombres = new List<DialogueNombre>();
+			Rutinas = new List<DialogueRutina>();
 			Options = new List<DialogueOption>();
         }
 
@@ -125,6 +127,11 @@ namespace DialogueTree
 		public int DevuelveNumeroNombres()
 		{
 			return Nombres.Count;
+		}
+
+		public int DevuelveNumeroRutinas()
+		{
+			return Rutinas.Count;
 		}
     }
 }

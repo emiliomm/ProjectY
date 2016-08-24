@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDatosAccion xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<DatosAccion xsi:type="xs:DatosAccionTienda">
+		<ID>6</ID>
+		<nombre>Ver menú</nombre>
+		<objetos/>
+		<IDInventario>0</IDInventario>
+		<numX>3</numX>
+		<numY>3</numY>
+	</DatosAccion>
+</ArrayOfDatosAccion>

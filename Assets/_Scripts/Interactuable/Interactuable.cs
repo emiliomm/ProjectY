@@ -32,7 +32,6 @@ public class Interactuable : MonoBehaviour {
 	private Camera camara; //Referencia a la cámara del juego
 
 	private float distance; //Distancia entre el jugador y el interactuable que es usada para aplicar transparencia a la UI según distancia
-	private Vector3 initialPosition; //posición inicial del cursorUI
 	private Vector3 moveVector; //vector de movimiento del cursorUI
 
 	private bool cursorSobreAccion; //indica si el cursor está encima de alguna acción
@@ -79,7 +78,6 @@ public class Interactuable : MonoBehaviour {
 		canvas.GetComponent<Canvas>().worldCamera = camara;
 
 		//Asignamos la posicion inicial y el vector de movimientos
-		initialPosition = cursorUI.transform.position;
 		moveVector = new Vector3(0f, 0f, 0f);
 		reiniciarDistancia();
 

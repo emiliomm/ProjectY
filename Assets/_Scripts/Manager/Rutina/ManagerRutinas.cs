@@ -3,9 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ManagerRutinas{
-
+public class ManagerRutinas: MonoBehaviour
+{
 	//AÑADIR DIAS ¿?
+
+	//Singleton pattern
+	public static ManagerRutinas Instance { get; private set; }
 
 	private int escenaActual = 0;
 
@@ -22,8 +25,8 @@ public class ManagerRutinas{
 	//<id_interactuable, info_interactuable>
 	//info_interactuable: tipo_interactuable --> Indica el tipo de interactuable(npc u objeto)
 	//					  id_escena --> indica el numero de escena actual del interactuable *Se sustituye cada vez que el interactuable avance de lugar o se cambie de rutina
-	//					  id_rutina --> indica la rutina actual del interactuable *Se sustituye cada vez que el interactuable cambie rutina
-	//					  eventos --> lista con los ids de la eventos actuales *Se sustituye cada vez que el interactuable cambie rutina
+	//					  id_rutina --> indica la rutina actual del interactuable *Se sustituye cada vez que el interactuable cambie rutina (ACTUALMENTE NO SE USA)
+	//					  eventos --> lista con los ids de la eventos actuales *Se sustituye cada vez que el interactuable cambie de lugar
 	//					  ultimaFechaCambioLugar --> indica la fecha en la que se ha cambiado el lugar por última vez *Se sustituye cada vez que el interactuable avance de lugar o cambie de rutina
 	//					  ultimaFechaCambioRutina --> indica la fecha en la que se ha cambiado la rutina por última vez *Se sustituye cada vez que el interactuable cambie de rutina
 	public Dictionary<int, Info_Interactuable> infoInteractuable;
@@ -47,8 +50,18 @@ public class ManagerRutinas{
 	//se elimina si el evento no está vinculado a ningun interactuable
 	public Dictionary<int, EventoLista> listaEventos;
 
-	public ManagerRutinas()
+	void Awake()
 	{
+		// First we check if there are any other instances conflicting
+		if(Instance != null && Instance != this)
+		{
+			// If that is the case, we destroy other instances
+			Destroy(gameObject);
+		}
+
+		//Singleton pattern
+		Instance = this;
+	
 		lugaresActuales = new Dictionary<int,List<Lugar_Actual>>();
 		infoInteractuable = new Dictionary<int,Info_Interactuable>();
 		contenedores = new Dictionary<int,Contenedor>();
@@ -71,10 +84,10 @@ public class ManagerRutinas{
 
 		//Si el interactuable tiene rutina, cargamos la rutina
 		if(dInt.IDRutinaActual != -1)
-			cargarRutina(dInt.IDRutinaActual, true);
+			cargarRutina(dInt.IDRutinaActual, true, false);
 	}
 		
-	public void cargarRutina(int idRutina, bool InicioJuego)
+	public void cargarRutina(int idRutina, bool InicioJuego, bool comprobacionRutinas)
 	{
 		Rutina rutina = Rutina.LoadRutina(Manager.rutaRutinas + idRutina.ToString() + ".xml");
 		int IDInter = rutina.posLugarSiguientes[0].lugarSiguiente.lugar.IDInter;
@@ -84,9 +97,22 @@ public class ManagerRutinas{
 		if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 		{
 			infoInter.setIDRutina(idRutina);
-			MarcarEventosDesactualizados(infoInter);
+//			MarcarEventosDesactualizados(infoInter);
 			AddLugaresSiguientes(IDInter, infoInter, rutina.posLugarSiguientes, rutina.Autorutina, idRutina);
-			AddLugarActual(rutina.posLugarSiguientes[CalculaPosicionRutina(rutina)].lugarSiguiente.lugar);
+
+			int posRutina = CalculaPosicionRutina(rutina);
+
+			if(comprobacionRutinas)
+			{
+				if(rutina.posLugarSiguientes[posRutina].hora != Manager.Instance.getHoraActual())
+				{
+					AddLugarActual(rutina.posLugarSiguientes[posRutina].lugarSiguiente.lugar, rutina.posLugarSiguientes[posRutina].lugarSiguiente.eventos);
+				}
+			}
+			else
+			{
+				AddLugarActual(rutina.posLugarSiguientes[posRutina].lugarSiguiente.lugar, rutina.posLugarSiguientes[posRutina].lugarSiguiente.eventos);
+			}
 
 			if(!InicioJuego)
 			{
@@ -100,13 +126,13 @@ public class ManagerRutinas{
 	{
 		for(int i = 0; i < infoInter.devolverNumeroEventos(); i ++)
 		{
-			infoInter.actualizarEvento(i);
+			infoInter.desactualizarEvento(i);
 		}
 	}
 		
 	private void AddLugaresSiguientes(int IDInter, Info_Interactuable infoInter, List<PosicionLugarSiguiente> posLugarSiguiente, bool autorutina, int IDRutina)
 	{
-		DateTime fechaRutina = DateTime.Now;
+		DateTime fechaRutina = DateTime.UtcNow;
 		infoInter.setFechaCambioRutina(fechaRutina);
 	
 		for(int i = 0; i < posLugarSiguiente.Count; i++)
@@ -122,20 +148,20 @@ public class ManagerRutinas{
 			posLugarSiguiente[i].lugarSiguiente.setFechaRutina(fechaRutina);
 			cont.addLugarSig(posLugarSiguiente[i].lugarSiguiente);
 
-			for(int j = 0; j < posLugarSiguiente[i].lugarSiguiente.eventos.Count; j++)
-			{
-				cargarEvento(posLugarSiguiente[i].lugarSiguiente.eventos[j], IDInter);
-				AddEventoAInter(infoInter, posLugarSiguiente[i].lugarSiguiente.eventos[j]);
-			}
+//			for(int j = 0; j < posLugarSiguiente[i].lugarSiguiente.eventos.Count; j++)
+//			{
+//				cargarEvento(posLugarSiguiente[i].lugarSiguiente.eventos[j], IDInter);
+//				AddEventoAInter(infoInter, posLugarSiguiente[i].lugarSiguiente.eventos[j]);
+//			}
 		}
 
 		if(autorutina)
-			cargarAutorutina(IDRutina);
+			cargarAutorutina(IDRutina, fechaRutina);
 
-		EliminarEventosDesactualizados(IDInter, infoInter);
+//		EliminarEventosDesactualizados(IDInter, infoInter);
 	}
-
-	private void cargarAutorutina(int IDRutina)
+		
+	private void cargarAutorutina(int IDRutina, DateTime fechaRutina)
 	{
 		Autorutina autorut;
 		int poshora;
@@ -164,6 +190,8 @@ public class ManagerRutinas{
 
 			autorut.Serialize(); //Guardamos los datos una vez se haya cargado la autorutina
 		}
+
+		autorut.setFechaRutina(fechaRutina);
 
 		Contenedor cont;
 
@@ -262,10 +290,10 @@ public class ManagerRutinas{
 
 		return posRutina;
 	}
-
-	private void AddLugarActual(Lugar lugar)
+		
+	private void AddLugarActual(Lugar lugar, List<int> eventos)
 	{
-		DateTime fechaActual = DateTime.Now;
+		DateTime fechaActual = DateTime.UtcNow;
 
 		int IDInter = lugar.IDInter;
 		int IDEscena = lugar.IDEscena;
@@ -287,6 +315,16 @@ public class ManagerRutinas{
 			ComprobarInteractuableEscenaActual(IDInter, infoInter.devolverTipo(), infoInter.devolverIDEscena(), IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ), new Quaternion(lugar.X, lugar.Y, lugar.Z, lugar.W));
 			infoInter.setIDEscena(IDEscena);
 			infoInter.setFechaCambioLugar(fechaActual);
+
+			MarcarEventosDesactualizados(infoInter);
+
+			for(int j = 0; j < eventos.Count; j++)
+			{
+				cargarEvento(eventos[j], IDInter);
+				AddEventoAInter(infoInter, eventos[j]);
+			}
+
+			EliminarEventosDesactualizados(IDInter, infoInter);
 		}
 	}
 
@@ -311,7 +349,7 @@ public class ManagerRutinas{
 			Manager.Instance.moverInteractuableDesdeOtraEscena(IDInter, tipoInter, IDEscenaAnterior, coord, rot);
 		}
 	}
-
+		
 	public void ComprobarRutinas(int horaActual)
 	{
 		Contenedor cont;
@@ -322,16 +360,18 @@ public class ManagerRutinas{
 
 			if(lista_autorutinas != null)
 			{
+//				Debug.Log("Lista autorutinas: " + lista_autorutinas.Count);
 				for(int i = lista_autorutinas.Count - 1; i >= 0; i--)
 				{
 					Info_Interactuable infoInter;
 					if (infoInteractuable.TryGetValue(lista_autorutinas[i].IDInter, out infoInter))
 					{
-						if(lista_autorutinas[i].ID == infoInter.devolverIDRutina())
+						//Comprueba la fecha de la rutina
+						if(lista_autorutinas[i].getFechaRutina() == infoInter.getFechaCambioRutina())
 						{
 							if(lista_autorutinas[i].Recorrido())
 							{
-								cargarRutina(lista_autorutinas[i].IDSigRutina, false);
+								cargarRutina(lista_autorutinas[i].IDSigRutina, false, true);
 								lista_autorutinas.RemoveAt(i);
 							}
 						}
@@ -349,6 +389,8 @@ public class ManagerRutinas{
 					}
 				}
 			}
+
+			recorrerLugaresActuales();
 
 			List<Lugar_Siguiente> lista_lugarsiguiente = cont.devuelveLugarSiguientes();
 
@@ -371,11 +413,13 @@ public class ManagerRutinas{
 							ComprobarEventos();
 
 							//Añadimos el lugar Actual
-							AddLugarActual(lista_lugarsiguiente[i].lugar);
+							AddLugarActual(lista_lugarsiguiente[i].lugar, lista_lugarsiguiente[i].eventos);
 						}
 					}
 				}
 			}
+
+			recorrerLugaresActuales();
 		}
 	}
 
@@ -388,6 +432,8 @@ public class ManagerRutinas{
 	{
 		//Establecemos la escena actual
 		setEscenaActual(escena);
+
+		recorrerLugaresActuales();
 
 		List<Lugar_Actual> lista;
 		if (lugaresActuales.TryGetValue(escena, out lista))
@@ -411,5 +457,38 @@ public class ManagerRutinas{
 				}
 			}
 		}
+
+		recorrerLugaresActuales();
+	}
+
+	//Devuelve un evento vacío si no es encontrado
+	public Evento devuelveEvento(int IDEvento)
+	{
+		Evento ev = null;
+
+		EventoLista evLis;
+		if (listaEventos.TryGetValue(IDEvento, out evLis))
+		{
+			ev = evLis.devuelveEvento();
+		}
+
+		return ev;
+	}
+
+	//FUNCIÓN DEBUG
+	public void recorrerLugaresActuales()
+	{
+//		foreach(KeyValuePair<int, List<Lugar_Actual>> entry in lugaresActuales)
+//		{
+//			// do something with entry.Value or entry.Key
+//			for(int i = 0; i < entry.Value.Count; i++)
+//			{
+//				Debug.Log(entry.Key);
+//				Debug.Log("Coordenadas: " + entry.Value[i].getCoordLugar());
+//				Debug.Log("----------------------");
+//			}
+//			Debug.Log("************************");
+//		}
+//		Debug.Log("__________________________");
 	}
 }
