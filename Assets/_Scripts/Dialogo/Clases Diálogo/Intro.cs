@@ -17,10 +17,9 @@ public class Intro{
 
 	// 0 --> falso, 1 --> verdadero
 	//Indica si la intro se va a destruir al acabar de recorrerla
-	public bool Autodestruye;
+	private bool Autodestruye;
 
 	public int prioridad; //mayor prioridad, aparece primero en el diálogo
-	public int indice_inicial; //indice del dialogo por el que empieza la intro (AUN NO IMPLEMENTADO)
 	public Dialogue dia;
 
 	public Intro()
@@ -44,6 +43,16 @@ public class Intro{
 		return IDGrupo;
 	}
 
+	public bool DevuelveAutodestruye()
+	{
+		return Autodestruye;
+	}
+
+	public void ActivarAutodestruye()
+	{
+		Autodestruye = true;
+	}
+
 	public bool seMuestra()
 	{
 		bool mostrar = true;
@@ -55,13 +64,6 @@ public class Intro{
 		}
 
 		return mostrar;
-	}
-
-	//Marca la variable recorrido a true, indicando que el nodo ya ha sido recorrido
-	//y no se volverán a comprobar algunas de sus funciones si se vuelve a recorrer en el futuro
-	public void MarcarRecorrido(int num)
-	{
-		dia.MarcarRecorrido(num);
 	}
 
 	//Devuelve la intro de un xml indicado en la ruta con la prioridad indicada

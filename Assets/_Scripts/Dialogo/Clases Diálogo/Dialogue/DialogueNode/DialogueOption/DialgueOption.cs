@@ -19,9 +19,14 @@ namespace DialogueTree
         public int DestinationNodeID;
 
 		//Guarda variables de grupo que determinan si mostrar una opción o no
-		public DialogueOptionGrupo Grupo;
+		public List<DialogueOptionGrupo> Grupos;
 
-        public DialogueOption() {
+		public List<DialogueOptionObjeto> Objetos;
+
+        public DialogueOption()
+		{
+			Grupos = new List<DialogueOptionGrupo>();
+			Objetos = new List<DialogueOptionObjeto>();
 		}
 
 		public string DevuelveTexto()
@@ -34,14 +39,34 @@ namespace DialogueTree
 			return DestinationNodeID;
 		}
 
-		public int DevuelveNumeroGrupo()
+		public int DevuelveNumeroGrupos()
 		{
-			return Grupo.IDGrupo;
+			return Grupos.Count;
 		}
 
-		public List<DialogueOptionGrupoVariables> DevuelveVariables()
+		public int DevuelveIDGrupo(int num)
 		{
-			return Grupo.variables;
+			return Grupos[num].IDGrupo;
+		}
+
+		public List<DialogueOptionGrupoVariables> DevuelveVariables(int num)
+		{
+			return Grupos[num].variables;
+		}
+
+		public int DevuelveNumeroObjetos()
+		{
+			return Objetos.Count;
+		}
+
+		public int DevuelveIDObjeto(int num)
+		{
+			return Objetos[num].IDObjeto;
+		}
+
+		public bool DevuelveObjetoPosesion(int num)
+		{
+			return Objetos[num].enPosesion;
 		}
     }
 }

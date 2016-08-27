@@ -15,24 +15,32 @@ public class Inventario : ObjetoSerializable
 	{
 		objetos = new List<ObjetoInventario>();
 	}
-
-	//Devuelve true si el objeto ha sido añadido
-	//false si no lo ha sido
-	public bool addObjeto(int ID)
+		
+	public void addObjeto(int ID, int cantidad)
 	{
-		bool anyadido = false;
+		int numObjeto = ObjetoInventarioLugar(ID);
 
 		//Si no existe el objeto, lo añadimos
-		if(!ObjetoInventarioExiste(ID))
+		if(numObjeto == -1)
 		{
 			ObjetoInventario obj = ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + ID.ToString() + ".xml");
+			obj.cantidad = cantidad;
 			objetos.Add(obj);
-			Manager.Instance.addObjetoReciente(obj); //se añade también a la lista de objetos recientes
-
-			anyadido = true;
+			Manager.Instance.addObjetoReciente(obj, cantidad); //se añade también a la lista de objetos recientes
 		}
+		//Si existe, aumentamos en 1 la cantidad
+		else
+		{
+			objetos[numObjeto].cantidad += cantidad;
+			Manager.Instance.addObjetoReciente(objetos[numObjeto], cantidad); //se añade también a la lista de objetos recientes
+		}
+	}
 
-		return anyadido;
+	//Devuelve el lugar en la lista de objetos del objeto con el ID
+	//-1 si no existe
+	private int ObjetoInventarioLugar(int ID)
+	{
+		return objetos.FindIndex(x => x.ID == ID);
 	}
 
 	public bool ObjetoInventarioExiste(int id)
@@ -43,6 +51,21 @@ public class Inventario : ObjetoSerializable
 	public int devolverNumeroObjetos()
 	{
 		return objetos.Count;
+	}
+
+	public ObjetoInventario devolverObjeto(int indice)
+	{
+		return objetos[indice];
+	}
+
+	public void sustituyeObjeto(ObjetoInventario obj, int indice)
+	{
+		objetos[indice] = obj;
+	}
+
+	public int devolverID(int indice)
+	{
+		return objetos[indice].ID;
 	}
 
 	public string devolverNombre(int indice)
@@ -58,6 +81,11 @@ public class Inventario : ObjetoSerializable
 	public string devolverDescripcion(int indice)
 	{
 		return objetos[indice].descripcion;
+	}
+
+	public int devolverCantidad(int indice)
+	{
+		return objetos[indice].cantidad;
 	}
 
 	public static Inventario LoadInventario(string path)

@@ -8,6 +8,8 @@ public class ObjetoInventario{
 	public string nombreImagen;
 	public string descripcion;
 
+	public int cantidad;
+
 	public ObjetoInventario()
 	{
 		

@@ -60,6 +60,7 @@
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialgueOption.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupo.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionGrupoVariables.cs" />
+     <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionObjeto.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueRutina.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\PosicionCamara.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\EventoDialogo\EventoDialogo.cs" />
@@ -68,6 +69,8 @@
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Grupo\Lanzador.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Intro.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Mensaje.cs" />
+     <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeDialogo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeTienda.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\NPC_Dialogo.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\TemaMensaje.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" />
@@ -91,6 +94,7 @@
      <Compile Include="Assets\_Scripts\Inventario\Inventario.cs" />
      <Compile Include="Assets\_Scripts\Inventario\InventarioController.cs" />
      <Compile Include="Assets\_Scripts\Inventario\ObjetoInventario.cs" />
+     <Compile Include="Assets\_Scripts\Inventario\ObjetoReciente.cs" />
      <Compile Include="Assets\_Scripts\Manager\ColaObjetos\ColaObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\ColaObjetos\ObjetoSerializable.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />

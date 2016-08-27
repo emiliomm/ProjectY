@@ -11,6 +11,8 @@ public class DatosAccionTienda : DatosAccion{
 //	public int numX;
 	public int numY;
 
+	public bool escaparate;
+
 //	public Font fuente;
 //
 //	public Image fondo;
@@ -29,12 +31,21 @@ public class DatosAccionTienda : DatosAccion{
 		var ObjetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
 
 		Inventario inv = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
+		CargarInventario(inv);
 
 		TiendaController objetoController = ObjetoTienda.AddComponent<TiendaController>();
 //		objetoController.InicializarTienda(numX, numY, fuente, inv, fondo);
-		objetoController.InicializarTienda(numY, inv);
+		objetoController.InicializarTienda(escaparate, numY, inv, false);
 
 		//Se establece el modo de la cámara en el Modo Objeto
 		Camera.main.GetComponent<TP_Camera>().setObjectMode();
+	}
+
+	private void CargarInventario(Inventario inventario)
+	{
+		for(int i = 0; i < inventario.devolverNumeroObjetos(); i++)
+		{
+			inventario.sustituyeObjeto(ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + inventario.devolverObjeto(i).ID.ToString() + ".xml"), i);
+		}
 	}
 }

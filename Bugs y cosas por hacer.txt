@@ -16,6 +16,13 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Crear una variable en NPC_Dialogo que compruebe si el dialogo actual se ha modificado. Si lo ha hecho, que se serialice al finalizar la conversación, sino no. Además la variable se reinicia al empezar la conversación
+- Aún no se pueden cambiar las variables de los eventos
+	- Implementar la comprobación de eventos en las rutinas
+		- Crear varios tipos de eventos según acción
+	- Que se puedan cambiar variables de eventos en las conversaciones
+- ¿Quitar los grupos ahora que existen los eventos?
+- Mejorar el codigo del popup al obtener un objeto, quizás crear clase propia en vez de estar manejada por TextBox
 - Mirar que hacer con el archivo de una autorutina cuando acaba
 - Al moverse hacia una zona, los interactuables no tienen la orientación deseada
 - Guardar el estado de los interactuables al cambiar de escena/lugar (y mostrar un dialogo especial ¿?)

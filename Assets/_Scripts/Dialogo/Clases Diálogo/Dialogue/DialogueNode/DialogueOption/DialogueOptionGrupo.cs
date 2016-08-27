@@ -7,7 +7,6 @@ namespace DialogueTree
 	*/
 	public class DialogueOptionGrupo
 	{
-		//-1: ningún grupo, otro: grupo
 		public int IDGrupo; //indica a que grupo pertenecen las variables
 		public List<DialogueOptionGrupoVariables> variables;
 

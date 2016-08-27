@@ -10,6 +10,7 @@ public class InventarioController : MonoBehaviour {
 	GameObject listaObjetos;
 	GameObject imagenObjeto;
 	GameObject nombreObjeto;
+	GameObject cantidadObjeto;
 	GameObject descripcionObjeto;
 	GameObject salir;
 
@@ -28,7 +29,8 @@ public class InventarioController : MonoBehaviour {
 		listaObjetos = transform.GetChild(0).GetChild(0).gameObject;
 		imagenObjeto = transform.GetChild(1).GetChild(0).gameObject;
 		nombreObjeto = transform.GetChild(1).GetChild(1).gameObject;
-		descripcionObjeto = transform.GetChild(1).GetChild(2).gameObject;
+		cantidadObjeto = transform.GetChild(1).GetChild(2).gameObject;
+		descripcionObjeto = transform.GetChild(1).GetChild(3).gameObject;
 
 		salir = transform.GetChild(2).gameObject;
 		salir.GetComponent<Button>().onClick.AddListener(delegate { Salir(); }); //Listener del botón
@@ -126,6 +128,7 @@ public class InventarioController : MonoBehaviour {
 
 //		imagenObjeto;
 		nombreObjeto.GetComponent<Text>().text = inventario.devolverNombre(indice);
+		cantidadObjeto.GetComponent<Text>().text = "X " + inventario.devolverCantidad(indice).ToString();
 		descripcionObjeto.GetComponent<Text>().text = inventario.devolverDescripcion(indice);
 	}
 }

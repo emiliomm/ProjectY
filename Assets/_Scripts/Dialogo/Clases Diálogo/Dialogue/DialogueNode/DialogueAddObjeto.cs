@@ -6,6 +6,7 @@
 	public class DialogueAddObjeto
 	{
 		public int ID; //ID del objeto a añadir
+		public int cantidad; //Cuantos objetos añadimos
 
 		public DialogueAddObjeto()
 		{
@@ -15,6 +16,11 @@
 		public int DevuelveIDObjeto()
 		{
 			return ID;
+		}
+
+		public int devuelveCantidad()
+		{
+			return cantidad;
 		}
 	}
 }

@@ -36,7 +36,7 @@ public class Manager : MonoBehaviour {
 	private List<Grupo> GruposActivos; //lista grupos activos
 	private List<int> GruposAcabados; //lista con ids de los grupos acabados
 
-	private List<ObjetoInventario> objetosRecientes; //lista de objetos obtenidos recientemente
+	private List<ObjetoReciente> objetosRecientes; //lista de objetos obtenidos recientemente
 
 	public GameObject canvasGlobal; //referencia al canvas global del juego
 
@@ -149,7 +149,7 @@ public class Manager : MonoBehaviour {
 		ColaObjetos = new List<ColaObjeto>();
 		GruposActivos = new List<Grupo>();
 		GruposAcabados = new List<int>();
-		objetosRecientes = new List<ObjetoInventario>();
+		objetosRecientes = new List<ObjetoReciente>();
 
 		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
 		ComprobarArchivosDirectorios();
@@ -813,12 +813,12 @@ public class Manager : MonoBehaviour {
 	//Devuelve un objeto reciente situado en la posición num de la lista de objetosRecientes
 	public string devuelveNombreObjetoReciente(int num)
 	{
-		return objetosRecientes[num].nombre;
+		return objetosRecientes[num].devuelveObjeto().nombre;
 	}
 
-	public void addObjetoReciente(ObjetoInventario obj)
+	public void addObjetoReciente(ObjetoInventario obj, int cantidad)
 	{
-		objetosRecientes.Add(obj);
+		objetosRecientes.Add(new ObjetoReciente(obj, cantidad));
 	}
 
 	public void vaciarObjetosRecientes()

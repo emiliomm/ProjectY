@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObjetoSerializable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ObjetoSerializable xsi:type="NPC_Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ID_NPC>0</ID_NPC>
 	<ID>0</ID>
 	<intros>
@@ -174,5 +174,15 @@
 			</dia>
 		</Intro>
 	</intros>
-	<mensajes></mensajes>
+	<mensajes>
+		<Mensaje xsi:type="MensajeTienda">
+			<ID>100000</ID>
+			<IDGrupo>-1</IDGrupo>
+			<eventos/>
+			<texto>COMPRAAAAAAAAAAAAAAAAAAAAAAAAME ALGO PLS</texto>
+			<IDInventario>0</IDInventario>
+			<numY>4</numY>
+			<escaparate>false</escaparate>
+		</Mensaje>
+	</mensajes>
 </ObjetoSerializable>

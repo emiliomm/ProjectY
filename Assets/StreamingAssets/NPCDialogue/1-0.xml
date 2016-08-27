@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObjetoSerializable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ObjetoSerializable xsi:type="NPC_Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ID_NPC>1</ID_NPC>
 	<ID>0</ID>
 	<intros>
@@ -62,16 +62,14 @@
 							<DialogueOption>
 								<Text>Hola, yo soy jugador.</Text>
 								<DestinationNodeID>2</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>[No decir nada]</Text>
 								<DestinationNodeID>2</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 						</Options>
 					</DialogueNode>
@@ -99,23 +97,20 @@
 							<DialogueOption>
 								<Text>Estoy de acuerdo, vamos.</Text>
 								<DestinationNodeID>3</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>Prefiero quedarme aquí, pero a lo mejor bajo luego.</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>No me interesa ir contigo.</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 						</Options>
 					</DialogueNode>
@@ -186,30 +181,26 @@
 							<DialogueOption>
 								<Text>Sí</Text>
 								<DestinationNodeID>1</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>No parece tu tipo</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>La he visto yo antes, es mía.</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 							<DialogueOption>
 								<Text>¿Y a mi que me importa?</Text>
 								<DestinationNodeID>-1</DestinationNodeID>
-								<Grupo>
-									<IDGrupo>-1</IDGrupo>
-								</Grupo>
+								<Grupos/>
+								<Objetos/>
 							</DialogueOption>
 						</Options>
 					</DialogueNode>

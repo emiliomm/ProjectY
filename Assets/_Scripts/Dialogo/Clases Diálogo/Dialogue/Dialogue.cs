@@ -31,13 +31,6 @@ namespace DialogueTree
 
 			return avanza;
 		}
-
-		//Marca la variable recorrido a true, indicando que el nodo ya ha sido recorrido
-		//y no se volverán a comprobar algunas de sus funciones si se vuelve a recorrer en el futuro
-		public void MarcarRecorrido(int pos)
-		{
-			Nodes[pos].MarcarRecorrido();
-		}
     }
 }
 

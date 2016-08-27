@@ -1,19 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs">
     <Files>
-      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="678" Column="52" />
-      <File FileName="Assets\_Scripts\Inventario\Inventario.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\Tiendas\0.xml" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTienda.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\DatosAccion\4.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\NPCDatos\4.xml" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\NPCDialogue\0-0.xml" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialgueOption.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Mensaje.cs" Line="23" Column="22" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeDialogo.cs" Line="17" Column="21" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeTienda.cs" Line="25" Column="38" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTienda.cs" Line="24" Column="2" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" Line="143" Column="3" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="451" Column="2" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Intro.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="85" Column="2" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\-1.xml" Line="2" Column="143" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\1-0.xml" Line="79" Column="26" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-0.xml" Line="186" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
