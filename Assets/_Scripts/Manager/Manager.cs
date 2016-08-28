@@ -84,6 +84,7 @@ public class Manager : MonoBehaviour {
 	public static string rutaInventario;
 	public static string rutaObjetoInventario;
 	public static string rutaInventarioTienda;
+	public static string rutaTransportes;
 
 	public static string rutaDialogoVacio;
 
@@ -134,6 +135,7 @@ public class Manager : MonoBehaviour {
 		rutaInventario = Application.persistentDataPath + "/Inventario/";
 		rutaObjetoInventario = Application.dataPath + "/StreamingAssets/ObjetoInventario/";
 		rutaInventarioTienda = Application.dataPath + "/StreamingAssets/Tiendas/";
+		rutaTransportes = Application.dataPath + "/StreamingAssets/Transportes/";
 
 		rutaDialogoVacio = Application.dataPath + "/StreamingAssets/NPCDialogue/-1.xml";
 

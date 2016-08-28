@@ -310,7 +310,7 @@ public class TextBox : MonoBehaviour {
 							else if(men.GetType() == typeof(MensajeTienda))
 							{
 								MensajeTienda menTi = men as MensajeTienda;
-								menTi.EjecutarAccion();
+								menTi.MostrarTienda();
 
 							}
 						}
@@ -475,7 +475,7 @@ public class TextBox : MonoBehaviour {
 
 			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
 			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate
-				{ opcion++; }); //Listener del botón
+				{ opcion = -3; }); //Listener del botón
 
 			while (opcion == -4) {
 				yield return new WaitForSeconds (0.25f);
@@ -568,12 +568,15 @@ public class TextBox : MonoBehaviour {
 
 		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
 		dialog_text.GetComponentInChildren<Text>().text = node.DevuelveTexto();
+
 		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
+
+		var opcion = selected_option;
 
 		//Dice hacia adonde continua el dialogo
 		dialog_text.GetComponent<Button>().onClick.AddListener(delegate
 		{
-				int sigOpcion = selected_option + 1;
+				int sigOpcion = opcion + 1;
 				switch(node.DevuelveSiguienteNodo())
 				{
 				//El dialogo acaba
@@ -771,6 +774,7 @@ public class TextBox : MonoBehaviour {
 	private void SetSelectedOption(int x)
 	{
 		selected_option = x;
+		//Debug.Log(x);
 	}
 
 	//Posiciona la cámara

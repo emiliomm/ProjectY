@@ -42,7 +42,10 @@ QUE ESTÁ IMPLEMENTADO
 *Los grupos tienen variables
 	- Estas variables se pueden cambiar durante el dialogo, mediante los nodos
 *Dar objetos durante el diálogo (más de un objeto, y varios objetos del mismo tipo)
-*Los interactuables pueden tener varios nombres, pero solo se pueden cambiar hacia adelante en la lista de nombres(p ej: El nombre de un npc es ¿? cuando no lo conoces, en cambio cambia a Luis cuando te lo dice).
+*Dos tipos de interactuables:
+	- InteractuablesNPC: Permiten el cambio de nombre a lo largo de la partida, usan rutas al cambiar de rutina
+	- InteractuableObjeto: Un solo nombre, se teletransportan inmediatamente al cambiar de rutina, pueden tener un transporte asignado
+*Los interactuablesNPC pueden tener varios nombres, pero solo se pueden cambiar hacia adelante en la lista de nombres(p ej: El nombre de un npc es ¿? cuando no lo conoces, en cambio cambia a Luis cuando te lo dice).
 *Un interactuable puede tener varias acciones asignadas a él
 *Acción Dialogo normal y a distancia
 *Acción manipular objetos
@@ -55,6 +58,7 @@ QUE ESTÁ IMPLEMENTADO
 	- Una rutina puede cambiar automáticamente a las x horas con las autorutinas
 	- Los interactuables npcs se mueven hacia el siguiente lugar cuando avanza la rutina, siguiente "teletransportes" que conectan con otros lugares. Los interactuables objetos aparecen/desaparecen directamente
 *Interactuables sin rutinas
+*Existe transportes que permiten a los interactuables moverse al indicado al cambiar de escena en un cambio de rutina y/o al jugador cambiar de escena
 *Cambiar la rutina del interactuable que esté hablando en el diálogo activo
 *Inventario
 	- Varios objetos con distintas cantidades cada uno

@@ -20,7 +20,7 @@ public class MensajeTienda : Mensaje
 
 	}
 
-	public void EjecutarAccion()
+	public void MostrarTienda()
 	{
 		TextBox.Instance.OcultarInterfaz();
 

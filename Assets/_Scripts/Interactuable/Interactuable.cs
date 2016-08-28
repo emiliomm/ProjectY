@@ -150,7 +150,7 @@ public class Interactuable : MonoBehaviour {
 					{
 						GameObject dialogoDistancia = new GameObject("Dialogo Distancia");
 						dialogoDistancia.transform.position = Objeto.transform.position;
-						dialogoDistancia.transform.SetParent(Objeto.transform, true);
+						dialogoDistancia.transform.SetParent(gameObject.transform, true);
 
 						DialogoDistancia dd = dialogoDistancia.AddComponent<DialogoDistancia>();
 						dd.cargarDialogo(this, d);

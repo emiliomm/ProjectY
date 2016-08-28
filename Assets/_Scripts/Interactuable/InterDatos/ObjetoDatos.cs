@@ -14,6 +14,9 @@ public class ObjetoDatos : InterDatos{
 	//solo pueden tener un objeto
 	public string nombre;
 
+	//Indica el ID del transporte que acompaña al objeto, -1 si no tiene ninguno
+	public int IDTransporte;
+
 	public ObjetoDatos()
 	{
 		
@@ -22,6 +25,11 @@ public class ObjetoDatos : InterDatos{
 	public override string DevuelveNombreActual()
 	{
 		return nombre;
+	}
+
+	public int DevuelveIDTransporte()
+	{
+		return IDTransporte;
 	}
 
 	//Devuelve el InterDatos de un xml indicado en la ruta

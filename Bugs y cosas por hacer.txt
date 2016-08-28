@@ -1,5 +1,5 @@
 BUGS(POR ORDEN DE PRIORIDAD)
-- Al pulsar muy rápido sobre el diálogo, da error de indice
+- Los interactuables no van a transportes de InteractuablesObjetos por que el navObstacle está activado
 - Cuando se crea un dialogo a distancia y el jugador esta dentro del collider, no lo detecta bien, sobre todo si hay dos dialogos creados a la vez, en ese caso dolo detecta uno
 	* ¿Por qué? Solo está programado para detectar collider enter
 	* ¿Cómo solucionarlo? Hacer una especie de lista o algo así ¿?
@@ -25,29 +25,27 @@ COSAS POR HACER:
 - Mejorar el codigo del popup al obtener un objeto, quizás crear clase propia en vez de estar manejada por TextBox
 - Mirar que hacer con el archivo de una autorutina cuando acaba
 - Al moverse hacia una zona, los interactuables no tienen la orientación deseada
-- Guardar el estado de los interactuables al cambiar de escena/lugar (y mostrar un dialogo especial ¿?)
-- Hacer que cuando no hayan intros/mensajes en un dialogo (está vacío), no se muestre la acción de Hablar
+- Guardar el estado de los interactuables al cambiar de escena/lugar, es decir, mientras siguen una ruta (y mostrar un dialogo especial ¿?)
+- Hacer que cuando no hayan intros/mensajes en un dialogo (está vacío), no se muestre la acción de Hablar (dificil/costoso con los intros/mensajes que dependen de los eventos)
 - Hacer que el botón de texto del dialogo ocupe toda la caja o que se avance el dialogo clicando en cualquier lugar
 - Hacer que las acciones del interactuable se vuelvan "interactuables" cuando el jugador está más cerca y no el sistema actual
 - Probar la navegación de los interactuables en busca de fallos.
 	- Mejorar los agentes y los obstáculos
 - Mejorar función setPausa del Manager
 - Añadir los tags y layers que hay en el juego en el documento Guía Estilo
-- Hacer que la cámara no se mueva cuando el jugador salta o quitar el salto (mov. de cámara lioso al saltar en espacios cerrados)
+- Hacer que la cámara no se mueva cuando el jugador salta o quitar el salto (mov. de cámara lioso al saltar en espacios cerrados, ver ejemplo otros juegos)
 - Hacer que los interactuables puedan tener un offset respecto a la UI, que no toda la UI esté en el centro del personaje
 - Modificar la alineación de la cámara con respecto al jugador cuando hay offset (funcion SnapAlignCharacterWithCamera() del TP_Motor)
 - Crear unas reglas para el nombre de funciones y parámetros
 - Faltan algunas rutas de archivos por añadir al manager, mirar código
 - Guardar las variables de sensibilidad del ratón del objetocontroller en el Manager, así como otras variables similares, como el layermask de datosaccionobjeto
-- Añadir mostrar/ocultar opciones de dialogo según si se tiene equipado un objeto, como actualmente está en las opciones
+- Mostrar/ocultar mensajes según objeto equipado, como está en las opciones
 - Mirar que hacer con el prefab botoninventario
-- Comprobar si en la funcion MirarSiDialogoSeAutodestruye el pos_dialogo-- es necesario
-- Mirar que hacer con el indice_inicial de las intros y ver si hay que implementarlas en los mensajes o eliminarlo totalmente
 - Ordenar código interactuable
 - Hacer que los objetos que hay en el dialoguenode sean hijos de una misma clase base para no incluir clases que no se van a usar
 - Añadir control por teclado al dialogo, a la interaccion de interactuables y a la interaccion con objetos
 - Mejorar sistema de rutinas
-	- Crear los eventos
+	- Utilizar los eventos
 	- Mejorar el código de las rutinas
 - Mejorar inventario
 	- Aspecto visual
@@ -60,7 +58,7 @@ COSAS POR HACER:
 - Acciones
 	- Añadir/eliminar acciones en el dialogo
 	- Mirar como relacionar acciones y rutinas
-- Implementar lo que falta del sistema de objetos
+- Implementar lo que falta del sistema de objetos (el de las acciones)
 	- Puntos de información
 		- Que salgan según grupos activos y otras variables
 	- Algunos objetos interactuables, que no se muevan en 3d como los actuales, sino que son fijos con botones, etc (móvil, ordenador, etc...)
@@ -71,13 +69,11 @@ COSAS POR HACER:
 - Refractorizar partes de NPC (nombres funciones, parámetros, etc.)
 - Refractorizar nombres de funciones, parámetros... Por todo el código
 - Comentar todo el código
-- Ordenar clase NPC_Dialogo, mirar que es necesario en cada método y quitar lo innecesario
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
 - Cuando el jugador sabe un nombre de un NPC y otro NPC nombra a ese con un nombre diferente, como implementar caminos diferentes:
 	- Si el NPC nombra al otro NPC con el nombre que el jugador sabe, va por un camino
 	- Si el NPC nombra al otro NPC con el nombre diferente al que el jugador sabe, va por otro camino
 - Falta implementar los mensajes de finalización de los Grupos, serán diferentes dependiendo de como haya acabado el Grupo
-- Hacer los métodos Añadir dialogueAdd de Lanzador igual que el de NPC_Dialogo
 - Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?

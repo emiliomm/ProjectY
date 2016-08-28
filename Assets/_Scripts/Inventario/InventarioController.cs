@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class InventarioController : MonoBehaviour {
 
-	Inventario inventario;
+	private Inventario inventario;
 
-	GameObject listaObjetos;
-	GameObject imagenObjeto;
-	GameObject nombreObjeto;
-	GameObject cantidadObjeto;
-	GameObject descripcionObjeto;
-	GameObject salir;
+	private GameObject listaObjetos;
+	private GameObject imagenObjeto;
+	private GameObject nombreObjeto;
+	private GameObject cantidadObjeto;
+	private GameObject descripcionObjeto;
+	private GameObject salir;
 
-	int indice = 0;
+	//Número del objeto en la lista que tiene el foco (teclado/ratón)
+	private int indiceObjetoActual = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -68,7 +69,7 @@ public class InventarioController : MonoBehaviour {
 
 	private void setIndice(int num)
 	{
-		indice = num;
+		indiceObjetoActual = num;
 	}
 	
 	//Miramos el input
@@ -78,10 +79,10 @@ public class InventarioController : MonoBehaviour {
 		{
 			if(inventario.devolverNumeroObjetos() > 0)
 			{
-				if(indice == inventario.devolverNumeroObjetos() -1)
-					indice = 0;
+				if(indiceObjetoActual == inventario.devolverNumeroObjetos() -1)
+					indiceObjetoActual = 0;
 				else
-					indice++;
+					indiceObjetoActual++;
 
 				actualizarVistaObjeto();
 			}
@@ -91,10 +92,10 @@ public class InventarioController : MonoBehaviour {
 		{
 			if(inventario.devolverNumeroObjetos() > 0)
 			{
-				if(indice == 0)
-					indice = inventario.devolverNumeroObjetos() -1;
+				if(indiceObjetoActual == 0)
+					indiceObjetoActual = inventario.devolverNumeroObjetos() -1;
 				else
-					indice--;
+					indiceObjetoActual--;
 
 				actualizarVistaObjeto();
 			}
@@ -121,14 +122,14 @@ public class InventarioController : MonoBehaviour {
 	{
 		//indice
 		GameObject myEventSystem = GameObject.Find("EventSystem(Clone)");
-		myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(listaObjetos.transform.GetChild(indice).gameObject);
+		myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(listaObjetos.transform.GetChild(indiceObjetoActual).gameObject);
 
 		//Mantiene el scroll en la posición adecuada
-		transform.GetChild(0).gameObject.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1f-indice/(float)inventario.devolverNumeroObjetos());
+		transform.GetChild(0).gameObject.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1f-indiceObjetoActual/(float)inventario.devolverNumeroObjetos());
 
 //		imagenObjeto;
-		nombreObjeto.GetComponent<Text>().text = inventario.devolverNombre(indice);
-		cantidadObjeto.GetComponent<Text>().text = "X " + inventario.devolverCantidad(indice).ToString();
-		descripcionObjeto.GetComponent<Text>().text = inventario.devolverDescripcion(indice);
+		nombreObjeto.GetComponent<Text>().text = inventario.devolverNombre(indiceObjetoActual);
+		cantidadObjeto.GetComponent<Text>().text = "X " + inventario.devolverCantidad(indiceObjetoActual).ToString();
+		descripcionObjeto.GetComponent<Text>().text = inventario.devolverDescripcion(indiceObjetoActual);
 	}
 }

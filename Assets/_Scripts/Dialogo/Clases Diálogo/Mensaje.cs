@@ -76,5 +76,4 @@ public class Mensaje{
 
 		return men;
 	}
-
 }
