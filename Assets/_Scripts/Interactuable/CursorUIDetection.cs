@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /*
  * 	Clase que controla que acción es activada por el cursor de la interfaz de un interactuable
@@ -25,6 +26,13 @@ public class CursorUIDetection : MonoBehaviour {
 				inter.AsignarAccionActiva(aobj.getIndice());
 			}
 		}
+
+		//Cada vez que colisionamos con el jugador, cambiamos el material para que el cursor se muestre correctamente sin atravesar la geometría del jugador
+		if (other.tag == "Player")
+		{
+			Debug.Log("Hola");
+			gameObject.GetComponent<Image>().material = Resources.Load("UI2") as Material; //Mover la carga del material a otro sitio (Manager)
+		}
 	}
 
 	//Al detectar la salida de una colisión con un trigger, comprueba que se trata de un gameObject Accion
@@ -39,6 +47,12 @@ public class CursorUIDetection : MonoBehaviour {
 			{
 				inter.setAccionActivaNull();
 			}
+		}
+
+		//Volvemos al material original si hemos dejado de colisionar con el jugador
+		if (other.tag == "Player")
+		{
+			gameObject.GetComponent<Image>().material = Resources.Load("UI") as Material; //Mover la carga del material a otro sitio (Manager)
 		}
 	}
 }

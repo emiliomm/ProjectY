@@ -1,7 +1,9 @@
 ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - En el archivo de los inventarios de las tiendas, cada objeto solo debe contener el ID, ya que se carga posteriormente con los datos de los objetos localizados en otro directorio
-- Los objetos de los interactuables deben tener collider para ser detectador y rigidbody si son nav agents (se mueven)
+- Los objetos de los interactuables deben tener collider para ser detectados y rigidbody si son nav agents/InteractuableNPC (se mueven).
+	- El collider debe tener el isTrigger desactivado y el rigidbody debe tener el isKinematic desactivado. La gravedad es opcional, depende del tipo de NPC que se quiera crear
 - La pared de los escenarios debe estar marcada con el tag "Pared"
+- Es recomendable que los objetos con el tag "Pared" sean marcados como Static en el editor, para ahorrar rendimiento
 - El NodeID de DialogueNode debe coincidir con su posición en la lista de nodos del diálogo
 - Cuando un grupo no está activado y acabamos el grupo, el grupo ya no podrá ser activado en el futuro.
 - El dialogo actual siempre se guarda/serializa, tenga cambios o no (cambiar ¿?, ten en cuenta que en el código ya está pensado, habría que cambiar bastante)
@@ -11,8 +13,14 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - La autodestrucción de la intro/mensajes se activa al cambiar de tema, abandonar una conversación o acabarla. Cuidado con el sitio donde se activa la autodestruccion
 - Los intros/mensajes lanzados por un grupo pueden pertenecer a cualquier grupo o a ninguno, aunque lo recomendable es que pertenezcan al mismo
 - El radio de la capsula del character controller a de ser al menos de 0.4
-- Los npcs/objetos deben mirar hacia el eje Z (azul) local, así como el modelado del personaje principal.
+- Los gameObjects de los npcs/objetos deben mirar hacia el eje Z (azul) local, así como el modelado del personaje principal.
 - El máximo de opciones en el diálogo son 15, así como el máximo de mensajes simultaneos
+
+LAYERS
+
+TAGS
+
+INPUT
 
 OTROS
 

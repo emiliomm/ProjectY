@@ -67,6 +67,8 @@ public class TP_Camera : MonoBehaviour
 	{
 		//Inicializamos la variable instancia
 		Instance = this;
+
+		DontDestroyOnLoad(gameObject);
 	}
 
 	// Use this for initialization
@@ -77,6 +79,51 @@ public class TP_Camera : MonoBehaviour
 		Distance = Mathf.Clamp(Distance, DistanceMin, DistanceMax);
 		startDistance = Distance;
 		Reset();//asignamos valores predeterminados
+	}
+
+	//establece las variables a valores predeterminados
+	public void Reset()
+	{
+		mouseX = 0;
+		mouseY = 10;
+		Distance = startDistance;
+		desiredDistance = startDistance;
+		preOccludedDistance = startDistance;
+	}
+
+	//crea o encuentra una camara y la asigna a la clase
+	public static void UseExistingOrCreateMainCamera()
+	{
+		GameObject tempCamera;
+		GameObject targetLookAt;
+		TP_Camera myCamera;
+
+		//Si la camara existe
+		if(Camera.main != null)
+		{
+			tempCamera = Camera.main.gameObject;
+		}
+		else
+		{
+			//Cargamos el prefab de Resources
+			tempCamera = (GameObject)Instantiate(Resources.Load("CameraPrefab"));
+		}
+
+		//Guardamos el componente TP_Camera(el script) en myCamera
+		myCamera = tempCamera.GetComponent("TP_Camera") as TP_Camera;
+
+		targetLookAt = GameObject.Find("targetLookAt") as GameObject;
+
+		//si no hemos encontrado el gameobject targetLookAt (el objeto al que debemos mirar)
+		if (targetLookAt == null)
+		{
+			//Lo creamos y lo posicionamos en 0,0,0
+			targetLookAt = new GameObject("targetLookAt");
+			targetLookAt.transform.position = Vector3.zero;
+		}
+
+		//ponemos la variable targetLookAt encontrada o creada en la clase
+		myCamera.TargetLookAt = targetLookAt.transform;
 	}
 
 	void LateUpdate ()
@@ -400,51 +447,6 @@ public class TP_Camera : MonoBehaviour
 		var targetPos = TargetLookAt.position+transform.right*offset*offsetPercent;
 
 		transform.LookAt(targetPos);
-	}
-		
-	//establece las variables a valores predeterminados
-	public void Reset()
-	{
-		mouseX = 0;
-		mouseY = 10;
-		Distance = startDistance;
-		desiredDistance = startDistance;
-		preOccludedDistance = startDistance;
-	}
-
-	//crea o encuentra una camara y la asigna a la clase
-	public static void UseExistingOrCreateMainCamera()
-	{
-		GameObject tempCamera;
-		GameObject targetLookAt;
-		TP_Camera myCamera;
-
-		//Si la camara existe
-		if(Camera.main != null)
-		{
-			tempCamera = Camera.main.gameObject;
-		}
-		else
-		{
-			//Cargamos el prefab de Resources
-			tempCamera = (GameObject)Instantiate(Resources.Load("CameraPrefab"));
-		}
-
-		//Guardamos el componente TP_Camera(el script) en myCamera
-		myCamera = tempCamera.GetComponent("TP_Camera") as TP_Camera;
-
-		targetLookAt = GameObject.Find("targetLookAt") as GameObject;
-
-		//si no hemos encontrado el gameobject targetLookAt (el objeto al que debemos mirar)
-		if (targetLookAt == null)
-		{
-			//Lo creamos y lo posicionamos en 0,0,0
-			targetLookAt = new GameObject("targetLookAt");
-			targetLookAt.transform.position = Vector3.zero;
-		}
-
-		//ponemos la variable targetLookAt encontrada o creada en la clase
-		myCamera.TargetLookAt = targetLookAt.transform;
 	}
 
 	//Establecemos el modo de visión normal de las cámaras

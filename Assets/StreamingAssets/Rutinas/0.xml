@@ -23,11 +23,11 @@
 			</lugarSiguiente>
 		</PosicionLugarSiguiente>
 		<PosicionLugarSiguiente>
-			<hora>2</hora>
+			<hora>3</hora>
 			<lugarSiguiente>
 				<lugar>
 					<IDInter>1</IDInter>
-					<IDEscena>12</IDEscena>
+					<IDEscena>10</IDEscena>
 					<coordX>0.74</coordX>
 					<coordY>16.36</coordY>
 					<coordZ>-17.36</coordZ>

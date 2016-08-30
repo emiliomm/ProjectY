@@ -1,4 +1,6 @@
-﻿Shader "UIShader" {
+﻿//Shader igual que el de por defecto que solo cambia el Queue para permitir que los objetos con este shader sean dibujados encima de
+//todos los de su alrededor
+Shader "UIShader" {
 	  Properties
      {
          [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
@@ -17,7 +19,8 @@
      {
          Tags
          { 
-             "Queue"="Overlay" 
+         	//Dibuja encima de la capa predeteminada + 1000
+ 			 "Queue"="Geometry+1000" 
              "IgnoreProjector"="True" 
              "RenderType"="Transparent" 
              "PreviewType"="Plane"
@@ -35,7 +38,7 @@
   
          Cull Off
          Lighting Off
-         ZWrite Off
+         ZWrite On
          ZTest Off
          Blend SrcAlpha OneMinusSrcAlpha
          ColorMask [_ColorMask]

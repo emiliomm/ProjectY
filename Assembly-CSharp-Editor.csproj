@@ -100,6 +100,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
+     <None Include="Assets\StreamingAssets\DatosAccion\6.xml" />
      <None Include="Assets\StreamingAssets\NPCDialogue\1-0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
      <None Include="Assets\StreamingAssets\Rutinas\3.xml" />
@@ -113,6 +114,7 @@
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_FaceHighlight.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBloom.shader" />
+     <None Include="Assets\_Art\Shaders\UIShader2.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
@@ -129,11 +131,13 @@
      <None Include="Assets\StreamingAssets\NPCDialogue\0-0.xml" />
      <None Include="Assets\StreamingAssets\DatosAccion\2.xml" />
      <None Include="Assets\StreamingAssets\DatosAccion\1.xml" />
+     <None Include="Assets\StreamingAssets\NPCDialogue\5-0.xml" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_HideVertices.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\StreamingAssets\DatosInteractuable\1.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
+     <None Include="Assets\StreamingAssets\NPCDatos\6.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
@@ -150,7 +154,7 @@
      <None Include="Assets\StreamingAssets\DatosAccion\5.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\StreamingAssets\Rutinas\4.xml" />
-     <None Include="Assets\_Scripts\Interactuable\UIShader.shader" />
+     <None Include="Assets\_Art\Shaders\UIShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />

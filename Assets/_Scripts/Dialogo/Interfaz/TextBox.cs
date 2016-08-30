@@ -152,8 +152,8 @@ public class TextBox : MonoBehaviour {
 			{
 			case State.Intro_Texto: //Cuando la intro muestra el texto
 				DialogueNode dn = dialog.DevuelveNodo(node_id);
-				display_node_text (dn); //Muestra el texto del nodo
 				selected_option = node_id;
+				display_node_text (dn); //Muestra el texto del nodo
 
 				while (selected_option == node_id) {
 					yield return new WaitForSeconds (0.25f);
@@ -311,7 +311,6 @@ public class TextBox : MonoBehaviour {
 							{
 								MensajeTienda menTi = men as MensajeTienda;
 								menTi.MostrarTienda();
-
 							}
 						}
 						break;
@@ -354,15 +353,16 @@ public class TextBox : MonoBehaviour {
 					}
 					else if(men.GetType() == typeof(MensajeTienda))
 					{
-
+						MensajeTienda menTi = men as MensajeTienda;
+						menTi.MostrarTienda();
 					}
 					break;
 				}
 				break;
 			case State.Mensajes_Texto:  //Cuando se muestra el texto del mensaje
 				DialogueNode Dn = dialog.DevuelveNodo(node_id);
-				display_node_text(Dn);
 				selected_option = node_id;
+				display_node_text(Dn);
 
 				while(selected_option == node_id)
 				{
@@ -774,7 +774,6 @@ public class TextBox : MonoBehaviour {
 	private void SetSelectedOption(int x)
 	{
 		selected_option = x;
-		//Debug.Log(x);
 	}
 
 	//Posiciona la cámara

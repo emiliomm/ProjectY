@@ -1,3 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ArrayOfDatosAccion xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<DatosAccion xsi:type="xs:DatosAccionDialogo">
+		<ID>100</ID>
+		<nombre>Abrir</nombre>
+		<objetos/>
+		<ID_NPC>5</ID_NPC>
+		<ID_Diag>0</ID_Diag>
+		<aDistancia>false</aDistancia>
+		<tamX>14</tamX>
+		<tamY>14</tamY>
+		<tamZ>14</tamZ>
+	</DatosAccion>
 </ArrayOfDatosAccion>

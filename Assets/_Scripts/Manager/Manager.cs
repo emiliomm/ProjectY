@@ -180,6 +180,10 @@ public class Manager : MonoBehaviour {
 		Obj = new GameObject("ManagerRutinas");
 		Obj.transform.SetParent(gameObject.transform, false);
 		Obj.AddComponent<ManagerRutinas>();
+
+		Obj = (GameObject)Instantiate(Resources.Load("Ethan"));
+		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
+		Obj.transform.position = new Vector3(7.87f, 15.809f, -9.88f);
 	}
 
 	//Crea algunos directorios al inicio del juego si no están creados, así como algunos ficheros
@@ -411,8 +415,8 @@ public class Manager : MonoBehaviour {
 			Inter.transform.position = coord;
 			Inter.transform.rotation = rot;
 		}
-		//Si es un NPC, establecemos la ruta que debe seguir
-		else
+		//Si es un NPC, establecemos la ruta que debe seguir, si el NPC no se encuentra ya en exactamente esa posición
+		else if(Inter.transform.position != coord)
 		{
 			InteractuableNPC intNPC = Inter.GetComponent<InteractuableNPC>();
 			intNPC.setRuta(coord);
