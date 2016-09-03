@@ -18,12 +18,12 @@ public class ObjetoDato : MonoBehaviour {
 	void Start () {
 		hitInfo = new RaycastHit();
 
+		spriteRend = GetComponent<SpriteRenderer>();
+
 		//Carga los dos materiales que se irán alternando en Update
 		//El predeterminado del sprite y el UI
 		materialSprite = spriteRend.material;
 		materialUI = Resources.Load("UI") as Material;
-
-		spriteRend = GetComponent<SpriteRenderer>();
 
 		//Carga la layerMask para que el rayo detecte todos las colisiones con objetos
 		//con la layer 8 (UIObjeto), es decir, las colisiones con el objeto, que contiene esta layer

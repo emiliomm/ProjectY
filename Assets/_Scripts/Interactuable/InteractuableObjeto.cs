@@ -5,13 +5,10 @@
  */
 public class InteractuableObjeto : Interactuable {
 
-	ObjetoDatos datos; //Almacena los datos de esta clase
+	private ObjetoDatos datos; //Almacena los datos de esta clase
 
 	protected override void Start()
 	{
-		//Ejecuta el metodo del padre
-		base.Start();
-
 		//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
 		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
 		{
@@ -21,6 +18,9 @@ public class InteractuableObjeto : Interactuable {
 		{
 			datos = ObjetoDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 		}
+
+		//Ejecuta el metodo del padre
+		base.Start();
 
 		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());
@@ -34,6 +34,40 @@ public class InteractuableObjeto : Interactuable {
 	public override string DevuelveNombreDialogo()
 	{
 		return "";
+	}
+
+	public ObjetoDatos devuelveDatos()
+	{
+		return datos;
+	}
+
+	protected override bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
+	{
+		bool mostrarAccion = base.mostrarAccion(dAcc, inventario);
+
+		if(mostrarAccion)
+		{
+			for(int i = 0; i < dAcc.variables.Count; i++)
+			{
+				switch(dAcc.variables[i].tipo)
+				{
+				case 0: // > es verdadero
+					if(dAcc.variables[i].valor <= datos.DevuelveValorVariable(dAcc.variables[i].num_variable))
+						mostrarAccion = false;
+					break;
+				case 1: // == es verdadero
+					if(dAcc.variables[i].valor < datos.DevuelveValorVariable(dAcc.variables[i].num_variable) || dAcc.variables[i].valor < datos.DevuelveValorVariable(dAcc.variables[i].num_variable))
+						mostrarAccion = false;
+					break;
+				case 2: // < es verdadero
+					if(dAcc.variables[i].valor >= datos.DevuelveValorVariable(dAcc.variables[i].num_variable))
+						mostrarAccion = false;
+					break;
+				}
+			}
+		}
+
+		return mostrarAccion;
 	}
 
 	private void CrearTransporte(int IDTransporte)

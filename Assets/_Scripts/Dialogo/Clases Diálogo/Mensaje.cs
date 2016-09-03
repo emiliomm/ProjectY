@@ -14,7 +14,7 @@ public class Mensaje{
 	//-1 --> Sin grupo, otro --> con grupo
 	public int IDGrupo;
 
-	public List<EventoDialogo> eventos;
+	public List<DialogoEvento> eventos;
 
 	// 0 --> falso, 1 --> verdadero
 	//Indica si el mensaje se va a destruir al acabar de recorrerlo
@@ -26,7 +26,7 @@ public class Mensaje{
 
 	public Mensaje()
 	{
-		eventos = new List<EventoDialogo>();
+		eventos = new List<DialogoEvento>();
 	}
 
 	public int DevuelveIDGrupo()

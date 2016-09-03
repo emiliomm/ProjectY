@@ -4,6 +4,72 @@
 	<ID>0</ID>
 	<intros>
 		<Intro>
+			<ID>101</ID>
+			<IDGrupo>-1</IDGrupo>
+			<eventos>
+				<DialogoEvento>
+					<IDEvento>1</IDEvento>
+					<variables/>
+				</DialogoEvento>
+			</eventos>
+			<Autodestruye>false</Autodestruye>
+			<prioridad>0</prioridad>
+			<indice_inicial>0</indice_inicial>
+			<dia>
+				<Nodes>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>Hola. Veamos... A usted le toca la llave de la habitación 003.</Text>
+						<recorrido>false</recorrido>
+						<destruido>false</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos/>
+						<Nombres/>
+						<Rutinas/>
+						<Options/>
+					</DialogueNode>
+					<DialogueNode>
+						<NodeID>0</NodeID>
+						<posCamara>
+							<lookAt>0</lookAt>
+							<coordX>-0.5</coordX>
+							<coordY>1</coordY>
+							<coordZ>1</coordZ>
+						</posCamara>
+						<Nombre>-1</Nombre>
+						<siguienteNodo>0</siguienteNodo>
+						<Text>Aquí tiene.</Text>
+						<recorrido>false</recorrido>
+						<destruido>true</destruido>
+						<Intros />
+						<Mensajes/>
+						<Grupos/>
+						<GruposVariables/>
+						<Objetos>
+							<DialogueAddObjeto>
+								<ID>1</ID>
+								<cantidad>1</cantidad>
+							</DialogueAddObjeto>
+						</Objetos>
+						<Nombres/>
+						<Rutinas/>
+						<Options/>
+					</DialogueNode>
+				</Nodes>
+			</dia>
+		</Intro>
+		<Intro>
 			<ID>100</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>

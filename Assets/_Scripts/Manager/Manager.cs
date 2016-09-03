@@ -383,6 +383,7 @@ public class Manager : MonoBehaviour {
 				interactuableCollider.transform.position = coord;
 				BoxCollider collider = interactuableCollider.AddComponent<BoxCollider>();
 				collider.size =  new Vector3(3.7f, 6.68f, 1f);
+				collider.isTrigger = true;
 
 				RutaCollider tc = interactuableCollider.AddComponent<RutaCollider>();
 				tc.setIDInteractuable(IDInter);
@@ -444,6 +445,7 @@ public class Manager : MonoBehaviour {
 				transporteCollider.transform.SetParent(transporteMasCercano.transform, false);
 				BoxCollider collider = transporteCollider.AddComponent<BoxCollider>();
 				collider.size =  new Vector3(3.7f, 6.68f, 1f);
+				collider.isTrigger = true;
 
 				TransporteCollider tc = transporteCollider.AddComponent<TransporteCollider>();
 				tc.setIDInteractuable(IDInter);
@@ -515,7 +517,7 @@ public class Manager : MonoBehaviour {
 
 	public void AddToInteractuables(int id, GameObject gobj)
 	{
-		interactuables.Add(id, gobj);
+		interactuables[id] = gobj;
 	}
 
 	public void RemoveFromInteractuables(int id)
@@ -540,7 +542,10 @@ public class Manager : MonoBehaviour {
 	}
 
 	//Recarga las acciones de los interactuables de la lista
-	private void actualizarAcciones(Inventario inventario)
+
+	//CREAR OTRA FUNCIÓN DE ACTUALIZAR ACCIONES DONDE NO INTERVENGA EL INVENTARIO, PARA CUANDO SE ACTUALICEN LAS VARIABLES DE UN OBJETO
+
+	public void actualizarAcciones(Inventario inventario)
 	{
 		foreach(KeyValuePair<int, GameObject> entry in interactuables)
 		{
@@ -697,6 +702,26 @@ public class Manager : MonoBehaviour {
 		}
 
 		return transporteMasCercano;
+	}
+
+	public GameObject EncontrarTransporte(int IDTransporte)
+	{
+		GameObject transporte = null;
+
+		foreach(KeyValuePair<int, List<GameObject>> entry in transportes)
+		{
+			for(int i = 0; i < entry.Value.Count; i++)
+			{
+				TransporteInter trans = entry.Value[i].GetComponent<TransporteInter>();
+
+				if(trans.ID == IDTransporte)
+				{
+					transporte = entry.Value[i];
+				}
+			}
+		}
+
+		return transporte;
 	}
 
 	/*

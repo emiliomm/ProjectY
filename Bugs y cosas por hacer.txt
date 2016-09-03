@@ -1,4 +1,7 @@
 BUGS(POR ORDEN DE PRIORIDAD)
+- Al ejecutar un eventodialogo, ocurren fallos al ejecutar dialogo
+	- El input se reinicia mal al acabar dialogo
+	- Si estás accionando una accion y entras en un dialogo ocurren errores
 - Al cambiar entre escenas, el input se para, haciendo que el jugador se pare, haciendo que se note el cambio de escena
 - El jugador choca con las acciones, desactivar la colisión entre layer UI y layer Player, fastidia la detección del CursorUI con el jugador, necesaria para cambiar el shader
 - La cámara choca con los transportes
@@ -18,6 +21,16 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Mirar si se puede mejorar las capas que ve cada cámara, a lo mejor hay alguna repetida que se puede quitar
+- Mejorar el alineamiento de la cámara cuando no se mueve el ratón y la cámara cambia de posición, sigue teniendo fallos
+- Mirar cuando se tiene que guardar la posición del jugador
+- Expandir la idea de varios interactuables con la misma ID
+	- Cámara siempre enfocando al mismo interactuable
+	- Ampliar diálogo para soportar los errores que puedan surgir
+- Mejorar el dialogo que se ejecuta en el eventoDialogo
+	- Hacer que solo se pueda ejecutar cuando no estas haciendo nada, como ¿?
+- Añadir zonas de cámara para el dialogo en el escenario
+	- Como hacerlo para las diferentes escenas en las que se puede ejecutar un mismo dialogo
 - Crear una variable en NPC_Dialogo que compruebe si el dialogo actual se ha modificado. Si lo ha hecho, que se serialice al finalizar la conversación, sino no. Además la variable se reinicia al empezar la conversación
 - Aún no se pueden cambiar las variables de los eventos
 	- Implementar la comprobación de eventos en las rutinas

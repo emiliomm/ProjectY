@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Evento xsi:type="xs:EventoDialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID>1</ID>
+	<variables>
+		<int>0</int>
+	</variables>
+	<IDInter>2</IDInter>
+	<IDDialog>0</IDDialog>
+</Evento>

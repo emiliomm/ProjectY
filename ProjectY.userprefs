@@ -1,6 +1,36 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Personaje y Camara\TP_Camera.cs">
+    <Files>
+      <File FileName="Assets\_Scripts\Interactuable\InteractuableObjeto.cs" Line="44" Column="29" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTransporte.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionLector.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\LectorController\LectorController.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\LectorController\Lector.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\LectorController\LLave.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\InterDatos\InterDatos.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="136" Column="7" />
+      <File FileName="Assets\_Scripts\Interactuable\InteractuableNPC.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccion.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\InterDatos\ObjetoDatos.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\ComprobarVariable.cs" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\DatosAccion\6.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDatos\6.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\NPCDatos\7.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\DatosAccion\7.xml" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\Rutina.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTienda.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\DialogoDistancia.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="55" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

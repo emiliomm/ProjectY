@@ -395,78 +395,10 @@ public class NPC_Dialogo : ObjetoSerializable
 				}
 				else
 				{
-					//Buscamos al interactuable en la escena
-					GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
+					NPC_Dialogo dialog = BuscarDialogo(IDNpc, IDDialogo);
 
-					//Si el interactuable se ha encontrado en la escena
-					if(gobj != null)
-					{
-						Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-						NPC_Dialogo dialog = inter.DevolverDialogo(IDDialogo);
-
-						//Si el dialogo buscado no se ha encontrado en el interactuable de la escena, buscamos en otros sitios
-						if(dialog == null)
-						{
-							//Buscamos en la cola de objetos
-							ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-							//Se ha encontrado en la cola de objetos
-							if(cobj != null)
-							{
-								ObjetoSerializable objs = cobj.GetObjeto();
-								dialog = objs as NPC_Dialogo;
-							}
-							//No se ha encontrado en la cola de objetos, buscamos en los directorios
-							else
-							{
-								//Cargamos el dialogo
-								//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-								if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-								{
-									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-								}
-								else
-								{
-									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-								}
-							}
-						}
-
-						dialog.AnyadirIntro(intro);
-						dialog.AddToColaObjetos();
-					}
-					//Si el interactuable no se ha encontrado en la escena
-					else
-					{
-						NPC_Dialogo npc_diag;
-
-						//Buscamos en la cola de objetos
-						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + ".xml");
-
-						//Se ha encontrado en la cola de objetos
-						if(cobj != null)
-						{
-							ObjetoSerializable objs = cobj.GetObjeto();
-							npc_diag = objs as NPC_Dialogo;
-						}
-						//No se ha encontrado en la cola de objetos
-						else
-						{
-							//Cargamos el dialogo
-							//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-							{
-								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-							else
-							{
-								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-						}
-
-						npc_diag.AnyadirIntro(intro);
-						npc_diag.AddToColaObjetos ();
-					}
+					dialog.AnyadirIntro(intro);
+					dialog.AddToColaObjetos();
 				}
 			}
 		}
@@ -491,78 +423,10 @@ public class NPC_Dialogo : ObjetoSerializable
 				}
 				else
 				{
-					//Miramos si el interactuable en la escena
-					GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
+					NPC_Dialogo dialog = BuscarDialogo(IDNpc, IDDialogo);
 
-					//El interactuable se ha encontrado en la escena
-					if(gobj != null)
-					{
-						Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-						NPC_Dialogo dialog = inter.DevolverDialogo(IDDialogo);
-
-						//Si el dialogo buscado no se ha encontrado en el interactuable de la escena, buscamos en otros sitios
-						if(dialog == null)
-						{
-							//Buscamos en la cola de objetos
-							ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-							//Se ha encontrado en la cola de objetos
-							if(cobj != null)
-							{
-								ObjetoSerializable objs = cobj.GetObjeto();
-								dialog = objs as NPC_Dialogo;
-							}
-							//No se ha encontrado en la cola de objetos
-							else
-							{
-								//Cargamos el dialogo
-								//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-								if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-								{
-									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-								}
-								else
-								{
-									dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-								}
-							}
-						}
-
-						dialog.AnyadirMensaje(IDTema, mensaje);
-						dialog.AddToColaObjetos();
-					}
-					//El interactuable no se ha encontrado en la escena
-					else
-					{
-						NPC_Dialogo npc_diag;
-
-						//Buscamos en la cola de objetos
-						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-						//Se ha encontrado en la cola de objetos
-						if(cobj != null)
-						{
-							ObjetoSerializable objs = cobj.GetObjeto();
-							npc_diag = objs as NPC_Dialogo;
-						}
-						//No se ha encontrado en la cola de objetos
-						else
-						{
-							//Cargamos el dialogo
-							//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-							{
-								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-							else
-							{
-								npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-							}
-						}
-
-						npc_diag.AnyadirMensaje(IDTema, mensaje);
-						npc_diag.AddToColaObjetos ();
-					}
+					dialog.AnyadirMensaje(IDTema, mensaje);
+					dialog.AddToColaObjetos();
 				}
 			}
 		}
@@ -769,6 +633,53 @@ public class NPC_Dialogo : ObjetoSerializable
 
 			Manager.Instance.cambiarRutina(IDRutina);
 		}
+	}
+
+	//Busca el diálogo en la escena y si no lo encuentra lo busca en los ficheros
+	//Devuelve el diálogo con los parámetros indicados
+	public static NPC_Dialogo BuscarDialogo(int IDInter, int IDDialogo)
+	{
+		NPC_Dialogo dialog = null;
+
+		//Miramos si el interactuable en la escena
+		GameObject gobj = Manager.Instance.GetInteractuable(IDInter);
+
+		//Si el interactuable se ha encontrado en la escena
+		if(gobj != null)
+		{
+			Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+			dialog = inter.DevolverDialogo(IDDialogo);
+		}
+
+		//Si el dialogo buscado no se ha encontrado en el interactuable de la escena, buscamos en otros sitios
+		if(dialog == null)
+		{
+			//Buscamos en la cola de objetos
+			ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDInter.ToString() + "-" + IDDialogo.ToString() + ".xml");
+
+			//Se ha encontrado en la cola de objetos
+			if(cobj != null)
+			{
+				ObjetoSerializable objs = cobj.GetObjeto();
+				dialog = objs as NPC_Dialogo;
+			}
+			//No se ha encontrado en la cola de objetos, buscamos en los directorios
+			else
+			{
+				//Cargamos el dialogo
+				//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
+				if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDInter.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
+				{
+					dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDInter.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+				}
+				else
+				{
+					dialog = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDInter.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+				}
+			}
+		}
+
+		return dialog;
 	}
 
 	private void CrearGrupo(int IDGrupo, int tipo_dialogo, ref int pos_dialogo)

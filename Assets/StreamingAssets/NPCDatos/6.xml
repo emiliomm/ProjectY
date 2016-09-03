@@ -3,4 +3,7 @@
 	<ID>6</ID>
 	<nombres>Puerta</nombres>
 	<IDTransporte>-1</IDTransporte>
+	<variables>
+		<int>0</int>
+	</variables>
 </ObjetoSerializable>

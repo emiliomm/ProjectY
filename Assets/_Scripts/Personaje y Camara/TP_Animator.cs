@@ -2,6 +2,8 @@
 
 /*
  * 	Clase que se encarga de animar al objeto del jugador, cambiando entre estados según el movimiento y/o acciones
+ *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
+ * 	Modificada por mí
  */
 public class TP_Animator : MonoBehaviour
 {
@@ -35,6 +37,12 @@ public class TP_Animator : MonoBehaviour
 
 	//propiedad que guarda nuestra direccion
 	public Direction MoveDirection {get; set; }
+	public Direction PrevMoveDirection {get; set; }
+
+	public void SetMoveDirection(Direction newState) {
+		PrevMoveDirection = MoveDirection;
+		MoveDirection = newState;
+	}
 
 	void Awake()
 	{
@@ -62,28 +70,28 @@ public class TP_Animator : MonoBehaviour
 		if (forward)
 		{
 			if(left)
-				MoveDirection = Direction.LeftForward;
+				SetMoveDirection(Direction.LeftForward);
 			else if (right)
-				MoveDirection = Direction.RightForward;
+				SetMoveDirection(Direction.RightForward);
 			else
-				MoveDirection = Direction.Forward;
+				SetMoveDirection(Direction.Forward);
 		}
 		else if (backward)
 		{
 			if(left)
-				MoveDirection = Direction.LeftBackward;
+				SetMoveDirection(Direction.LeftBackward);
 			else if (right)
-				MoveDirection = Direction.RightBackward;
+				SetMoveDirection(Direction.RightBackward);
 			else
-				MoveDirection = Direction.Backward;
+				SetMoveDirection(Direction.Backward);
 		}
 		else if (left)
-			MoveDirection = Direction.Left;
+			SetMoveDirection(Direction.Left);
 		else if (right)
-			MoveDirection = Direction.Right;
+			SetMoveDirection(Direction.Right);
 		//No nos movemos
 		else
-			MoveDirection = Direction.Stationary;
+			SetMoveDirection(Direction.Stationary);
 	}
 
 	void Update()

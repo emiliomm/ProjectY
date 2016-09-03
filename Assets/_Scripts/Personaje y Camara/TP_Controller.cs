@@ -2,6 +2,8 @@
 
 /*
  * 	Clase que se encarga de controlar el movimiento del jugador
+ *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
+ * 	Modificada por mí
  */
 public class TP_Controller : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class TP_Controller : MonoBehaviour
 	public static CharacterController CharacterController; //Nos permite lidiar con colisiones sin RigidBody
 	public static TP_Controller Instance; //Instancia propia de la clase
 
-	public enum State { EntreEscenas, Normal, Dialogo, Interactuables }
+	public enum State { Normal, Dialogo, Interactuables }
 
 	State _state = State.Normal;
 	State _prevState;
@@ -32,10 +34,6 @@ public class TP_Controller : MonoBehaviour
 
 	//Indica que layers se detectan como suelo
 	public LayerMask layerMaskSuelo;
-
-	//variables que se usan para guardar el input entre escenas
-	private float VerticalAxis;
-	private float HorizontalAxis;
 
 	// Use this when the object is created
 	private void Awake ()
@@ -82,7 +80,7 @@ public class TP_Controller : MonoBehaviour
 
 			//Lo igualamos a 0 para recalcularlo cada frame
 			TP_Motor.Instance.MoveVector = new Vector3(0f, -1f, 0f); //Unity necesita tener gravedad siempre activa para el CharacterController
-			TP_Animator.Instance.MoveDirection = TP_Animator.Direction.Stationary;
+			TP_Animator.Instance.SetMoveDirection(TP_Animator.Direction.Stationary);
 
 			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;
@@ -137,28 +135,6 @@ public class TP_Controller : MonoBehaviour
 
 		//Determinamos la direccion ahora que tenemos el vector de movimiento
 		TP_Animator.Instance.DetermineCurrentMoveDirection();
-	}
-
-	private void GetLocomotionInputEntreEscenas()
-	{
-		var deadZone = 0.1f;//zona muerta del controlador
-
-		//guardamos el valor del movevector.y ya que vamos a transformarlo a 0 despues, pero necesitamos el valor
-		TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;
-
-		//Lo igualamos a 0 para recalcularlo cada frame
-		TP_Motor.Instance.MoveVector = Vector3.zero;
-
-		//Añadimos el movimiento del axis vertical si su movimiento es mayor que la zona muerta
-		if (VerticalAxis > deadZone || VerticalAxis < -deadZone)
-			TP_Motor.Instance.MoveVector += new Vector3( 0, 0, VerticalAxis);
-
-		//Añadimos el movimiento del axis horizontal si su movimiento es mayor que la zona muerta
-		if (HorizontalAxis > deadZone || HorizontalAxis < -deadZone)
-			TP_Motor.Instance.MoveVector += new Vector3(HorizontalAxis, 0, 0);
-
-		//Determinamos la direccion ahora que tenemos el vector de movimiento
-		//TP_Animator.Instance.DetermineCurrentMoveDirection();
 	}
 
 	//Comprobamos si el jugador pulsa alguna tecla para realizar alguna acción, como saltar

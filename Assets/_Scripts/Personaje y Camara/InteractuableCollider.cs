@@ -55,16 +55,19 @@ public class InteractuableCollider : MonoBehaviour {
 			inter = nearestInteractuable.GetComponent<Interactuable>();
 
 			//Si el interactuable es visible por la cámara y tiene más de una acción
-			if(inter.isVisible() && inter.DevolverAccionesCreadas() > 0)
+			if(inter.CurrentState != Interactuable.State.Desactivado)
 			{
-				inter.SetState (Interactuable.State.Accionable);
-				inter.DesactivarTextoAcciones();
-			}
-			else if(inter.CurrentState != Interactuable.State.Desactivado)
-			{
-				inter.SetState (Interactuable.State.Desactivado);
-				inter.OcultaCanvas();
-				inter.reiniciarDistancia();
+				if(inter.isVisible() && inter.DevolverAccionesCreadas() > 0)
+				{
+					inter.SetState (Interactuable.State.Accionable);
+					inter.DesactivarTextoAcciones();
+				}
+				else
+				{
+					inter.SetState (Interactuable.State.Desactivado);
+					inter.OcultaCanvas();
+					inter.reiniciarDistancia();
+				}
 			}
 
 			nearestInteractuable = null;

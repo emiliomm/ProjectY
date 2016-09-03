@@ -99,11 +99,35 @@ public class TextBox : MonoBehaviour {
 		StartCoroutine(DialogoCoroutine(interActual, npcDi));
 	}
 
+	//Función que empieza el diálogo
+	public void EmpezarDialogo(NPC_Dialogo npcDi)
+	{
+		StartCoroutine(DialogoCoroutine(npcDi));
+	}
+
 	//Couroutine que establece valores a las variables antes de iniciar el diálogo
 	public IEnumerator DialogoCoroutine(Interactuable interActual, NPC_Dialogo npcDi)
 	{
 		npc_dialogo  = npcDi;
 		inter = interActual;
+
+		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
+		TP_Camera.Instance.toDialogMode();
+		Manager.Instance.setPausa(true);
+		Manager.Instance.stopNavMeshAgents();
+
+		dialogue_window.SetActive(true);
+		Cursor.visible = true; //Muestra el cursor del ratón
+
+		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
+		yield return StartCoroutine(IniciaDialogo());
+	}
+
+	//Couroutine que establece valores a las variables antes de iniciar el diálogo
+	public IEnumerator DialogoCoroutine(NPC_Dialogo npcDi)
+	{
+		npc_dialogo  = npcDi;
+		inter = null;
 
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		TP_Camera.Instance.toDialogMode();
@@ -776,10 +800,11 @@ public class TextBox : MonoBehaviour {
 		selected_option = x;
 	}
 
-	//Posiciona la cámara
+	//Posiciona la cámara, si el interactuable no es nulo
 	private void PosicionaCamara(PosicionCamara posC)
 	{
-		TP_Camera.Instance.PosicionDialogo(posC, Manager.Instance.GetInteractuable(inter.ID));
+		if(inter != null)
+			TP_Camera.Instance.PosicionDialogo(posC, Manager.Instance.GetInteractuable(inter.ID));
 	}
 
 	//Devuelve el nombre de quién habla según un entero
@@ -793,7 +818,10 @@ public class TextBox : MonoBehaviour {
 			nombre = Manager.Instance.DevuelveNombreJugador();
 			break;
 		case -1:
-			nombre = inter.DevuelveNombreDialogo();
+			if(inter != null)
+				nombre = inter.DevuelveNombreDialogo();
+			else
+				nombre = "";
 			break;
 		}
 

@@ -2,6 +2,8 @@
 
 /*
  * 	Clase que se encarga de controlar la cámara
+ *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
+ * 	Modificada por mí
  */
 public class TP_Camera : MonoBehaviour
 {
@@ -50,7 +52,7 @@ public class TP_Camera : MonoBehaviour
 	private float distanceSmooth = 0f;
 	private float preOccludedDistance = 0f; //almacena la distancia actual de la camara hasta que el jugador cambie el zoom
 
-	private bool offset_active = false; //Indica si el offset está activado o no
+	public bool offset_active = false; //Indica si el offset está activado o no
 	private float offset_value = 0f;
 
 	//Indica el porcentaje de offser aplicado

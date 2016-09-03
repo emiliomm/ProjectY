@@ -30,7 +30,6 @@ public class CursorUIDetection : MonoBehaviour {
 		//Cada vez que colisionamos con el jugador, cambiamos el material para que el cursor se muestre correctamente sin atravesar la geometría del jugador
 		if (other.tag == "Player")
 		{
-			Debug.Log("Hola");
 			gameObject.GetComponent<Image>().material = Resources.Load("UI2") as Material; //Mover la carga del material a otro sitio (Manager)
 		}
 	}

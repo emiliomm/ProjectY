@@ -34,6 +34,11 @@ public class InterDatos : ObjetoSerializable{
 		return inter_datos;
 	}
 
+	public void Serialize()
+	{
+		Manager.Instance.SerializeData(this, Manager.rutaNPCDatosGuardados, ID.ToString()  + ".xml");
+	}
+
 	//Añade los datos a la cola de objetos serializables
 	public void AddToColaObjetos()
 	{

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ObjetoInventario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID>1</ID>
+	<nombre>Tarjeta Habitación 003</nombre>
+	<nombreImagen>llave</nombreImagen>
+	<descripcion>Una tarjeta metálica que sirve para abrir la habitación 003 de la nave.</descripcion>
+</ObjetoInventario>

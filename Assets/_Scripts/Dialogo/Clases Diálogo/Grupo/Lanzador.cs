@@ -46,99 +46,28 @@ public class Lanzador{
 			//Si la intro forma parte de un grupo y ese grupo ya ha acabado, no es añadida
 			if(!Manager.Instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
 			{
-				//Buscamos en el diccionario al interactuable en la lista de interactuables de la escena actual
-				GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
+				NPC_Dialogo dialog = NPC_Dialogo.BuscarDialogo(IDNpc, IDDialogo);
 
-				if(gobj != null)
+				//Añadimos la intro
+				dialog.AnyadirIntro(intro);
+
+				//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
+				//Comprobamos si tenemos que cambiar el indice de dialogo actual
+				if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo)
 				{
-					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-					NPC_Dialogo diag = inter.DevolverDialogo(IDDialogo);
-
-					//El interactuable se encuentra en la escena
-					if(diag != null)
+					//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
+					//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
+					if(prioridad > dialog.intros[num_dialogo].DevuelvePrioridad() && tipo_dialogo == 0)
 					{
-						//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
-						//Comprobamos si tenemos que cambiar el indice de dialogo actual
-						if(ID_NPC == IDNpc && ID_DiagActual == IDDialogo)
-						{
-							//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
-							//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
-							if(prioridad > diag.intros[num_dialogo].DevuelvePrioridad() && tipo_dialogo == 0)
-							{
-								num_dialogo++;
-							}
-
-							//Por último, añadimos el diálogo
-							diag.AnyadirIntro(intro);
-
-							//No añadimos el diálogo a la cola de objetos, ya que el dialogo actual se serializa al final de la conversación actual
-						}
-						//Si el diálogo de la intro a añadir no es el del diálogo actual
-						//Añadimos la intro y luego añadimos el dialogo a la cola
-						else
-						{
-							diag.AnyadirIntro(intro);
-							diag.AddToColaObjetos();
-						}
+						num_dialogo++;
 					}
-					//Si el interactuable no está en la escena, lo buscamos en la cola de objetos, o directamente en los directorios
-					else
-					{
-						//Buscamos en la cola de objetos
-						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-						if(cobj != null)
-						{
-							ObjetoSerializable objs = cobj.GetObjeto();
-							diag = objs as NPC_Dialogo;
-						}
-						else
-						{
-							//Cargamos el dialogo
-							//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-							{
-								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-							else
-							{
-								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-						}
-
-						diag.AnyadirIntro(intro);
-						diag.AddToColaObjetos();
-					}
+					//No añadimos el diálogo a la cola de objetos, ya que el dialogo actual se serializa al final de la conversación actual
 				}
-				//El interactuable no está en la escena actual, lo buscamos en la cola de objetos o en los directorios
+				//Si el diálogo de la intro a añadir no es el del diálogo actual
+				//Añadimos el dialogo a la cola
 				else
 				{
-					NPC_Dialogo npc_diag;
-
-					//Buscamos en la cola de objetos
-					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-					if(cobj != null)
-					{
-						ObjetoSerializable objs = cobj.GetObjeto();
-						npc_diag = objs as NPC_Dialogo;
-					}
-					else
-					{
-						//Cargamos el dialogo
-						//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-						else
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-					}
-
-					npc_diag.AnyadirIntro(intro);
-					npc_diag.AddToColaObjetos();
+					dialog.AddToColaObjetos();
 				}
 			}
 		}
@@ -155,83 +84,15 @@ public class Lanzador{
 			//Si el mensaje forma parte de un grupo y ese grupo ya ha acabado, no es añadido
 			if(!Manager.Instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
 			{
-				//Buscamos en el diccionario al interactuable en la lista de interactuables de la escena actual
-				GameObject gobj = Manager.Instance.GetInteractuable(IDNpc);
+				NPC_Dialogo dialog = NPC_Dialogo.BuscarDialogo(IDNpc, IDDialogo);
 
-				//El interactuable se encuentra en la escena actual
-				if(gobj != null)
+				dialog.AnyadirMensaje(IDTema, mensaje);
+
+				//Si el dialogo del cual hemos añadido el mensaje no es el actual, añadimos el dialogo a la cola
+				//ya que el dialogo actual se serializa al final de la conversación
+				if(!(ID_NPC == IDNpc && ID_DiagActual == IDDialogo))
 				{
-					Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
-					NPC_Dialogo diag = inter.DevolverDialogo(IDDialogo);
-
-					if(diag != null)
-					{
-						diag.AnyadirMensaje(IDTema, mensaje);
-
-						//Si el dialogo del cual hemos añadido el mensaje no es el actual, añadimos el dialogo a la cola
-						//ya que el dialogo actual se serializa al final de la conversación
-						if(!(ID_NPC == IDNpc && ID_DiagActual == IDDialogo))
-						{
-							diag.AddToColaObjetos();
-						}
-					}
-					else
-					{
-						//Buscamos en la cola de objetos
-						ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-						if(cobj != null)
-						{
-							ObjetoSerializable objs = cobj.GetObjeto();
-							diag = objs as NPC_Dialogo;
-						}
-						else
-						{
-							//Cargamos el dialogo
-							//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-							if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-							{
-								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-							else
-							{
-								diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-							}
-						}
-
-						diag.AnyadirMensaje(IDTema, mensaje);
-						diag.AddToColaObjetos ();
-					}
-				}
-				//El interactuable no se encuentra en la escena actual
-				else
-				{
-					NPC_Dialogo npc_diag;
-
-					//Buscamos en la cola de objetos
-					ColaObjeto cobj = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDNpc.ToString() + "-" + IDDialogo.ToString() + ".xml");
-
-					if(cobj != null)
-					{
-						ObjetoSerializable objs = cobj.GetObjeto();
-						npc_diag = objs as NPC_Dialogo;
-					}
-					else
-					{
-						//Cargamos el dialogo
-						//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-						if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-						else
-						{
-							npc_diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + IDNpc.ToString()  + "-" + IDDialogo.ToString() + ".xml");
-						}
-					}
-
-					npc_diag.AnyadirMensaje(IDTema, mensaje);
-					npc_diag.AddToColaObjetos ();
+					dialog.AddToColaObjetos();
 				}
 			}
 		}

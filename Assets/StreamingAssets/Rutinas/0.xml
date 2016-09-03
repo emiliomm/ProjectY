@@ -22,24 +22,5 @@
 				</eventos>
 			</lugarSiguiente>
 		</PosicionLugarSiguiente>
-		<PosicionLugarSiguiente>
-			<hora>3</hora>
-			<lugarSiguiente>
-				<lugar>
-					<IDInter>1</IDInter>
-					<IDEscena>10</IDEscena>
-					<coordX>0.74</coordX>
-					<coordY>16.36</coordY>
-					<coordZ>-17.36</coordZ>
-					<X>0</X>
-					<Y>-0.6878476</Y>
-					<Z>0</Z>
-					<W>0.7258552</W>
-				</lugar>
-				<eventos>
-<!--					<int></int>-->
-				</eventos>
-			</lugarSiguiente>
-		</PosicionLugarSiguiente>
 	</posLugarSiguientes>
 </Rutina>

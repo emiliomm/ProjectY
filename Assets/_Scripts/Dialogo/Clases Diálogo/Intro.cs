@@ -13,7 +13,7 @@ public class Intro{
 	//-1 --> Sin grupo, otro --> con grupo
 	public int IDGrupo;
 
-	public List<EventoDialogo> eventos;
+	public List<DialogoEvento> eventos;
 
 	// 0 --> falso, 1 --> verdadero
 	//Indica si la intro se va a destruir al acabar de recorrerla
@@ -24,7 +24,7 @@ public class Intro{
 
 	public Intro()
 	{
-		eventos = new List<EventoDialogo>();
+		eventos = new List<DialogoEvento>();
 		dia = new Dialogue();
 	}
 

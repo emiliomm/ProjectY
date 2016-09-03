@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using System.Collections.Generic;
 
 /*
  * 	Clase derivada de InterDatos que contiene datos especificos de un subtipo de Interactuables: los objetos
@@ -17,9 +18,11 @@ public class ObjetoDatos : InterDatos{
 	//Indica el ID del transporte que acompaña al objeto, -1 si no tiene ninguno
 	public int IDTransporte;
 
+	public List<int> variables;
+
 	public ObjetoDatos()
 	{
-		
+		variables = new List<int>();
 	}
 
 	public override string DevuelveNombreActual()
@@ -30,6 +33,16 @@ public class ObjetoDatos : InterDatos{
 	public int DevuelveIDTransporte()
 	{
 		return IDTransporte;
+	}
+
+	public int DevuelveValorVariable(int num)
+	{
+		return variables[num];
+	}
+
+	public void SetValorVariable(int num, int valor)
+	{
+		variables[num] = valor;
 	}
 
 	//Devuelve el InterDatos de un xml indicado en la ruta

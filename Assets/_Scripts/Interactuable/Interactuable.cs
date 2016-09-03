@@ -224,7 +224,7 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	//Comprueba si los requisitos para que la acción se muestre. Si no se cumplen, devuelve falso
-	private bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
+	protected virtual bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
 	{
 		bool mostrarAccion = true;
 
@@ -490,9 +490,7 @@ public class Interactuable : MonoBehaviour {
 		delta = Camera.main.transform.TransformDirection(delta);
 
 		//Asignamos la posición al objeto que hace de cursor
-		Vector3 CursorLimit = new Vector3(0f, 0f, 0f);
-		CursorLimit = canvas.transform.position + delta;
-		cursorUI.transform.position = CursorLimit;
+		cursorUI.transform.position = canvas.transform.position + delta;
 	}
 
 	//Mueve el cursorUI a su posición inicial

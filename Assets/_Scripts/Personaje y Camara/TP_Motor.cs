@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
 /*
- * 	Clase que se encarga de detectar y ajustar el movimeitno del jugador
+ * 	Clase que se encarga de detectar y ajustar el movimiento del jugador
+ *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
+ * 	Modificada por mí
  */
 public class TP_Motor : MonoBehaviour
 {
@@ -124,8 +126,10 @@ public class TP_Motor : MonoBehaviour
 		//Si no nos movemos
 		if (MoveVector.x != 0 || MoveVector.z != 0)
 		{
-			//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
-			transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
+			//Si estamos corriendo, no movemos el ratón y la cámara ha chocado con algo, no cambiamos la dirección del personaje
+			if(!(Input.GetAxis ("Mouse X") == 0 && Input.GetAxis ("Mouse Y") == 0 && !TP_Camera.Instance.offset_active) || TP_Animator.Instance.PrevMoveDirection == TP_Animator.Direction.Stationary)
+				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
 		}
 	}
 

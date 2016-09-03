@@ -2,6 +2,8 @@ using UnityEngine;
 
 /*
  * 	Clase que crea un rectángulo de visión de la cámara
+ *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
+ * 	Modificada por mí
  */
 public static class Helper
 {

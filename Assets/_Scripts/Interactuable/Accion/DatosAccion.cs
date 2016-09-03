@@ -11,6 +11,8 @@ using System.Xml.Serialization;
 [XmlInclude(typeof(DatosAccionDialogo))]
 [XmlInclude(typeof(DatosAccionObjeto))]
 [XmlInclude(typeof(DatosAccionTienda))]
+[XmlInclude(typeof(DatosAccionLector))]
+[XmlInclude(typeof(DatosAccionTransporte))]
 public class DatosAccion {
 
 	public int ID; //ID que identifica a la acción (aún sin usar)
@@ -18,9 +20,12 @@ public class DatosAccion {
 
 	public List<ComprobarObjeto> objetos; //Lista con clases que condicionan si una acción se muestra dependiendo de los objetos en el Inventario
 
+	public List<ComprobarVariable> variables;
+
 	public DatosAccion()
 	{
 		objetos = new List<ComprobarObjeto>();
+		variables = new List<ComprobarVariable>();
 	}
 
 	public string DevolverNombre()

@@ -10,7 +10,7 @@ public class DatosAccionObjeto : DatosAccion{
 
 	//Layermask del objeto que se cargará
 	//Pasar al Manager
-	int layerMask = 8; //UIObjeto
+	private int layerMask = 8; //UIObjeto
 
 	public DatosAccionObjeto()
 	{
@@ -18,6 +18,7 @@ public class DatosAccionObjeto : DatosAccion{
 	}
 
 	//Inicia el modo objeto
+	//PASAR A OBJETO CONTROLLER ALGUNAS DE LAS FUNCIONES
 	public override void EjecutarAccion()
 	{
 		Manager.Instance.setPausa(true);

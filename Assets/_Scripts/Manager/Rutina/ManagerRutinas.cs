@@ -147,18 +147,10 @@ public class ManagerRutinas: MonoBehaviour
 				
 			posLugarSiguiente[i].lugarSiguiente.setFechaRutina(fechaRutina);
 			cont.addLugarSig(posLugarSiguiente[i].lugarSiguiente);
-
-//			for(int j = 0; j < posLugarSiguiente[i].lugarSiguiente.eventos.Count; j++)
-//			{
-//				cargarEvento(posLugarSiguiente[i].lugarSiguiente.eventos[j], IDInter);
-//				AddEventoAInter(infoInter, posLugarSiguiente[i].lugarSiguiente.eventos[j]);
-//			}
 		}
 
 		if(autorutina)
 			cargarAutorutina(IDRutina, fechaRutina);
-
-//		EliminarEventosDesactualizados(IDInter, infoInter);
 	}
 		
 	private void cargarAutorutina(int IDRutina, DateTime fechaRutina)
@@ -409,11 +401,11 @@ public class ManagerRutinas: MonoBehaviour
 						}
 						else
 						{
-							//Ejecutamos los eventos
-							ComprobarEventos();
-
 							//Añadimos el lugar Actual
 							AddLugarActual(lista_lugarsiguiente[i].lugar, lista_lugarsiguiente[i].eventos);
+
+							//Ejecutamos los eventos del lugar actual
+							ComprobarEventos(lista_lugarsiguiente[i].eventos);
 						}
 					}
 				}
@@ -423,9 +415,18 @@ public class ManagerRutinas: MonoBehaviour
 		}
 	}
 
-	private void ComprobarEventos()
+	private void ComprobarEventos(List<int> eventos)
 	{
-		
+		EventoLista evLis;
+		Evento ev;
+
+		for(int i = 0; i < eventos.Count; i++)
+		{
+			if (listaEventos.TryGetValue(eventos[i], out evLis))
+			{
+				evLis.devuelveEvento().EjecutarEvento();
+			}
+		}
 	}
 
 	public void CargarEscena(int escena)

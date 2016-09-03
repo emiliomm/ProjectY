@@ -11,4 +11,18 @@
 		<tamY>7</tamY>
 		<tamZ>14</tamZ>
 	</DatosAccion>
+	<DatosAccion xsi:type="xs:DatosAccionLector">
+		<ID>50</ID>
+		<nombre>Prueba</nombre>
+		<objetos/>
+		<IDObjeto>4</IDObjeto>
+		<num_variable>0</num_variable>
+		<valorNegativo>0</valorNegativo>
+	</DatosAccion>
+	<DatosAccion xsi:type="xs:DatosAccionObjeto">
+		<ID>50</ID>
+		<nombre>Prueba2</nombre>
+		<objetos/>
+		<nombreObjecto>Cube</nombreObjecto>
+	</DatosAccion>
 </ArrayOfDatosAccion>

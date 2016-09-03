@@ -22,6 +22,7 @@ public class DatosAccionTienda : DatosAccion{
 		
 	}
 
+	//PASAR A OBJETO TIENDA ALGUNAS DE LAS FUNCIONES
 	public override void EjecutarAccion()
 	{
 		Manager.Instance.setPausa(true);

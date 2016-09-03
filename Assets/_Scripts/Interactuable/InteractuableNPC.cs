@@ -10,9 +10,6 @@ public class InteractuableNPC : Interactuable {
 
 	protected override void Start()
 	{
-		//Ejecuta el metodo del padre
-		base.Start();
-
 		//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
 		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
 		{
@@ -22,6 +19,9 @@ public class InteractuableNPC : Interactuable {
 		{
 			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
 		}
+
+		//Ejecuta el metodo del padre
+		base.Start();
 
 		agente = GetComponent<NavMeshAgent>();
 
