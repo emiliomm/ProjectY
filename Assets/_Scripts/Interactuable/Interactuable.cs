@@ -432,7 +432,7 @@ public class Interactuable : MonoBehaviour {
 	//Calcula la distancia entre el jugador y el interactuable
 	private void CalcularDistancia()
 	{
-		distance = Vector3.Distance(TP_Controller.CharacterController.transform.position, transform.position);
+		distance = Vector3.Distance(TP_Controller.characterController.transform.position, transform.position);
 	}
 
 	private void MuestraCanvasSinTransparencia()

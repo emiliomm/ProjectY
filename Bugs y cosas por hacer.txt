@@ -10,10 +10,8 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Por qué? Solo está programado para detectar collider enter
 	* ¿Cómo solucionarlo? Hacer una especie de lista o algo así ¿?
 
-- El personaje realiza la animación de caerse al estar en el borde del suelo pero sin llegar a caerse
 - A veces se puede interactuar con las acciones de interactuables cercanos aunque estén fuera de cámara (Comprobar)
 - La caja de colision de los dialogos a distancia colisiona con la cámara
-- Algunas animaciones con salto y hacia atrás causan bugs en la animación
 - Cuando estás en el menú de mensajes o temamensajes la cámara no tiene posición definida, lo que causa problemas al cargar una escena con un dialogo a distancia que se inicia instantaneamente
 
 - La luz del mapa1 no carga correctamente al pasar de inicio al mapa
@@ -49,14 +47,14 @@ COSAS POR HACER:
 - Mejorar función setPausa del Manager
 - Añadir los tags y layers que hay en el juego en el documento Guía Estilo
 - Hacer que la cámara no se mueva cuando el jugador salta o quitar el salto (mov. de cámara lioso al saltar en espacios cerrados, ver ejemplo otros juegos)
-- Hacer que los interactuables puedan tener un offset respecto a la UI, que no toda la UI esté en el centro del personaje
 - Modificar la alineación de la cámara con respecto al jugador cuando hay offset (funcion SnapAlignCharacterWithCamera() del TP_Motor)
 - Crear unas reglas para el nombre de funciones y parámetros
 - Faltan algunas rutas de archivos por añadir al manager, mirar código
-- Guardar las variables de sensibilidad del ratón del objetocontroller en el Manager, así como otras variables similares, como el layermask de datosaccionobjeto
-- Mostrar/ocultar mensajes según objeto equipado, como está en las opciones
+	- Guardar las variables de sensibilidad del ratón del objetocontroller en el Manager, así como otras variables similares, como el layermask de datosaccionobjeto
+- Mostrar/ocultar mensajes según objeto equipado, como está en las opciones de diálogo
 - Mirar que hacer con el prefab botoninventario
 - Ordenar código interactuable
+- Añadir secciones en el código #region #endregion
 - Hacer que los objetos que hay en el dialoguenode sean hijos de una misma clase base para no incluir clases que no se van a usar
 - Añadir control por teclado al dialogo, a la interaccion de interactuables y a la interaccion con objetos
 - Mejorar sistema de rutinas
@@ -78,8 +76,6 @@ COSAS POR HACER:
 		- Que salgan según grupos activos y otras variables
 	- Algunos objetos interactuables, que no se muevan en 3d como los actuales, sino que son fijos con botones, etc (móvil, ordenador, etc...)
 - El radio de las acciones es igual pero al no estar centrada la posicion respecto al texto unas acciones son más dificiles de alcanzar
-- Probar y mejorar el sistema de animaciones.
-	- Eliminar estados de animaciones que no se usan
 - Serializar los objetoser como las acciones, sin cambiar el nombre
 - Refractorizar partes de NPC (nombres funciones, parámetros, etc.)
 - Refractorizar nombres de funciones, parámetros... Por todo el código
@@ -89,9 +85,10 @@ COSAS POR HACER:
 	- Si el NPC nombra al otro NPC con el nombre que el jugador sabe, va por un camino
 	- Si el NPC nombra al otro NPC con el nombre diferente al que el jugador sabe, va por otro camino
 - Falta implementar los mensajes de finalización de los Grupos, serán diferentes dependiendo de como haya acabado el Grupo
-- Probar el sistema de dialogos con ejemplos de misiones
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?
+- Probar el sistema de dialogos con ejemplos de misiones
+- Añadir animaciones y modelado personaje principal propio
 - Seguir patrones de programación(una vez casi acabado el juego) y optimizar el código
 	- No usar LINQ
 	- Si vas a mantener listas grandes casi constantemente o listas que aguegan y borran elementos rápidamente, lo mejor es crearlas con

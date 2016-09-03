@@ -8,7 +8,7 @@
 public class TP_Controller : MonoBehaviour
 {
 	//Radio cápsula de al menos 0.4
-	public static CharacterController CharacterController; //Nos permite lidiar con colisiones sin RigidBody
+	public static CharacterController characterController; //Nos permite lidiar con colisiones sin RigidBody
 	public static TP_Controller Instance; //Instancia propia de la clase
 
 	public enum State { Normal, Dialogo, Interactuables }
@@ -30,7 +30,7 @@ public class TP_Controller : MonoBehaviour
 	}
 
 	//indica si está tocando el suelo
-	public bool onGround;
+	public bool onGround { get { return isOnGround(); } }
 
 	//Indica que layers se detectan como suelo
 	public LayerMask layerMaskSuelo;
@@ -40,7 +40,7 @@ public class TP_Controller : MonoBehaviour
 	{
 		//Inicializamos el componente CharacterController
 		//Inicializamos la variable instancia
-		CharacterController = GetComponent("CharacterController") as CharacterController; 
+		characterController = GetComponent("CharacterController") as CharacterController; 
 		Instance = this;
 		layerMaskSuelo = -1; //Establecemos la layerMask a Everything
 		SetState(State.Normal);
@@ -52,7 +52,7 @@ public class TP_Controller : MonoBehaviour
 	private void Update ()
 	{
 		//Comprobamos si estamos tocando el suelo
-		onGround = isOnGround();
+		//onGround = isOnGround();
 
 		//Dependiendo del estado, hacemos unas cosas u otras
 		switch(_state)
@@ -150,8 +150,8 @@ public class TP_Controller : MonoBehaviour
 	//Aplicamos el salto
 	private void Jump()
 	{
-		TP_Motor.Instance.Jump(); //Ejecutamos las operaciones de salto
-		TP_Animator.Instance.Jump(); //Ejecutamos la animación de salto
+		if(TP_Animator.Instance.Jump()) //Ejecutamos la animación de salto
+			TP_Motor.Instance.Jump(); //Ejecutamos las operaciones de salto
 	}
 
 	//Comprobamos si estamos en el suelo
@@ -167,6 +167,8 @@ public class TP_Controller : MonoBehaviour
 			retVal = true;
 		}
 
-		return retVal;
+		return characterController.isGrounded;
+
+	//	return retVal;
 	}
 }

@@ -63,7 +63,7 @@ public class TP_Motor : MonoBehaviour
 
 		//Movemos el personaje en el espacio del mundo
 		//Convertimos el MoveVector(units*frame) a (units*second). Para ello, multiplicamos el MoveVector por DeltaTime
-		TP_Controller.CharacterController.Move(MoveVector * Time.deltaTime);
+		TP_Controller.characterController.Move(MoveVector * Time.deltaTime);
 	}
 
 	//Aplicamos la gravedad

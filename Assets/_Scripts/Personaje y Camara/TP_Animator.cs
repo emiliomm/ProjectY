@@ -20,20 +20,19 @@ public class TP_Animator : MonoBehaviour
 		LeftForward, RightForward, LeftBackward, RightBackward
 	}
 
-	//Estados que representan que esta haciendo el personaje
-	public enum CharacterState
-	{
-		Idle, Running, WalkBackwards, StrafingLeft, StrafingRight, Jumping,
-		Falling, Landing, Climbing, Sliding, Using, Dead, ActionLocked
-	}
+	static int idleState = Animator.StringToHash("Idle");
+	static int jumpingState = Animator.StringToHash("Jumping");
+	static int landingState = Animator.StringToHash("Landing");
+	static int fallingState = Animator.StringToHash("Falling");
+	static int runningState = Animator.StringToHash("Running");
+	static int walkbackwardsState = Animator.StringToHash("WalkBackwards");
 
-	public CharacterState State {get; set; }
-	public CharacterState PrevState {get; set; }
-
-	public void SetState(CharacterState newState) {
-		PrevState = State;
-		State = newState;
-	}
+	const int IDLE_STATE = 0;
+	const int JUMPING_STATE = 1;
+	const int LANDING_STATE = 2;
+	const int FALLING_STATE = 3;
+	const int RUNNING_STATE = 4;
+	const int WALKBACKWARDS_STATE = 5;
 
 	//propiedad que guarda nuestra direccion
 	public Direction MoveDirection {get; set; }
@@ -96,108 +95,96 @@ public class TP_Animator : MonoBehaviour
 
 	void Update()
 	{
-		DetermineCurrentState();
-		ProcessCurrentState();
+		ProcessCurrentState(DetermineCurrentState());
+	}
+
+	private bool isInIdle(int currentState)
+	{
+		return idleState == currentState;
+	}
+
+	private bool isInJumping(int currentState)
+	{
+		return jumpingState == currentState;
+	}
+
+	private bool isInLanding(int currentState)
+	{
+		return landingState == currentState;
+	}
+
+	private bool isInFalling(int currentState)
+	{
+		return fallingState == currentState;
+	}
+
+	private bool isInRunning(int currentState)
+	{
+		return runningState == currentState;
+	}
+
+	private bool isInWalkbackwards(int currentState)
+	{
+		return walkbackwardsState == currentState;
 	}
 
 	//Determina el estado
-	private void DetermineCurrentState()
+	private int DetermineCurrentState()
 	{
-		if(State == CharacterState.Dead)
-			return;
+		AnimatorStateInfo currentBaseState = animator.GetCurrentAnimatorStateInfo(0);
 
-		//corregir fallo no deja de caer
-		if(!TP_Controller.Instance.onGround)
+		int estado = -1;
+
+		if(isInIdle(currentBaseState.shortNameHash))
 		{
-			if(State != CharacterState.Falling &&
-			   State != CharacterState.Jumping && 
-			   State != CharacterState.Landing)
-			{
-				//Debemos estar callendo
-				Fall();
-			}
+			estado = IDLE_STATE;
+		}
+		else if(isInJumping(currentBaseState.shortNameHash))
+		{
+			estado = JUMPING_STATE;
+		}
+		else if(isInLanding(currentBaseState.shortNameHash))
+		{
+			estado = LANDING_STATE;
+		}
+		else if(isInFalling(currentBaseState.shortNameHash))
+		{
+			estado = FALLING_STATE;
+		}
+		else if(isInRunning(currentBaseState.shortNameHash))
+		{
+			estado = RUNNING_STATE;
+		}
+		else if(isInWalkbackwards(currentBaseState.shortNameHash))
+		{
+			estado = WALKBACKWARDS_STATE;
 		}
 
-		if(State != CharacterState.Falling &&
-		   State != CharacterState.Jumping && 
-		   State != CharacterState.Landing &&
-		   State != CharacterState.Using &&
-		   State != CharacterState.Climbing &&
-		   State != CharacterState.Sliding)
-		{
-			switch(MoveDirection)
-			{
-			case Direction.Stationary:
-				SetState(CharacterState.Idle);
-				break;
-			case Direction.Forward:
-				SetState(CharacterState.Running);
-				break;
-			case Direction.Backward:
-				SetState(CharacterState.WalkBackwards);
-				break;
-			case Direction.Left:
-				SetState(CharacterState.StrafingLeft);
-				break;
-			case Direction.Right:
-				SetState(CharacterState.StrafingRight);
-				break;
-			case Direction.LeftForward:
-				SetState(CharacterState.Running);
-				break;
-			case Direction.RightForward:
-				SetState(CharacterState.Running);
-				break;
-			case Direction.LeftBackward:
-				SetState(CharacterState.WalkBackwards);
-				break;
-			case Direction.RightBackward:
-				SetState(CharacterState.WalkBackwards);
-				break;
-			
-			}
-		}
+		return estado;
 	}
 
 	//Según el estado en el que nos encontremos, ejecutamos determinadas funciones
-	private void ProcessCurrentState()
+	private void ProcessCurrentState(int estadoActual)
 	{
-		switch(State)
+		switch(estadoActual)
 		{
-		case CharacterState.Idle:
+		case IDLE_STATE:
 			Idle();
 			break;
-		case CharacterState.Running:
-			Running();
-			break;
-		case CharacterState.WalkBackwards:
-			WalkBackwards();
-			break;
-		//Caminar hacia al lado sin dejar de mirar al mismo sitio
-		case CharacterState.StrafingLeft:
-//			StrafingLeft();
-			break;
-		case CharacterState.StrafingRight:
-//			StrafingRight();
-			break;
-		case CharacterState.Jumping:
+		case JUMPING_STATE:
 			Jumping();
 			break;
-		case CharacterState.Falling:
-			Falling();
-			break;
-		case CharacterState.Landing:
+		case LANDING_STATE:
 			Landing();
 			break;
-		case CharacterState.Climbing:
+		case FALLING_STATE:
+			Falling();
 			break;
-		case CharacterState.Sliding:
+		case RUNNING_STATE:
+			Running();
 			break;
-		case CharacterState.Using:
-			break;
-		case CharacterState.Dead:
-			break;
-		case CharacterState.ActionLocked:
+		case WALKBACKWARDS_STATE:
+			WalkBackwards();
 			break;
 		}
 	}
@@ -206,20 +193,80 @@ public class TP_Animator : MonoBehaviour
 
 	private void Idle()
 	{
-		animator.SetBool("isRunning", false);
-		animator.SetBool("isWalkingBackwards", false);
-	}
-
-	private void Running()
-	{
-		animator.SetBool("isRunning", true);
-		animator.SetBool("isWalkingBackwards", false);
+		if(TP_Controller.Instance.onGround)
+		{
+			switch(MoveDirection)
+			{
+			case Direction.Stationary:
+			case Direction.Left:
+			case Direction.Right:
+				break;
+			case Direction.Forward:
+			case Direction.LeftForward:
+			case Direction.RightForward:
+				animator.SetBool("isRunning", true);
+				break;
+			case Direction.Backward:
+			case Direction.LeftBackward:
+			case Direction.RightBackward:
+				animator.SetBool("isWalkingBackwards", true);
+				break;
+			}
+		}
+		else
+			animator.SetBool("isFalling", true);
 	}
 
 	private void WalkBackwards()
 	{
-		animator.SetBool("isRunning", false);
-		animator.SetBool("isWalkingBackwards", true);
+		if(TP_Controller.Instance.onGround)
+		{
+			switch(MoveDirection)
+			{
+			case Direction.Stationary:
+				animator.SetBool("isWalkingBackwards", false);
+				break;
+			case Direction.Forward:
+			case Direction.LeftForward:
+			case Direction.RightForward:
+				animator.SetBool("isWalkingBackwards", false);
+				break;
+			case Direction.Backward:
+			case Direction.LeftBackward:
+			case Direction.RightBackward:
+			case Direction.Left:
+			case Direction.Right:
+				break;
+			}
+		}
+		else
+			animator.SetBool("isFalling", true);
+	}
+
+	private void Running()
+	{
+		if(TP_Controller.Instance.onGround)
+		{
+			switch(MoveDirection)
+			{
+			case Direction.Stationary:
+				animator.SetBool("isRunning", false);
+				break;
+			case Direction.Forward:
+			case Direction.Left:
+			case Direction.Right:
+			case Direction.LeftForward:
+			case Direction.RightForward:
+				break;
+			case Direction.Backward:
+			case Direction.LeftBackward:
+			case Direction.RightBackward:
+				animator.SetBool("isRunning", false);
+				break;
+			}
+		}
+		else
+			animator.SetBool("isFalling", true);
 	}
 
 	private void StrafingLeft()
@@ -234,70 +281,76 @@ public class TP_Animator : MonoBehaviour
 
 	private void Jumping()
 	{
-		if(TP_Controller.Instance.onGround)
+		if(!TP_Controller.Instance.onGround)
 		{
-			//crouching
-		}
-		//Si se está ejecutando la animación de salto
-		else if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Jumping"))
-		{
-			SetState(CharacterState.Falling);
+			animator.SetBool("isFalling", true);
 		}
 		else
 		{
-			SetState(CharacterState.Jumping);
-			//Help if we fell too far
+			animator.SetBool("isLanding", true);
 		}
 	}
 
 	private void Falling()
 	{
-		if(TP_Controller.Instance.onGround && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Falling"))
+		animator.SetBool("isJumping", false);
+		animator.SetBool("isRunning", false);
+		animator.SetBool("isWalkingBackwards", false);
+		animator.SetBool("isFalling", false);
+		if(TP_Controller.Instance.onGround)
 		{
 			animator.SetBool("isLanding", true);
-			animator.SetBool("isFalling", false);
-			animator.SetBool("isJumping", false);
-			SetState(CharacterState.Landing);
 		}
 	}
 
 	private void Landing()
 	{
-		//Cuando hemos acabado la animación
-		if(animator.GetCurrentAnimatorStateInfo(0).IsName("Landing") && 
-			animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-		{
-			SetState(CharacterState.Idle);
-			animator.SetBool("isLanding", false);
-		}
+		animator.SetBool("isLanding", false);
 	}
 
 	#endregion
 
 	#region Start Action Method
 
-	public void Jump()
+	public bool Jump()
 	{
-		if(!TP_Controller.Instance.onGround || State == CharacterState.Jumping)
-			return;
+		bool haSaltado = false;
 
-		if(State == CharacterState.Running)
+		if(TP_Controller.Instance.onGround && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("WalkBackwards") || animator.GetCurrentAnimatorStateInfo(0).IsName("Running")))
 		{
 			animator.SetBool("isRunning", false);
+			animator.SetBool("isLanding", false);
+			animator.SetBool("isFalling", false);
+			animator.SetBool("isWalkingBackwards", false);
+
+			animator.SetBool("isJumping", true);
+
+			haSaltado = true;
 		}
 
-		animator.SetBool("isJumping", true);
-		SetState(CharacterState.Jumping);
+		return haSaltado;
+
+//		if(!TP_Controller.Instance.onGround || State == CharacterState.Jumping)
+//			return;
+//
+//		animator.SetBool("isRunning", false);
+//		animator.SetBool("isLanding", false);
+//		animator.SetBool("isFalling", false);
+//		animator.SetBool("isWalkingBackwards", false);
+//
+//		animator.SetBool("isJumping", true);
+//		SetState(CharacterState.Jumping);
 	}
 
 	public void Fall()
 	{
-		if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Idle") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Jumping") || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Running"))
-		{
-			SetState(CharacterState.Falling);
-			//if we are too high do something
-			animator.SetBool("isFalling", true);
-		}
+//		if(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jumping") || animator.GetCurrentAnimatorStateInfo(0).IsName("Running"))
+//		{
+//			animator.SetBool("isFalling", true);
+//			animator.SetBool("isJumping", false);
+//			SetState(CharacterState.Falling);
+//			//if we are too high do something
+//		}
 	}
 
 	#endregion
