@@ -147,10 +147,10 @@
 			<ID>201</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos>
-				<EventoDialogo>
-					<ID>0</ID>
+				<DialogoEvento>
+					<IDEvento>0</IDEvento>
 					<variables/>
-				</EventoDialogo>
+				</DialogoEvento>
 			</eventos>
 			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>

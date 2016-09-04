@@ -7,8 +7,10 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 	- El radio de la capsula del character controller a de ser al menos de 0.4
 
 - Los gameObjects llamados Objeto de los Interactuables deben mirar hacia el eje Z (azul) local, así como el modelado del personaje principal.
-- Los gameObjects llamados Objeto de los Interactuables deben tener collider para ser detectados y rigidbody si son nav agents/InteractuableNPC (se mueven).
-	- El collider debe tener el isTrigger desactivado y el rigidbody debe tener el isKinematic desactivado. La gravedad es opcional, depende del tipo de NPC que se quiera crear
+- Los gameObjects llamados Objeto de los Interactuables deben tener collider para ser detectados
+	- Si son InteractuablesNPC deben tener rigidbody si son nav agents/InteractuableNPC (se mueven).
+	- Si son InteractuablesNPC el collider debe tener el isTrigger desactivado y el rigidbody debe tener el isKinematic desactivado con la colisión detection en continuous sino no lo detecta bien el interactuable collider. La gravedad es opcional, depende del tipo de NPC que se quiera crear
+	- Si son InteractuablesObjeto solo deben tener un collider con el isTrigger activado
 
 - La pared de los escenarios debe estar marcada con el tag "Pared"
 	- Es recomendable que los objetos con el tag "Pared" sean marcados como Static en el editor, para ahorrar rendimiento

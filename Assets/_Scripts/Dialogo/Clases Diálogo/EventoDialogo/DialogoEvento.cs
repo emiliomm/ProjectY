@@ -27,7 +27,9 @@ public class DialogoEvento{
 			}
 		}
 		else
+		{
 			activo = false;
+		}
 
 		return activo;
 	}

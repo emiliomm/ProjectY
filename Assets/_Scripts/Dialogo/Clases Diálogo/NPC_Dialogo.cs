@@ -43,7 +43,6 @@ public class NPC_Dialogo : ObjetoSerializable
 
 	//Devuelve el número de intros que están activos, es decir, que se pueden mostrar actualmente
 	//(Ya sea porque su evento está activo, las variables del evento permiten mostrarla o no tienen un evento vinculado)
-
 	//Además, devuelve la posición de la primera intro activa en el dialogo (0 si no hay ninguna)
 	public int DevuelveNumeroIntrosActivas(ref int primerIntroActiva)
 	{
