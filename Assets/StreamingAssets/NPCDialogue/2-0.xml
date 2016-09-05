@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ObjetoSerializable xsi:type="NPC_Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<ID_NPC>7</ID_NPC>
+	<ID_NPC>2</ID_NPC>
 	<ID>0</ID>
 	<intros>
 		<Intro>

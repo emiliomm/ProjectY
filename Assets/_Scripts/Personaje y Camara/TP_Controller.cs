@@ -36,7 +36,7 @@ public class TP_Controller : MonoBehaviour
 	public bool onGround { get { return isOnGround(); } }
 
 	//Indica que layers se detectan como suelo
-	public LayerMask layerMaskSuelo;
+//	public LayerMask layerMaskSuelo;
 
 	// Use this when the object is created
 	private void Awake ()
@@ -45,7 +45,7 @@ public class TP_Controller : MonoBehaviour
 		//Inicializamos la variable instancia
 		characterController = GetComponent("CharacterController") as CharacterController; 
 		Instance = this;
-		layerMaskSuelo = -1; //Establecemos la layerMask a Everything
+//		layerMaskSuelo = -1; //Establecemos la layerMask a Everything
 		SetState(State.Normal);
 
 		//creamos o buscamos una camara
@@ -160,15 +160,15 @@ public class TP_Controller : MonoBehaviour
 	//Comprobamos si estamos en el suelo
 	private bool isOnGround()
 	{
-		bool retVal = false;
-
-		Vector3 origin = transform.position + new Vector3(0, 0.05f, 0);
-		RaycastHit hit;
-
-		if(Physics.Raycast(origin, - Vector3.up, out hit, 0.5f, layerMaskSuelo))
-		{
-			retVal = true;
-		}
+//		bool retVal = false;
+//
+//		Vector3 origin = transform.position + new Vector3(0, 0.05f, 0);
+//		RaycastHit hit;
+//
+//		if(Physics.Raycast(origin, - Vector3.up, out hit, 0.5f, layerMaskSuelo))
+//		{
+//			retVal = true;
+//		}
 
 		return characterController.isGrounded;
 

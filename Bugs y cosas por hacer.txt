@@ -1,8 +1,6 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
 - Al cambiar entre escenas, el input se para, haciendo que el jugador se pare, haciendo que se note el cambio de escena
-- El jugador choca con las acciones, desactivar la colisión entre layer UI y layer Player, fastidia la detección del CursorUI con el jugador, necesaria para cambiar el shader
-- La cámara choca con los transportes
 - Los interactuables no van a transportes de InteractuablesObjetos por que el navObstacle está activado
 - Cuando se crea un dialogo a distancia y el jugador esta dentro del collider, no lo detecta bien, sobre todo si hay dos dialogos creados a la vez, en ese caso dolo detecta uno
 	* ¿Por qué? Solo está programado para detectar collider enter
@@ -12,11 +10,20 @@ BUGS(POR ORDEN DE PRIORIDAD)
 - La caja de colision de los dialogos a distancia colisiona con la cámara
 - Cuando estás en el menú de mensajes o temamensajes la cámara no tiene posición definida, lo que causa problemas al cargar una escena con un dialogo a distancia que se inicia instantaneamente
 
-- La luz del mapa1 no carga correctamente al pasar de inicio al mapa
+- El texto de la acción, al atravesar el modelado del jugador, queda feo.
+	* ¿Por qué? Debido al shader y las capas de visionado de las cámaras
+	* ¿Cómo solucionarlo? La acciónObjeto no detecta OnTriggerExit con el jugador pero si OnTriggerEnter, lo que impide solucionarlo, parece ser un error de Unity
+
+- Una acción de un Inter colisiona con el jugador cuando la acción está situada a los pies del jugador
+	* ¿Por qué? Parece ser un error de Unity (https://issuetracker.unity3d.com/issues/charactercontroller-dynamic-collider-ignores-slope-limit-and-gives-force)
+	* ¿Cómo solucionarlo? 
+
+- La luz del mapa1 no carga correctamente al pasar de inicio al mapa en el editor
 	* ¿Por qué? Se trata de un error de Unity que solo ocurre en el editor
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Cambiar aspecto transportes, tamaño, colisiones con jugador y cámara, etc.
 - Mejorar el código de lanzamiento de diálogos
 - Desactivar la navegación del interactuableNPC cuando llegue a una ruta
 - Mirar si se puede mejorar las capas que ve cada cámara, a lo mejor hay alguna repetida que se puede quitar
@@ -88,7 +95,7 @@ COSAS POR HACER:
 - Añadir variables NPC ¿?
 	- Que sean modificables por Dialogo ¿?
 - Probar el sistema de dialogos con ejemplos de misiones
-- Añadir animaciones y modelado personaje principal propio
+- Añadir animaciones y modelado personaje principal propios
 - Seguir patrones de programación(una vez casi acabado el juego) y optimizar el código
 	- No usar LINQ
 	- Si vas a mantener listas grandes casi constantemente o listas que aguegan y borran elementos rápidamente, lo mejor es crearlas con

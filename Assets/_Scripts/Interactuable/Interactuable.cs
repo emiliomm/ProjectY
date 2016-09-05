@@ -258,11 +258,17 @@ public class Interactuable : MonoBehaviour {
 	{
 		AccionGO.transform.SetParent(canvas.transform, false);
 		AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
+
 		AccionGO.layer = 5; //UI
 		AccionGO.tag = "AccionUI";
 
+		Rigidbody rigid = AccionGO.AddComponent<Rigidbody>();
+		rigid.useGravity = false;
+		rigid.isKinematic = true;
+
 		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
 		collider.size =  new Vector2(430f, 140f);
+		collider.isTrigger = true;
 
 		Text myText = AccionGO.AddComponent<Text>();
 		myText.text = Acciones[i].DevolverNombre();
@@ -432,7 +438,7 @@ public class Interactuable : MonoBehaviour {
 	//Calcula la distancia entre el jugador y el interactuable
 	private void CalcularDistancia()
 	{
-		distance = Vector3.Distance(TP_Controller.characterController.transform.position, transform.position);
+		distance = Vector3.Distance(TP_Controller.Instance.transform.position, transform.position);
 	}
 
 	private void MuestraCanvasSinTransparencia()
