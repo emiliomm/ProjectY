@@ -1,25 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs">
     <Files>
-      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="506" Column="3" />
-      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\NPC_Dialogo.cs" Line="920" Column="140" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" Line="52" Column="24" />
-      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="395" Column="14" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\NPC_Dialogo.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" Line="19" Column="2" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="147" Column="36" />
       <File FileName="Assets\_Scripts\Manager\Rutina\Evento\EventoDialogo.cs" Line="20" Column="25" />
-      <File FileName="Assets\_Scripts\Interactuable\DialogoDistancia.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Intro.cs" Line="66" Column="3" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\Evento\Evento.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\EventoDialogo\DialogoEvento.cs" Line="30" Column="4" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" Line="66" Column="17" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="125" Column="4" />
-      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\ComprobarObjeto.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\ComprobarVariable.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\CursorUIDetection.cs" Line="18" Column="42" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" Line="34" Column="6" />
+      <File FileName="Assets\_Scripts\Interactuable\DialogoDistancia.cs" Line="21" Column="20" />
+      <File FileName="Assets\StreamingAssets\DatosAccion\0.xml" Line="16" Column="16" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-1.xml" Line="12" Column="16" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs" Line="121" Column="33" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="576" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -18,12 +18,13 @@ public class DialogoDistancia : MonoBehaviour {
 
 	//Comprueba si se ha colisionado con el jugador
 	//Si el estado del jugador es el normal, inicia el dialogo a distancia
-	void OnTriggerEnter(Collider other)
+	void OnTriggerStay(Collider other)
 	{
 		if (other.tag == "Player")
 		{
 			if (TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
 			{
+				TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 				IniciaDialogo();
 			}
 		}
@@ -39,6 +40,7 @@ public class DialogoDistancia : MonoBehaviour {
 	//Cuando el dialogo acaba, elimina el objeto
 	private IEnumerator DialogoEnCurso()
 	{
+		Debug.Log(TP_Controller.Instance.CurrentState);
 		yield return StartCoroutine(TextBox.Instance.DialogoCoroutine(inter, datosAccionDialogo.diag));
 
 		//Quitamos la propiedad a distancia del diálogo y actualizamos las acciones del interactuable

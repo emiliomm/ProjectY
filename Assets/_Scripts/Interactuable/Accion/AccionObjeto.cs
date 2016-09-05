@@ -46,5 +46,5 @@ public class AccionObjeto : MonoBehaviour {
 //			
 //			gameObject.GetComponent<Text>().material = Resources.Load("UI") as Material; //Mover la carga del material a otro sitio (Manager)
 //		}
-	}
+//	}
 }

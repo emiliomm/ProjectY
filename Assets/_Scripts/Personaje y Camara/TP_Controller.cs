@@ -13,8 +13,8 @@ public class TP_Controller : MonoBehaviour
 
 	public enum State { Normal, Dialogo, Interactuables }
 
-	State _state = State.Normal;
-	State _prevState;
+	private State _state;
+	private State _prevState;
 
 	public State CurrentState {
 		get { return _state; } 
