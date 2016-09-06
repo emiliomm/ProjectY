@@ -21,9 +21,10 @@ public class InteractuableCollider : MonoBehaviour {
 	}
 
 	//Los interactuables que chocan con el collider pasan a estar en estado accionable
-	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Interactuable" ) {
-			Debug.Log("Entra: " + other.transform.parent.gameObject.GetComponent<Interactuable>().ID);
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Interactuable" )
+		{
 			Manager.Instance.addInteractuableCercano(other.transform.parent.gameObject);
 			inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
 			inter.SetState (Interactuable.State.Accionable);
@@ -32,9 +33,10 @@ public class InteractuableCollider : MonoBehaviour {
 	}
 
 	//Los interactuables que salen del collider pasan a estar desactivados
-	void OnTriggerExit(Collider other) {
-		if (other.tag == "Interactuable") {
-			Debug.Log("Sale: " + other.transform.parent.gameObject.GetComponent<Interactuable>().ID);
+	void OnTriggerExit(Collider other)
+	{
+		if (other.tag == "Interactuable")
+		{
 			Manager.Instance.deleteInteractuableCercano(other.transform.parent.gameObject);
 			inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
 			inter.SetState (Interactuable.State.Desactivado);

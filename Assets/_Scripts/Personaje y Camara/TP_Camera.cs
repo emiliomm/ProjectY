@@ -15,7 +15,7 @@ public class TP_Camera : MonoBehaviour
 
 	//Valores editables de la cámara
 	public float Distance = 5f;
-	public float DistanceMin = 3f;
+	public float DistanceMin = 2.2f;
 	public float DistanceMax = 10f;
 	public float DistanceSmooth = 0.05f; //Tiempo que tarda en variar la distancia al encontrar un obstaculo (mayor = mas lento)
 	public float DistanceResumeSmooth = 0.05f; //Tiempo que tarda en variar la distancia al no encontrar ningún obstáculo(mayor = mas lento)
@@ -61,8 +61,6 @@ public class TP_Camera : MonoBehaviour
 
 	//Valores que se usan cuando la cámara ha chocado con algo
 	private float block_offset = -1f;
-	private float block_percent = -1f;
-	private Vector3 block_right = Vector3.zero;
 
 	// Use this when the object is created
 	void Awake ()
@@ -227,8 +225,6 @@ public class TP_Camera : MonoBehaviour
 			if(block_offset == -1f)
 			{
 				block_offset = offset;
-				block_percent = offsetPercent;
-				block_right = transform.right;
 			}
 
 			//Si aun no nos hemos pasado con el tope de comprobaciones, acercamos la cámara hacia el personaje
@@ -346,18 +342,18 @@ public class TP_Camera : MonoBehaviour
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, out hitInfo, layerMask))
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, out hitInfo, layerMask))
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, out hitInfo, layerMask))
-		if (hitInfo.distance < nearestDistance || nearestDistance == -1)
-			nearestDistance = hitInfo.distance;
+			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
+				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
 		if (Physics.Linecast(from + transform.forward * -Camera.main.nearClipPlane, to + transform.forward * -Camera.main.nearClipPlane, out hitInfo, layerMask))
@@ -373,28 +369,25 @@ public class TP_Camera : MonoBehaviour
 		//si nos podemos alejar
 		if (desiredDistance < preOccludedDistance)
 		{
-			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
-
 			//Si nos hemos chocado con algo, usamos las variables block
 			var offset_used = offset;
-			var percent_used = offsetPercent;
-			var right_used = transform.right;
 
 			if(block_offset != -1f)
 			{
 				offset_used = block_offset;
-				percent_used = block_percent;
-				right_used = block_right;
 			}
 
-			//Comprobamos si nos hemos chocado con algo con el lookat con el offset aplicado
-			transform.LookAt(TargetLookAt.position+right_used*offset_used*percent_used);
+			var pos2 = CalculatePosition(mouseY, mouseX, preOccludedDistance);
+			var nearestDistance2 = CheckCameraPoints2(TargetLookAt.position, pos2);
+
+			transform.LookAt(TargetLookAt.position+transform.right*offset_used*offsetPercent);
+
+			var pos = CalculatePosition(mouseY, mouseX, preOccludedDistance);
 			var nearestDistance = CheckCameraPoints2(TargetLookAt.position, pos);
-			transform.LookAt(TargetLookAt.position+transform.right*offset*offsetPercent);
 
 			//No se han detectado nuevas colisiones o la distancia del choque es mayor que la actual
 			//Movemos la camara hacia atras todo lo que podemos
-			if (nearestDistance == -1 || nearestDistance > preOccludedDistance)
+			if ((nearestDistance == -1 && nearestDistance2 == -1) || nearestDistance > preOccludedDistance)
 			{
 				desiredDistance = preOccludedDistance;
 			}
@@ -403,9 +396,9 @@ public class TP_Camera : MonoBehaviour
 			if(nearestDistance == -1)
 			{
 				block_offset = -1;
-				block_percent = -1;
-				block_right = Vector3.zero;
 			}
+
+			transform.LookAt(TargetLookAt.position+transform.right*offset*offsetPercent);
 		}
 
 		//Si vamos a estar en la posición que queremos antes del choque, activamos el offset
@@ -438,7 +431,9 @@ public class TP_Camera : MonoBehaviour
 		}
 		else
 		{
-			offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
+			//offset = Mathf.SmoothDamp(offset, offset_min, ref offset_value, offset_smooth);
+			var offsetM = (1f/2.2f)*Distance;
+			offset = Mathf.SmoothDamp(offset, offsetM, ref offset_value, offset_smooth);
 		}
 
 		//Calculamos el porcentaje de offset que aplicamos según distancia si la diferencia es mayor que 0.001
