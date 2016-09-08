@@ -4,7 +4,6 @@ BUGS(POR ORDEN DE PRIORIDAD)
 - Los interactuables no van a transportes de InteractuablesObjetos por que el navObstacle está activado
 
 - A veces se puede interactuar con las acciones de interactuables cercanos aunque estén fuera de cámara (Comprobar)
-- La caja de colision de los dialogos a distancia colisiona con la cámara
 - Cuando estás en el menú de mensajes o temamensajes la cámara no tiene posición definida, lo que causa problemas al cargar una escena con un dialogo a distancia que se inicia instantaneamente
 
 - El texto de la acción, al atravesar el modelado del jugador, queda feo.

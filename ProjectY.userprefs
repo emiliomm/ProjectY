@@ -1,6 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs">
+    <Files>
+      <File FileName="Assets\_Scripts\Manager\Rutina\Evento\EventoDialogo.cs" Line="18" Column="28" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="143" Column="3" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\DialogoCola.cs" Line="23" Column="3" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" Line="492" Column="19" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\Evento\Evento.cs" Line="35" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccion.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="568" Column="103" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

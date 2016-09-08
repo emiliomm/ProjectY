@@ -6,8 +6,6 @@ public class EventoDialogo : Evento {
 	public int IDInter;
 	public int IDDialog;
 
-	//HACER EVENTOS DE UN SOLO USO
-
 	public EventoDialogo()
 	{
 		
@@ -17,6 +15,7 @@ public class EventoDialogo : Evento {
 	public override void EjecutarEvento()
 	{
 		NPC_Dialogo dialog = NPC_Dialogo.BuscarDialogo(IDInter, IDDialog);
-		TextBox.Instance.EmpezarDialogo(dialog);
+		TextBox.Instance.EmpezarDialogo(dialog, ID);
+		activo = false;
 	}
 }

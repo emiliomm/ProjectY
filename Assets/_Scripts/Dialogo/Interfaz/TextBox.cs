@@ -31,11 +31,14 @@ public class TextBox : MonoBehaviour {
 
 	private int selected_option = 0; //Almacena la opción escogida
 
+	private List<DialogoCola> dialogoCola;
+	public bool comprobandoDialogos;
+
 	//Estados de la clase
 	public enum State {Ninguno, Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Tema, Mensajes_Texto, Mensajes_Opciones};
 
-	State _state = State.Ninguno;
-	State _prevState;
+	private State _state;
+	private State _prevState;
 
 	public State CurrentState {
 		get { return _state; } 
@@ -49,14 +52,11 @@ public class TextBox : MonoBehaviour {
 		_prevState = _state;
 		_state = newState;
 	}
-
-	private List<NPC_Dialogo> dialogos;
-	public bool comprobandoDialogos;
 		
 	void Awake ()
 	{
 		Instance = this;
-		dialogos = new List<NPC_Dialogo>();
+		dialogoCola = new List<DialogoCola>();
 
 		comprobandoDialogos = false;
 
@@ -101,11 +101,12 @@ public class TextBox : MonoBehaviour {
 
 	public IEnumerator comprobarDialogos()
 	{
-		for(int i = dialogos.Count - 1; i >= 0; i--)
+		for(int i = dialogoCola.Count - 1; i >= 0; i--)
 		{
 			comprobandoDialogos = true;
-			yield return StartCoroutine(DialogoCoroutine(dialogos[i]));
-			dialogos.RemoveAt(i);
+			yield return StartCoroutine(DialogoCoroutine(dialogoCola[i].devuelveDialogo(), dialogoCola[i].devuelveIDEvento()));
+
+			dialogoCola.RemoveAt(i);
 		}
 		comprobandoDialogos = false;
 	}
@@ -117,12 +118,12 @@ public class TextBox : MonoBehaviour {
 	}
 
 	//Función que empieza el diálogo
-	public void EmpezarDialogo(NPC_Dialogo npcDi)
+	public void EmpezarDialogo(NPC_Dialogo npcDi, int IDEvento)
 	{
 		if(TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
-			StartCoroutine(DialogoCoroutine(npcDi));
+			StartCoroutine(DialogoCoroutine(npcDi, IDEvento));
 		else
-			dialogos.Add(npcDi);
+			dialogoCola.Add(new DialogoCola(npcDi, IDEvento));
 	}
 
 	//Couroutine que establece valores a las variables antes de iniciar el diálogo
@@ -148,8 +149,8 @@ public class TextBox : MonoBehaviour {
 	}
 
 	//Couroutine que establece valores a las variables antes de iniciar el diálogo
-	//Usada también en el dialogo a distancia
-	public IEnumerator DialogoCoroutine(NPC_Dialogo npcDi)
+	//Usada al activar un diálogo de un evento
+	public IEnumerator DialogoCoroutine(NPC_Dialogo npcDi, int IDEvento)
 	{
 		if(!comprobandoDialogos)
 			yield return StartCoroutine(comprobarDialogos());
@@ -167,6 +168,8 @@ public class TextBox : MonoBehaviour {
 
 		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
 		yield return StartCoroutine(IniciaDialogo());
+
+		ManagerRutinas.Instance.guardaEvento(IDEvento);
 	}
 
 	private IEnumerator IniciaDialogo()

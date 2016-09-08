@@ -2,6 +2,7 @@
 <Evento xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <!--	Titulo del evento -->
 	<ID>0</ID>
+	<activo>true</activo>
 	<variables>
 		<int>0</int>
 	</variables>

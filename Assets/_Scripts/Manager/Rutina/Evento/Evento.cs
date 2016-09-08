@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 public class Evento {
 
 	public int ID;
+	public bool activo;
 	public List<int> variables;
 
 	public Evento()
@@ -24,5 +25,10 @@ public class Evento {
 		Evento evento = Manager.Instance.DeserializeData<Evento>(path);
 
 		return evento;
+	}
+
+	public void Serialize()
+	{
+		Manager.Instance.SerializeData(this, Manager.rutaEventosGuardados, ID.ToString()  + ".xml");
 	}
 }

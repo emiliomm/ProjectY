@@ -424,7 +424,10 @@ public class ManagerRutinas: MonoBehaviour
 		{
 			if (listaEventos.TryGetValue(eventos[i], out evLis))
 			{
-				evLis.devuelveEvento().EjecutarEvento();
+				ev = evLis.devuelveEvento();
+
+				if(ev.activo)
+					ev.EjecutarEvento();
 			}
 		}
 	}
@@ -462,7 +465,7 @@ public class ManagerRutinas: MonoBehaviour
 		recorrerLugaresActuales();
 	}
 
-	//Devuelve un evento vacío si no es encontrado
+	//Devuelve un evento vacío si no es encontrado o si el evento no está activo
 	public Evento devuelveEvento(int IDEvento)
 	{
 		Evento ev = null;
@@ -471,9 +474,23 @@ public class ManagerRutinas: MonoBehaviour
 		if (listaEventos.TryGetValue(IDEvento, out evLis))
 		{
 			ev = evLis.devuelveEvento();
+			if(!ev.activo)
+				ev = null;
 		}
 
 		return ev;
+	}
+
+	public void guardaEvento(int IDEvento)
+	{
+		EventoLista evLis;
+		Evento ev;
+
+		if (listaEventos.TryGetValue(IDEvento, out evLis))
+		{
+			ev = evLis.devuelveEvento();
+			ev.Serialize();
+		}
 	}
 
 	//FUNCIÓN DEBUG

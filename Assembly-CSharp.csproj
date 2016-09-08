@@ -73,6 +73,7 @@
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeTienda.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\NPC_Dialogo.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\TemaMensaje.cs" />
+     <Compile Include="Assets\_Scripts\Dialogo\Interfaz\DialogoCola.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ComprobarObjeto.cs" />
