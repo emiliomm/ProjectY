@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
-public class TransporteCollider : MonoBehaviour {
+public class SaliendoTransporteCollider : MonoBehaviour {
 
-	private int IDInteractuable; //Indica el ID del inetractuable el cual debe chocar con el transporteCollider
+	private int IDInteractuable; //Indica el ID del interactuable el cual debe chocar con el transporteCollider
 	private GameObject transporte;
 
 	public void setIDInteractuable(int ID)
@@ -15,8 +15,8 @@ public class TransporteCollider : MonoBehaviour {
 	{
 		transporte = trans;
 	}
-	
-	void OnTriggerEnter(Collider other)
+
+	void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "Interactuable" )
 		{
@@ -26,14 +26,11 @@ public class TransporteCollider : MonoBehaviour {
 			{
 				if(inter.ID == IDInteractuable)
 				{
-					Manager.Instance.deleteNavhMeshAgent(inter.devuelveNavhMeshAgent());
-					Destroy(other.transform.parent.gameObject);
-					Destroy(gameObject);
-
 					if(transporte != null)
 					{
 						transporte.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(true);
 					}
+					Destroy(gameObject);
 				}
 			}
 		}

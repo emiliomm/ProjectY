@@ -7,6 +7,7 @@ public class Rutina{
 	public int ID;
 	public bool Autorutina; //Indica si la rutina tiene autorutina
 
+	//Los PosicionLugarSiguiente deben estar en la lista ordenados según la hora de menor a mayor
 	public List<PosicionLugarSiguiente> posLugarSiguientes;
 
 	public Rutina()

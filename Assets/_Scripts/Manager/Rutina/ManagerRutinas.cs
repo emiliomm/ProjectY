@@ -321,6 +321,10 @@ public class ManagerRutinas: MonoBehaviour
 
 	private void ComprobarInteractuableEscenaActual(int IDInter, int tipoInter, int IDEscenaAnterior, int IDEscenaActual, Vector3 coord, Quaternion rot)
 	{
+		Debug.Log(IDInter);
+		Debug.Log(IDEscenaAnterior);
+		Debug.Log(IDEscenaActual);
+
 		if(IDEscenaAnterior == escenaActual)
 		{
 			//El interactuable se mueve desde un punto de la escena actual a otro

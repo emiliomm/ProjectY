@@ -5,10 +5,15 @@
  */
 public class InteractuableObjeto : Interactuable {
 
+	private NavMeshObstacle obstacle;
 	private ObjetoDatos datos; //Almacena los datos de esta clase
+
+	private int numInteractuablesEnTransito;
 
 	protected override void Start()
 	{
+		numInteractuablesEnTransito = 0;
+
 		//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
 		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
 		{
@@ -21,6 +26,8 @@ public class InteractuableObjeto : Interactuable {
 
 		//Ejecuta el metodo del padre
 		base.Start();
+
+		obstacle = GetComponent<NavMeshObstacle>();
 
 		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());
@@ -88,6 +95,22 @@ public class InteractuableObjeto : Interactuable {
 
 			TransportePlayerObjeto transPlaObj = Transporte.AddComponent<TransportePlayerObjeto>();
 			transPlaObj.Constructor(objPl.ID, objPl.escenas, objPl.IDEscena);
+		}
+	}
+
+	public void setNavObstacle(bool estado)
+	{
+		if(!estado)
+		{
+			numInteractuablesEnTransito++;
+			obstacle.enabled = estado;
+		}
+		else
+		{
+			numInteractuablesEnTransito--;
+
+			if(numInteractuablesEnTransito == 0)
+				obstacle.enabled = estado;
 		}
 	}
 }

@@ -130,6 +130,7 @@
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
      <Compile Include="Assets\_Scripts\Transporte\RutaCollider.cs" />
+     <Compile Include="Assets\_Scripts\Transporte\SaliendoTransporteCollider.cs" />
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInter.cs" />
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInterObjeto.cs" />
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayer.cs" />

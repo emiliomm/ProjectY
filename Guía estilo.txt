@@ -18,6 +18,7 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - El NodeID de DialogueNode debe coincidir con su posición en la lista de nodos del diálogo
 - Las intros y mensajes incluidos por defecto en los dialogos (al empezar), no pueden tener idGrupo, ya que los elementos de grupo son añadidos al modificar un dialogo, los elementos no podrian ser borrados ya que el grupo solo mira en la lista de dialogos modificados
 - En el archivo de los inventarios de las tiendas, cada objeto solo debe contener el ID, ya que se carga posteriormente con los datos de los objetos localizados en otro directorio
+- En el archivo xml de las rutinas, los posicionLugarSiguiente deben estar ordenados de menor a mayor según la hora dentro de la lista posLugarSiguientes para que calcular la posición actual de la rutina al cargarla funcione correctamente
 
 *Otros
 - El máximo de opciones en el diálogo que se mostrarán son 15, así como el máximo de mensajes simultaneos

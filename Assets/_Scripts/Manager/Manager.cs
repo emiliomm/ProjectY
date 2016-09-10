@@ -365,7 +365,7 @@ public class Manager : MonoBehaviour {
 		interactuable.transform.rotation = rot;
 	}
 
-	//Crea un interactuable en la escena en un transporte de la escena anterior
+	//Crea un interactuable en la escena en un transporte que conecta con la escena anterior
 	public void moverInteractuableDesdeOtraEscena(int IDInter, int tipo, int IDEscenaAnterior, Vector3 coord, Quaternion rot)
 	{
 		GameObject interactuable;
@@ -386,14 +386,30 @@ public class Manager : MonoBehaviour {
 				interactuable.transform.position = transporte.transform.position;
 				iNPC.setRuta(coord);
 
-				GameObject interactuableCollider = new GameObject("RutaCollider");
-				interactuableCollider.transform.position = coord;
-				BoxCollider collider = interactuableCollider.AddComponent<BoxCollider>();
+				GameObject rutaColliderGO = new GameObject("RutaCollider");
+				rutaColliderGO.transform.position = coord;
+				BoxCollider collider = rutaColliderGO.AddComponent<BoxCollider>();
 				collider.size =  new Vector3(3.7f, 6.68f, 1f);
 				collider.isTrigger = true;
 
-				RutaCollider tc = interactuableCollider.AddComponent<RutaCollider>();
-				tc.setIDInteractuable(IDInter);
+				RutaCollider rc = rutaColliderGO.AddComponent<RutaCollider>();
+				rc.setIDInteractuable(IDInter);
+
+				if(transporte.GetComponent<TransporteInter>().comprobarSiEsTransporteObjeto())
+				{
+					transporte.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(false);
+
+					GameObject saliendoColliderGO = new GameObject("TransporteCollider");
+					saliendoColliderGO.transform.SetParent(transporte.transform, false);
+					BoxCollider colliderSaliendo = saliendoColliderGO.AddComponent<BoxCollider>();
+					colliderSaliendo.size =  new Vector3(3.7f, 6.68f, 1f);
+					colliderSaliendo.isTrigger = true;
+
+					SaliendoTransporteCollider saliendoCollider = saliendoColliderGO.AddComponent<SaliendoTransporteCollider>();
+
+					saliendoCollider.setIDInteractuable(IDInter);
+					saliendoCollider.setTransporte(transporte);
+				}
 			}
 			else
 			{
@@ -448,14 +464,20 @@ public class Manager : MonoBehaviour {
 			{
 				Inter.GetComponent<InteractuableNPC>().setRuta(transporteMasCercano.transform.position);
 
-				GameObject transporteCollider = new GameObject("TransporteCollider");
-				transporteCollider.transform.SetParent(transporteMasCercano.transform, false);
-				BoxCollider collider = transporteCollider.AddComponent<BoxCollider>();
+				GameObject transporteColliderGO = new GameObject("TransporteCollider");
+				transporteColliderGO.transform.SetParent(transporteMasCercano.transform, false);
+				BoxCollider collider = transporteColliderGO.AddComponent<BoxCollider>();
 				collider.size =  new Vector3(3.7f, 6.68f, 1f);
 				collider.isTrigger = true;
 
-				TransporteCollider tc = transporteCollider.AddComponent<TransporteCollider>();
+				TransporteCollider tc = transporteColliderGO.AddComponent<TransporteCollider>();
 				tc.setIDInteractuable(IDInter);
+
+				if(transporteMasCercano.GetComponent<TransporteInter>().comprobarSiEsTransporteObjeto())
+				{
+					transporteMasCercano.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(false);
+					tc.setTransporte(transporteMasCercano);
+				}
 			}
 			//si no existe un transporte que nos lleve a la escena que queremos, destruimos el interactuable
 			else

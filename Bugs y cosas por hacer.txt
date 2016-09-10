@@ -1,8 +1,6 @@
 BUGS(POR ORDEN DE PRIORIDAD)
 
 - Al cambiar entre escenas, el input se para, haciendo que el jugador se pare, haciendo que se note el cambio de escena
-- Los interactuables no van a transportes de InteractuablesObjetos por que el navObstacle está activado
-
 - A veces se puede interactuar con las acciones de interactuables cercanos aunque estén fuera de cámara (Comprobar)
 - Cuando estás en el menú de mensajes o temamensajes la cámara no tiene posición definida, lo que causa problemas al cargar una escena con un dialogo a distancia que se inicia instantaneamente
 
@@ -23,9 +21,11 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Mejorar transportes
+	- Unificar datos transportes gameObject y objeto(que se encuentra en .xml)
+	- Mejorar el código de los transportes, quizá unificando funciones
+	- Cambiar aspecto transportes, tamaño, colisiones con jugador y cámara, etc.
 - Hacer que no todos los eventos se ejecuten al principio, con una variable. Algunos eventos necesitan ejecutarse al principio, (como el del diálogo, pero otros no)
-- Unificar datos transportes gameObject y objeto(que se encuentra en .xml)
-- Cambiar aspecto transportes, tamaño, colisiones con jugador y cámara, etc.
 - Mejorar el código de lanzamiento de diálogos, sobretodo la parte de ejecución de los distintos diálogos
 - Desactivar la navegación del interactuableNPC cuando llegue a una ruta
 - Mirar si se puede mejorar las capas que ve cada cámara, a lo mejor hay alguna repetida que se puede quitar
