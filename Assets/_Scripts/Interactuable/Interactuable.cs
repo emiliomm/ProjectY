@@ -42,8 +42,8 @@ public class Interactuable : MonoBehaviour {
 	//Estados de la clase
 	public enum State { Desactivado, Accionable, Seleccionado, Accionando, Accionado }
 
-	State _state;
-	State _prevState;
+	private State _state;
+	private State _prevState;
 
 	public State CurrentState {
 		get { return _state; } 

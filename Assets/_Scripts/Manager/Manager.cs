@@ -159,6 +159,8 @@ public class Manager : MonoBehaviour {
 		//Carga la lista de datos interactuables usados por las rutinas
 		cargarDatosInteractuable();
 
+		comprobarEventosInicio(getHoraActual());
+
 		//Empieza a calcular el tiempo hasta la siguiente sección de las noticias
 		StartCoroutine(SiguienteSeccion());
 
@@ -323,7 +325,12 @@ public class Manager : MonoBehaviour {
 			}
 		}
 	}
-		
+
+	private void comprobarEventosInicio(int hora_actual)
+	{
+		ManagerRutinas.Instance.comprobarEventosInicio(hora_actual);
+	}
+
 	//Carga los interactuables al cargar una escena
 	void OnLevelWasLoaded(int level)
 	{
@@ -547,10 +554,10 @@ public class Manager : MonoBehaviour {
 
 	public void actualizarAcciones(Inventario inventario)
 	{
-		foreach(KeyValuePair<int, GameObject> entry in interactuables)
+		foreach(var entry in interactuables.Values)
 		{
 			// do something with entry.Value or entry.Key
-			Interactuable inter = entry.Value.GetComponent<Interactuable>() as Interactuable;
+			Interactuable inter = entry.GetComponent<Interactuable>() as Interactuable;
 			inter.RecargarAcciones(inventario);
 		}
 	}
@@ -708,15 +715,15 @@ public class Manager : MonoBehaviour {
 	{
 		GameObject transporte = null;
 
-		foreach(KeyValuePair<int, List<GameObject>> entry in transportes)
+		foreach(var entry in transportes.Values)
 		{
-			for(int i = 0; i < entry.Value.Count; i++)
+			for(int i = 0; i < entry.Count; i++)
 			{
-				TransporteInter trans = entry.Value[i].GetComponent<TransporteInter>();
+				TransporteInter trans = entry[i].GetComponent<TransporteInter>();
 
 				if(trans.ID == IDTransporte)
 				{
-					transporte = entry.Value[i];
+					transporte = entry[i];
 				}
 			}
 		}

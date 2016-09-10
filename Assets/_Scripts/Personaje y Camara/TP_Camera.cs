@@ -50,7 +50,7 @@ public class TP_Camera : MonoBehaviour
 	private Vector3 desiredPosition = Vector3.zero; //Vector de posición donde queremos estar
 	private float desiredDistance = 0f;
 	private float distanceSmooth = 0f;
-	private float preOccludedDistance = 0f; //almacena la distancia actual de la camara hasta que el jugador cambie el zoom
+	public float preOccludedDistance = 0f; //almacena la distancia actual de la camara hasta que el jugador cambie el zoom
 
 	public bool offset_active = false; //Indica si el offset está activado o no
 	private float offset_value = 0f;

@@ -35,17 +35,18 @@ public class TP_Controller : MonoBehaviour
 	//indica si está tocando el suelo
 	public bool onGround { get { return isOnGround(); } }
 
-	//Indica que layers se detectan como suelo
-//	public LayerMask layerMaskSuelo;
+	//Indica si el jugador está utilizando un transporte entre escenas
+	private bool transportando;
 
 	// Use this when the object is created
 	private void Awake ()
 	{
+		transportando = false;
+
 		//Inicializamos el componente CharacterController
 		//Inicializamos la variable instancia
 		characterController = GetComponent("CharacterController") as CharacterController; 
 		Instance = this;
-//		layerMaskSuelo = -1; //Establecemos la layerMask a Everything
 		SetState(State.Normal);
 
 		//creamos o buscamos una camara
@@ -160,18 +161,16 @@ public class TP_Controller : MonoBehaviour
 	//Comprobamos si estamos en el suelo
 	private bool isOnGround()
 	{
-//		bool retVal = false;
-//
-//		Vector3 origin = transform.position + new Vector3(0, 0.05f, 0);
-//		RaycastHit hit;
-//
-//		if(Physics.Raycast(origin, - Vector3.up, out hit, 0.5f, layerMaskSuelo))
-//		{
-//			retVal = true;
-//		}
-
 		return characterController.isGrounded;
+	}
 
-	//	return retVal;
+	public void setTransportando(bool estado)
+	{
+		transportando = estado;
+	}
+
+	public bool getTransportando()
+	{
+		return transportando;
 	}
 }

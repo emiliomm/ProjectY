@@ -105,7 +105,6 @@ public class TextBox : MonoBehaviour {
 		{
 			comprobandoDialogos = true;
 			yield return StartCoroutine(DialogoCoroutine(dialogoCola[i].devuelveDialogo(), dialogoCola[i].devuelveIDEvento()));
-
 			dialogoCola.RemoveAt(i);
 		}
 		comprobandoDialogos = false;
@@ -211,7 +210,7 @@ public class TextBox : MonoBehaviour {
 				display_node_text (dn); //Muestra el texto del nodo
 
 				while (selected_option == node_id) {
-					yield return new WaitForSeconds (0.25f);
+					yield return null;
 				}
 
 				switch(selected_option)
@@ -284,7 +283,7 @@ public class TextBox : MonoBehaviour {
 
 				while(selected_option == node_id)
 				{
-					yield return new WaitForSeconds(0.25f);
+					yield return null;
 				}
 
 				switch(selected_option)
@@ -324,7 +323,7 @@ public class TextBox : MonoBehaviour {
 					display_npc_mensajes();
 					selected_option = -4;
 					while (selected_option == -4) {
-						yield return new WaitForSeconds (0.25f);
+						yield return null;
 					}
 
 					switch(selected_option)
@@ -381,7 +380,7 @@ public class TextBox : MonoBehaviour {
 
 				selected_option = -4;
 				while (selected_option == -4) {
-					yield return new WaitForSeconds (0.25f);
+					yield return null;
 				}
 
 				switch(selected_option)
@@ -421,7 +420,7 @@ public class TextBox : MonoBehaviour {
 
 				while(selected_option == node_id)
 				{
-					yield return new WaitForSeconds(0.25f);
+					yield return null;
 				}
 
 				//Cambiar sistema de dialogo si sigue con botones
@@ -476,7 +475,7 @@ public class TextBox : MonoBehaviour {
 
 				while(selected_option == -4)
 				{
-					yield return new WaitForSeconds(0.25f);
+					yield return null;
 				}
 
 				switch(selected_option)
@@ -533,7 +532,7 @@ public class TextBox : MonoBehaviour {
 				{ opcion = -3; }); //Listener del botón
 
 			while (opcion == -4) {
-				yield return new WaitForSeconds (0.25f);
+				yield return null;
 			}
 		}
 

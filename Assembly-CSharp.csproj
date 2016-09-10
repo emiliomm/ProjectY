@@ -90,6 +90,7 @@
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoDato.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" />
+     <Compile Include="Assets\_Scripts\Interactuable\Accion\TransporteController\TransporteController.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\CursorUIDetection.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\DialogoDistancia.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\InterDatos\InterDatos.cs" />

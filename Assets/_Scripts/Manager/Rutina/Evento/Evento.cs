@@ -6,10 +6,11 @@ using System.Xml.Serialization;
 //AÑADIR EVENTO QUE COMPRUEBE VARIABLES DE OBJETO SI EL INTER QUIERE CAMBIAR RUTINA O HACER ALGO
 
 [XmlInclude(typeof(EventoDialogo))]
-public class Evento {
+public class Evento
+{
 
 	public int ID;
-	public bool activo;
+	public bool activo; //ACTUALMENTE NO SE USA
 	public List<int> variables;
 
 	public Evento()

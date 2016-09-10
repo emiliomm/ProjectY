@@ -1,16 +1,15 @@
 ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 *GameObjects
 - El Gameobject del jugador debe tener:
-	- Un rigidbody sin gravedad y kinematic (para que era ¿?)
-	- Un capsulle collider sin trigger activado, para colisionar con el entorno
-	- Un character controller, para controlar el input
-	- El radio de la capsula del character controller a de ser al menos de 0.4
+	- Un character controller, para controlar el input, con el trigger desativado
+	- El radio de la capsula del character controller es recomendable que sea 0.4, pero no es obligatorio
+
+- La altura del objeto del gameObject jugador influye en la función Transporte() de la clase TransportePlayer. Actualmente es -1.13676f. Cambiar la constante si se cambia el objeto del jugador
+- También influye en ... (ver cámara en dialogo)
 
 - Los gameObjects llamados Objeto de los Interactuables deben mirar hacia el eje Z (azul) local, así como el modelado del personaje principal.
-- Los gameObjects llamados Objeto de los Interactuables deben tener collider para ser detectados
-	- Si son InteractuablesNPC deben tener rigidbody si son nav agents/InteractuableNPC (se mueven).
-	- Si son InteractuablesNPC el collider debe tener el isTrigger desactivado y el rigidbody debe tener el isKinematic desactivado con la colisión detection en continuous sino no lo detecta bien el interactuable collider. La gravedad es opcional, depende del tipo de NPC que se quiera crear
-	- Si son InteractuablesObjeto solo deben tener un collider con el isTrigger activado
+- Los gameObjects llamados Objeto de los Interactuables deben tener collider para ser detectados, sin el trigger activado
+	- Los Objeto de los Interactuables deben tener rigidbody. El isKinematic activado, la colision detection en continuous sino no lo detecta bien el interactuable collider y la gravedad es opcional, depende del tipo de interactuable que se quiera crear.
 
 - La pared de los escenarios debe estar marcada con el tag "Pared"
 	- Es recomendable que los objetos con el tag "Pared" sean marcados como Static en el editor, para ahorrar rendimiento
@@ -28,6 +27,7 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - Si un grupo está en la lista de acabados, si se quiere añadir un mensaje/intro de ese grupo a algún diálogo, este no será lanzado, ya que el grupo ya ha acabado
 - Cuando un grupo no está activado y acabamos el grupo, el grupo ya no podrá ser activado en el futuro.
 - En las acciones, las variables de un objeto que determinan si una acción se muestra no son comprobadas con InteractuablesNPC, solo con InteractuableObjeto
+- Los eventos que se ejecutan al iniciar el juego son los de la última hora guardada antes de cerrar el juego
 
 LAYERS
 
@@ -77,6 +77,7 @@ QUE ESTÁ IMPLEMENTADO
 *Dos tipos de interactuables:
 	- InteractuablesNPC: Permiten el cambio de nombre a lo largo de la partida, usan rutas al cambiar de rutina
 	- InteractuableObjeto: Un solo nombre, se teletransportan inmediatamente al cambiar de rutina, pueden tener un transporte asignado
+		- El tranporte puede ser solo para interactuablesNPC o tambien para interactuablesNPC y el jugador
 *Los interactuablesNPC pueden tener varios nombres, pero solo se pueden cambiar hacia adelante en la lista de nombres(p ej: El nombre de un npc es ¿? cuando no lo conoces, en cambio cambia a Luis cuando te lo dice).
 *Se pueden cargar varios interactuables con la misma ID
 *Un interactuable puede tener varias acciones asignadas a él
@@ -98,16 +99,16 @@ QUE ESTÁ IMPLEMENTADO
 	- Los interactuables npcs se mueven hacia el siguiente lugar cuando avanza la rutina, siguiente "teletransportes" que conectan con otros lugares. Los interactuables objetos aparecen/desaparecen directamente
 *Interactuables sin rutinas
 *Varios tipos de Eventos que son comprobados en las rutinas
-	- EventoDialogo: lanza un diálogo
+	- EventoDialogo: lanza un diálogo una vez (de momento)
 *Existe transportes que permiten a los interactuables moverse al indicado al cambiar de escena en un cambio de rutina y/o al jugador cambiar de escena
 
-
 -Inventario
-*Inventario
 	- Varios objetos con distintas cantidades cada uno
 
 - Otros
-*Transporte entre salas
+*Transporte entre salas, varios tipos:
+	- Solo para los interactuablesNPC
+	- Para interactuablesNPC y jugador, permite transportarse a un transporte o a una coordenada específica
 
 CHULETAS
 

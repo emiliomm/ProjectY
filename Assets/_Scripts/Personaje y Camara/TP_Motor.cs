@@ -119,18 +119,32 @@ public class TP_Motor : MonoBehaviour
 			VerticalVelocity = JumpSpeed;
 	}
 
-	//MODIFICAR CUANDO HAY OFFSET
+	//CORREGIR LA DIRECCIÓN RESPECTO AL OFFSET DE LA CÁMARA
 	//Mira si el personaje se mueve, si nos movemos alinea el personaje con la camara
 	private void SnapAlignCharacterWithCamera()
 	{
-		//Si no nos movemos
-		if (MoveVector.x != 0 || MoveVector.z != 0)
+		if(TP_Camera.Instance.Distance == TP_Camera.Instance.preOccludedDistance)
 		{
-			//Si estamos corriendo, no movemos el ratón y la cámara ha chocado con algo, no cambiamos la dirección del personaje
-			if(!(Input.GetAxis ("Mouse X") == 0 && Input.GetAxis ("Mouse Y") == 0 && !TP_Camera.Instance.offset_active) || TP_Animator.Instance.PrevMoveDirection == TP_Animator.Direction.Stationary)
+			if(MoveVector.x != 0 || MoveVector.z != 0)
+			{
 				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
 				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
+			}
 		}
+		else
+		{
+			if((Input.GetAxis ("Mouse X") != 0 || Input.GetAxis ("Mouse Y") != 0) && (MoveVector.x != 0 || MoveVector.z != 0))
+			{
+				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
+			}
+			else if((MoveVector.x != 0 || MoveVector.z != 0) && TP_Animator.Instance.PrevMoveDirection == TP_Animator.Direction.Stationary)
+			{
+				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
+				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
+			}
+		}
+
 	}
 
 	//Calculamos la velocidad de movimiento

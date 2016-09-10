@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class ObjetoTransportePlayer : ObjetoTransporteInter
 {
-	public string haciaEscena;
+	public int IDEscena;
 
 	public ObjetoTransportePlayer()
 	{

@@ -97,7 +97,6 @@ public class ManagerRutinas: MonoBehaviour
 		if (infoInteractuable.TryGetValue(IDInter, out infoInter))
 		{
 			infoInter.setIDRutina(idRutina);
-//			MarcarEventosDesactualizados(infoInter);
 			AddLugaresSiguientes(IDInter, infoInter, rutina.posLugarSiguientes, rutina.Autorutina, idRutina);
 
 			int posRutina = CalculaPosicionRutina(rutina);
@@ -352,66 +351,92 @@ public class ManagerRutinas: MonoBehaviour
 
 			if(lista_autorutinas != null)
 			{
-//				Debug.Log("Lista autorutinas: " + lista_autorutinas.Count);
-				for(int i = lista_autorutinas.Count - 1; i >= 0; i--)
-				{
-					Info_Interactuable infoInter;
-					if (infoInteractuable.TryGetValue(lista_autorutinas[i].IDInter, out infoInter))
-					{
-						//Comprueba la fecha de la rutina
-						if(lista_autorutinas[i].getFechaRutina() == infoInter.getFechaCambioRutina())
-						{
-							if(lista_autorutinas[i].Recorrido())
-							{
-								cargarRutina(lista_autorutinas[i].IDSigRutina, false, true);
-								lista_autorutinas.RemoveAt(i);
-							}
-						}
-						//El interactuable no tiene la misma rutina que la que marca la autorutina, la destruimos
-						else
-						{
-							lista_autorutinas.RemoveAt(i);
-						}
-					}
-					//El interactuable ya no existe, destruimos la autorutina
-					//(ESTE CASO AÚN NO SE PRODUCE)
-					else
-					{
-						lista_autorutinas.RemoveAt(i);
-					}
-				}
+				comprobarAutorutinas(lista_autorutinas);
 			}
-
-			recorrerLugaresActuales();
 
 			List<Lugar_Siguiente> lista_lugarsiguiente = cont.devuelveLugarSiguientes();
 
 			if(lista_lugarsiguiente != null)
 			{
-				for(int i = lista_lugarsiguiente.Count - 1; i >= 0; i--)
-				{
-					int IDInter = lista_lugarsiguiente[i].lugar.IDInter;
-					Info_Interactuable infoInter;
-					if (infoInteractuable.TryGetValue(IDInter, out infoInter))
-					{
-						//Si las fechas de rutina no coinciden, eliminamos el lugarSiguiente de la lista
-						if (infoInter.getFechaCambioRutina() != lista_lugarsiguiente[i].getFechaRutina())
-						{
-							lista_lugarsiguiente.RemoveAt(i);
-						}
-						else
-						{
-							//Añadimos el lugar Actual
-							AddLugarActual(lista_lugarsiguiente[i].lugar, lista_lugarsiguiente[i].eventos);
+				comprobarLugaresSiguientes(lista_lugarsiguiente);
+			}
+		}
+	}
 
-							//Ejecutamos los eventos del lugar actual
-							ComprobarEventos(lista_lugarsiguiente[i].eventos);
-						}
-					}
+	public void comprobarEventosInicio(int horaActual)
+	{
+		Contenedor cont;
+
+		if (contenedores.TryGetValue(horaActual, out cont))
+		{
+			List<Lugar_Siguiente> lista_lugarsiguiente = cont.devuelveLugarSiguientes();
+
+			for(int i = lista_lugarsiguiente.Count - 1; i >= 0; i--)
+			{
+				int IDInter = lista_lugarsiguiente[i].lugar.IDInter;
+				Info_Interactuable infoInter;
+				if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+				{
+					//Ejecutamos los eventos del lugar actual
+					ComprobarEventos(lista_lugarsiguiente[i].eventos);
 				}
 			}
+		}
+	}
 
-			recorrerLugaresActuales();
+	private void comprobarAutorutinas(List<Autorutina> lista_autorutinas)
+	{
+		for(int i = lista_autorutinas.Count - 1; i >= 0; i--)
+		{
+			Info_Interactuable infoInter;
+			if (infoInteractuable.TryGetValue(lista_autorutinas[i].IDInter, out infoInter))
+			{
+				//Comprueba la fecha de la rutina
+				if(lista_autorutinas[i].getFechaRutina() == infoInter.getFechaCambioRutina())
+				{
+					if(lista_autorutinas[i].Recorrido())
+					{
+						cargarRutina(lista_autorutinas[i].IDSigRutina, false, true);
+						lista_autorutinas.RemoveAt(i);
+					}
+				}
+				//El interactuable no tiene la misma rutina que la que marca la autorutina, la destruimos
+				else
+				{
+					lista_autorutinas.RemoveAt(i);
+				}
+			}
+			//El interactuable ya no existe, destruimos la autorutina
+			//(ESTE CASO AÚN NO SE PRODUCE)
+			else
+			{
+				lista_autorutinas.RemoveAt(i);
+			}
+		}
+	}
+
+	private void comprobarLugaresSiguientes(List<Lugar_Siguiente> lista_lugarsiguiente)
+	{
+		for(int i = lista_lugarsiguiente.Count - 1; i >= 0; i--)
+		{
+			int IDInter = lista_lugarsiguiente[i].lugar.IDInter;
+			Info_Interactuable infoInter;
+			if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+			{
+				//Si las fechas de rutina no coinciden, eliminamos el lugarSiguiente de la lista
+				if (infoInter.getFechaCambioRutina() != lista_lugarsiguiente[i].getFechaRutina())
+				{
+					lista_lugarsiguiente.RemoveAt(i);
+				}
+				else
+				{
+					//Añadimos el lugar Actual
+					AddLugarActual(lista_lugarsiguiente[i].lugar, lista_lugarsiguiente[i].eventos);
+
+					//Ejecutamos los eventos del lugar actual
+					ComprobarEventos(lista_lugarsiguiente[i].eventos);
+				}
+			}
 		}
 	}
 
@@ -437,8 +462,6 @@ public class ManagerRutinas: MonoBehaviour
 		//Establecemos la escena actual
 		setEscenaActual(escena);
 
-		recorrerLugaresActuales();
-
 		List<Lugar_Actual> lista;
 		if (lugaresActuales.TryGetValue(escena, out lista))
 		{
@@ -461,8 +484,6 @@ public class ManagerRutinas: MonoBehaviour
 				}
 			}
 		}
-
-		recorrerLugaresActuales();
 	}
 
 	//Devuelve un evento vacío si no es encontrado o si el evento no está activo

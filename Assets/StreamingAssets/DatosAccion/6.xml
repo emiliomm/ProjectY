@@ -30,7 +30,7 @@
 			</ComprobarVariable>
 		</variables>
 		<IDEscena>1</IDEscena>
-<!--		<IDTransporte>0</IDTransporte>-->
+		<IDTransporte>0</IDTransporte>
 		<coordX>-11.47</coordX>
 		<coordY>4.12</coordY>
 		<coordZ>-17</coordZ>

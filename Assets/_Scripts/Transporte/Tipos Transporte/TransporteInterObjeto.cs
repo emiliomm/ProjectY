@@ -18,6 +18,6 @@ public class TransporteInterObjeto : TransporteInter {
 		this.ID = ID;
 		this.escenas = escenas;
 
-		Manager.Instance.anyadirTransporte(SceneManager.GetActiveScene().buildIndex, gameObject, escenas);
+		base.cargarTransporte();
 	}
 }

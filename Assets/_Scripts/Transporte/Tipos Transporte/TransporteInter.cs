@@ -16,6 +16,11 @@ public class TransporteInter : MonoBehaviour
 
 	protected virtual void Start()
 	{
+		cargarTransporte();
+	}
+
+	protected virtual void cargarTransporte()
+	{
 		Manager.Instance.anyadirTransporte(SceneManager.GetActiveScene().buildIndex, gameObject, escenas);
 	}
 }

@@ -14,11 +14,17 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Por qué? Parece ser un error de Unity (https://issuetracker.unity3d.com/issues/charactercontroller-dynamic-collider-ignores-slope-limit-and-gives-force)
 	* ¿Cómo solucionarlo? 
 
+- La cámara tiembla levemente cuando el jugador camina
+	* ¿Por qué? Quizá sea un error del centro de gravedad de la animación usada
+	* ¿Cómo solucionarlo? Como estas animaciones son temporales, no lo voy a solucionar. En las animaciones definitivas hay que comprobar que el centro de gravedad se mantiene a lo largo de toda la animación
+
 - La luz del mapa1 no carga correctamente al pasar de inicio al mapa en el editor
 	* ¿Por qué? Se trata de un error de Unity que solo ocurre en el editor
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Hacer que no todos los eventos se ejecuten al principio, con una variable. Algunos eventos necesitan ejecutarse al principio, (como el del diálogo, pero otros no)
+- Unificar datos transportes gameObject y objeto(que se encuentra en .xml)
 - Cambiar aspecto transportes, tamaño, colisiones con jugador y cámara, etc.
 - Mejorar el código de lanzamiento de diálogos, sobretodo la parte de ejecución de los distintos diálogos
 - Desactivar la navegación del interactuableNPC cuando llegue a una ruta

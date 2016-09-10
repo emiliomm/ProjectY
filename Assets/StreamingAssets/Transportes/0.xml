@@ -9,5 +9,5 @@
 		<int>4</int>
 		<int>12</int>
 	</escenas>
-	<haciaEscena>Demo</haciaEscena>
+	<IDEscena>1</IDEscena>
 </ObjetoTransporteInter>

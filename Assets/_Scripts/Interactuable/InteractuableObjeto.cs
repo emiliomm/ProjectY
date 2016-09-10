@@ -87,7 +87,7 @@ public class InteractuableObjeto : Interactuable {
 			ObjetoTransportePlayer objPl = obj as ObjetoTransportePlayer;
 
 			TransportePlayerObjeto transPlaObj = Transporte.AddComponent<TransportePlayerObjeto>();
-			transPlaObj.Constructor(objPl.ID, objPl.escenas, objPl.haciaEscena);
+			transPlaObj.Constructor(objPl.ID, objPl.escenas, objPl.IDEscena);
 		}
 	}
 }

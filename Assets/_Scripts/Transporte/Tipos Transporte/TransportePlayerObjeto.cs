@@ -13,18 +13,21 @@ public class TransportePlayerObjeto : TransportePlayer {
 	}
 
 	//Método de iniciación
-	public void Constructor(int ID, List<int> escenas, string haciaEscena)
+	public void Constructor(int ID, List<int> escenas, int IDEscena)
 	{
 		this.ID = ID;
 		this.escenas = escenas;
-		this.haciaEscena = haciaEscena;
+		this.IDEscena = IDEscena;
 
-		Manager.Instance.anyadirTransporte(SceneManager.GetActiveScene().buildIndex, gameObject, escenas);
+		base.cargarTransporte();
 	}
 
 	protected override void OnTriggerEnter(Collider other) {
-		if (other.tag == "Player" ) {
-			SceneManager.LoadScene(haciaEscena, LoadSceneMode.Single);
-		}
+		base.OnTriggerEnter(other);
+	}
+
+	protected override void OnLevelWasLoaded(int level)
+	{
+		base.OnLevelWasLoaded(level);
 	}
 }
