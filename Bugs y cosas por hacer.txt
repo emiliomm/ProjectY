@@ -21,12 +21,17 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Poner la inicialización de los objetos en Awake() y lo demás en Start()
+- El dialogoAccion debe poner la cámara en algún sitio, sino se queda en mala posición (quizá al jugador ¿?)
+- Mirar los archivos guardados para empezar a estructurar la historia
+- Comentar código
+- Crear modo debug, que borre los archivos automáticamente y haga otras tareas
+- Crear herramientas en el editor de Unity que ayuden a crear los objetos del juego, como un creador de Diálogos que abra, edite y guarde diálogos en .xml
 - Mejorar transportes
 	- Unificar datos transportes gameObject y objeto(que se encuentra en .xml)
 	- Mejorar el código de los transportes, quizá unificando funciones
 	- Cambiar aspecto transportes, tamaño, colisiones con jugador y cámara, etc.
 - Hacer que no todos los eventos se ejecuten al principio, con una variable. Algunos eventos necesitan ejecutarse al principio, (como el del diálogo, pero otros no)
-- Mejorar el código de lanzamiento de diálogos, sobretodo la parte de ejecución de los distintos diálogos
 - Desactivar la navegación del interactuableNPC cuando llegue a una ruta
 - Mirar si se puede mejorar las capas que ve cada cámara, a lo mejor hay alguna repetida que se puede quitar
 - Mejorar el alineamiento de la cámara cuando no se mueve el ratón y la cámara cambia de posición, sigue teniendo fallos
@@ -34,8 +39,6 @@ COSAS POR HACER:
 - Expandir la idea de varios interactuables con la misma ID
 	- Cámara siempre enfocando al mismo interactuable
 	- Ampliar diálogo para soportar los errores que puedan surgir
-- Mejorar el dialogo que se ejecuta en el eventoDialogo
-	- Hacer que solo se pueda ejecutar cuando no estas haciendo nada, como ¿?
 - Añadir zonas de cámara para el dialogo en el escenario
 	- Como hacerlo para las diferentes escenas en las que se puede ejecutar un mismo dialogo
 - Crear una variable en NPC_Dialogo que compruebe si el dialogo actual se ha modificado. Si lo ha hecho, que se serialice al finalizar la conversación, sino no. Además la variable se reinicia al empezar la conversación

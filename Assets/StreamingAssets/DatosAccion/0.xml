@@ -7,9 +7,9 @@
 		<ID_NPC>0</ID_NPC>
 		<ID_Diag>0</ID_Diag>
 		<aDistancia>true</aDistancia>
-		<tamX>3</tamX>
-		<tamY>3</tamY>
-		<tamZ>3</tamZ>
+		<tamX>10</tamX>
+		<tamY>7</tamY>
+		<tamZ>14</tamZ>
 	</DatosAccion>
 	<DatosAccion xsi:type="xs:DatosAccionDialogo">
 		<ID>10</ID>

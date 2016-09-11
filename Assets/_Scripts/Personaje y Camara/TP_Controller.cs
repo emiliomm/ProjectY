@@ -27,9 +27,6 @@ public class TP_Controller : MonoBehaviour
 	public void SetState(State newState) {
 		_prevState = _state;
 		_state = newState;
-
-		if(newState == State.Normal && !TextBox.Instance.comprobandoDialogos)
-			StartCoroutine(TextBox.Instance.comprobarDialogos());
 	}
 
 	//indica si está tocando el suelo
@@ -55,9 +52,6 @@ public class TP_Controller : MonoBehaviour
 
 	private void Update ()
 	{
-		//Comprobamos si estamos tocando el suelo
-		//onGround = isOnGround();
-
 		//Dependiendo del estado, hacemos unas cosas u otras
 		switch(_state)
 		{

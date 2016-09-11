@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Rutina xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ID>0</ID>
-	<Autorutina>false</Autorutina>
+	<Autorutina>true</Autorutina>
 	<posLugarSiguientes>
 		<PosicionLugarSiguiente>
 			<hora>0</hora>
@@ -22,7 +22,7 @@
 				</eventos>
 			</lugarSiguiente>
 		</PosicionLugarSiguiente>
-		<PosicionLugarSiguiente>
+<!--		<PosicionLugarSiguiente>
 			<hora>2</hora>
 			<lugarSiguiente>
 				<lugar>
@@ -37,9 +37,9 @@
 					<W>0.7258552</W>
 				</lugar>
 				<eventos>
-<!--					<int></int>-->
+					<int></int>
 				</eventos>
 			</lugarSiguiente>
-		</PosicionLugarSiguiente>
+		</PosicionLugarSiguiente>-->
 	</posLugarSiguientes>
 </Rutina>

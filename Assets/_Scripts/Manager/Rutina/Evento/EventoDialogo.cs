@@ -18,8 +18,10 @@ public class EventoDialogo : Evento {
 	{
 		if(!ejecutado)
 		{
+			Interactuable inter = null;
+
 			NPC_Dialogo dialog = NPC_Dialogo.BuscarDialogo(IDInter, IDDialog);
-			TextBox.Instance.EmpezarDialogo(dialog, ID);
+			TextBox.Instance.PrepararDialogo(inter, dialog, ID);
 			ejecutado = true;
 		}
 	}

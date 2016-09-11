@@ -21,6 +21,10 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - En el archivo xml de las rutinas, los posicionLugarSiguiente deben estar ordenados de menor a mayor según la hora dentro de la lista posLugarSiguientes para que calcular la posición actual de la rutina al cargarla funcione correctamente
 
 *Otros
+- El orden en el cual los diálogos se ejecutan es el siguiente:
+	- Dialogo de EventoDialogo
+	- Dialogo a distancia
+	- Dialogo de acciónDialogo
 - El máximo de opciones en el diálogo que se mostrarán son 15, así como el máximo de mensajes simultaneos
 - Una intro añadida con la misma prioridad será colocada debajo de las iguales, es decir, como si fuera menor.
 - El dialogo actual siempre se guarda/serializa, tenga cambios o no (cambiar ¿?, ten en cuenta que en el código ya está pensado, habría que cambiar bastante)

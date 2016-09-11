@@ -31,8 +31,7 @@ public class TextBox : MonoBehaviour {
 
 	private int selected_option = 0; //Almacena la opción escogida
 
-	private List<DialogoCola> dialogoCola;
-	public bool comprobandoDialogos;
+	private int dialogosEnCola;
 
 	//Estados de la clase
 	public enum State {Ninguno, Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Tema, Mensajes_Texto, Mensajes_Opciones};
@@ -56,9 +55,6 @@ public class TextBox : MonoBehaviour {
 	void Awake ()
 	{
 		Instance = this;
-		dialogoCola = new List<DialogoCola>();
-
-		comprobandoDialogos = false;
 
 		dialogue_window = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
 		dialogue_window.transform.SetParent(Manager.Instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
@@ -80,13 +76,13 @@ public class TextBox : MonoBehaviour {
 		{
 			options[i] = dialog_options.transform.GetChild(0).GetChild(i).gameObject;
 		}
-	}
-		
-	void Start () {
+
 		//Establecemos el estado inicial
 		SetState(State.Ninguno);
 
-		AcabaDialogo();
+		dialogosEnCola = 0;
+
+		OcultarInterfaz();
 	}
 
 	public void MostrarInterfaz()
@@ -99,39 +95,44 @@ public class TextBox : MonoBehaviour {
 		dialogue_window.SetActive(false);
 	}
 
-	public IEnumerator comprobarDialogos()
+	public void PrepararDialogo(Interactuable interActual, NPC_Dialogo npcDi, int IDEvento)
 	{
-		for(int i = dialogoCola.Count - 1; i >= 0; i--)
+		StartCoroutine(PrepararDialogoCoroutine(interActual, npcDi, IDEvento));
+	}
+
+	public IEnumerator PrepararDialogoCoroutine(Interactuable interActual, NPC_Dialogo npcDi, int IDEvento)
+	{
+		if(TP_Controller.Instance.CurrentState != TP_Controller.State.Normal)
 		{
-			comprobandoDialogos = true;
-			yield return StartCoroutine(DialogoCoroutine(dialogoCola[i].devuelveDialogo(), dialogoCola[i].devuelveIDEvento()));
-			dialogoCola.RemoveAt(i);
+			dialogosEnCola++;
+
+			while(TP_Controller.Instance.CurrentState != TP_Controller.State.Normal)
+			{
+				yield return null;
+			}
+
+			yield return StartCoroutine(EmpezarDialogo(interActual, npcDi));
+
+			dialogosEnCola--;
 		}
-		comprobandoDialogos = false;
-	}
+		else if(dialogosEnCola != 0)
+		{
+			while(dialogosEnCola != 0)
+			{
+				yield return null;
+			}
 
-	//Función que empieza el diálogo
-	public void EmpezarDialogo(Interactuable interActual, NPC_Dialogo npcDi)
-	{
-		StartCoroutine(DialogoCoroutine(interActual, npcDi));
-	}
-
-	//Función que empieza el diálogo
-	public void EmpezarDialogo(NPC_Dialogo npcDi, int IDEvento)
-	{
-		if(TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
-			StartCoroutine(DialogoCoroutine(npcDi, IDEvento));
+			yield return StartCoroutine(EmpezarDialogo(interActual, npcDi));
+		}
 		else
-			dialogoCola.Add(new DialogoCola(npcDi, IDEvento));
+			yield return StartCoroutine(EmpezarDialogo(interActual, npcDi));
+
+		if(IDEvento != -1)
+			ManagerRutinas.Instance.guardaEvento(IDEvento);
 	}
 
-	//Couroutine que establece valores a las variables antes de iniciar el diálogo
-	//Usada también en el dialogo a distancia
-	public IEnumerator DialogoCoroutine(Interactuable interActual, NPC_Dialogo npcDi)
+	public IEnumerator EmpezarDialogo(Interactuable interActual, NPC_Dialogo npcDi)
 	{
-		if(!comprobandoDialogos)
-			yield return StartCoroutine(comprobarDialogos());
-
 		npc_dialogo  = npcDi;
 		inter = interActual;
 
@@ -144,34 +145,10 @@ public class TextBox : MonoBehaviour {
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
-		yield return StartCoroutine(IniciaDialogo());
+		yield return StartCoroutine(Conversacion());
 	}
 
-	//Couroutine que establece valores a las variables antes de iniciar el diálogo
-	//Usada al activar un diálogo de un evento
-	public IEnumerator DialogoCoroutine(NPC_Dialogo npcDi, int IDEvento)
-	{
-		if(!comprobandoDialogos)
-			yield return StartCoroutine(comprobarDialogos());
-
-		npc_dialogo  = npcDi;
-		inter = null;
-
-		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
-		TP_Camera.Instance.toDialogMode();
-		Manager.Instance.setPausa(true);
-		Manager.Instance.stopNavMeshAgents();
-
-		dialogue_window.SetActive(true);
-		Cursor.visible = true; //Muestra el cursor del ratón
-
-		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
-		yield return StartCoroutine(IniciaDialogo());
-
-		ManagerRutinas.Instance.guardaEvento(IDEvento);
-	}
-
-	private IEnumerator IniciaDialogo()
+	private IEnumerator Conversacion()
 	{
 		//Inicializamos variables locales
 		int num_dialog = 0;

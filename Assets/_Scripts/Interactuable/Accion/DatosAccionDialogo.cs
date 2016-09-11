@@ -67,7 +67,8 @@ public class DatosAccionDialogo : DatosAccion{
 
 			if(inter != null)
 			{
-				TextBox.Instance.EmpezarDialogo(inter, diag);
+				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+				TextBox.Instance.PrepararDialogo(inter, diag, -1);
 			}
 		}
 	}
