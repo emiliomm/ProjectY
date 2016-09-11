@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TemaMensaje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID>0</ID>
+	<IDGrupo>-1</IDGrupo>
+	<texto>MensajeTema de prueba</texto>
+	<mensajes/>
+</TemaMensaje>

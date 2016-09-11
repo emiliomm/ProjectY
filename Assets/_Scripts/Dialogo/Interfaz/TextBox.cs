@@ -317,9 +317,9 @@ public class TextBox : MonoBehaviour {
 						//La selected_option está en el intérvalo [0-numTemaMensajes]
 						if (selected_option < npc_dialogo.DevuelveNumeroTemaMensajes())
 						{
-							SetState(State.Mensajes_Tema);
 							node_id = selected_option;
 							num_tema = selected_option;
+							SetState(State.Mensajes_Tema);
 						}
 						//Se ha seleccionado un mensaje sin tema
 						//La selected_option está en el intérvalo [numTemaMensajes+1-numTemaMensajes+numMensajes(sueltos)]
@@ -327,16 +327,16 @@ public class TextBox : MonoBehaviour {
 						{
 							num_dialog = selected_option - npc_dialogo.DevuelveNumeroTemaMensajes();
 
+							num_tema = -1;
 							Mensaje men = npc_dialogo.DevuelveMensaje(num_tema, num_dialog);
 
 							if(men.GetType() == typeof(MensajeDialogo))
 							{
-								SetState(State.Mensajes_Texto);
-
 								MensajeDialogo menDi = men as MensajeDialogo;
 								dialog = menDi.DevuelveDialogo();
-								num_tema = -1;
 								node_id = 0;
+
+								SetState(State.Mensajes_Texto);
 							}
 							else if(men.GetType() == typeof(MensajeTienda))
 							{
@@ -364,11 +364,14 @@ public class TextBox : MonoBehaviour {
 				{
 				//Salimos del dialogo
 				case -3:
-				case -2:
 				case -1:
 					conversacion_activa = false;
 					break;
-					//Cargamos el mensaje escogido
+				//Vamos al menú mensajes
+				case -2:
+					SetState(State.Mensajes_Menu);
+					break;
+				//Cargamos el mensaje escogido
 				default:
 					num_dialog = selected_option;
 
@@ -376,11 +379,11 @@ public class TextBox : MonoBehaviour {
 
 					if(men.GetType() == typeof(MensajeDialogo))
 					{
-						SetState(State.Mensajes_Texto);
-
 						MensajeDialogo menDi = men as MensajeDialogo;
 						dialog = menDi.DevuelveDialogo();
 						node_id = 0;
+
+						SetState(State.Mensajes_Texto);
 					}
 					else if(men.GetType() == typeof(MensajeTienda))
 					{
@@ -435,8 +438,15 @@ public class TextBox : MonoBehaviour {
 					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
 					else
 					{
-						SetState(State.Mensajes_Menu);
 						EliminarDialogo(ref num_dialog, num_tema);
+
+						if(num_tema != -1)
+						{
+							node_id = num_tema;
+							SetState(State.Mensajes_Tema);
+						}
+						else
+							SetState(State.Mensajes_Menu);
 					}
 					break;
 				}
@@ -463,15 +473,36 @@ public class TextBox : MonoBehaviour {
 					break;
 				case -2: //Se muestran las respuestas
 					EliminarDialogo(ref num_dialog, num_tema);
-					SetState(State.Mensajes_Menu);
+
+					if(num_tema != -1)
+					{
+						node_id = num_tema;
+						SetState(State.Mensajes_Tema);
+					}
+					else
+						SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
 					EliminarDialogo(ref num_dialog, num_tema);
-					SetState(State.Mensajes_Menu);
+
+					if(num_tema != -1)
+					{
+						node_id = num_tema;
+						SetState(State.Mensajes_Tema);
+					}
+					else
+						SetState(State.Mensajes_Menu);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
 					node_id = selected_option;
-					SetState(State.Mensajes_Texto);
+
+					if(num_tema != -1)
+					{
+						node_id = num_tema;
+						SetState(State.Mensajes_Tema);
+					}
+					else
+						SetState(State.Mensajes_Menu);
 					break;
 				}
 				break;
@@ -764,7 +795,7 @@ public class TextBox : MonoBehaviour {
 
 		for(i = j; i < npc_dialogo.DevuelveNumeroMensajes() + j && i < 14; i++)
 		{
-			if(npc_dialogo.MensajeEsVisible(i))
+			if(npc_dialogo.MensajeEsVisible(i-j))
 				set_mensaje_button(options[i], npc_dialogo.DevuelveTextoMensaje(i-j), i);
 		}
 	}

@@ -125,7 +125,7 @@ public class Manager : MonoBehaviour {
 		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
 		rutaNPCDialogosGuardados = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
-		rutaTemaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/XMLMensajeTemas/";
+		rutaTemaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/XMLTemaMensajes/";
 		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/";
 		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/";
 		rutaGruposModificados = Application.persistentDataPath + "/Grupos_Modificados/";

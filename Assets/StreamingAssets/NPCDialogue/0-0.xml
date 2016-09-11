@@ -118,7 +118,7 @@
 							<DialogueAddMensaje>
 								<IDNpc>0</IDNpc>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>-1</IDTema>
+								<IDTema>1</IDTema>
 								<IDMensaje>0</IDMensaje>
 							</DialogueAddMensaje>
 						</Mensajes>
@@ -169,19 +169,19 @@
 							<DialogueAddMensaje>
 								<IDNpc>0</IDNpc>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>-1</IDTema>
+								<IDTema>0</IDTema>
 								<IDMensaje>1</IDMensaje>
 							</DialogueAddMensaje>
 							<DialogueAddMensaje>
 								<IDNpc>0</IDNpc>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>-1</IDTema>
+								<IDTema>0</IDTema>
 								<IDMensaje>2</IDMensaje>
 							</DialogueAddMensaje>
 							<DialogueAddMensaje>
 								<IDNpc>0</IDNpc>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>-1</IDTema>
+								<IDTema>0</IDTema>
 								<IDMensaje>3</IDMensaje>
 							</DialogueAddMensaje>
 						</Mensajes>

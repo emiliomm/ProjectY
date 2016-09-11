@@ -2,23 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs">
     <Files>
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionDialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="156" Column="19" />
-      <File FileName="Assets\_Scripts\Interactuable\DialogoDistancia.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\Evento\EventoDialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\LectorController\LectorController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Inventario\InventarioController.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\Rutinas\0.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\DatosAccion\0.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\Rutinas\1.xml" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\TransporteController\TransporteController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="508" Column="11" />
+      <File FileName="Assets\StreamingAssets\NPCDialogue\0-0.xml" Line="121" Column="18" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="128" Column="105" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\TemaMensaje.cs" Line="8" Column="2" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\NPC_Dialogo.cs" Line="127" Column="2" />
+      <File FileName="Assets\StreamingAssets\XMLDialogue\XMLMensajes\XMLTemaMensajes\1.xml" Line="5" Column="22" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeDialogo.cs" Line="17" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -1,5 +1,4 @@
 BUGS(POR ORDEN DE PRIORIDAD)
-
 - Al cambiar entre escenas, el input se para, haciendo que el jugador se pare, haciendo que se note el cambio de escena
 - A veces se puede interactuar con las acciones de interactuables cercanos aunque estén fuera de cámara (Comprobar)
 - Cuando estás en el menú de mensajes o temamensajes la cámara no tiene posición definida, lo que causa problemas al cargar una escena con un dialogo a distancia que se inicia instantaneamente
@@ -75,7 +74,6 @@ COSAS POR HACER:
 - Mejorar inventario
 	- Aspecto visual
 	- Interaccion teclado
-- Al acabar un temamensaje, volver al temamensaje, no al menu de mensajes
 - Borrar los assets que sobran y mover los que son usados a las carpetas principales
 - Eliminar todos los findGameobjects del código
 - Mejorar el dialogo a distancia
