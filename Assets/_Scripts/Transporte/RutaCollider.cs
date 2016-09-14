@@ -20,7 +20,7 @@ public class RutaCollider : MonoBehaviour {
 			{
 				if(inter.ID == IDInteractuable)
 				{
-					Manager.Instance.deleteNavhMeshAgent(inter.devuelveNavhMeshAgent());
+					Manager.Instance.deleteNavhMeshAgent(inter.DevuelveNavhMeshAgent());
 					Destroy(gameObject);
 				}
 			}

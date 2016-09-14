@@ -17,20 +17,20 @@ public class Intro{
 
 	// 0 --> falso, 1 --> verdadero
 	//Indica si la intro se va a destruir al acabar de recorrerla
-	private bool Autodestruye;
+	private bool autodestruye;
 
 	public int prioridad; //mayor prioridad, aparece primero en el diálogo
-	public Dialogue dia;
+	public Dialogue dialogo;
 
 	public Intro()
 	{
 		eventos = new List<DialogoEvento>();
-		dia = new Dialogue();
+		dialogo = new Dialogue();
 	}
 
 	public Dialogue DevuelveDialogo()
 	{
-		return dia;
+		return dialogo;
 	}
 
 	public int DevuelvePrioridad()
@@ -45,21 +45,21 @@ public class Intro{
 
 	public bool DevuelveAutodestruye()
 	{
-		return Autodestruye;
+		return autodestruye;
 	}
 
 	public void ActivarAutodestruye()
 	{
-		Autodestruye = true;
+		autodestruye = true;
 	}
 
-	public bool seMuestra()
+	public bool SeMuestra()
 	{
 		bool mostrar = true;
 
 		for(int i = 0; i < eventos.Count; i++)
 		{
-			if(!eventos[i].estaActivo())
+			if(!eventos[i].EstaActivo())
 				mostrar = false;
 		}
 

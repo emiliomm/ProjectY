@@ -48,8 +48,8 @@ public class ObjetoDatos : InterDatos{
 	//Devuelve el InterDatos de un xml indicado en la ruta
 	public new static ObjetoDatos LoadInterDatos(string path)
 	{
-		ObjetoDatos inter_datos = Manager.Instance.DeserializeData<ObjetoDatos>(path);
+		ObjetoDatos interDatos = Manager.Instance.DeserializeData<ObjetoDatos>(path);
 
-		return inter_datos;
+		return interDatos;
 	}
 }

@@ -6,14 +6,14 @@
 	public class DialogueNombre
 	{
 		//-1: ID del NPC al cual pertence el dialogo, x: ID NPC
-		public int IDNpc;
+		public int IDInteractuable;
 		public int indiceNombre; //indica la posición a la que se cambiará el indice de nombres del NPC
 
 		public DialogueNombre() {  }
 
-		public int DevuelveIDNpc()
+		public int DevuelveIDInteractuable()
 		{
-			return IDNpc;
+			return IDInteractuable;
 		}
 
 		public int DevuelveIndiceNombre()

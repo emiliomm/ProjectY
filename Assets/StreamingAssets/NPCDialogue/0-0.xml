@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObjetoSerializable xsi:type="NPC_Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<ID_NPC>0</ID_NPC>
+<ObjetoSerializable xsi:type="Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<IDInteractuable>0</IDInteractuable>
 	<ID>0</ID>
 	<intros>
 		<Intro>
@@ -12,232 +12,228 @@
 					<variables/>
 				</DialogoEvento>
 			</eventos>
-			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
-			<indice_inicial>0</indice_inicial>
-			<dia>
-				<Nodes>
+			<dialogo>
+				<nodes>
 					<DialogueNode>
-						<NodeID>0</NodeID>
+						<nodeID>0</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>Hola. Veamos... A usted le toca la llave de la habitación 003.</Text>
+						<text>Hola. Veamos... A usted le toca la llave de la habitación 003.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros />
-						<Mensajes/>
-						<Grupos/>
+						<intros />
+						<mensajes/>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
 					<DialogueNode>
-						<NodeID>0</NodeID>
+						<nodeID>0</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>Aquí tiene.</Text>
+						<text>Aquí tiene.</text>
 						<recorrido>false</recorrido>
 						<destruido>true</destruido>
-						<Intros />
-						<Mensajes/>
-						<Grupos/>
+						<intros />
+						<mensajes/>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos>
+						<objetos>
 							<DialogueAddObjeto>
 								<ID>1</ID>
 								<cantidad>1</cantidad>
 							</DialogueAddObjeto>
-						</Objetos>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						</objetos>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
-				</Nodes>
-			</dia>
+				</nodes>
+			</dialogo>
 		</Intro>
 		<Intro>
 			<ID>100</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>
-			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
-			<indice_inicial>0</indice_inicial>
-			<dia>
-				<Nodes>
+			<dialogo>
+				<nodes>
 					<DialogueNode>
-						<NodeID>0</NodeID>
+						<nodeID>0</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>Bienvenido a la nave que le llevará hacia el planeta Quros.</Text>
+						<text>Bienvenido a la nave que le llevará hacia el planeta Quros.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros />
-						<Mensajes/>
-						<Grupos/>
+						<intros />
+						<mensajes/>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
 					<DialogueNode>
-						<NodeID>1</NodeID>
+						<nodeID>1</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>La nave tardará unos cuantos días en llegar a su destino.</Text>
+						<text>La nave tardará unos cuantos días en llegar a su destino.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros/>
-						<Mensajes>
+						<intros/>
+						<mensajes>
 							<DialogueAddMensaje>
-								<IDNpc>0</IDNpc>
+								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
 								<IDTema>1</IDTema>
 								<IDMensaje>0</IDMensaje>
 							</DialogueAddMensaje>
-						</Mensajes>
-						<Grupos/>
+						</mensajes>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
 					<DialogueNode>
-						<NodeID>2</NodeID>
+						<nodeID>2</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>Le recomendamos que se tomen un tiempo para familiarizarse con el entorno. Es normal que experimenten mareos durante los primeros minutos.</Text>
+						<text>Le recomendamos que se tomen un tiempo para familiarizarse con el entorno. Es normal que experimenten mareos durante los primeros minutos.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros/>
-						<Mensajes/>
-						<Grupos/>
+						<intros/>
+						<mensajes/>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
 					<DialogueNode>
-						<NodeID>3</NodeID>
+						<nodeID>3</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>En breves momentos cada uno de ustedes recibirá la llave de su habitación. Dentro de ella podrá usar el inhibidor para hibernar durante la duración de todo el viaje si así lo desea.</Text>
+						<text>En breves momentos cada uno de ustedes recibirá la llave de su habitación. Dentro de ella podrá usar el inhibidor para hibernar durante la duración de todo el viaje si así lo desea.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros/>
-						<Mensajes>
+						<intros/>
+						<mensajes>
 							<DialogueAddMensaje>
-								<IDNpc>0</IDNpc>
+								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
 								<IDTema>0</IDTema>
 								<IDMensaje>1</IDMensaje>
 							</DialogueAddMensaje>
 							<DialogueAddMensaje>
-								<IDNpc>0</IDNpc>
+								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
 								<IDTema>0</IDTema>
 								<IDMensaje>2</IDMensaje>
 							</DialogueAddMensaje>
 							<DialogueAddMensaje>
-								<IDNpc>0</IDNpc>
+								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
 								<IDTema>0</IDTema>
 								<IDMensaje>3</IDMensaje>
 							</DialogueAddMensaje>
-						</Mensajes>
-						<Grupos/>
+						</mensajes>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
 					<DialogueNode>
-						<NodeID>4</NodeID>
+						<nodeID>4</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>También disponen de un bar en la planta inferior.</Text>
+						<text>También disponen de un bar en la planta inferior.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros/>
-						<Mensajes/>
-						<Grupos/>
+						<intros/>
+						<mensajes/>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
 					<DialogueNode>
-						<NodeID>5</NodeID>
+						<nodeID>5</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>-2</siguienteNodo>
-						<Text>Le deseamos un feliz viaje.</Text>
+						<text>Le deseamos un feliz viaje.</text>
 						<recorrido>false</recorrido>
 						<destruido>true</destruido>
-						<Intros/>
-						<Mensajes/>
-						<Grupos/>
+						<intros/>
+						<mensajes/>
+						<grupos/>
 						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
-				</Nodes>
-			</dia>
+				</nodes>
+			</dialogo>
 		</Intro>
 	</intros>
 	<mensajes>

@@ -12,69 +12,69 @@ using DialogueTree;
  */
 public class TextBox : MonoBehaviour {
 
-	public static TextBox Instance; //Instancia propia de la clase
+	public static TextBox instance; //Instancia propia de la clase
 
 	//Interactuable y dialogo de la conversación
-	private Interactuable inter;
-	private NPC_Dialogo npc_dialogo;
+	private Interactuable interactuable;
+	private Dialogo dialogo;
 
 	//Objetos de la interfaz
-	private GameObject dialogue_window;
-	private GameObject dialog_name;
-	private GameObject dialog_text;
-	private GameObject dialog_options;
-	private GameObject iramensajesmenu;
+	private GameObject dialogWindow;
+	private GameObject dialogName;
+	private GameObject dialogText;
+	private GameObject dialogOptions;
+	private GameObject irAMensajesMenu;
 	private GameObject exit;
 
 	//Hay 15 botones de opciones
 	private GameObject[] options;
 
-	private int selected_option = 0; //Almacena la opción escogida
+	private int selectedOption = 0; //Almacena la opción escogida
 
 	private int dialogosEnCola;
 
 	//Estados de la clase
 	public enum State {Ninguno, Intro_Texto, Intro_Opciones, Mensajes_Menu, Mensajes_Tema, Mensajes_Texto, Mensajes_Opciones};
 
-	private State _state;
-	private State _prevState;
+	private State state;
+	private State prevState;
 
 	public State CurrentState {
-		get { return _state; } 
+		get { return state; } 
 	}
 
 	public State PrevState {
-		get { return _prevState; }
+		get { return prevState; }
 	}
 
 	public void SetState(State newState) {
-		_prevState = _state;
-		_state = newState;
+		prevState = state;
+		state = newState;
 	}
 		
 	void Awake ()
 	{
-		Instance = this;
+		instance = this;
 
-		dialogue_window = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
-		dialogue_window.transform.SetParent(Manager.Instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
-		RectTransform dia_window_transform = (RectTransform) dialogue_window.transform;
-		dia_window_transform.localPosition = new Vector3(0, 0, 0);
+		dialogWindow = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
+		dialogWindow.transform.SetParent(Manager.Instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
+		RectTransform diaWindowTransform = (RectTransform) dialogWindow.transform;
+		diaWindowTransform.localPosition = new Vector3(0, 0, 0);
 
 		//Inicializamos las variables de objetos de la interfaz
-		dialog_name = dialogue_window.transform.GetChild(1).gameObject;
-		dialog_text = dialogue_window.transform.GetChild(2).gameObject;
-		dialog_options =  dialogue_window.transform.GetChild(3).gameObject;
+		dialogName = dialogWindow.transform.GetChild(1).gameObject;
+		dialogText = dialogWindow.transform.GetChild(2).gameObject;
+		dialogOptions =  dialogWindow.transform.GetChild(3).gameObject;
 
-		iramensajesmenu = dialogue_window.transform.GetChild(4).gameObject;
-		exit = dialogue_window.transform.GetChild(5).gameObject;
-		iramensajesmenu.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
+		irAMensajesMenu = dialogWindow.transform.GetChild(4).gameObject;
+		exit = dialogWindow.transform.GetChild(5).gameObject;
+		irAMensajesMenu.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-2);});
 		exit.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(-3);});
 
 		options = new GameObject[15];
 		for(int i = 0; i < 15; i++)
 		{
-			options[i] = dialog_options.transform.GetChild(0).GetChild(i).gameObject;
+			options[i] = dialogOptions.transform.GetChild(0).GetChild(i).gameObject;
 		}
 
 		//Establecemos el estado inicial
@@ -87,20 +87,20 @@ public class TextBox : MonoBehaviour {
 
 	public void MostrarInterfaz()
 	{
-		dialogue_window.SetActive(true);
+		dialogWindow.SetActive(true);
 	}
 
 	public void OcultarInterfaz()
 	{
-		dialogue_window.SetActive(false);
+		dialogWindow.SetActive(false);
 	}
 
-	public void PrepararDialogo(Interactuable interActual, NPC_Dialogo npcDi, int IDEvento)
+	public void PrepararDialogo(Interactuable interactuableActual, Dialogo dialogo, int IDEvento)
 	{
-		StartCoroutine(PrepararDialogoCoroutine(interActual, npcDi, IDEvento));
+		StartCoroutine(PrepararDialogoCoroutine(interactuableActual, dialogo, IDEvento));
 	}
 
-	public IEnumerator PrepararDialogoCoroutine(Interactuable interActual, NPC_Dialogo npcDi, int IDEvento)
+	public IEnumerator PrepararDialogoCoroutine(Interactuable interactuableActual, Dialogo dialogo, int IDEvento)
 	{
 		if(TP_Controller.Instance.CurrentState != TP_Controller.State.Normal)
 		{
@@ -111,7 +111,7 @@ public class TextBox : MonoBehaviour {
 				yield return null;
 			}
 
-			yield return StartCoroutine(EmpezarDialogo(interActual, npcDi));
+			yield return StartCoroutine(EmpezarDialogo(interactuableActual, dialogo));
 
 			dialogosEnCola--;
 		}
@@ -122,26 +122,26 @@ public class TextBox : MonoBehaviour {
 				yield return null;
 			}
 
-			yield return StartCoroutine(EmpezarDialogo(interActual, npcDi));
+			yield return StartCoroutine(EmpezarDialogo(interactuableActual, dialogo));
 		}
 		else
-			yield return StartCoroutine(EmpezarDialogo(interActual, npcDi));
+			yield return StartCoroutine(EmpezarDialogo(interactuableActual, dialogo));
 
 		if(IDEvento != -1)
 			ManagerRutinas.Instance.guardaEvento(IDEvento);
 	}
 
-	public IEnumerator EmpezarDialogo(Interactuable interActual, NPC_Dialogo npcDi)
+	public IEnumerator EmpezarDialogo(Interactuable interactuableActual, Dialogo dialogo)
 	{
-		npc_dialogo  = npcDi;
-		inter = interActual;
+		this.dialogo  = dialogo;
+		this.interactuable = interactuableActual;
 
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		TP_Camera.Instance.toDialogMode();
 		Manager.Instance.setPausa(true);
 		Manager.Instance.stopNavMeshAgents();
 
-		dialogue_window.SetActive(true);
+		dialogWindow.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		//Iniciamos el dialogo en una couroutine para saber cuando ha acabado
@@ -151,20 +151,20 @@ public class TextBox : MonoBehaviour {
 	private IEnumerator Conversacion()
 	{
 		//Inicializamos variables locales
-		int num_dialog = 0;
-		int num_tema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema
-		int node_id = 0;
-		bool conversacion_activa = true;
-		Dialogue dialog = new Dialogue();
+		int numDialog = 0;
+		int numtema = -1; //solo usado con mensajes, -1 si no hay tema, x si hay tema
+		int nodeID = 0;
+		bool conversacionActiva = true;
+		Dialogue dialogue = new Dialogue();
 
 		SetState(State.Intro_Texto);//Estado inicial de la conversación
 
 		//Si el diálogo tiene intros activas, asignamos un estado, sino otro
-		if(npc_dialogo.DevuelveNumeroIntrosActivas(ref num_dialog) != 0)
+		if(dialogo.DevuelveNumeroIntrosActivas(ref numDialog) != 0)
 		{
-			dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
+			dialogue = dialogo.DevuelveDialogoIntro(numDialog);
 		}
-		else if ((npc_dialogo.DevuelveNumeroMensajesActivos() + npc_dialogo.DevuelveNumeroTemaMensajesActivos()) != 0)
+		else if ((dialogo.DevuelveNumeroMensajesActivos() + dialogo.DevuelveNumeroTemaMensajesActivos()) != 0)
 		{
 			SetState(State.Mensajes_Menu);
 		}
@@ -172,44 +172,44 @@ public class TextBox : MonoBehaviour {
 		//Mostramos un mensaje por defecto
 		else
 		{
-			npc_dialogo  = NPC_Dialogo.LoadNPCDialogue(Manager.rutaDialogoVacio);
-			dialog = npc_dialogo.intros[0].DevuelveDialogo();
+			dialogo  = Dialogo.LoadDialogo(Manager.rutaDialogoVacio);
+			dialogue = dialogo.intros[0].DevuelveDialogo();
 		}
 
 		//Bucle que controla la conversación
-		while(conversacion_activa)
+		while(conversacionActiva)
 		{
-			switch(_state)
+			switch(state)
 			{
 			case State.Intro_Texto: //Cuando la intro muestra el texto
-				DialogueNode dn = dialog.DevuelveNodo(node_id);
-				selected_option = node_id;
-				display_node_text (dn); //Muestra el texto del nodo
+				DialogueNode dialogueNode = dialogue.DevuelveNodo(nodeID);
+				selectedOption = nodeID;
+				DisplayNodeText (dialogueNode); //Muestra el texto del nodo
 
-				while (selected_option == node_id) {
+				while (selectedOption == nodeID) {
 					yield return null;
 				}
 
-				switch(selected_option)
+				switch(selectedOption)
 				{
 				case -3: //La conversación acaba
-					RecorreDialogoNPC(ref num_dialog, num_tema, dn); //Dejar si el dialogo se deja como ahora
-					EliminarDialogo(ref num_dialog, num_tema);
-					conversacion_activa = false;
+					RecorreDialogo(ref numDialog, numtema, dialogueNode); //Dejar si el dialogo se deja como ahora
+					EliminarDialogo(ref numDialog, numtema);
+					conversacionActiva = false;
 					break;
 				case -2: //Se muestran las respuestas
-					RecorreDialogoNPC(ref num_dialog, num_tema, dn); //Dejar si el dialogo se deja como ahora
-					EliminarDialogo(ref num_dialog, num_tema);
+					RecorreDialogo(ref numDialog, numtema, dialogueNode); //Dejar si el dialogo se deja como ahora
+					EliminarDialogo(ref numDialog, numtema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					RecorreDialogoNPC(ref num_dialog, num_tema, dn);
-					EliminarDialogo(ref num_dialog, num_tema);
+					RecorreDialogo(ref numDialog, numtema, dialogueNode);
+					EliminarDialogo(ref numDialog, numtema);
 					//Si hay más dialogos, vamos al siguiente dialogo
-					if (npc_dialogo.AvanzaIntro(ref num_dialog))
+					if (dialogo.AvanzaIntro(ref numDialog))
 					{
-						dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
-						node_id = 0;
+						dialogue = dialogo.DevuelveDialogoIntro(numDialog);
+						nodeID = 0;
 					}
 					//Sino, se muestran las respuestas
 					else
@@ -218,27 +218,27 @@ public class TextBox : MonoBehaviour {
 					}
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					RecorreDialogoNPC(ref num_dialog, num_tema, dn);
+					RecorreDialogo(ref numDialog, numtema, dialogueNode);
 
-					if(dn.DevuelveNumeroOpciones() > 0)
+					if(dialogueNode.DevuelveNumeroOpciones() > 0)
 					{
 						SetState(State.Intro_Opciones);
 					}
 					//Comprobamos si se puede avanzar en el dialogo
-					else if(dialog.AvanzaDialogue(node_id))
+					else if(dialogue.AvanzaDialogue(nodeID))
 					{
 						//es lo mismo que node_id++;
-						node_id = selected_option;
+						nodeID = selectedOption;
 					}
 					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
 					else
 					{
-						EliminarDialogo(ref num_dialog, num_tema);
+						EliminarDialogo(ref numDialog, numtema);
 						//Si hay más dialogos, vamos al siguiente dialogo
-						if (npc_dialogo.AvanzaIntro(ref num_dialog))
+						if (dialogo.AvanzaIntro(ref numDialog))
 						{
-							dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
-							node_id = 0;
+							dialogue = dialogo.DevuelveDialogoIntro(numDialog);
+							nodeID = 0;
 						}
 						//Sino, se muestran las respuestas
 						else
@@ -255,31 +255,31 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case State.Intro_Opciones: //Cuando la intro muestra las opciones
-				display_node_options(dialog.DevuelveNodo(node_id));
-				selected_option = node_id;
+				DisplayNodeOptions(dialogue.DevuelveNodo(nodeID));
+				selectedOption = nodeID;
 
-				while(selected_option == node_id)
+				while(selectedOption == nodeID)
 				{
 					yield return null;
 				}
 
-				switch(selected_option)
+				switch(selectedOption)
 				{
 				case -3: //La conversación acaba
-					EliminarDialogo(ref num_dialog, num_tema);
-					conversacion_activa = false;
+					EliminarDialogo(ref numDialog, numtema);
+					conversacionActiva = false;
 					break;
 				case -2: //Se muestran las respuestas
-					EliminarDialogo(ref num_dialog, num_tema);
+					EliminarDialogo(ref numDialog, numtema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					EliminarDialogo(ref num_dialog, num_tema);
+					EliminarDialogo(ref numDialog, numtema);
 					//Si hay más dialogos, vamos al siguiente dialogo
-					if (npc_dialogo.AvanzaIntro(ref num_dialog))
+					if (dialogo.AvanzaIntro(ref numDialog))
 					{
-						dialog = npc_dialogo.DevuelveDialogoIntro(num_dialog);
-						node_id = 0;
+						dialogue = dialogo.DevuelveDialogoIntro(numDialog);
+						nodeID = 0;
 						SetState(State.Intro_Texto);
 					}
 					//Sino, se muestran las respuestas
@@ -289,59 +289,59 @@ public class TextBox : MonoBehaviour {
 					}
 					break;
 				default: //Se sigue con la conversación, donde el nodo indique
-					node_id = selected_option;
+					nodeID = selectedOption;
 					SetState(State.Intro_Texto);
 					break;
 				}
 				break;
 			case State.Mensajes_Menu:  //Cuando se muestran el menu de mensajes
-				if ((npc_dialogo.DevuelveNumeroMensajesActivos() + npc_dialogo.DevuelveNumeroTemaMensajesActivos()) != 0)
+				if ((dialogo.DevuelveNumeroMensajesActivos() + dialogo.DevuelveNumeroTemaMensajesActivos()) != 0)
 				{
-					display_npc_mensajes();
-					selected_option = -4;
-					while (selected_option == -4) {
+					DisplayMensajes();
+					selectedOption = -4;
+					while (selectedOption == -4) {
 						yield return null;
 					}
 
-					switch(selected_option)
+					switch(selectedOption)
 					{
 					//Salimos del dialogo
 					case -3:
 					case -2:
 					case -1:
-						conversacion_activa = false;
+						conversacionActiva = false;
 						break;
 					//Cargamos el dialogo escogido
 					default:
 						//Se ha seleccionado un mensajeTema
 						//La selected_option está en el intérvalo [0-numTemaMensajes]
-						if (selected_option < npc_dialogo.DevuelveNumeroTemaMensajes())
+						if (selectedOption < dialogo.DevuelveNumeroTemaMensajes())
 						{
-							node_id = selected_option;
-							num_tema = selected_option;
+							nodeID = selectedOption;
+							numtema = selectedOption;
 							SetState(State.Mensajes_Tema);
 						}
 						//Se ha seleccionado un mensaje sin tema
 						//La selected_option está en el intérvalo [numTemaMensajes+1-numTemaMensajes+numMensajes(sueltos)]
 						else
 						{
-							num_dialog = selected_option - npc_dialogo.DevuelveNumeroTemaMensajes();
+							numDialog = selectedOption - dialogo.DevuelveNumeroTemaMensajes();
 
-							num_tema = -1;
-							Mensaje men = npc_dialogo.DevuelveMensaje(num_tema, num_dialog);
+							numtema = -1;
+							Mensaje mensaje = dialogo.DevuelveMensaje(numtema, numDialog);
 
-							if(men.GetType() == typeof(MensajeDialogo))
+							if(mensaje.GetType() == typeof(MensajeDialogo))
 							{
-								MensajeDialogo menDi = men as MensajeDialogo;
-								dialog = menDi.DevuelveDialogo();
-								node_id = 0;
+								MensajeDialogo mensajeDialogo = mensaje as MensajeDialogo;
+								dialogue = mensajeDialogo.DevuelveDialogo();
+								nodeID = 0;
 
 								SetState(State.Mensajes_Texto);
 							}
-							else if(men.GetType() == typeof(MensajeTienda))
+							else if(mensaje.GetType() == typeof(MensajeTienda))
 							{
-								MensajeTienda menTi = men as MensajeTienda;
-								menTi.MostrarTienda();
+								MensajeTienda mensajeTienda = mensaje as MensajeTienda;
+								mensajeTienda.MostrarTienda();
 							}
 						}
 						break;
@@ -349,23 +349,23 @@ public class TextBox : MonoBehaviour {
 				}
 				else
 				{
-					conversacion_activa = false;
+					conversacionActiva = false;
 				}
 				break;
 			case State.Mensajes_Tema:  //Cuando se muestran los mensajes de un tema
-				display_npc_temaMensajes(npc_dialogo.DevuelveTemaMensaje(node_id));
+				DisplayTemaMensajes(dialogo.DevuelveTemaMensaje(nodeID));
 
-				selected_option = -4;
-				while (selected_option == -4) {
+				selectedOption = -4;
+				while (selectedOption == -4) {
 					yield return null;
 				}
 
-				switch(selected_option)
+				switch(selectedOption)
 				{
 				//Salimos del dialogo
 				case -3:
 				case -1:
-					conversacion_activa = false;
+					conversacionActiva = false;
 					break;
 				//Vamos al menú mensajes
 				case -2:
@@ -373,76 +373,76 @@ public class TextBox : MonoBehaviour {
 					break;
 				//Cargamos el mensaje escogido
 				default:
-					num_dialog = selected_option;
+					numDialog = selectedOption;
 
-					Mensaje men = npc_dialogo.DevuelveMensaje(num_tema, num_dialog);
+					Mensaje mensaje = dialogo.DevuelveMensaje(numtema, numDialog);
 
-					if(men.GetType() == typeof(MensajeDialogo))
+					if(mensaje.GetType() == typeof(MensajeDialogo))
 					{
-						MensajeDialogo menDi = men as MensajeDialogo;
-						dialog = menDi.DevuelveDialogo();
-						node_id = 0;
+						MensajeDialogo mensajeDialogo = mensaje as MensajeDialogo;
+						dialogue = mensajeDialogo.DevuelveDialogo();
+						nodeID = 0;
 
 						SetState(State.Mensajes_Texto);
 					}
-					else if(men.GetType() == typeof(MensajeTienda))
+					else if(mensaje.GetType() == typeof(MensajeTienda))
 					{
-						MensajeTienda menTi = men as MensajeTienda;
-						menTi.MostrarTienda();
+						MensajeTienda mensajeTienda = mensaje as MensajeTienda;
+						mensajeTienda.MostrarTienda();
 					}
 					break;
 				}
 				break;
 			case State.Mensajes_Texto:  //Cuando se muestra el texto del mensaje
-				DialogueNode Dn = dialog.DevuelveNodo(node_id);
-				selected_option = node_id;
-				display_node_text(Dn);
+				DialogueNode diaNode = dialogue.DevuelveNodo(nodeID);
+				selectedOption = nodeID;
+				DisplayNodeText(diaNode);
 
-				while(selected_option == node_id)
+				while(selectedOption == nodeID)
 				{
 					yield return null;
 				}
 
 				//Cambiar sistema de dialogo si sigue con botones
 				//salir y cambiar_tema como ahora
-				switch(selected_option)
+				switch(selectedOption)
 				{
 				case -3: //La conversación acaba
-					RecorreDialogoNPC(ref num_dialog, num_tema, Dn); //Dejar si el dialogo se deja como ahora
-					EliminarDialogo(ref num_dialog, num_tema);
-					conversacion_activa = false;
+					RecorreDialogo(ref numDialog, numtema, diaNode); //Dejar si el dialogo se deja como ahora
+					EliminarDialogo(ref numDialog, numtema);
+					conversacionActiva = false;
 					break;
 				case -2: //Se muestran los mensajes
-					RecorreDialogoNPC(ref num_dialog, num_tema, Dn); //Dejar si el dialogo se deja como ahora
-					EliminarDialogo(ref num_dialog, num_tema);
+					RecorreDialogo(ref numDialog, numtema, diaNode); //Dejar si el dialogo se deja como ahora
+					EliminarDialogo(ref numDialog, numtema);
 					SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					RecorreDialogoNPC(ref num_dialog, num_tema, Dn);
-					EliminarDialogo(ref num_dialog, num_tema);
+					RecorreDialogo(ref numDialog, numtema, diaNode);
+					EliminarDialogo(ref numDialog, numtema);
 					SetState(State.Mensajes_Menu);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					RecorreDialogoNPC(ref num_dialog, num_tema, Dn);
+					RecorreDialogo(ref numDialog, numtema, diaNode);
 
-					if(Dn.DevuelveNumeroOpciones() > 0)
+					if(diaNode.DevuelveNumeroOpciones() > 0)
 					{
 						SetState(State.Mensajes_Opciones);
 					}
 					//Comprobamos si se puede avanzar en el dialogo
-					else if(dialog.AvanzaDialogue(node_id))
+					else if(dialogue.AvanzaDialogue(nodeID))
 					{
 						//es lo mismo que node_id++;
-						node_id = selected_option;
+						nodeID = selectedOption;
 					}
 					//Si hemos llegado al final del dialogo, acabamos el dialogo actual
 					else
 					{
-						EliminarDialogo(ref num_dialog, num_tema);
+						EliminarDialogo(ref numDialog, numtema);
 
-						if(num_tema != -1)
+						if(numtema != -1)
 						{
-							node_id = num_tema;
+							nodeID = numtema;
 							SetState(State.Mensajes_Tema);
 						}
 						else
@@ -457,48 +457,48 @@ public class TextBox : MonoBehaviour {
 
 				break;
 			case State.Mensajes_Opciones: //Cuando se muestran las opciones del mensaje
-				display_node_options(dialog.DevuelveNodo(node_id));
-				selected_option = -4;
+				DisplayNodeOptions(dialogue.DevuelveNodo(nodeID));
+				selectedOption = -4;
 
-				while(selected_option == -4)
+				while(selectedOption == -4)
 				{
 					yield return null;
 				}
 
-				switch(selected_option)
+				switch(selectedOption)
 				{
 				case -3: //La conversación acaba
-					EliminarDialogo(ref num_dialog, num_tema);
-					conversacion_activa = false;
+					EliminarDialogo(ref numDialog, numtema);
+					conversacionActiva = false;
 					break;
 				case -2: //Se muestran las respuestas
-					EliminarDialogo(ref num_dialog, num_tema);
+					EliminarDialogo(ref numDialog, numtema);
 
-					if(num_tema != -1)
+					if(numtema != -1)
 					{
-						node_id = num_tema;
+						nodeID = numtema;
 						SetState(State.Mensajes_Tema);
 					}
 					else
 						SetState(State.Mensajes_Menu);
 					break;
 				case -1: //Acaba el dialogo actual
-					EliminarDialogo(ref num_dialog, num_tema);
+					EliminarDialogo(ref numDialog, numtema);
 
-					if(num_tema != -1)
+					if(numtema != -1)
 					{
-						node_id = num_tema;
+						nodeID = numtema;
 						SetState(State.Mensajes_Tema);
 					}
 					else
 						SetState(State.Mensajes_Menu);
 					break;
 				default: //Si el nodo tiene opciones de dialogo, se muestran, sino, se pasa al siguiente texto
-					node_id = selected_option;
+					nodeID = selectedOption;
 
-					if(num_tema != -1)
+					if(numtema != -1)
 					{
-						node_id = num_tema;
+						nodeID = numtema;
 						SetState(State.Mensajes_Tema);
 					}
 					else
@@ -509,17 +509,17 @@ public class TextBox : MonoBehaviour {
 			}
 		}
 
-		FinNPCDialogo();
+		FinDialogo();
 	}
 
 	private IEnumerator InterfazPopUpObjetos()
 	{
 		//Desactivamos la interfaz del diálogo y mostramos la interfaz de obtención de objetos
-		dialogue_window.SetActive(false);
+		dialogWindow.SetActive(false);
 
 		yield return StartCoroutine(MostrarPopupObjetos());
 
-		dialogue_window.SetActive(true);
+		dialogWindow.SetActive(true);
 	}
 
 	//Muestra un popup de los objetos obtenidos
@@ -548,10 +548,10 @@ public class TextBox : MonoBehaviour {
 		Destroy(panelObjeto);
 	}
 		
-	private void FinNPCDialogo()
+	private void FinDialogo()
 	{
 		AcabaDialogo();
-		GuardarNPCDialogo();
+		GuardarDialogo();
 	}
 
 	//Desactiva el cuadro de diálogo
@@ -562,146 +562,146 @@ public class TextBox : MonoBehaviour {
 		Manager.Instance.setPausa(false);
 		Manager.Instance.resumeNavMeshAgents();
 
-		dialogue_window.SetActive(false);
+		dialogWindow.SetActive(false);
 		Cursor.visible = false; //Oculta el cursor del ratón
 	}
 
 	//Serializa determinados objetos cambiados durante el diálogo
-	private void GuardarNPCDialogo()
+	private void GuardarDialogo()
 	{
 		//El dialogo actual se añade al acabar la conversación, en ningún momento durante esta
-		npc_dialogo.AddToColaObjetos();
+		dialogo.AddToColaObjetos();
 
 		Manager.Instance.ActualizarDatos();
 	}
 
 	//Comprueba si la intro o el mensaje debe eliminarse
-	private void EliminarDialogo(ref int num_dialog, int num_tema)
+	private void EliminarDialogo(ref int numDialogo, int numTema)
 	{
-		switch(_state)
+		switch(state)
 		{
 		case State.Intro_Texto:
 		case State.Intro_Opciones:
-			npc_dialogo.MirarSiDialogoSeAutodestruye(0, num_tema, ref num_dialog);
+			dialogo.MirarSiDialogoSeAutodestruye(0, numTema, ref numDialogo);
 			break;
 		case State.Mensajes_Texto:
 		case State.Mensajes_Opciones:
-			if (num_tema == -1)
-				npc_dialogo.MirarSiDialogoSeAutodestruye(1, num_tema, ref num_dialog);
+			if (numTema == -1)
+				dialogo.MirarSiDialogoSeAutodestruye(1, numTema, ref numDialogo);
 			else
-				npc_dialogo.MirarSiDialogoSeAutodestruye(2, num_tema, ref num_dialog);
+				dialogo.MirarSiDialogoSeAutodestruye(2, numTema, ref numDialogo);
 			break;
 		}
 	}
 
 	//Ejecuta funciones del nodo actual del diálogo
-	private void RecorreDialogoNPC(ref int num_dialog, int num_tema, DialogueNode dn)
+	private void RecorreDialogo(ref int numDialogo, int numTema, DialogueNode nodo)
 	{
-		switch(_state)
+		switch(state)
 		{
 		case State.Intro_Texto:
-			npc_dialogo.MarcaDialogueNodeComoLeido(0, num_tema, ref num_dialog, dn);
+			dialogo.MarcaDialogueNodeComoLeido(0, numTema, ref numDialogo, nodo);
 			break;
 		case State.Mensajes_Texto:
-			if (num_tema == -1)
-				npc_dialogo.MarcaDialogueNodeComoLeido(1, num_tema, ref num_dialog, dn);
+			if (numTema == -1)
+				dialogo.MarcaDialogueNodeComoLeido(1, numTema, ref numDialogo, nodo);
 			else
-				npc_dialogo.MarcaDialogueNodeComoLeido(2, num_tema, ref num_dialog, dn);
+				dialogo.MarcaDialogueNodeComoLeido(2, numTema, ref numDialogo, nodo);
 			break;
 		}
 	}
 
 	//Muestra texto del diálogo
-	private void display_node_text(DialogueNode node)
+	private void DisplayNodeText(DialogueNode node)
 	{
 		PosicionaCamara(node.posCamara); //Posiciona la cámara
 
-		dialog_options.SetActive(false);
+		dialogOptions.SetActive(false);
 
 		for(int i = 0; i < options.Length; i++)
 		{
 			options[i].SetActive(false);
 		}
 
-		iramensajesmenu.SetActive(false);
+		irAMensajesMenu.SetActive(false);
 		exit.SetActive(false);
 
-		dialog_text.SetActive(true);
+		dialogText.SetActive(true);
 
-		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
-		dialog_text.GetComponentInChildren<Text>().text = node.DevuelveTexto();
+		dialogName.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
+		dialogText.GetComponentInChildren<Text>().text = node.DevuelveTexto();
 
-		dialog_text.GetComponent<Button>().onClick.RemoveAllListeners();
+		dialogText.GetComponent<Button>().onClick.RemoveAllListeners();
 
-		var opcion = selected_option;
+		var opcion = selectedOption;
 
 		//Dice hacia adonde continua el dialogo
-		dialog_text.GetComponent<Button>().onClick.AddListener(delegate
+		dialogText.GetComponent<Button>().onClick.AddListener(delegate
 		{
-				int sigOpcion = opcion + 1;
+				int siguienteOpcion = opcion + 1;
 				switch(node.DevuelveSiguienteNodo())
 				{
 				//El dialogo acaba
 				case -2:
-					sigOpcion = -3;
+					siguienteOpcion = -3;
 					break;
 				//Va hacia el menú de mensajes
 				case -1:
-					sigOpcion = -2;
+					siguienteOpcion = -2;
 					break;
 				//opción por defecto(selected_option+1)
 				case 0:
 				default:
 					break;
 				}
-				SetSelectedOption(sigOpcion);
+				SetSelectedOption(siguienteOpcion);
 		}); //Listener del botón
 	}
 
 	//Muestra las opciones del dialogo
-	private void display_node_options(DialogueNode node)
+	private void DisplayNodeOptions(DialogueNode node)
 	{
-		dialog_options.SetActive(true);
+		dialogOptions.SetActive(true);
 
 		//Mantiene el scroll arriba del todo al mostrar opciones
-		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+		dialogOptions.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
-		dialog_text.SetActive(false);
+		dialogText.SetActive(false);
 
 		for(int i = 0; i < options.Length; i++)
 		{
 			options[i].SetActive(false);
 		}
 
-		iramensajesmenu.SetActive(false);
+		irAMensajesMenu.SetActive(false);
 		exit.SetActive(false);
 
-		dialog_name.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
+		dialogName.GetComponentInChildren<Text>().text = DevuelveNombre(node.DevuelveNombre());
 
 		for(int i = 0; i < node.DevuelveNumeroOpciones() && i < 14; i++)
 		{
-			set_option_button(options[i], node.DevuelveNumNodoOpciones(i));
+			SetOptionButton(options[i], node.DevuelveNodoOpciones(i));
 		}
 	}
 
-	private void set_option_button(GameObject button, DialogueOption opt)
+	private void SetOptionButton(GameObject button, DialogueOption dialogueOption)
 	{
 		bool mostrar = true;
 
-		for(int i = 0; i < opt.DevuelveNumeroGrupos(); i++)
+		for(int i = 0; i < dialogueOption.DevuelveNumeroGrupos(); i++)
 		{
-			int IDGrupo = opt.DevuelveIDGrupo(i); //Miramos si la opción está asignada a algún grupo
+			int IDGrupo = dialogueOption.DevuelveIDGrupo(i); //Miramos si la opción está asignada a algún grupo
 
-			Grupo gp = Manager.Instance.DevolverGrupoActivo(IDGrupo);
+			Grupo grupo = Manager.Instance.DevolverGrupoActivo(IDGrupo);
 
-			if (gp != null)
+			if (grupo != null)
 			{
-				List<DialogueOptionGrupoVariables> variables = opt.DevuelveVariables(i);
+				List<DialogueOptionGrupoVariables> variables = dialogueOption.DevuelveVariables(i);
 
 				for(int j = 0; i < variables.Count; j++)
 				{
 					//Si la variable de la opcion es mayor que la actual del grupo, no se muestra la opción
-					if(variables[j].Valor > gp.variables[variables[j].num_variable])
+					if(variables[j].valor > grupo.variables[variables[j].numVariable])
 					{
 						mostrar = false;
 					}
@@ -725,8 +725,8 @@ public class TextBox : MonoBehaviour {
 			//Se ha encontrado en la cola de objetos
 			if(inventarioCola != null)
 			{
-				ObjetoSerializable objs = inventarioCola.GetObjeto();
-				inventario = objs as Inventario;
+				ObjetoSerializable objetoSerializable = inventarioCola.GetObjeto();
+				inventario = objetoSerializable as Inventario;
 			}
 			//No se ha encontrado en la cola de objetos
 			else
@@ -742,10 +742,10 @@ public class TextBox : MonoBehaviour {
 				}
 			}
 				
-			for(int i = 0; i < opt.DevuelveNumeroObjetos(); i++)
+			for(int i = 0; i < dialogueOption.DevuelveNumeroObjetos(); i++)
 			{
-				int IDObjeto = opt.DevuelveIDObjeto(i);
-				bool enPosesion = opt.DevuelveObjetoPosesion(i);
+				int IDObjeto = dialogueOption.DevuelveIDObjeto(i);
+				bool enPosesion = dialogueOption.DevuelveObjetoPosesion(i);
 
 				bool existe = inventario.ObjetoInventarioExiste(IDObjeto);
 
@@ -760,48 +760,48 @@ public class TextBox : MonoBehaviour {
 		if(mostrar)
 		{
 			button.SetActive(true);
-			button.GetComponentInChildren<Text>().text = opt.DevuelveTexto(); //Texto del botón
+			button.GetComponentInChildren<Text>().text = dialogueOption.DevuelveTexto(); //Texto del botón
 			button.GetComponent<Button>().onClick.RemoveAllListeners();
-			button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(opt.DevuelveDestinationNodeID()); }); //Listener del botón
+			button.GetComponent<Button>().onClick.AddListener(delegate { SetSelectedOption(dialogueOption.DevuelveDestinationNodeID()); }); //Listener del botón
 		}
 	}
 
 	//Muestra el menu de mensajes del dialogo
-	private void display_npc_mensajes()
+	private void DisplayMensajes()
 	{
 		//Mantiene el scroll arriba del todo al mostrar opciones
-		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+		dialogOptions.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
-		dialog_options.SetActive(true);
-		dialog_text.SetActive(false);
+		dialogOptions.SetActive(true);
+		dialogText.SetActive(false);
 
 		for(int k = 0; k < options.Length; k++)
 		{
 			options[k].SetActive(false);
 		}
 
-		iramensajesmenu.SetActive(false);
+		irAMensajesMenu.SetActive(false);
 		exit.SetActive(true);
 
 		int i = 0; //indice
 
-		for(i = 0; i < npc_dialogo.DevuelveNumeroTemaMensajes() && i < 14; i++)
+		for(i = 0; i < dialogo.DevuelveNumeroTemaMensajes() && i < 14; i++)
 		{
-			if(npc_dialogo.TemaMensajeEsVisible(i))
-				set_mensaje_button(options[i], npc_dialogo.DevuelveTextoTemaMensaje(i), i);
+			if(dialogo.TemaMensajeEsVisible(i))
+				SetMensajeButton(options[i], dialogo.DevuelveTextoTemaMensaje(i), i);
 		}
 
 		int j = i;
 
-		for(i = j; i < npc_dialogo.DevuelveNumeroMensajes() + j && i < 14; i++)
+		for(i = j; i < dialogo.DevuelveNumeroMensajes() + j && i < 14; i++)
 		{
-			if(npc_dialogo.MensajeEsVisible(i-j))
-				set_mensaje_button(options[i], npc_dialogo.DevuelveTextoMensaje(i-j), i);
+			if(dialogo.MensajeEsVisible(i-j))
+				SetMensajeButton(options[i], dialogo.DevuelveTextoMensaje(i-j), i);
 		}
 	}
 
 	//Crea el botón de un mensaje
-	private void set_mensaje_button(GameObject button, string texto, int num)
+	private void SetMensajeButton(GameObject button, string texto, int num)
 	{
 		button.SetActive(true);
 		button.GetComponentInChildren<Text>().text = texto; //Texto del botón
@@ -810,39 +810,39 @@ public class TextBox : MonoBehaviour {
 	}
 
 	//Muestra el menu de mensajes del dialogo
-	private void display_npc_temaMensajes(TemaMensaje tm)
+	private void DisplayTemaMensajes(TemaMensaje temaMensaje)
 	{
 		//Mantiene el scroll arriba del todo al mostrar opciones
-		dialog_options.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+		dialogOptions.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1);
 
-		dialog_options.SetActive(true);
-		dialog_text.SetActive(false);
+		dialogOptions.SetActive(true);
+		dialogText.SetActive(false);
 
 		for(int k = 0; k < options.Length; k++)
 		{
 			options[k].SetActive(false);
 		}
 
-		iramensajesmenu.SetActive(true);
+		irAMensajesMenu.SetActive(true);
 		exit.SetActive(true);
 
-		for(int i = 0; i < tm.DevuelveNumeroMensajes() && i < 14; i++)
+		for(int i = 0; i < temaMensaje.DevuelveNumeroMensajes() && i < 14; i++)
 		{
-			set_mensaje_button(options[i], tm.DevuelveTextoMensaje(i), i);
+			SetMensajeButton(options[i], temaMensaje.DevuelveTextoMensaje(i), i);
 		}
 	}
 
 	//Guarda en una variable la opción actual
 	private void SetSelectedOption(int x)
 	{
-		selected_option = x;
+		selectedOption = x;
 	}
 
 	//Posiciona la cámara, si el interactuable no es nulo
-	private void PosicionaCamara(PosicionCamara posC)
+	private void PosicionaCamara(PosicionCamara posicionCamara)
 	{
-		if(inter != null)
-			TP_Camera.Instance.PosicionDialogo(posC, Manager.Instance.GetInteractuable(inter.ID));
+		if(interactuable != null)
+			TP_Camera.Instance.PosicionDialogo(posicionCamara, Manager.Instance.GetInteractuable(interactuable.ID));
 	}
 
 	//Devuelve el nombre de quién habla según un entero
@@ -856,8 +856,8 @@ public class TextBox : MonoBehaviour {
 			nombre = Manager.Instance.DevuelveNombreJugador();
 			break;
 		case -1:
-			if(inter != null)
-				nombre = inter.DevuelveNombreDialogo();
+			if(interactuable != null)
+				nombre = interactuable.DevuelveNombreDialogo();
 			else
 				nombre = "";
 			break;

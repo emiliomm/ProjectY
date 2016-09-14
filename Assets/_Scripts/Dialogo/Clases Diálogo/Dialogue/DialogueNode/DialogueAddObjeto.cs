@@ -18,7 +18,7 @@
 			return ID;
 		}
 
-		public int devuelveCantidad()
+		public int DevuelveCantidad()
 		{
 			return cantidad;
 		}

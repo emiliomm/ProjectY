@@ -18,8 +18,8 @@ public class ObjetoTransporteInter
 	//Devuelve el mensaje de un xml indicado en la ruta
 	public static ObjetoTransporteInter LoadObjetoTransporteInter(string path)
 	{
-		ObjetoTransporteInter objTransInter = Manager.Instance.DeserializeData<ObjetoTransporteInter>(path);
+		ObjetoTransporteInter objetoTransporteInteractuable = Manager.Instance.DeserializeData<ObjetoTransporteInter>(path);
 
-		return objTransInter;
+		return objetoTransporteInteractuable;
 	}
 }

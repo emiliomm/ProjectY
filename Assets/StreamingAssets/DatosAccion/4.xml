@@ -4,6 +4,7 @@
 		<ID>6</ID>
 		<nombre>Ver menú</nombre>
 		<objetos/>
+		<variables/>
 		<IDInventario>0</IDInventario>
 		<escaparate>true</escaparate>
 		<numX>3</numX>

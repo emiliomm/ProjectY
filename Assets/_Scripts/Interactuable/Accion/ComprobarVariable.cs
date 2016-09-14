@@ -7,7 +7,7 @@ public class ComprobarVariable{
 	//tipo 1: si el valor es == que el actual, devuelve verdadero
 	//tipo 2: si el valor es < que el actual, devuelve verdadero
 	public int tipo;
-	public int num_variable;
+	public int numVariable;
 	public int valor;
 
 	public ComprobarVariable()

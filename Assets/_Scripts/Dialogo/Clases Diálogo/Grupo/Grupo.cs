@@ -39,14 +39,14 @@ public class Grupo : ObjetoSerializable{
  	 *  Los parámetros que se le pasan son la ruta del archivo
  	 *  el ID del interactuable del diálogo actual, el ID del dialogo actual, el tipo de diálogo actual y la posición del dialogo actual
 	 */
-	public static void LoadGrupo(string path, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int pos_dialogo)
+	public static void LoadGrupo(string path, int IDInteractuable, int IDDialogoActual, int tipoDialogo, ref int posDialogo)
 	{
-		Grupo grup = Manager.Instance.DeserializeData<Grupo>(path);
+		Grupo grupo = Manager.Instance.DeserializeData<Grupo>(path);
 
 		//Se encarga de cargar los intros/mensajes iniciales para añadirlos a los diálogos correspondientes
-		Lanzador.LoadLanzador(Manager.rutaLanzadores + grup.IDGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref pos_dialogo);
+		Lanzador.LoadLanzador(Manager.rutaLanzadores + grupo.IDGrupo.ToString() + ".xml", IDInteractuable,IDDialogoActual, tipoDialogo, ref posDialogo);
 
-		Manager.Instance.AddToGruposActivos(grup);
+		Manager.Instance.AddToGruposActivos(grupo);
 	}
 
 	/*
@@ -57,12 +57,12 @@ public class Grupo : ObjetoSerializable{
  	 *  Los parámetros que se le pasan son la ruta del archivo
  	 *  el ID del interactuable del diálogo actual, el ID del dialogo actual, el tipo de diálogo actual y la posición del dialogo actual
 	 */
-	public static void LoadGrupo(Grupo g, int ID_NPC, int ID_DiagActual, int tipo_dialogo, ref int pos_dialogo)
+	public static void LoadGrupo(Grupo grupo, int IDInteractuable, int IDDialogoActual, int tipoDialogo, ref int posDialogo)
 	{
 		//Se encarga de cargar los intros/mensajes iniciales para añadirlos a los diálogos correspondientes
-		Lanzador.LoadLanzador(Manager.rutaLanzadores + g.IDGrupo.ToString() + ".xml", ID_NPC,ID_DiagActual, tipo_dialogo, ref pos_dialogo);
+		Lanzador.LoadLanzador(Manager.rutaLanzadores + grupo.IDGrupo.ToString() + ".xml", IDInteractuable,IDDialogoActual, tipoDialogo, ref posDialogo);
 
-		Manager.Instance.AddToGruposActivos(g);
+		Manager.Instance.AddToGruposActivos(grupo);
 	}
 
 	//Añade el grupo a la cola de objetos serializables

@@ -12,17 +12,17 @@ public class ObjetoDato : MonoBehaviour {
 	private Material materialSprite; //material que usa el sprite del objetoDato por defecto
 	private Material materialUI; //material de la UI
 
-	private SpriteRenderer spriteRend; //almacenamos el componente spriterenderer del objetoDato, para modificar el material
+	private SpriteRenderer spriteRenderer; //almacenamos el componente spriterenderer del objetoDato, para modificar el material
 
 	//Inicializa variables
 	void Start () {
 		hitInfo = new RaycastHit();
 
-		spriteRend = GetComponent<SpriteRenderer>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 
 		//Carga los dos materiales que se irán alternando en Update
 		//El predeterminado del sprite y el UI
-		materialSprite = spriteRend.material;
+		materialSprite = spriteRenderer.material;
 		materialUI = Resources.Load("UI") as Material;
 
 		//Carga la layerMask para que el rayo detecte todos las colisiones con objetos
@@ -40,14 +40,14 @@ public class ObjetoDato : MonoBehaviour {
 		if(Physics.Raycast(rayToCameraPos, out hitInfo, 1000, layerMask))
 		{
 			transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
-			spriteRend.material = materialSprite;
+			spriteRenderer.material = materialSprite;
 		}
 		//Si el raycast no le ha dado al objeto, cambiamos el material del ObjetoDato para que sea visible totalmente aunque el objeto "le tape".
 		//Además, el objetodato permance mirando hacia la cámara hasta que el rayo le de al objeto
 		else
 		{
 			transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
-			spriteRend.material = materialUI;
+			spriteRenderer.material = materialUI;
 		}
 	}
 }

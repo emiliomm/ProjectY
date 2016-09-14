@@ -6,14 +6,14 @@ using System.Collections;
  */
 public class DialogoDistancia : MonoBehaviour {
 
-	Interactuable inter; //Interactuable al cual pertecene el dialogo
-	DatosAccionDialogo datosAccionDialogo; //DatosAccion del dialogo
+	private Interactuable interactuable; //Interactuable al cual pertecene el dialogo
+	private DatosAccionDialogo datosAccionDialogo; //DatosAccion del dialogo
 
 	//Establece las variables
-	public void cargarDialogo(Interactuable inter, DatosAccionDialogo dAcc)
+	public void cargarDialogo(Interactuable interactuable, DatosAccionDialogo datosAccionDialogo)
 	{
-		datosAccionDialogo = dAcc;
-		this.inter = inter;
+		this.datosAccionDialogo = datosAccionDialogo;
+		this.interactuable = interactuable;
 	}
 
 	//Comprueba si se ha colisionado con el jugador
@@ -22,11 +22,7 @@ public class DialogoDistancia : MonoBehaviour {
 	{
 		if (other.tag == "Player")
 		{
-//			if (TP_Controller.Instance.CurrentState == TP_Controller.State.Normal) 
-//			{
-//				TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
-				IniciaDialogo();
-			//}
+			IniciaDialogo();
 		}
 	}
 
@@ -40,11 +36,11 @@ public class DialogoDistancia : MonoBehaviour {
 	//Cuando el dialogo acaba, elimina el objeto
 	private IEnumerator DialogoEnCurso()
 	{
-		yield return StartCoroutine(TextBox.Instance.PrepararDialogoCoroutine(inter, datosAccionDialogo.diag, -1));
+		yield return StartCoroutine(TextBox.instance.PrepararDialogoCoroutine(interactuable, datosAccionDialogo.dialogo, -1));
 
 		//Quitamos la propiedad a distancia del diálogo y actualizamos las acciones del interactuable
-		datosAccionDialogo.setADistancia(false);
-		inter.GuardarAcciones();
+		datosAccionDialogo.SetADistancia(false);
+		interactuable.GuardarAcciones();
 
 		Destroy(gameObject);
 	}

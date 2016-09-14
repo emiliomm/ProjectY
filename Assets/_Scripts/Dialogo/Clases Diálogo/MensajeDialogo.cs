@@ -7,15 +7,15 @@ using System.Collections.Generic;
  */
 public class MensajeDialogo : Mensaje
 {
-	public Dialogue dia;
+	public Dialogue dialogo;
 
 	public MensajeDialogo()
 	{
-		dia = new Dialogue();
+		dialogo = new Dialogue();
 	}
 
 	public Dialogue DevuelveDialogo()
 	{
-		return dia;
+		return dialogo;
 	}
 }

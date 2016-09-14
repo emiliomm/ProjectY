@@ -9,10 +9,10 @@ public class DatosAccionDialogo : DatosAccion{
 
 	//No se serializa al guardar la accion ya que la serialización de los diálogos se maneja independientemente de esta clase
 	[XmlIgnore]
-	public NPC_Dialogo diag;
+	public Dialogo dialogo;
 
-	public int ID_NPC; //ID del Interactuable que inicia el diálogo
-	public int ID_Diag; //ID del dialogo
+	public int IDInteractuable; //ID del Interactuable que inicia el diálogo
+	public int IDDialogo; //ID del dialogo
 
 	//Indica si el diálogo se puede ejecutar a distancia. Si es true, los parámetros tam indican el tamaño
 	//del prisma rectangular con el cual, el jugador al colisionar inicia el diálogo
@@ -23,35 +23,35 @@ public class DatosAccionDialogo : DatosAccion{
 
 	public DatosAccionDialogo()
 	{
-		diag = new NPC_Dialogo();
+		dialogo = new Dialogo();
 	}
 
 	//Busca el fichero del diálogo en el directorio correspondiente
 	public void CargaDialogo()
 	{
 		//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + ID_NPC.ToString() + "-" + ID_Diag.ToString() + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml"))
 		{
-			diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogosGuardados + ID_NPC.ToString() + "-" + ID_Diag.ToString() + ".xml");
+			dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
 		}
 		else
 		{
-			diag = NPC_Dialogo.LoadNPCDialogue(Manager.rutaNPCDialogos + ID_NPC.ToString() + "-" + ID_Diag.ToString() + ".xml");
+			dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogos + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
 		}
 	}
 
-	public int DevuelveIDDiag()
+	public int DevuelveIDDialogo()
 	{
-		return ID_Diag;
+		return IDDialogo;
 	}
 
-	public NPC_Dialogo DevuelveDialogo()
+	public Dialogo DevuelveDialogo()
 	{
-		return diag;
+		return dialogo;
 	}
 
 	//Modifica si el diálogo se puede ejecutar a distancia o no
-	public void setADistancia(bool valor)
+	public void SetADistancia(bool valor)
 	{
 		aDistancia = valor;
 	}
@@ -59,16 +59,16 @@ public class DatosAccionDialogo : DatosAccion{
 	//Ejecuta el diálogo
 	public override void EjecutarAccion()
 	{
-		GameObject gobj = Manager.Instance.GetInteractuable(ID_NPC);
+		GameObject gameobject = Manager.Instance.GetInteractuable(IDInteractuable);
 
-		if(gobj != null)
+		if(gameobject != null)
 		{
-			Interactuable inter = gobj.GetComponent<Interactuable>() as Interactuable;
+			Interactuable interactuable = gameobject.GetComponent<Interactuable>() as Interactuable;
 
-			if(inter != null)
+			if(interactuable != null)
 			{
 				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-				TextBox.Instance.PrepararDialogo(inter, diag, -1);
+				TextBox.instance.PrepararDialogo(interactuable, dialogo, -1);
 			}
 		}
 	}

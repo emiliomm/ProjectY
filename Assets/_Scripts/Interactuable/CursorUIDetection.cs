@@ -6,10 +6,10 @@ using UnityEngine.UI;
  */
 public class CursorUIDetection : MonoBehaviour {
 
-	Interactuable inter; //Referencia al interactuable al cual pertenece el cursor
+	Interactuable interactuable; //Referencia al interactuable al cual pertenece el cursor
 
 	void Start () {
-		inter = transform.parent.parent.gameObject.GetComponent<Interactuable>();
+		interactuable = transform.parent.parent.gameObject.GetComponent<Interactuable>();
 	}
 
 	//Al detectar una colisión con un trigger, comprueba que se trata de un gameObject Accion
@@ -19,11 +19,11 @@ public class CursorUIDetection : MonoBehaviour {
 		//para que este sepa que acción está en contacto con el cursor
 		if (other.tag == "AccionUI")
 		{
-			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
+			AccionObjeto accionObjeto = other.GetComponent<AccionObjeto>();
 
-			if(aobj.getID() == inter.ID)
+			if(accionObjeto.GetID() == interactuable.ID)
 			{
-				inter.AsignarAccionActiva(aobj.getIndice());
+				interactuable.AsignarAccionActiva(accionObjeto.GetIndice());
 			}
 		}
 
@@ -40,11 +40,11 @@ public class CursorUIDetection : MonoBehaviour {
 		//Si se ha colisionado con un gameObject Accion, se desactiva la acción en la clase interactuable
 		if (other.tag == "AccionUI")
 		{
-			AccionObjeto aobj = other.GetComponent<AccionObjeto>();
+			AccionObjeto accionObjeto = other.GetComponent<AccionObjeto>();
 
-			if(aobj.getID() == inter.ID)
+			if(accionObjeto.GetID() == interactuable.ID)
 			{
-				inter.setAccionActivaNull();
+				interactuable.SetAccionActivaNull();
 			}
 		}
 

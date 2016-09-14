@@ -110,7 +110,7 @@ public class TP_Camera : MonoBehaviour
 		}
 
 		//Guardamos el componente TP_Camera(el script) en myCamera
-		myCamera = tempCamera.GetComponent("TP_Camera") as TP_Camera;
+		myCamera = tempCamera.GetComponent<TP_Camera>();
 
 		targetLookAt = GameObject.Find("targetLookAt") as GameObject;
 

@@ -42,7 +42,7 @@ public class TP_Controller : MonoBehaviour
 
 		//Inicializamos el componente CharacterController
 		//Inicializamos la variable instancia
-		characterController = GetComponent("CharacterController") as CharacterController; 
+		characterController = GetComponent<CharacterController>(); 
 		Instance = this;
 		SetState(State.Normal);
 

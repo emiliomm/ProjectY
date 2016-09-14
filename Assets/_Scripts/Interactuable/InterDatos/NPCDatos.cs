@@ -41,8 +41,8 @@ public class NPCDatos : InterDatos{
 	//Devuelve el NPCDatos de un xml indicado en la ruta
 	public new static NPCDatos LoadInterDatos(string path)
 	{
-		NPCDatos inter_datos = Manager.Instance.DeserializeData<NPCDatos>(path);
+		NPCDatos interDatos = Manager.Instance.DeserializeData<NPCDatos>(path);
 
-		return inter_datos;
+		return interDatos;
 	}
 }

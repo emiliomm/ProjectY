@@ -4,8 +4,9 @@
 		<ID>0</ID>
 		<nombre>Hablar</nombre>
 		<objetos/>
-		<ID_NPC>0</ID_NPC>
-		<ID_Diag>0</ID_Diag>
+		<variables/>
+		<IDInteractuable>0</IDInteractuable>
+		<IDDialogo>0</IDDialogo>
 		<aDistancia>true</aDistancia>
 		<tamX>10</tamX>
 		<tamY>7</tamY>
@@ -15,8 +16,9 @@
 		<ID>10</ID>
 		<nombre>Ha343blar</nombre>
 		<objetos/>
-		<ID_NPC>0</ID_NPC>
-		<ID_Diag>1</ID_Diag>
+		<variables/>
+		<IDInteractuable>0</IDInteractuable>
+		<IDDialogo>1</IDDialogo>
 		<aDistancia>true</aDistancia>
 		<tamX>10</tamX>
 		<tamY>7</tamY>
@@ -26,14 +28,16 @@
 		<ID>50</ID>
 		<nombre>Prueba</nombre>
 		<objetos/>
+		<variables/>
 		<IDObjeto>4</IDObjeto>
-		<num_variable>0</num_variable>
+		<numVariable>0</numVariable>
 		<valorNegativo>0</valorNegativo>
 	</DatosAccion>
 	<DatosAccion xsi:type="xs:DatosAccionObjeto">
 		<ID>50</ID>
 		<nombre>Prueba2</nombre>
 		<objetos/>
+		<variables/>
 		<nombreObjecto>Cube</nombreObjecto>
 	</DatosAccion>
 </ArrayOfDatosAccion>

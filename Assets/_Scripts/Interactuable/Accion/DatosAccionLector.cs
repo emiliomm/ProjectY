@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class DatosAccionLector : DatosAccion {
 
 	public int IDObjeto;
-	public int num_variable;
+	public int numVariable;
 	public int valorNegativo;
 
 	public DatosAccionLector()
@@ -19,10 +19,10 @@ public class DatosAccionLector : DatosAccion {
 		Manager.Instance.stopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
-		GameObject LectorController = new GameObject("LectorController");
+		GameObject lectorControllerGO = new GameObject("LectorController");
 
-		LectorController lectorController = LectorController.AddComponent<LectorController>();
-		lectorController.cargarVariable(IDObjeto, num_variable, valorNegativo);
+		LectorController lectorController = lectorControllerGO.AddComponent<LectorController>();
+		lectorController.CargarVariable(IDObjeto, numVariable, valorNegativo);
 
 		//Se establece el modo de la cámara en el Modo Objeto
 		Camera.main.GetComponent<TP_Camera>().setObjectMode();

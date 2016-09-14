@@ -12,13 +12,13 @@ public class Interactuable : MonoBehaviour {
 	public int ID; //ID único que identifica al interactuable
 
 	//Parámetros sobre la sensibilidad del ratón (PASAR AL MANAGER)
-	public float X_MouseSensitivity = 0.02f;
-	public float Y_MouseSensitivity = 0.02f;
+	public float XMouseSensitivity = 0.02f;
+	public float YMouseSensitivity = 0.02f;
 
 	//Dos listas almacenan las acciones que puede ejecutar un interactuable. Los datos de las
 	//acciones se guardan separados en la clase DatosAccion debido a la serialización
-	private List<DatosAccion> Acciones; //Contiene todas las acciones, incluso las que no se han cargado
-	private List<GameObject> AccionesGO; //Los acciones GameObject solo contienen las acciones cargadas
+	private List<DatosAccion> acciones; //Contiene todas las acciones, incluso las que no se han cargado
+	private List<GameObject> accionesGO; //Los acciones GameObject solo contienen las acciones cargadas
 
 	//-1 = ninguna
 	//x = lugar de la accion activa en la lista de DatosAccion
@@ -27,7 +27,7 @@ public class Interactuable : MonoBehaviour {
 
 	private GameObject canvas; //Canvas propio del interactuable que contiene toda la UI
 	private GameObject nombre; //Nombre del interactuable
-	private GameObject Objeto; //GameObject que se usa como apariencia del interactuable
+	private GameObject objeto; //GameObject que se usa como apariencia del interactuable
 	private GameObject cursorUI; //Objeto que representa al cursor
 	private Camera camara; //Referencia a la cámara del juego
 
@@ -42,20 +42,20 @@ public class Interactuable : MonoBehaviour {
 	//Estados de la clase
 	public enum State { Desactivado, Accionable, Seleccionado, Accionando, Accionado }
 
-	private State _state;
-	private State _prevState;
+	private State state;
+	private State prevState;
 
 	public State CurrentState {
-		get { return _state; } 
+		get { return state; } 
 	}
 
 	public State PrevState {
-		get { return _prevState; }
+		get { return prevState; }
 	}
 
 	public void SetState(State newState) {
-		_prevState = _state;
-		_state = newState;
+		prevState = state;
+		state = newState;
 	}
 
 	protected virtual void Start ()
@@ -68,7 +68,7 @@ public class Interactuable : MonoBehaviour {
 		layerMask = 1 << 10;
 
 		//Asignamos los objetos correspondientes
-		Objeto = gameObject.transform.GetChild(0).gameObject;
+		objeto = gameObject.transform.GetChild(0).gameObject;
 		canvas = gameObject.transform.GetChild(1).gameObject;
 		nombre = canvas.transform.GetChild(0).gameObject;
 		cursorUI = canvas.transform.GetChild(1).gameObject;
@@ -79,7 +79,7 @@ public class Interactuable : MonoBehaviour {
 
 		//Asignamos la posicion inicial y el vector de movimientos
 		moveVector = new Vector3(0f, 0f, 0f);
-		reiniciarDistancia();
+		ReiniciarDistancia();
 
 		//Asignamos el estado inicial
 		SetState(State.Desactivado);
@@ -88,7 +88,7 @@ public class Interactuable : MonoBehaviour {
 		OcultaCanvas();
 
 		//Otros valores por defecto
-		setAccionActivaNull();
+		SetAccionActivaNull();
 
 		//Cargamos las listas de acciones
 		CargarAcciones();
@@ -104,16 +104,16 @@ public class Interactuable : MonoBehaviour {
 	//Rellena las listas de acciones
 	private void CargarAcciones()
 	{
-		AccionesGO = new List<GameObject>();
+		accionesGO = new List<GameObject>();
 
 		//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
 		if (System.IO.File.Exists(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml"))
 		{
-			Acciones = LoadDatosAccion(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml");
+			acciones = LoadDatosAccion(Manager.rutaDatosAccionGuardados + ID.ToString()  + ".xml");
 		}
 		else
 		{
-			Acciones = LoadDatosAccion(Manager.rutaDatosAccion + ID.ToString()  + ".xml");
+			acciones = LoadDatosAccion(Manager.rutaDatosAccion + ID.ToString()  + ".xml");
 		}
 
 		//Cargamos el inventario, necesario para comprobar si ciertas acciones se muestran
@@ -130,35 +130,35 @@ public class Interactuable : MonoBehaviour {
 		}
 
 		//Creamos los gameObject que representan las acciones
-		for(int i = 0; i < Acciones.Count; i++)
+		for(int i = 0; i < acciones.Count; i++)
 		{
 			//Comprobamos si los requisitos para mostrar la accion son correctos. Si lo son, creamos la accion
-			if(mostrarAccion(Acciones[i], inventario))
+			if(MostrarAccion(acciones[i], inventario))
 			{
 				GameObject AccionGO = new GameObject("Accion" + i.ToString());
-				AccionObjeto aobj = AccionGO.AddComponent<AccionObjeto>();
+				AccionObjeto accionObjeto = AccionGO.AddComponent<AccionObjeto>();
 
-				aobj.Inicializar(ID, i);
+				accionObjeto.Inicializar(ID, i);
 
 				//Si la acción es de tipo Dialogo, realizamos acciones específicas
-				if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
+				if(acciones[i].GetType() == typeof(DatosAccionDialogo))
 				{
-					DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
+					DatosAccionDialogo datosAccionDialogo = acciones[i] as DatosAccionDialogo;
 
 					//Si el dialogo es a distancia creamos el box collider
-					if(d.aDistancia)
+					if(datosAccionDialogo.aDistancia)
 					{
-						GameObject dialogoDistancia = new GameObject("Dialogo Distancia");
-						dialogoDistancia.transform.position = Objeto.transform.position;
-						dialogoDistancia.transform.SetParent(gameObject.transform, true);
-						dialogoDistancia.layer = 5;//UI
+						GameObject dialogoDistanciaGO = new GameObject("Dialogo Distancia");
+						dialogoDistanciaGO.transform.position = objeto.transform.position;
+						dialogoDistanciaGO.transform.SetParent(gameObject.transform, true);
+						dialogoDistanciaGO.layer = 5;//UI
 
-						DialogoDistancia dd = dialogoDistancia.AddComponent<DialogoDistancia>();
-						dd.cargarDialogo(this, d);
+						DialogoDistancia dialogoDistancia = dialogoDistanciaGO.AddComponent<DialogoDistancia>();
+						dialogoDistancia.cargarDialogo(this, datosAccionDialogo);
 
-						BoxCollider col = dialogoDistancia.AddComponent<BoxCollider>();
-						col.isTrigger = true;
-						col.size = new Vector3(d.tamX, d.tamY, d.tamZ);
+						BoxCollider boxCollider = dialogoDistanciaGO.AddComponent<BoxCollider>();
+						boxCollider.isTrigger = true;
+						boxCollider.size = new Vector3(datosAccionDialogo.tamX, datosAccionDialogo.tamY, datosAccionDialogo.tamZ);
 					}
 				}
 
@@ -167,10 +167,10 @@ public class Interactuable : MonoBehaviour {
 			}
 
 			//Carga el dialogo si la accion es de tipo dialogo aunque no se muestre
-			if(Acciones[i].GetType() == typeof(DatosAccionDialogo))
+			if(acciones[i].GetType() == typeof(DatosAccionDialogo))
 			{
-				DatosAccionDialogo d = Acciones[i] as DatosAccionDialogo;
-				d.CargaDialogo();
+				DatosAccionDialogo datosAccionDialogo = acciones[i] as DatosAccionDialogo;
+				datosAccionDialogo.CargaDialogo();
 			}
 		}
 
@@ -184,21 +184,21 @@ public class Interactuable : MonoBehaviour {
 	//Elimina o añade acciones que dependen de los objetos disponibles en el inventario
 	public void RecargarAcciones(Inventario inventario)
 	{
-		for(int i = Acciones.Count - 1; i >= 0; i--)
+		for(int i = acciones.Count - 1; i >= 0; i--)
 		{
 			//Comprobamos si los requisitos para mostrar la accion
 			//son correctos. Si lo son, creamos la accion, solo si no existía anteriormente
-			if(mostrarAccion(Acciones[i], inventario))
+			if(MostrarAccion(acciones[i], inventario))
 			{
 				//Comprobamos si la acción que queremos añadir ya está actualmente en la lista
-				GameObject accionGO =  AccionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
+				GameObject accionGO =  accionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
 
 				//Si la accion no existe, la añadimos
 				if(accionGO == null)
 				{
 					accionGO = new GameObject("Accion" + i.ToString());
-					AccionObjeto aobj = accionGO.AddComponent<AccionObjeto>();
-					aobj.Inicializar(ID, i);
+					AccionObjeto accionObjeto = accionGO.AddComponent<AccionObjeto>();
+					accionObjeto.Inicializar(ID, i);
 
 					CargaAccionGO(accionGO, i);
 				}
@@ -206,12 +206,12 @@ public class Interactuable : MonoBehaviour {
 			//comprobamos si la acción ya existía para eliminarla
 			else
 			{
-				GameObject accionGO =  AccionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
+				GameObject accionGO =  accionesGO.Where(x => x.name == "Accion" + i.ToString()).SingleOrDefault();
 
 				//Si la accion existe, la eliminamos
 				if(accionGO != null)
 				{
-					AccionesGO.Remove(accionGO);
+					accionesGO.Remove(accionGO);
 					Destroy(accionGO);
 				}
 			}
@@ -225,17 +225,17 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	//Comprueba si los requisitos para que la acción se muestre. Si no se cumplen, devuelve falso
-	protected virtual bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
+	protected virtual bool MostrarAccion(DatosAccion datosAccion, Inventario inventario)
 	{
 		bool mostrarAccion = true;
 
-		for(int i = 0; i < dAcc.objetos.Count; i++)
+		for(int i = 0; i < datosAccion.objetos.Count; i++)
 		{
 			//Si equipado es true
 			//Si no tenemos el objeto la acción no se muestra
-			if(dAcc.objetos[i].equipado)
+			if(datosAccion.objetos[i].equipado)
 			{
-				if(!inventario.ObjetoInventarioExiste(dAcc.objetos[i].IDObjeto))
+				if(!inventario.ObjetoInventarioExiste(datosAccion.objetos[i].IDObjeto))
 				{
 					mostrarAccion = false;
 				}
@@ -244,7 +244,7 @@ public class Interactuable : MonoBehaviour {
 			//Si tenemos el objeto la acción no se muestra
 			else
 			{
-				if(inventario.ObjetoInventarioExiste(dAcc.objetos[i].IDObjeto))
+				if(inventario.ObjetoInventarioExiste(datosAccion.objetos[i].IDObjeto))
 				{
 					mostrarAccion = false;
 				}
@@ -263,45 +263,45 @@ public class Interactuable : MonoBehaviour {
 		AccionGO.layer = 5; //UI
 		AccionGO.tag = "AccionUI";
 
-		Rigidbody rigid = AccionGO.AddComponent<Rigidbody>();
-		rigid.useGravity = false;
-		rigid.isKinematic = true;
+		Rigidbody rigidBody = AccionGO.AddComponent<Rigidbody>();
+		rigidBody.useGravity = false;
+		rigidBody.isKinematic = true;
 
-		BoxCollider collider = AccionGO.AddComponent<BoxCollider>();
-		collider.size =  new Vector2(430f, 140f);
-		collider.isTrigger = true;
+		BoxCollider boxCollider = AccionGO.AddComponent<BoxCollider>();
+		boxCollider.size =  new Vector2(430f, 140f);
+		boxCollider.isTrigger = true;
 
 		Text myText = AccionGO.AddComponent<Text>();
-		myText.text = Acciones[i].DevolverNombre();
+		myText.text = acciones[i].DevolverNombre();
 		myText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
 		myText.fontSize = 80;
 		myText.rectTransform.sizeDelta = new Vector2(430f, 140f);
 		myText.material = Resources.Load("UI") as Material;
 
-		AccionesGO.Add(AccionGO);
+		accionesGO.Add(AccionGO);
 	}
 
 	//Distribuye las acciones en la lista de acciones GameObject en un circulo en la UI
 	//donde la distancia en grados entre cada acción es la misma
 	private void CargarAccionesUI()
 	{
-		float ang = 0;
+		float angulo = 0;
 		float radio = 600;
 
-		for(int i = 0; i < AccionesGO.Count; i++)
+		for(int i = 0; i < accionesGO.Count; i++)
 		{
 			Vector3 vec = new Vector3();
 
-			vec.x = radio*Mathf.Cos(ang);
-			vec.y = radio*Mathf.Sin(ang);
+			vec.x = radio*Mathf.Cos(angulo);
+			vec.y = radio*Mathf.Sin(angulo);
 			vec.z = 0f;
 
-			GameObject AccionGO = AccionesGO[i];
+			GameObject AccionGO = accionesGO[i];
 
 			AccionGO.transform.localPosition = new Vector3(0f, 0f, 0f);
 			AccionGO.transform.localPosition += vec;
 
-			ang += (360/AccionesGO.Count)*Mathf.Deg2Rad;
+			angulo += (360/accionesGO.Count)*Mathf.Deg2Rad;
 		}
 
 		cursorUI.transform.SetAsLastSibling(); //Mueve el cursor al final de la jerarquía, mostrándolo encima de los demás GameObjects
@@ -311,44 +311,44 @@ public class Interactuable : MonoBehaviour {
 	//de accionesGO
 	public int DevolverAccionesCreadas()
 	{
-		return AccionesGO.Count;
+		return accionesGO.Count;
 	}
 
 	//Devuelve un objeto NPC_Dialogo con la ID pasada (null si no lo ha encontrado)
-	public NPC_Dialogo DevolverDialogo(int ID_Dialogo)
+	public Dialogo DevolverDialogo(int IDDialogo)
 	{
-		NPC_Dialogo diag = null;
+		Dialogo dialogo = null;
 
-		for(int i = 0; i < Acciones.Count; i++)
+		for(int i = 0; i < acciones.Count; i++)
 		{
-			DatosAccion dac = Acciones[i];
+			DatosAccion datosAccion = acciones[i];
 
-			if(dac.GetType() == typeof(DatosAccionDialogo))
+			if(datosAccion.GetType() == typeof(DatosAccionDialogo))
 			{
-				DatosAccionDialogo dacdial = dac as DatosAccionDialogo;
-				if(ID_Dialogo == dacdial.DevuelveIDDiag())
+				DatosAccionDialogo datosAccionDialogo = datosAccion as DatosAccionDialogo;
+				if(IDDialogo == datosAccionDialogo.DevuelveIDDialogo())
 				{
-					diag = dacdial.DevuelveDialogo();
+					dialogo = datosAccionDialogo.DevuelveDialogo();
 				}
 			}
 		}
 
-		return diag;
+		return dialogo;
 	}
 
 	//Devuelve una lista con los objetos NPC_Dialogo del interactuable, vacía si no tiene ninguno
-	public List<NPC_Dialogo> DevolverDialogos()
+	public List<Dialogo> DevolverDialogos()
 	{
-		List<NPC_Dialogo> dialogos = new List<NPC_Dialogo>();
+		List<Dialogo> dialogos = new List<Dialogo>();
 
-		for(int i = 0; i < Acciones.Count; i++)
+		for(int i = 0; i < acciones.Count; i++)
 		{
-			DatosAccion dac = Acciones[i];
+			DatosAccion datosAccion = acciones[i];
 
-			if(dac.GetType() == typeof(DatosAccionDialogo))
+			if(datosAccion.GetType() == typeof(DatosAccionDialogo))
 			{
-				DatosAccionDialogo dacdial = dac as DatosAccionDialogo;
-				dialogos.Add(dacdial.DevuelveDialogo());
+				DatosAccionDialogo datosAccionDialogo = datosAccion as DatosAccionDialogo;
+				dialogos.Add(datosAccionDialogo.DevuelveDialogo());
 			}
 		}
 
@@ -365,26 +365,26 @@ public class Interactuable : MonoBehaviour {
 
 	//Establece el nombre del interactuable que se muestra en la UI, no el del dialogo
 	//(no es el mismo para la clase derivada interactuableobjeto, sí que lo es para el interactuableNPC)
-	public void SetNombre(string n)
+	public void SetNombre(string name)
 	{
-		nombre.GetComponent<Text>().text = n;
+		nombre.GetComponent<Text>().text = name;
 	}
 
 	//Establece la acción activa y, como el cursor está sobre esta acción, el booleano que lo indica pasa a true
 	public void AsignarAccionActiva(int num)
 	{
 		accionActiva = num;
-		setCursorSobreAccion(true);
+		SetCursorSobreAccion(true);
 	}
 
 	//Establece la acción activa a ninguna(-1) y, como el cursor no está sobre ninguna acción, el booleano que lo indica pasa a false
-	public void setAccionActivaNull()
+	public void SetAccionActivaNull()
 	{
 		accionActiva = -1;
-		setCursorSobreAccion(false);
+		SetCursorSobreAccion(false);
 	}
 
-	private void setCursorSobreAccion(bool estado)
+	private void SetCursorSobreAccion(bool estado)
 	{
 		cursorSobreAccion = estado;
 	}
@@ -453,7 +453,7 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	//Asigna a la distancia su valor inicial
-	public void reiniciarDistancia()
+	public void ReiniciarDistancia()
 	{
 		distance = 1;
 	}
@@ -483,10 +483,10 @@ public class Interactuable : MonoBehaviour {
 	{
 		//Movemos las coordenadas del raton segun el movimiento
 		//Cogemos el eje X del Input del raton multiplicada por la sensibilidad
-		moveVector.x += Input.GetAxis ("Mouse X") * X_MouseSensitivity;
+		moveVector.x += Input.GetAxis ("Mouse X") * XMouseSensitivity;
 
 		//Cogemos el eje Y del Input del raton multiplicada por la sensibilidad
-		moveVector.y += Input.GetAxis ("Mouse Y") * Y_MouseSensitivity;
+		moveVector.y += Input.GetAxis ("Mouse Y") * YMouseSensitivity;
 
 		//Limitamos el módulo del vector convirtiéndolo en unitario
 		//y haciendo que el rango de movimiento esté limitado a un círculo de radio 1
@@ -513,18 +513,18 @@ public class Interactuable : MonoBehaviour {
 	{
 		DefaultCursorUI();
 		SetState(State.Accionable);
-		Acciones[accionActiva].EjecutarAccion();
+		acciones[accionActiva].EjecutarAccion();
 	}
 
 	//Devuelve un booleano indicando si el interactuable es visible desde la cámara (el gameobject llamado Objeto)
 	//Comprobando la propiedad isVisible del render y haciendo un rayline hacia la cámara
-	public bool isVisible()
+	public bool IsVisible()
 	{
 		bool visible = false;
 
 		Debug.DrawLine(transform.position, Camera.main.transform.position);
 
-		if(Objeto.GetComponent<Renderer>().isVisible && !Physics.Linecast(transform.position, Camera.main.transform.position, out hitInfo, layerMask))
+		if(objeto.GetComponent<Renderer>().isVisible && !Physics.Linecast(transform.position, Camera.main.transform.position, out hitInfo, layerMask))
 		{
 			visible = true;
 		}
@@ -537,9 +537,9 @@ public class Interactuable : MonoBehaviour {
 	{
 		nombre.SetActive(false);
 		cursorUI.SetActive(true);
-		for(int i = 0; i < AccionesGO.Count; i++)
+		for(int i = 0; i < accionesGO.Count; i++)
 		{
-			AccionesGO[i].SetActive(true);
+			accionesGO[i].SetActive(true);
 		}
 	}
 
@@ -548,9 +548,9 @@ public class Interactuable : MonoBehaviour {
 	{
 		nombre.SetActive(true);
 		cursorUI.SetActive(false);
-		for(int i = 0; i < AccionesGO.Count; i++)
+		for(int i = 0; i < accionesGO.Count; i++)
 		{
-			AccionesGO[i].SetActive(false);
+			accionesGO[i].SetActive(false);
 		}
 	}
 
@@ -565,6 +565,6 @@ public class Interactuable : MonoBehaviour {
 	//Guarda la lista de acciones en un fichero xml
 	public void GuardarAcciones()
 	{
-		Manager.Instance.SerializeData(Acciones, Manager.rutaDatosAccionGuardados, ID.ToString()  + ".xml");
+		Manager.Instance.SerializeData(acciones, Manager.rutaDatosAccionGuardados, ID.ToString()  + ".xml");
 	}
 }

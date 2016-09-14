@@ -5,17 +5,17 @@ public class Lector : MonoBehaviour {
 
 	private ObjetoDatos datos;
 
-	private int num_variable;
+	private int numVariable;
 	private int valorInicial;
 
 	private bool activado;
 	private bool activadoActual;
 
-	public void cargarValor(int IDObjeto, int num_variable, int valorNegativo)
+	public void CargarValor(int IDObjeto, int numVariable, int valorNegativo)
 	{
-		GameObject interGO = Manager.Instance.GetInteractuable(IDObjeto);
+		GameObject interactuableGO = Manager.Instance.GetInteractuable(IDObjeto);
 
-		if(interGO == null)
+		if(interactuableGO == null)
 		{
 			//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
 			if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + IDObjeto.ToString()  + ".xml"))
@@ -29,24 +29,24 @@ public class Lector : MonoBehaviour {
 		}
 		else
 		{
-			InteractuableObjeto inter = interGO.GetComponent<InteractuableObjeto>();
-			datos = inter.devuelveDatos();
+			InteractuableObjeto interactuableObjeto = interactuableGO.GetComponent<InteractuableObjeto>();
+			datos = interactuableObjeto.DevuelveDatos();
 		}
 
-		valorInicial = datos.DevuelveValorVariable(num_variable);
+		valorInicial = datos.DevuelveValorVariable(numVariable);
 
 		if(valorInicial == valorNegativo)
 			activado = false;
 		else
 			activado = true;
 
-		this.num_variable = num_variable;
+		this.numVariable = numVariable;
 		activadoActual = activado;
 
-		cargarLuz();
+		CargarLuz();
 	}
 
-	private void cargarLuz()
+	private void CargarLuz()
 	{
 		GameObject luzGO = transform.GetChild(2).gameObject;
 
@@ -66,27 +66,27 @@ public class Lector : MonoBehaviour {
 	{
 		if (other.tag == "LLave")
 		{
-			cambiarEstado();
+			CambiarEstado();
 		}
 	}
 
-	private void cambiarEstado()
+	private void CambiarEstado()
 	{
 		activadoActual = !activadoActual;
-		cargarLuz();
+		CargarLuz();
 	}
 
-	public void guardarValor()
+	public void GuardarValor()
 	{
 		if(activado != activadoActual)
 		{
 			if(activadoActual)
 			{
-				datos.SetValorVariable(num_variable, valorInicial+1);
+				datos.SetValorVariable(numVariable, valorInicial+1);
 			}
 			else
 			{
-				datos.SetValorVariable(num_variable, valorInicial-1);
+				datos.SetValorVariable(numVariable, valorInicial-1);
 			}
 			datos.Serialize();
 
@@ -98,8 +98,8 @@ public class Lector : MonoBehaviour {
 			//Se ha encontrado en la cola de objetos
 			if(inventarioCola != null)
 			{
-				ObjetoSerializable objs = inventarioCola.GetObjeto();
-				inventario = objs as Inventario;
+				ObjetoSerializable objetoSerializable = inventarioCola.GetObjeto();
+				inventario = objetoSerializable as Inventario;
 			}
 			//No se ha encontrado en la cola de objetos
 			else

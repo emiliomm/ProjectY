@@ -41,7 +41,7 @@ public class InteractuableCollider : MonoBehaviour {
 			inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
 			inter.SetState (Interactuable.State.Desactivado);
 			inter.OcultaCanvas();
-			inter.reiniciarDistancia();
+			inter.ReiniciarDistancia();
 		}
 	}
 
@@ -64,7 +64,7 @@ public class InteractuableCollider : MonoBehaviour {
 			//Si el interactuable es visible por la cámara y tiene más de una acción
 			if(inter.CurrentState != Interactuable.State.Desactivado)
 			{
-				if(inter.isVisible() && inter.DevolverAccionesCreadas() > 0)
+				if(inter.IsVisible() && inter.DevolverAccionesCreadas() > 0)
 				{
 					inter.SetState (Interactuable.State.Accionable);
 					inter.DesactivarTextoAcciones();
@@ -73,7 +73,7 @@ public class InteractuableCollider : MonoBehaviour {
 				{
 					inter.SetState (Interactuable.State.Desactivado);
 					inter.OcultaCanvas();
-					inter.reiniciarDistancia();
+					inter.ReiniciarDistancia();
 				}
 			}
 
@@ -90,7 +90,7 @@ public class InteractuableCollider : MonoBehaviour {
 				inter = interCercano.GetComponent<Interactuable>();
 
 				//Si el interactuable es visible por la cámara y tiene más de una acción
-				if(inter.isVisible() && inter.DevolverAccionesCreadas() > 0)
+				if(inter.IsVisible() && inter.DevolverAccionesCreadas() > 0)
 				{
 					Vector3 objectPos = interCercano.transform.position;
 					float distanceSqr = DistanceToLine(ray, objectPos);
@@ -105,7 +105,7 @@ public class InteractuableCollider : MonoBehaviour {
 				{
 					inter.SetState (Interactuable.State.Desactivado);
 					inter.OcultaCanvas();
-					inter.reiniciarDistancia();
+					inter.ReiniciarDistancia();
 				}
 			}
 			//El interactuable ya no existe, ha sido eliminado de la escena, lo eliminamos de la lista

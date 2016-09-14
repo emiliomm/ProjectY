@@ -26,13 +26,13 @@ public class TransporteCollider : MonoBehaviour {
 			{
 				if(inter.ID == IDInteractuable)
 				{
-					Manager.Instance.deleteNavhMeshAgent(inter.devuelveNavhMeshAgent());
+					Manager.Instance.deleteNavhMeshAgent(inter.DevuelveNavhMeshAgent());
 					Destroy(other.transform.parent.gameObject);
 					Destroy(gameObject);
 
 					if(transporte != null)
 					{
-						transporte.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(true);
+						transporte.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(true);
 					}
 				}
 			}

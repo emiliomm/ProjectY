@@ -5,7 +5,7 @@
 	*/
 	public class DialogueAddMensaje
 	{
-		public int IDNpc; //NPC al que se le va a añadir el mensaje
+		public int IDInteractuable; //NPC al que se le va a añadir el mensaje
 		public int IDDialogo; //Dialogo del npc indicado arriba al que se la a añadir el mensaje
 
 		//-1: el mensaje no forma parte de ningún tema, va por separado. x = el mensaje se agrupa en el tema x
@@ -14,9 +14,9 @@
 
 		public DialogueAddMensaje() { }
 
-		public int DevuelveIDNpc()
+		public int DevuelveIDInteractuable()
 		{
-			return IDNpc;
+			return IDInteractuable;
 		}
 
 		public int DevuelveIDDialogo()

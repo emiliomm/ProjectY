@@ -43,31 +43,31 @@ public class InteractuableObjeto : Interactuable {
 		return "";
 	}
 
-	public ObjetoDatos devuelveDatos()
+	public ObjetoDatos DevuelveDatos()
 	{
 		return datos;
 	}
 
-	protected override bool mostrarAccion(DatosAccion dAcc, Inventario inventario)
+	protected override bool MostrarAccion(DatosAccion datosAccion, Inventario inventario)
 	{
-		bool mostrarAccion = base.mostrarAccion(dAcc, inventario);
+		bool mostrarAccion = base.MostrarAccion(datosAccion, inventario);
 
 		if(mostrarAccion)
 		{
-			for(int i = 0; i < dAcc.variables.Count; i++)
+			for(int i = 0; i < datosAccion.variables.Count; i++)
 			{
-				switch(dAcc.variables[i].tipo)
+				switch(datosAccion.variables[i].tipo)
 				{
 				case 0: // > es verdadero
-					if(dAcc.variables[i].valor <= datos.DevuelveValorVariable(dAcc.variables[i].num_variable))
+					if(datosAccion.variables[i].valor <= datos.DevuelveValorVariable(datosAccion.variables[i].numVariable))
 						mostrarAccion = false;
 					break;
 				case 1: // == es verdadero
-					if(dAcc.variables[i].valor < datos.DevuelveValorVariable(dAcc.variables[i].num_variable) || dAcc.variables[i].valor < datos.DevuelveValorVariable(dAcc.variables[i].num_variable))
+					if(datosAccion.variables[i].valor < datos.DevuelveValorVariable(datosAccion.variables[i].numVariable) || datosAccion.variables[i].valor < datos.DevuelveValorVariable(datosAccion.variables[i].numVariable))
 						mostrarAccion = false;
 					break;
 				case 2: // < es verdadero
-					if(dAcc.variables[i].valor >= datos.DevuelveValorVariable(dAcc.variables[i].num_variable))
+					if(datosAccion.variables[i].valor >= datos.DevuelveValorVariable(datosAccion.variables[i].numVariable))
 						mostrarAccion = false;
 					break;
 				}
@@ -79,26 +79,26 @@ public class InteractuableObjeto : Interactuable {
 
 	private void CrearTransporte(int IDTransporte)
 	{
-		ObjetoTransporteInter obj = ObjetoTransporteInter.LoadObjetoTransporteInter(Manager.rutaTransportes + IDTransporte.ToString() + ".xml");
+		ObjetoTransporteInter objetoTransporteInter = ObjetoTransporteInter.LoadObjetoTransporteInter(Manager.rutaTransportes + IDTransporte.ToString() + ".xml");
 
-		GameObject Transporte = new GameObject("Transporte");
-		Transporte.transform.SetParent(gameObject.transform, false);
+		GameObject transporteGO = new GameObject("Transporte");
+		transporteGO.transform.SetParent(gameObject.transform, false);
 
-		if(obj.GetType() == typeof(ObjetoTransporteInter))
+		if(objetoTransporteInter.GetType() == typeof(ObjetoTransporteInter))
 		{
-			TransporteInterObjeto transIntObj = Transporte.AddComponent<TransporteInterObjeto>();
-			transIntObj.Constructor(obj.ID, obj.escenas);
+			TransporteInterObjeto transporteInterObjeto = transporteGO.AddComponent<TransporteInterObjeto>();
+			transporteInterObjeto.Constructor(objetoTransporteInter.ID, objetoTransporteInter.escenas);
 		}
-		else if(obj.GetType() == typeof(ObjetoTransportePlayer))
+		else if(objetoTransporteInter.GetType() == typeof(ObjetoTransportePlayer))
 		{
-			ObjetoTransportePlayer objPl = obj as ObjetoTransportePlayer;
+			ObjetoTransportePlayer objetoTransportePlayer = objetoTransporteInter as ObjetoTransportePlayer;
 
-			TransportePlayerObjeto transPlaObj = Transporte.AddComponent<TransportePlayerObjeto>();
-			transPlaObj.Constructor(objPl.ID, objPl.escenas, objPl.IDEscena);
+			TransportePlayerObjeto transportePlayerObjeto = transporteGO.AddComponent<TransportePlayerObjeto>();
+			transportePlayerObjeto.Constructor(objetoTransportePlayer.ID, objetoTransportePlayer.escenas, objetoTransportePlayer.IDEscena);
 		}
 	}
 
-	public void setNavObstacle(bool estado)
+	public void SetNavObstacle(bool estado)
 	{
 		if(!estado)
 		{

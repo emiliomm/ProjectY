@@ -20,9 +20,9 @@ public class TemaMensaje{
 		mensajes = new List<Mensaje>();
 	}
 
-	public void AddMensaje(Mensaje m)
+	public void AddMensaje(Mensaje mensaje)
 	{
-		mensajes.Add(m);
+		mensajes.Add(mensaje);
 	}
 
 	public string DevuelveTexto()
@@ -43,7 +43,7 @@ public class TemaMensaje{
 
 		for(int i = 0; i < DevuelveNumeroMensajes(); i++)
 		{
-			if(mensajes[i].seMuestra())
+			if(mensajes[i].SeMuestra())
 			{
 				count++;
 			}
@@ -62,9 +62,9 @@ public class TemaMensaje{
 		return visible;
 	}
 
-	public string DevuelveTextoMensaje(int num_mensaje)
+	public string DevuelveTextoMensaje(int numMensaje)
 	{
-		return mensajes[num_mensaje].DevuelveTexto();
+		return mensajes[numMensaje].DevuelveTexto();
 	}
 
 	//Devuelve el temamensaje de un xml indicado en la ruta

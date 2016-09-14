@@ -5,8 +5,8 @@
 		<nombre>Observar</nombre>
 		<objetos/>
 		<variables/>
-		<ID_NPC>7</ID_NPC>
-		<ID_Diag>0</ID_Diag>
+		<IDInteractuable>7</IDInteractuable>
+		<IDDialogo>0</IDDialogo>
 		<aDistancia>false</aDistancia>
 		<tamX>14</tamX>
 		<tamY>14</tamY>
@@ -23,7 +23,7 @@
 		</objetos>
 		<variables/>
 		<IDObjeto>6</IDObjeto>
-		<num_variable>0</num_variable>
+		<numVariable>0</numVariable>
 		<valorNegativo>0</valorNegativo>
 	</DatosAccion>
 </ArrayOfDatosAccion>

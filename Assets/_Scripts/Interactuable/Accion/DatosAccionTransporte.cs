@@ -14,8 +14,8 @@ public class DatosAccionTransporte : DatosAccion
 
 	public override void EjecutarAccion()
 	{
-		GameObject transporteController = new GameObject("TransporteController");
-		TransporteController tCon = transporteController.AddComponent<TransporteController>();
-		tCon.Constructor(IDEscena, IDTransporte, new Vector3(coordX, coordY, coordZ));
+		GameObject transporteControllerGO = new GameObject("TransporteController");
+		TransporteController transporteController = transporteControllerGO.AddComponent<TransporteController>();
+		transporteController.Constructor(IDEscena, IDTransporte, new Vector3(coordX, coordY, coordZ));
 	}
 }

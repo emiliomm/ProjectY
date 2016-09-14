@@ -28,7 +28,7 @@ public class SaliendoTransporteCollider : MonoBehaviour {
 				{
 					if(transporte != null)
 					{
-						transporte.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(true);
+						transporte.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(true);
 					}
 					Destroy(gameObject);
 				}

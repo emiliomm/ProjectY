@@ -30,7 +30,7 @@ public class InteractuableNPC : Interactuable {
 	}
 		
 	//Establece la ruta a seguir por el interactuable hacia la posición indicada
-	public void setRuta(Vector3 ruta)
+	public void SetRuta(Vector3 ruta)
 	{
 		//Comprobamos que el agent está inicializado, ya que hay casos en los que la función es llamada
 		//antes de Start()
@@ -45,7 +45,7 @@ public class InteractuableNPC : Interactuable {
 		agente.SetDestination(ruta);// para mover el interactuable al lugar indicado
 	}
 
-	public NavMeshAgent devuelveNavhMeshAgent()
+	public NavMeshAgent DevuelveNavhMeshAgent()
 	{
 		return agente;
 	}

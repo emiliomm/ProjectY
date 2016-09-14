@@ -7,7 +7,7 @@ namespace DialogueTree
 	*/
 	public class DialogueOption
     {
-        public string Text; //Texto de la opción
+        public string text; //Texto de la opción
 
 		/* 
 		 * Valor
@@ -16,57 +16,57 @@ namespace DialogueTree
 		 * -3: Acaba la conversación (NO SE DEBE USAR EN UN XML) - CON EL SISTEMA ACTUAL SÍ
 		 * Otro: Va al nodo indicado
 	     */
-        public int DestinationNodeID;
+        public int destinationNodeID;
 
 		//Guarda variables de grupo que determinan si mostrar una opción o no
-		public List<DialogueOptionGrupo> Grupos;
+		public List<DialogueOptionGrupo> grupos;
 
-		public List<DialogueOptionObjeto> Objetos;
+		public List<DialogueOptionObjeto> objetos;
 
         public DialogueOption()
 		{
-			Grupos = new List<DialogueOptionGrupo>();
-			Objetos = new List<DialogueOptionObjeto>();
+			grupos = new List<DialogueOptionGrupo>();
+			objetos = new List<DialogueOptionObjeto>();
 		}
 
 		public string DevuelveTexto()
 		{
-			return Text;
+			return text;
 		}
 
 		public int DevuelveDestinationNodeID()
 		{
-			return DestinationNodeID;
+			return destinationNodeID;
 		}
 
 		public int DevuelveNumeroGrupos()
 		{
-			return Grupos.Count;
+			return grupos.Count;
 		}
 
 		public int DevuelveIDGrupo(int num)
 		{
-			return Grupos[num].IDGrupo;
+			return grupos[num].IDGrupo;
 		}
 
 		public List<DialogueOptionGrupoVariables> DevuelveVariables(int num)
 		{
-			return Grupos[num].variables;
+			return grupos[num].variables;
 		}
 
 		public int DevuelveNumeroObjetos()
 		{
-			return Objetos.Count;
+			return objetos.Count;
 		}
 
 		public int DevuelveIDObjeto(int num)
 		{
-			return Objetos[num].IDObjeto;
+			return objetos[num].IDObjeto;
 		}
 
 		public bool DevuelveObjetoPosesion(int num)
 		{
-			return Objetos[num].enPosesion;
+			return objetos[num].enPosesion;
 		}
     }
 }

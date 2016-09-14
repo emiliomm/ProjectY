@@ -5,8 +5,8 @@
 	*/
 	public class DialogueOptionGrupoVariables
 	{
-		public int num_variable; //posición de la variable en la lista de variables del grupo
-		public int Valor; //valor de la variable
+		public int numVariable; //posición de la variable en la lista de variables del grupo
+		public int valor; //valor de la variable
 
 		public DialogueOptionGrupoVariables() { }
 	}

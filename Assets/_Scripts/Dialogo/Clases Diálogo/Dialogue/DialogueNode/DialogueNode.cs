@@ -9,7 +9,7 @@ namespace DialogueTree
     {
 		//Número que identifica la posición del nodo en el dialogo
 		//El nodo debe coincidir con su posición en la lista
-        public int NodeID = -1;
+        public int nodeID = -1;
 
 		public PosicionCamara posCamara; //Contiene información sobre la posición de la cámara
 
@@ -18,7 +18,7 @@ namespace DialogueTree
 		// -1 --> nombre del NPC del dialogo
 		// -2 --> nombre del jugador
 		// >= 0 --> nombre del NPC con el número
-		public int Nombre;
+		public int nombre;
 
 		//Hacia donde va el diálogo en el caso de que no haya opciones
 		// 0 --> El dialogo sigue hacia el siguiente nodo (situado en +1)
@@ -26,31 +26,31 @@ namespace DialogueTree
 		// -2 --> El dialogo acaba
 		public int siguienteNodo;
 
-        public string Text;
+        public string text;
 		public bool recorrido; //Indica si el nodo ha sido recorrido anteriormente
 		public bool destruido; //Indica si el dialogo del que forma parte el nodo va a ser destruido al acabar de leerlo
 
-		public List<DialogueAddIntro> Intros; //Contiene intros a añadir a un diálogo. Puede estar vacío
-		public List<DialogueAddMensaje> Mensajes; //Contiene mensajes a añadir a un diálogo. Puede estar vacío
-		public List<DialogueGrupo> Grupos; //Contiene grupos que se añaden o eliminan. Puede estar vacío
-		public List<DialogueGrupoVariable> GruposVariables; //Modifica variables de un grupo. Puede estar vacío
-		public List<DialogueAddObjeto> Objetos; //Contiene objetos a añadir al inventario. Puede estar vacío
-		public List<DialogueNombre> Nombres; //Modifica el nombre de los NPCs. Puede estar vacío
-		public List<DialogueRutina> Rutinas; //Modifica la rutina actual del npc. Puede estar vacío
-		public List<DialogueOption> Options; //Contiene las opciones del nodo. Puede estar vacío
+		public List<DialogueAddIntro> intros; //Contiene intros a añadir a un diálogo. Puede estar vacío
+		public List<DialogueAddMensaje> mensajes; //Contiene mensajes a añadir a un diálogo. Puede estar vacío
+		public List<DialogueGrupo> grupos; //Contiene grupos que se añaden o eliminan. Puede estar vacío
+		public List<DialogueGrupoVariable> gruposVariables; //Modifica variables de un grupo. Puede estar vacío
+		public List<DialogueAddObjeto> objetos; //Contiene objetos a añadir al inventario. Puede estar vacío
+		public List<DialogueNombre> nombres; //Modifica el nombre de los NPCs. Puede estar vacío
+		public List<DialogueRutina> rutinas; //Modifica la rutina actual del npc. Puede estar vacío
+		public List<DialogueOption> options; //Contiene las opciones del nodo. Puede estar vacío
 
         // parameterless constructor for serialization
         public DialogueNode()
         {
 			posCamara = new PosicionCamara();
-			Intros = new List<DialogueAddIntro>();
-			Mensajes = new List<DialogueAddMensaje>();
-			Grupos = new List<DialogueGrupo>();
-			GruposVariables = new List<DialogueGrupoVariable>();
-			Objetos = new List<DialogueAddObjeto>();
-			Nombres = new List<DialogueNombre>();
-			Rutinas = new List<DialogueRutina>();
-			Options = new List<DialogueOption>();
+			intros = new List<DialogueAddIntro>();
+			mensajes = new List<DialogueAddMensaje>();
+			grupos = new List<DialogueGrupo>();
+			gruposVariables = new List<DialogueGrupoVariable>();
+			objetos = new List<DialogueAddObjeto>();
+			nombres = new List<DialogueNombre>();
+			rutinas = new List<DialogueRutina>();
+			options = new List<DialogueOption>();
         }
 
 		//Devuelve el nombre de quien habla en el dialogo
@@ -59,7 +59,7 @@ namespace DialogueTree
 		// >= 0 --> nombre del NPC con el número
 		public int DevuelveNombre()
 		{
-			return Nombre;
+			return nombre;
 		}
 
 		//Devuelve una variable que indica que se hace a continuación en un nodo sin opciones
@@ -73,7 +73,7 @@ namespace DialogueTree
 
 		public string DevuelveTexto()
 		{
-			return Text;
+			return text;
 		}
 
 		public bool DevuelveRecorrido()
@@ -89,49 +89,49 @@ namespace DialogueTree
 		}
 
 		//Devuelve un objeto dialogueoption situado en la posición indicada de la lista de opciones
-		public DialogueOption DevuelveNumNodoOpciones(int pos)
+		public DialogueOption DevuelveNodoOpciones(int pos)
 		{
-			return Options[pos];
+			return options[pos];
 		}
 
 		public int DevuelveNumeroOpciones()
 		{
-			return Options.Count;
+			return options.Count;
 		}
 
 		public int DevuelveNumeroIntros()
 		{
-			return Intros.Count;
+			return intros.Count;
 		}
 
 		public int DevuelveNumeroMensajes()
 		{
-			return Mensajes.Count;
+			return mensajes.Count;
 		}
 
 		public int DevuelveNumeroGrupos()
 		{
-			return Grupos.Count;
+			return grupos.Count;
 		}
 
 		public int DevuelveNumeroGruposVariables()
 		{
-			return GruposVariables.Count;
+			return gruposVariables.Count;
 		}
 
 		public int DevuelveNumeroObjetos()
 		{
-			return Objetos.Count;
+			return objetos.Count;
 		}
 
 		public int DevuelveNumeroNombres()
 		{
-			return Nombres.Count;
+			return nombres.Count;
 		}
 
 		public int DevuelveNumeroRutinas()
 		{
-			return Rutinas.Count;
+			return rutinas.Count;
 		}
     }
 }

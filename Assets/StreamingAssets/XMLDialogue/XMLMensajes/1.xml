@@ -3,32 +3,31 @@
 	<ID>1</ID>
 	<IDGrupo>-1</IDGrupo>
 	<eventos/>
-	<Autodestruye>0</Autodestruye>
 	<texto>¿Cúando recibiré exactamente la llave de mi habitación?</texto>
-	<dia>
-		<Nodes>
+	<dialogo>
+		<nodes>
 			<DialogueNode>
-				<NodeID>0</NodeID>
+				<nodeID>0</nodeID>
 				<posCamara>
 					<lookAt>0</lookAt>
 					<coordX>-0.5</coordX>
 					<coordY>1</coordY>
 					<coordZ>1</coordZ>
 				</posCamara>
-				<Nombre>-1</Nombre>
+				<nombre>-1</nombre>
 				<siguienteNodo>0</siguienteNodo>
-				<Text>Estamos preparando las habitaciones. No le puedo dar un tiempo exacto, pero aproximadamente en media hora como máximo.</Text>
+				<text>Estamos preparando las habitaciones. No le puedo dar un tiempo exacto, pero aproximadamente en medialogo hora como máximo.</text>
 				<recorrido>false</recorrido>
 				<destruido>false</destruido>
-				<Intros/>
-				<Mensajes/>
-				<Grupos/>
-				<GruposVariables/>
-				<Objetos/>
-				<Nombres/>
-				<Rutinas/>
-				<Options/>
+				<intros/>
+				<mensajes/>
+				<grupos/>
+				<gruposVariables/>
+				<objetos/>
+				<nombres/>
+				<rutinas/>
+				<options/>
 			</DialogueNode>
-		</Nodes>
-	</dia>
+		</nodes>
+	</dialogo>
 </Mensaje>

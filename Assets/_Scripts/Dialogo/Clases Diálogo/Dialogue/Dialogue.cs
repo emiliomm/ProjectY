@@ -8,17 +8,17 @@ namespace DialogueTree
 	*/
 	public class Dialogue
     {
-        public List<DialogueNode> Nodes;
+        public List<DialogueNode> nodes;
 
 		public Dialogue()
 		{
-			Nodes = new List<DialogueNode>();
+			nodes = new List<DialogueNode>();
 		}
 
 		//Devuelve un objeto DialogueNode según la posición en la que se encuentre en la lista de nodos
 		public DialogueNode DevuelveNodo(int pos)
 		{
-			return Nodes[pos];
+			return nodes[pos];
 		}
 
 		//Comprueba si existen más nodos delante de la posición indicada, comprobando si se puede continuar con el diálogo
@@ -27,7 +27,7 @@ namespace DialogueTree
 		{
 			bool avanza = false;
 
-			if (pos + 1 < Nodes.Count)
+			if (pos + 1 < nodes.Count)
 				avanza = true;
 
 			return avanza;

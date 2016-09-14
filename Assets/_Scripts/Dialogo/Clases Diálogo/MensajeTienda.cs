@@ -22,16 +22,16 @@ public class MensajeTienda : Mensaje
 
 	public void MostrarTienda()
 	{
-		TextBox.Instance.OcultarInterfaz();
+		TextBox.instance.OcultarInterfaz();
 
 		var ObjetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
 
-		Inventario inv = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
-		CargarInventario(inv);
+		Inventario inventario = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
+		CargarInventario(inventario);
 
-		TiendaController objetoController = ObjetoTienda.AddComponent<TiendaController>();
+		TiendaController tiendaController = ObjetoTienda.AddComponent<TiendaController>();
 		//		objetoController.InicializarTienda(numX, numY, fuente, inv, fondo);
-		objetoController.InicializarTienda(escaparate, numY, inv, true);
+		tiendaController.InicializarTienda(escaparate, numY, inventario, true);
 
 		//Se establece el modo de la cámara en el Modo Objeto
 		Camera.main.GetComponent<TP_Camera>().setObjectMode();
@@ -39,9 +39,9 @@ public class MensajeTienda : Mensaje
 
 	private void CargarInventario(Inventario inventario)
 	{
-		for(int i = 0; i < inventario.devolverNumeroObjetos(); i++)
+		for(int i = 0; i < inventario.DevolverNumeroObjetos(); i++)
 		{
-			inventario.sustituyeObjeto(ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + inventario.devolverObjeto(i).ID.ToString() + ".xml"), i);
+			inventario.SustituyeObjeto(ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + inventario.DevolverObjeto(i).ID.ToString() + ".xml"), i);
 		}
 	}
 }

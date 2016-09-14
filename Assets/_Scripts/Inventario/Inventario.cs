@@ -16,17 +16,17 @@ public class Inventario : ObjetoSerializable
 		objetos = new List<ObjetoInventario>();
 	}
 		
-	public void addObjeto(int ID, int cantidad)
+	public void AddObjeto(int IDObjeto, int cantidad)
 	{
-		int numObjeto = ObjetoInventarioLugar(ID);
+		int numObjeto = ObjetoInventarioLugar(IDObjeto);
 
 		//Si no existe el objeto, lo añadimos
 		if(numObjeto == -1)
 		{
-			ObjetoInventario obj = ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + ID.ToString() + ".xml");
-			obj.cantidad = cantidad;
-			objetos.Add(obj);
-			Manager.Instance.addObjetoReciente(obj, cantidad); //se añade también a la lista de objetos recientes
+			ObjetoInventario objetoInventario = ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + IDObjeto.ToString() + ".xml");
+			objetoInventario.cantidad = cantidad;
+			objetos.Add(objetoInventario);
+			Manager.Instance.addObjetoReciente(objetoInventario, cantidad); //se añade también a la lista de objetos recientes
 		}
 		//Si existe, aumentamos en 1 la cantidad
 		else
@@ -38,52 +38,52 @@ public class Inventario : ObjetoSerializable
 
 	//Devuelve el lugar en la lista de objetos del objeto con el ID
 	//-1 si no existe
-	private int ObjetoInventarioLugar(int ID)
+	private int ObjetoInventarioLugar(int IDObjeto)
 	{
-		return objetos.FindIndex(x => x.ID == ID);
+		return objetos.FindIndex(x => x.ID == IDObjeto);
 	}
 
-	public bool ObjetoInventarioExiste(int id)
+	public bool ObjetoInventarioExiste(int IDObjeto)
 	{
-		return objetos.Any(x => x.ID == id);
+		return objetos.Any(x => x.ID == IDObjeto);
 	}
 
-	public int devolverNumeroObjetos()
+	public int DevolverNumeroObjetos()
 	{
 		return objetos.Count;
 	}
 
-	public ObjetoInventario devolverObjeto(int indice)
+	public ObjetoInventario DevolverObjeto(int indice)
 	{
 		return objetos[indice];
 	}
 
-	public void sustituyeObjeto(ObjetoInventario obj, int indice)
+	public void SustituyeObjeto(ObjetoInventario objetoInventario, int indice)
 	{
-		objetos[indice] = obj;
+		objetos[indice] = objetoInventario;
 	}
 
-	public int devolverID(int indice)
+	public int DevolverID(int indice)
 	{
 		return objetos[indice].ID;
 	}
 
-	public string devolverNombre(int indice)
+	public string DevolverNombre(int indice)
 	{
 		return objetos[indice].nombre;
 	}
 
-	public string devolverNombreImagen(int indice)
+	public string DevolverNombreImagen(int indice)
 	{
 		return objetos[indice].nombreImagen;
 	}
 
-	public string devolverDescripcion(int indice)
+	public string DevolverDescripcion(int indice)
 	{
 		return objetos[indice].descripcion;
 	}
 
-	public int devolverCantidad(int indice)
+	public int DevolverCantidad(int indice)
 	{
 		return objetos[indice].cantidad;
 	}

@@ -4,8 +4,9 @@
 		<ID>100</ID>
 		<nombre>Abrir</nombre>
 		<objetos/>
-		<ID_NPC>5</ID_NPC>
-		<ID_Diag>0</ID_Diag>
+		<variables/>
+		<IDInteractuable>5</IDInteractuable>
+		<IDDialogo>0</IDDialogo>
 		<aDistancia>false</aDistancia>
 		<tamX>14</tamX>
 		<tamY>14</tamY>

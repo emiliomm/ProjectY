@@ -20,8 +20,8 @@ public class EventoDialogo : Evento {
 		{
 			Interactuable inter = null;
 
-			NPC_Dialogo dialog = NPC_Dialogo.BuscarDialogo(IDInter, IDDialog);
-			TextBox.Instance.PrepararDialogo(inter, dialog, ID);
+			Dialogo dialog = Dialogo.BuscarDialogo(IDInter, IDDialog);
+			TextBox.instance.PrepararDialogo(inter, dialog, ID);
 			ejecutado = true;
 		}
 	}

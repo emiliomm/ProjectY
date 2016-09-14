@@ -14,8 +14,8 @@ public class ObjetoController : MonoBehaviour {
 
 	//Guardar en el Manager
 	//Parámetros que determinan la sensibilidad de movimiento del ratón al mover un objeto
-	private float X_MouseSensitivity = 3f;
-	private float Y_MouseSensitivity = 3f;
+	private float XMouseSensitivity = 3f;
+	private float YMouseSensitivity = 3f;
 
 	//Inicializa algunas variables
 	void Start ()
@@ -28,9 +28,9 @@ public class ObjetoController : MonoBehaviour {
 	}
 
 	//Asigna el objeto que se mostrará en pantalla
-	public void AsignarObjeto(GameObject gObj)
+	public void AsignarObjeto(GameObject gameobject)
 	{
-		objeto = gObj;
+		objeto = gameobject;
 	}
 
 	void Update()
@@ -38,11 +38,11 @@ public class ObjetoController : MonoBehaviour {
 		//Comprueba si se está pulsando click izquierdo del ratón
 		if (Input.GetMouseButton(0))
 		{
-			float rotX = Input.GetAxis("Mouse X")*X_MouseSensitivity*Mathf.Deg2Rad;
-			float rotY = Input.GetAxis("Mouse Y")*Y_MouseSensitivity*Mathf.Deg2Rad;
+			float rotacionX = Input.GetAxis("Mouse X")*XMouseSensitivity*Mathf.Deg2Rad;
+			float rotacionY = Input.GetAxis("Mouse Y")*YMouseSensitivity*Mathf.Deg2Rad;
 
-			objeto.transform.RotateAround(Camera.main.transform.up, -rotX);
-			objeto.transform.RotateAround(Camera.main.transform.right, rotY);
+			objeto.transform.RotateAround(Camera.main.transform.up, -rotacionX);
+			objeto.transform.RotateAround(Camera.main.transform.right, rotacionY);
 		}
 	}
 

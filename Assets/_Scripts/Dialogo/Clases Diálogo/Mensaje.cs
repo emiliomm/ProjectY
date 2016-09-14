@@ -18,7 +18,7 @@ public class Mensaje{
 
 	// 0 --> falso, 1 --> verdadero
 	//Indica si el mensaje se va a destruir al acabar de recorrerlo
-	protected bool Autodestruye;
+	protected bool autodestruye;
 
 	public string texto;
 
@@ -41,21 +41,21 @@ public class Mensaje{
 
 	public bool DevuelveAutodestruye()
 	{
-		return Autodestruye;
+		return autodestruye;
 	}
 
 	public void ActivarAutodestruye()
 	{
-		Autodestruye = true;
+		autodestruye = true;
 	}
 
-	public bool seMuestra()
+	public bool SeMuestra()
 	{
 		bool mostrar = true;
 
 		for(int i = 0; i < eventos.Count; i++)
 		{
-			if(!eventos[i].estaActivo())
+			if(!eventos[i].EstaActivo())
 				mostrar = false;
 		}
 

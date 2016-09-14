@@ -9,8 +9,8 @@ public class LectorController : MonoBehaviour {
 	//Pasar al Manager
 	private int layerMask = 8; //UIObjeto
 
-	private GameObject Lector;
-	private GameObject Tarjeta;
+	private GameObject lector;
+	private GameObject tarjeta;
 	private GameObject botonSalir;
 
 	// Use this for initialization
@@ -18,15 +18,15 @@ public class LectorController : MonoBehaviour {
 	
 	}
 
-	public void cargarVariable(int IDObjeto, int num_variable, int valorNegativo)
+	public void CargarVariable(int IDObjeto, int numVariable, int valorNegativo)
 	{
-		Lector = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Lector/Lector"), Camera.main.transform.position + Camera.main.transform.forward * 2f, Camera.main.transform.rotation);
-		SetLayerRecursively(Lector, layerMask);
-		Lector.GetComponent<Lector>().cargarValor(IDObjeto, num_variable, valorNegativo);
+		lector = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Lector/Lector"), Camera.main.transform.position + Camera.main.transform.forward * 2f, Camera.main.transform.rotation);
+		SetLayerRecursively(lector, layerMask);
+		lector.GetComponent<Lector>().CargarValor(IDObjeto, numVariable, valorNegativo);
 
-		Tarjeta = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Lector/LLave"), Camera.main.transform.position + Camera.main.transform.forward * 2f, Camera.main.transform.rotation);
-		Tarjeta.transform.position += Camera.main.transform.TransformDirection(new Vector3(-0.08f, 0.5f, 0f));
-		SetLayerRecursively(Tarjeta, layerMask);
+		tarjeta = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Lector/LLave"), Camera.main.transform.position + Camera.main.transform.forward * 2f, Camera.main.transform.rotation);
+		tarjeta.transform.position += Camera.main.transform.TransformDirection(new Vector3(-0.08f, 0.5f, 0f));
+		SetLayerRecursively(tarjeta, layerMask);
 
 		botonSalir = (GameObject)MonoBehaviour.Instantiate(Resources.Load("BotonPrefab"));
 		botonSalir.transform.SetParent(Manager.Instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
@@ -35,10 +35,10 @@ public class LectorController : MonoBehaviour {
 	}
 
 	//Aplica el layer a todos los hijos del objeto y al objeto
-	public static void SetLayerRecursively(GameObject go, int layerNumber)
+	public static void SetLayerRecursively(GameObject gameobject, int layerNumber)
 	{
-		go.layer = layerNumber;
-		foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
+		gameobject.layer = layerNumber;
+		foreach (Transform trans in gameobject.GetComponentsInChildren<Transform>(true))
 		{
 			trans.gameObject.layer = layerNumber;
 		}
@@ -46,7 +46,7 @@ public class LectorController : MonoBehaviour {
 
 	private void Salir()
 	{
-		Lector.GetComponent<Lector>().guardarValor();
+		lector.GetComponent<Lector>().GuardarValor();
 
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
 		Manager.Instance.setPausa(false);
@@ -54,8 +54,8 @@ public class LectorController : MonoBehaviour {
 
 		Camera.main.GetComponent<TP_Camera>().setNormalMode();
 
-		Destroy(Lector);
-		Destroy(Tarjeta);
+		Destroy(lector);
+		Destroy(tarjeta);
 		Destroy(botonSalir);
 		Destroy(gameObject);
 	}

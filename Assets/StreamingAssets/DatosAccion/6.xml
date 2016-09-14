@@ -7,12 +7,12 @@
 		<variables>
 			<ComprobarVariable>
 				<tipo>1</tipo>
-				<num_variable>0</num_variable>
+				<numVariable>0</numVariable>
 				<valor>0</valor>
 			</ComprobarVariable>
 		</variables>
-		<ID_NPC>5</ID_NPC>
-		<ID_Diag>0</ID_Diag>
+		<IDInteractuable>5</IDInteractuable>
+		<IDDialogo>0</IDDialogo>
 		<aDistancia>false</aDistancia>
 		<tamX>14</tamX>
 		<tamY>14</tamY>
@@ -25,7 +25,7 @@
 		<variables>
 			<ComprobarVariable>
 				<tipo>2</tipo>
-				<num_variable>0</num_variable>
+				<numVariable>0</numVariable>
 				<valor>0</valor>
 			</ComprobarVariable>
 		</variables>

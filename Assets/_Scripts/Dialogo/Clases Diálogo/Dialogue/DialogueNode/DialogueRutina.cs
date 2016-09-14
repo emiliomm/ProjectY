@@ -10,7 +10,7 @@ public class DialogueRutina
 		
 	}
 
-	public int devuelveIDRutina()
+	public int DevuelveIDRutina()
 	{
 		return IDRutina;
 	}

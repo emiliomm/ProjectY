@@ -36,7 +36,7 @@ public class InventarioController : MonoBehaviour {
 		salir = transform.GetChild(2).gameObject;
 		salir.GetComponent<Button>().onClick.AddListener(delegate { Salir(); }); //Listener del botón
 
-		if(inventario.devolverNumeroObjetos() == 0)
+		if(inventario.DevolverNumeroObjetos() == 0)
 		{
 			Destroy(listaObjetos);
 			Destroy(imagenObjeto);
@@ -45,8 +45,8 @@ public class InventarioController : MonoBehaviour {
 		}
 		else
 		{
-			cargarListaInventario();
-			actualizarVistaObjeto();
+			CargarListaInventario();
+			ActualizarVistaObjeto();
 
 			//ponemos el foco en el primer objeto
 			GameObject myEventSystem = GameObject.Find("EventSystem(Clone)");
@@ -54,20 +54,20 @@ public class InventarioController : MonoBehaviour {
 		}
 	}
 
-	private void cargarListaInventario()
+	private void CargarListaInventario()
 	{
-		for(int i = 0; i < inventario.devolverNumeroObjetos(); i++)
+		for(int i = 0; i < inventario.DevolverNumeroObjetos(); i++)
 		{
-			GameObject boton = (GameObject)Instantiate(Resources.Load("BotonInventario"));
-			boton.transform.GetChild(0).GetComponent<Text>().text = inventario.devolverNombre(i);
+			GameObject botonGO = (GameObject)Instantiate(Resources.Load("BotonInventario"));
+			botonGO.transform.GetChild(0).GetComponent<Text>().text = inventario.DevolverNombre(i);
 
 			int j = i; //copia del entero para que funcione en el delegate anónimo
-			boton.GetComponent<Button>().onClick.AddListener(delegate { setIndice(j); actualizarVistaObjeto(); }); //Listener del botón
-			boton.transform.SetParent(listaObjetos.transform, false);
+			botonGO.GetComponent<Button>().onClick.AddListener(delegate { SetIndice(j); ActualizarVistaObjeto(); }); //Listener del botón
+			botonGO.transform.SetParent(listaObjetos.transform, false);
 		}
 	}
 
-	private void setIndice(int num)
+	private void SetIndice(int num)
 	{
 		indiceObjetoActual = num;
 	}
@@ -77,27 +77,27 @@ public class InventarioController : MonoBehaviour {
 	{
 		if (Input.GetKeyDown(KeyCode.DownArrow))
 		{
-			if(inventario.devolverNumeroObjetos() > 0)
+			if(inventario.DevolverNumeroObjetos() > 0)
 			{
-				if(indiceObjetoActual == inventario.devolverNumeroObjetos() -1)
+				if(indiceObjetoActual == inventario.DevolverNumeroObjetos() -1)
 					indiceObjetoActual = 0;
 				else
 					indiceObjetoActual++;
 
-				actualizarVistaObjeto();
+				ActualizarVistaObjeto();
 			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.UpArrow))
 		{
-			if(inventario.devolverNumeroObjetos() > 0)
+			if(inventario.DevolverNumeroObjetos() > 0)
 			{
 				if(indiceObjetoActual == 0)
-					indiceObjetoActual = inventario.devolverNumeroObjetos() -1;
+					indiceObjetoActual = inventario.DevolverNumeroObjetos() -1;
 				else
 					indiceObjetoActual--;
 
-				actualizarVistaObjeto();
+				ActualizarVistaObjeto();
 			}
 		}
 		
@@ -118,18 +118,18 @@ public class InventarioController : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
-	private void actualizarVistaObjeto()
+	private void ActualizarVistaObjeto()
 	{
 		//indice
 		GameObject myEventSystem = GameObject.Find("EventSystem(Clone)");
 		myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(listaObjetos.transform.GetChild(indiceObjetoActual).gameObject);
 
 		//Mantiene el scroll en la posición adecuada
-		transform.GetChild(0).gameObject.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1f-indiceObjetoActual/(float)inventario.devolverNumeroObjetos());
+		transform.GetChild(0).gameObject.GetComponent<ScrollRect>().normalizedPosition = new Vector2(0, 1f-indiceObjetoActual/(float)inventario.DevolverNumeroObjetos());
 
 //		imagenObjeto;
-		nombreObjeto.GetComponent<Text>().text = inventario.devolverNombre(indiceObjetoActual);
-		cantidadObjeto.GetComponent<Text>().text = "X " + inventario.devolverCantidad(indiceObjetoActual).ToString();
-		descripcionObjeto.GetComponent<Text>().text = inventario.devolverDescripcion(indiceObjetoActual);
+		nombreObjeto.GetComponent<Text>().text = inventario.DevolverNombre(indiceObjetoActual);
+		cantidadObjeto.GetComponent<Text>().text = "X " + inventario.DevolverCantidad(indiceObjetoActual).ToString();
+		descripcionObjeto.GetComponent<Text>().text = inventario.DevolverDescripcion(indiceObjetoActual);
 	}
 }

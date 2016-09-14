@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObjetoSerializable xsi:type="NPC_Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<ID_NPC>-1</ID_NPC>
+<ObjetoSerializable xsi:type="Dialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<IDInteractuable>-1</IDInteractuable>
 	<ID>-1</ID>
 	<intros>
 		<Intro>
 			<ID>-1</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>
-			<Autodestruye>false</Autodestruye>
 			<prioridad>0</prioridad>
-			<indice_inicial>0</indice_inicial>
-			<dia>
-				<Nodes>
+			<dialogo>
+				<nodes>
 					<DialogueNode>
-						<NodeID>0</NodeID>
+						<nodeID>0</nodeID>
 						<posCamara>
 							<lookAt>0</lookAt>
 							<coordX>-0.5</coordX>
 							<coordY>1</coordY>
 							<coordZ>1</coordZ>
 						</posCamara>
-						<Nombre>-1</Nombre>
+						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
-						<Text>Lo siento, en estos momentos estoy ocupado.</Text>
+						<text>Lo siento, en estos momentos estoy ocupado.</text>
 						<recorrido>false</recorrido>
 						<destruido>false</destruido>
-						<Intros />
-						<Mensajes/>
-						<Grupos/>
-						<GruposVariables/>
-						<Objetos/>
-						<Nombres/>
-						<Rutinas/>
-						<Options/>
+						<intros />
+						<mensajes/>
+						<grupos/>
+						<gruposVariables/>
+						<objetos/>
+						<nombres/>
+						<rutinas/>
+						<options/>
 					</DialogueNode>
-				</Nodes>
-			</dia>
+				</nodes>
+			</dialogo>
 		</Intro>
 	</intros>
 	<mensajes></mensajes>

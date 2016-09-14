@@ -384,7 +384,7 @@ public class Manager : MonoBehaviour {
 			if(transporte != null)
 			{
 				interactuable.transform.position = transporte.transform.position;
-				iNPC.setRuta(coord);
+				iNPC.SetRuta(coord);
 
 				GameObject rutaColliderGO = new GameObject("RutaCollider");
 				rutaColliderGO.transform.position = coord;
@@ -397,7 +397,7 @@ public class Manager : MonoBehaviour {
 
 				if(transporte.GetComponent<TransporteInter>().comprobarSiEsTransporteObjeto())
 				{
-					transporte.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(false);
+					transporte.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(false);
 
 					GameObject saliendoColliderGO = new GameObject("TransporteCollider");
 					saliendoColliderGO.transform.SetParent(transporte.transform, false);
@@ -443,7 +443,7 @@ public class Manager : MonoBehaviour {
 		else if(Inter.transform.position != coord)
 		{
 			InteractuableNPC intNPC = Inter.GetComponent<InteractuableNPC>();
-			intNPC.setRuta(coord);
+			intNPC.SetRuta(coord);
 		}
 	}
 
@@ -462,7 +462,7 @@ public class Manager : MonoBehaviour {
 
 			if(transporteMasCercano != null)
 			{
-				Inter.GetComponent<InteractuableNPC>().setRuta(transporteMasCercano.transform.position);
+				Inter.GetComponent<InteractuableNPC>().SetRuta(transporteMasCercano.transform.position);
 
 				GameObject transporteColliderGO = new GameObject("TransporteCollider");
 				transporteColliderGO.transform.SetParent(transporteMasCercano.transform, false);
@@ -475,7 +475,7 @@ public class Manager : MonoBehaviour {
 
 				if(transporteMasCercano.GetComponent<TransporteInter>().comprobarSiEsTransporteObjeto())
 				{
-					transporteMasCercano.transform.parent.GetComponent<InteractuableObjeto>().setNavObstacle(false);
+					transporteMasCercano.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(false);
 					tc.setTransporte(transporteMasCercano);
 				}
 			}
@@ -873,7 +873,7 @@ public class Manager : MonoBehaviour {
 	//Devuelve un objeto reciente situado en la posición num de la lista de objetosRecientes
 	public string devuelveNombreObjetoReciente(int num)
 	{
-		return objetosRecientes[num].devuelveObjeto().nombre;
+		return objetosRecientes[num].DevuelveObjeto().nombre;
 	}
 
 	public void addObjetoReciente(ObjetoInventario obj, int cantidad)

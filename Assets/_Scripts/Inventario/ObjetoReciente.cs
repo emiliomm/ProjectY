@@ -6,18 +6,18 @@ public class ObjetoReciente
 	private ObjetoInventario objeto;
 	private int cantidad;
 
-	public ObjetoReciente(ObjetoInventario obj, int cant)
+	public ObjetoReciente(ObjetoInventario objetoInventario, int cantidad)
 	{
-		objeto = obj;
-		cantidad = cant;
+		objeto = objetoInventario;
+		this.cantidad = cantidad;
 	}
 
-	public ObjetoInventario devuelveObjeto()
+	public ObjetoInventario DevuelveObjeto()
 	{
 		return objeto;
 	}
 
-	public int devuelveCantidad()
+	public int DevuelveCantidad()
 	{
 		return cantidad;
 	}

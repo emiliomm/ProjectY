@@ -4,7 +4,7 @@ using System.Collections;
 public class LLave : MonoBehaviour {
 
 	private Vector3 moveVector;
-	public float Y_MouseSensitivity = 0.02f;
+	public float YMouseSensitivity = 0.02f;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,7 @@ public class LLave : MonoBehaviour {
 		if (Input.GetMouseButton(0))
 		{
 			//Cogemos el eje Y del Input del raton multiplicada por la sensibilidad
-			moveVector.y = Input.GetAxis ("Mouse Y") * Y_MouseSensitivity;
+			moveVector.y = Input.GetAxis ("Mouse Y") * YMouseSensitivity;
 
 			//Asignamos la posición al objeto que hace de cursor
 			transform.position = transform.position + moveVector;

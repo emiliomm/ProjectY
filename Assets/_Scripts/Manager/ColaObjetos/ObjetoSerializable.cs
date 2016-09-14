@@ -8,7 +8,7 @@
  */
 
 [XmlInclude(typeof(Grupo))]
-[XmlInclude(typeof(NPC_Dialogo))]
+[XmlInclude(typeof(Dialogo))]
 [XmlInclude(typeof(InterDatos))]
 [XmlInclude(typeof(Inventario))]
 public class ObjetoSerializable{  }

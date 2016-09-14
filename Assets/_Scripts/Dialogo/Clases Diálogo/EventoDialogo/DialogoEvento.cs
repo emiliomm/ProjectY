@@ -12,17 +12,17 @@ public class DialogoEvento{
 		variables = new List<VariableEventoDialogo>();
 	}
 
-	public bool estaActivo()
+	public bool EstaActivo()
 	{
 		bool activo = true;
 
-		Evento ev = ManagerRutinas.Instance.devuelveEvento(IDEvento);
+		Evento evento = ManagerRutinas.Instance.devuelveEvento(IDEvento);
 
-		if(ev != null)
+		if(evento != null)
 		{
 			for(int i = 0; i < variables.Count; i++)
 			{
-				if(ev.variables[variables[i].num_variable] < variables[i].valor)
+				if(evento.variables[variables[i].numVariable] < variables[i].valor)
 					activo = false;
 			}
 		}

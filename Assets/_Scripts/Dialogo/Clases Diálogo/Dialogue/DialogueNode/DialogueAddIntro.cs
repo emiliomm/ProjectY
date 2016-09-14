@@ -5,7 +5,7 @@
 	*/
 	public class DialogueAddIntro
 	{
-		public int IDNpc; //NPC al que se le va a añadir la intro
+		public int IDInteractuable; //NPC al que se le va a añadir la intro
 		public int IDDialogo; //Dialogo del npc indicado arriba al que se la a añadir la intro
 
 		public int prioridad; //prioridad de la intro, cuanto más alto sea el valor, antes aparece
@@ -13,9 +13,9 @@
 
 		public DialogueAddIntro() { }
 
-		public int DevuelveIDNpc()
+		public int devuelveIDInteractuable()
 		{
-			return IDNpc;
+			return IDInteractuable;
 		}
 
 		public int DevuelveIDDialogo()
@@ -28,7 +28,7 @@
 			return prioridad;
 		}
 
-		public int DevuelveID()
+		public int DevuelveIDIntro()
 		{
 			return IDIntro;
 		}

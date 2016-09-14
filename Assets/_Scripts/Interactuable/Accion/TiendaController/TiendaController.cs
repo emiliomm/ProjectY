@@ -56,58 +56,58 @@ public class TiendaController : MonoBehaviour {
 		botonSalir.GetComponent<Button>().onClick.AddListener(delegate { Salir(dialogo); }); //Listener del botón
 
 		numMenu = 1;
-		crearInterfaz();
+		CrearInterfaz();
 	}
 
-	private void crearInterfaz()
+	private void CrearInterfaz()
 	{
 		int num_menu = 0;
-		GameObject menu = contenedorMenus.transform.GetChild(0).gameObject;
+		GameObject menuGO = contenedorMenus.transform.GetChild(0).gameObject;
 
-		for(int i = 0; i < inventario.devolverNumeroObjetos(); i++)
+		for(int i = 0; i < inventario.DevolverNumeroObjetos(); i++)
 		{
 			if(i/numY != num_menu)
 			{
 				num_menu++;
-				menu = (GameObject)Instantiate(Resources.Load("Tienda/Menu"));
-				menu.transform.SetParent(contenedorMenus.transform, false);
+				menuGO = (GameObject)Instantiate(Resources.Load("Tienda/Menu"));
+				menuGO.transform.SetParent(contenedorMenus.transform, false);
 			}
 
 			var button = (GameObject)Instantiate(Resources.Load("Tienda/BotonObjetoTienda"));
-			button.transform.SetParent(menu.transform, false);
-			button.transform.GetChild(0).GetComponent<Text>().text = inventario.devolverNombre(i);
+			button.transform.SetParent(menuGO.transform, false);
+			button.transform.GetChild(0).GetComponent<Text>().text = inventario.DevolverNombre(i);
 
 			int j = i; //copia del entero para que funcione en el delegate anónimo
-			button.GetComponent<Button>().onClick.AddListener(delegate { actualizarDescripcion(j); }); //Listener del botón
+			button.GetComponent<Button>().onClick.AddListener(delegate { ActualizarDescripcion(j); }); //Listener del botón
 		}
 	}
 
-	private void actualizarDescripcion(int num)
+	private void ActualizarDescripcion(int num)
 	{
-		nombreObjetoSeleccionado.transform.GetComponent<Text>().text = inventario.devolverNombre(num);
+		nombreObjetoSeleccionado.transform.GetComponent<Text>().text = inventario.DevolverNombre(num);
 //		precioObjetoSeleccionado;
-		descripcionObjetoSeleccionado.transform.GetComponent<Text>().text = inventario.devolverDescripcion(num);
+		descripcionObjetoSeleccionado.transform.GetComponent<Text>().text = inventario.DevolverDescripcion(num);
 
 		if(!escaparate)
 		{
 			botonCompra.GetComponent<Button>().onClick.RemoveAllListeners();
-			botonCompra.GetComponent<Button>().onClick.AddListener(delegate { compraObjeto(num); }); //Listener del botón
+			botonCompra.GetComponent<Button>().onClick.AddListener(delegate { CompraObjeto(num); }); //Listener del botón
 		}
 	}
 
-	private void compraObjeto(int num)
+	private void CompraObjeto(int num)
 	{
 		var compraPopup = (GameObject)Instantiate(Resources.Load("Tienda/CompraPopup"));
 		compraPopup.transform.SetParent(gameObject.transform, false);
 
-		var si = compraPopup.transform.GetChild(1).gameObject;
-		var no = compraPopup.transform.GetChild(2).gameObject;
+		var siGO = compraPopup.transform.GetChild(1).gameObject;
+		var noGO = compraPopup.transform.GetChild(2).gameObject;
 
-		si.GetComponent<Button>().onClick.AddListener(delegate { StartCoroutine(addObjeto(num, compraPopup)); }); //Listener del botón
-		no.GetComponent<Button>().onClick.AddListener(delegate { Destroy(compraPopup); }); //Listener del botón
+		siGO.GetComponent<Button>().onClick.AddListener(delegate { StartCoroutine(AddObjeto(num, compraPopup)); }); //Listener del botón
+		noGO.GetComponent<Button>().onClick.AddListener(delegate { Destroy(compraPopup); }); //Listener del botón
 	}
 
-	private IEnumerator addObjeto(int num, GameObject popup)
+	private IEnumerator AddObjeto(int num, GameObject popupGO)
 	{
 		Inventario inventarioPropio;
 
@@ -117,8 +117,8 @@ public class TiendaController : MonoBehaviour {
 		//Se ha encontrado en la cola de objetos
 		if(inventarioCola != null)
 		{
-			ObjetoSerializable objs = inventarioCola.GetObjeto();
-			inventarioPropio = objs as Inventario;
+			ObjetoSerializable objetoSerializable = inventarioCola.GetObjeto();
+			inventarioPropio = objetoSerializable as Inventario;
 		}
 		//No se ha encontrado en la cola de objetos
 		else
@@ -134,12 +134,12 @@ public class TiendaController : MonoBehaviour {
 			}
 		}
 
-		inventarioPropio.addObjeto(inventario.devolverID(num), 1);
+		inventarioPropio.AddObjeto(inventario.DevolverID(num), 1);
 		inventarioPropio.AddToColaObjetos();
 
-		yield return StartCoroutine(TextBox.Instance.MostrarPopupObjetos());
+		yield return StartCoroutine(TextBox.instance.MostrarPopupObjetos());
 
-		Destroy(popup);
+		Destroy(popupGO);
 	}
 		
 	private void Salir(bool dialogo)
@@ -156,7 +156,7 @@ public class TiendaController : MonoBehaviour {
 		}
 		else
 		{
-			TextBox.Instance.MostrarInterfaz();
+			TextBox.instance.MostrarInterfaz();
 		}
 
 		Camera.main.GetComponent<TP_Camera>().setNormalMode();

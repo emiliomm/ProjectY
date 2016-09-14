@@ -16,12 +16,12 @@ public class AccionObjeto : MonoBehaviour {
 		this.indice = indice;
 	}
 
-	public int getID()
+	public int GetID()
 	{
 		return ID;
 	}
 
-	public int getIndice()
+	public int GetIndice()
 	{
 		return indice;
 	}

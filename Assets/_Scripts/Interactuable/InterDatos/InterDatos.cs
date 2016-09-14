@@ -29,9 +29,9 @@ public class InterDatos : ObjetoSerializable{
 	//Devuelve el InterDatos de un xml indicado en la ruta
 	public static InterDatos LoadInterDatos(string path)
 	{
-		InterDatos inter_datos = Manager.Instance.DeserializeData<InterDatos>(path);
+		InterDatos interDatos = Manager.Instance.DeserializeData<InterDatos>(path);
 
-		return inter_datos;
+		return interDatos;
 	}
 
 	public void Serialize()

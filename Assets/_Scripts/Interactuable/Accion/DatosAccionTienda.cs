@@ -29,14 +29,14 @@ public class DatosAccionTienda : DatosAccion{
 		Manager.Instance.stopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
-		var ObjetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
+		var objetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
 
-		Inventario inv = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
-		CargarInventario(inv);
+		Inventario inventario = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
+		CargarInventario(inventario);
 
-		TiendaController objetoController = ObjetoTienda.AddComponent<TiendaController>();
+		TiendaController tiendaController = objetoTienda.AddComponent<TiendaController>();
 //		objetoController.InicializarTienda(numX, numY, fuente, inv, fondo);
-		objetoController.InicializarTienda(escaparate, numY, inv, false);
+		tiendaController.InicializarTienda(escaparate, numY, inventario, false);
 
 		//Se establece el modo de la cámara en el Modo Objeto
 		Camera.main.GetComponent<TP_Camera>().setObjectMode();
@@ -44,9 +44,9 @@ public class DatosAccionTienda : DatosAccion{
 
 	private void CargarInventario(Inventario inventario)
 	{
-		for(int i = 0; i < inventario.devolverNumeroObjetos(); i++)
+		for(int i = 0; i < inventario.DevolverNumeroObjetos(); i++)
 		{
-			inventario.sustituyeObjeto(ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + inventario.devolverObjeto(i).ID.ToString() + ".xml"), i);
+			inventario.SustituyeObjeto(ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + inventario.DevolverObjeto(i).ID.ToString() + ".xml"), i);
 		}
 	}
 }
