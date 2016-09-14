@@ -70,7 +70,7 @@ public class TemaMensaje{
 	//Devuelve el temamensaje de un xml indicado en la ruta
 	public static TemaMensaje LoadTemaMensaje(string path)
 	{
-		TemaMensaje temaMensaje = Manager.Instance.DeserializeData<TemaMensaje>(path);
+		TemaMensaje temaMensaje = Manager.instance.DeserializeData<TemaMensaje>(path);
 
 		return temaMensaje;
 	}

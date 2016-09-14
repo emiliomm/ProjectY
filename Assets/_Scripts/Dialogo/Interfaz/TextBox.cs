@@ -57,7 +57,7 @@ public class TextBox : MonoBehaviour {
 		instance = this;
 
 		dialogWindow = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
-		dialogWindow.transform.SetParent(Manager.Instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
+		dialogWindow.transform.SetParent(Manager.instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
 		RectTransform diaWindowTransform = (RectTransform) dialogWindow.transform;
 		diaWindowTransform.localPosition = new Vector3(0, 0, 0);
 
@@ -128,7 +128,7 @@ public class TextBox : MonoBehaviour {
 			yield return StartCoroutine(EmpezarDialogo(interactuableActual, dialogo));
 
 		if(IDEvento != -1)
-			ManagerRutinas.Instance.guardaEvento(IDEvento);
+			ManagerRutinas.instance.GuardaEvento(IDEvento);
 	}
 
 	public IEnumerator EmpezarDialogo(Interactuable interactuableActual, Dialogo dialogo)
@@ -138,8 +138,8 @@ public class TextBox : MonoBehaviour {
 
 		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
 		TP_Camera.Instance.toDialogMode();
-		Manager.Instance.setPausa(true);
-		Manager.Instance.stopNavMeshAgents();
+		Manager.instance.SetPausa(true);
+		Manager.instance.StopNavMeshAgents();
 
 		dialogWindow.SetActive(true);
 		Cursor.visible = true; //Muestra el cursor del ratón
@@ -250,7 +250,7 @@ public class TextBox : MonoBehaviour {
 				}
 
 				//Si la lista de objetos recientes tiene algún objeto, mostramos un popup de los objetos obtenidos
-				if(Manager.Instance.devuelveNumeroObjetosRecientes() != 0)
+				if(Manager.instance.DevuelveNumeroObjetosRecientes() != 0)
 					yield return StartCoroutine(InterfazPopUpObjetos());
 
 				break;
@@ -452,7 +452,7 @@ public class TextBox : MonoBehaviour {
 				}
 
 				//Si la lista de objetos recientes tiene algún objeto, mostramos un popup de los objetos obtenidos
-				if(Manager.Instance.devuelveNumeroObjetosRecientes() != 0)
+				if(Manager.instance.DevuelveNumeroObjetosRecientes() != 0)
 					yield return StartCoroutine(InterfazPopUpObjetos());
 
 				break;
@@ -526,12 +526,12 @@ public class TextBox : MonoBehaviour {
 	public IEnumerator MostrarPopupObjetos()
 	{
 		GameObject panelObjeto = (GameObject)Instantiate(Resources.Load("PanelPopupObjeto"));
-		panelObjeto.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
+		panelObjeto.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 		//Recorremos los objetos obtenidos recientemente
-		for(int i = 0; i < Manager.Instance.devuelveNumeroObjetosRecientes(); i++)
+		for(int i = 0; i < Manager.instance.DevuelveNumeroObjetosRecientes(); i++)
 		{
-			panelObjeto.transform.GetChild(0).GetChild(0).transform.GetComponent<Text>().text = "Has obtenido " + Manager.Instance.devuelveNombreObjetoReciente(i);
+			panelObjeto.transform.GetChild(0).GetChild(0).transform.GetComponent<Text>().text = "Has obtenido " + Manager.instance.DevuelveNombreObjetoReciente(i);
 
 			var opcion = -4;
 
@@ -544,7 +544,7 @@ public class TextBox : MonoBehaviour {
 			}
 		}
 
-		Manager.Instance.vaciarObjetosRecientes();
+		Manager.instance.VaciarObjetosRecientes();
 		Destroy(panelObjeto);
 	}
 		
@@ -559,8 +559,8 @@ public class TextBox : MonoBehaviour {
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
 		TP_Camera.Instance.fromDialogMode();
-		Manager.Instance.setPausa(false);
-		Manager.Instance.resumeNavMeshAgents();
+		Manager.instance.SetPausa(false);
+		Manager.instance.ResumeNavMeshAgents();
 
 		dialogWindow.SetActive(false);
 		Cursor.visible = false; //Oculta el cursor del ratón
@@ -572,7 +572,7 @@ public class TextBox : MonoBehaviour {
 		//El dialogo actual se añade al acabar la conversación, en ningún momento durante esta
 		dialogo.AddToColaObjetos();
 
-		Manager.Instance.ActualizarDatos();
+		Manager.instance.ActualizarDatos();
 	}
 
 	//Comprueba si la intro o el mensaje debe eliminarse
@@ -692,7 +692,7 @@ public class TextBox : MonoBehaviour {
 		{
 			int IDGrupo = dialogueOption.DevuelveIDGrupo(i); //Miramos si la opción está asignada a algún grupo
 
-			Grupo grupo = Manager.Instance.DevolverGrupoActivo(IDGrupo);
+			Grupo grupo = Manager.instance.DevolverGrupoActivo(IDGrupo);
 
 			if (grupo != null)
 			{
@@ -720,7 +720,7 @@ public class TextBox : MonoBehaviour {
 			Inventario inventario;
 
 			//Buscamos el inventario en la colaobjetos
-			ColaObjeto inventarioCola = Manager.Instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
+			ColaObjeto inventarioCola = Manager.instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
 
 			//Se ha encontrado en la cola de objetos
 			if(inventarioCola != null)
@@ -842,7 +842,7 @@ public class TextBox : MonoBehaviour {
 	private void PosicionaCamara(PosicionCamara posicionCamara)
 	{
 		if(interactuable != null)
-			TP_Camera.Instance.PosicionDialogo(posicionCamara, Manager.Instance.GetInteractuable(interactuable.ID));
+			TP_Camera.Instance.PosicionDialogo(posicionCamara, Manager.instance.GetInteractuable(interactuable.ID));
 	}
 
 	//Devuelve el nombre de quién habla según un entero
@@ -853,7 +853,7 @@ public class TextBox : MonoBehaviour {
 		switch(num)
 		{
 		case -2:
-			nombre = Manager.Instance.DevuelveNombreJugador();
+			nombre = Manager.instance.DevuelveNombreJugador();
 			break;
 		case -1:
 			if(interactuable != null)

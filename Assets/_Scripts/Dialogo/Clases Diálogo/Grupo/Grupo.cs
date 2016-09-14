@@ -28,7 +28,7 @@ public class Grupo : ObjetoSerializable{
 	//Lee un grupo de un archivo xml en la ruta indicada en el path y lo devuelve
 	public static Grupo CreateGrupo(string path)
 	{
-		return Manager.Instance.DeserializeData<Grupo>(path);
+		return Manager.instance.DeserializeData<Grupo>(path);
 	}
 		
 	/*
@@ -41,12 +41,12 @@ public class Grupo : ObjetoSerializable{
 	 */
 	public static void LoadGrupo(string path, int IDInteractuable, int IDDialogoActual, int tipoDialogo, ref int posDialogo)
 	{
-		Grupo grupo = Manager.Instance.DeserializeData<Grupo>(path);
+		Grupo grupo = Manager.instance.DeserializeData<Grupo>(path);
 
 		//Se encarga de cargar los intros/mensajes iniciales para añadirlos a los diálogos correspondientes
 		Lanzador.LoadLanzador(Manager.rutaLanzadores + grupo.IDGrupo.ToString() + ".xml", IDInteractuable,IDDialogoActual, tipoDialogo, ref posDialogo);
 
-		Manager.Instance.AddToGruposActivos(grupo);
+		Manager.instance.AddToGruposActivos(grupo);
 	}
 
 	/*
@@ -62,7 +62,7 @@ public class Grupo : ObjetoSerializable{
 		//Se encarga de cargar los intros/mensajes iniciales para añadirlos a los diálogos correspondientes
 		Lanzador.LoadLanzador(Manager.rutaLanzadores + grupo.IDGrupo.ToString() + ".xml", IDInteractuable,IDDialogoActual, tipoDialogo, ref posDialogo);
 
-		Manager.Instance.AddToGruposActivos(grupo);
+		Manager.instance.AddToGruposActivos(grupo);
 	}
 
 	//Añade el grupo a la cola de objetos serializables
@@ -70,6 +70,6 @@ public class Grupo : ObjetoSerializable{
 	//Los grupos activos se serializan directamente en la clase Manager
 	public void AddToColaObjetos()
 	{
-		Manager.Instance.AddToColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString()  + ".xml", this);
+		Manager.instance.AddToColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString()  + ".xml", this);
 	}
 }

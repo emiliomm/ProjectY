@@ -26,13 +26,13 @@ public class Inventario : ObjetoSerializable
 			ObjetoInventario objetoInventario = ObjetoInventario.LoadObjeto(Manager.rutaObjetoInventario + IDObjeto.ToString() + ".xml");
 			objetoInventario.cantidad = cantidad;
 			objetos.Add(objetoInventario);
-			Manager.Instance.addObjetoReciente(objetoInventario, cantidad); //se añade también a la lista de objetos recientes
+			Manager.instance.AddObjetoReciente(objetoInventario, cantidad); //se añade también a la lista de objetos recientes
 		}
 		//Si existe, aumentamos en 1 la cantidad
 		else
 		{
 			objetos[numObjeto].cantidad += cantidad;
-			Manager.Instance.addObjetoReciente(objetos[numObjeto], cantidad); //se añade también a la lista de objetos recientes
+			Manager.instance.AddObjetoReciente(objetos[numObjeto], cantidad); //se añade también a la lista de objetos recientes
 		}
 	}
 
@@ -90,13 +90,13 @@ public class Inventario : ObjetoSerializable
 
 	public static Inventario LoadInventario(string path)
 	{
-		Inventario inventario = Manager.Instance.DeserializeData<Inventario>(path);
+		Inventario inventario = Manager.instance.DeserializeData<Inventario>(path);
 
 		return inventario;
 	}
 
 	public void AddToColaObjetos()
 	{
-		Manager.Instance.AddToColaObjetos(Manager.rutaInventario + "Inventario.xml", this);
+		Manager.instance.AddToColaObjetos(Manager.rutaInventario + "Inventario.xml", this);
 	}
 }

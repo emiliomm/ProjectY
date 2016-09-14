@@ -69,7 +69,7 @@ public class Intro{
 	//Devuelve la intro de un xml indicado en la ruta con la prioridad indicada
 	public static Intro LoadIntro(string path, int prioridad)
 	{
-		Intro intro = Manager.Instance.DeserializeData<Intro>(path);
+		Intro intro = Manager.instance.DeserializeData<Intro>(path);
 
 		intro.prioridad = prioridad;
 

@@ -29,19 +29,19 @@ public class InterDatos : ObjetoSerializable{
 	//Devuelve el InterDatos de un xml indicado en la ruta
 	public static InterDatos LoadInterDatos(string path)
 	{
-		InterDatos interDatos = Manager.Instance.DeserializeData<InterDatos>(path);
+		InterDatos interDatos = Manager.instance.DeserializeData<InterDatos>(path);
 
 		return interDatos;
 	}
 
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData(this, Manager.rutaNPCDatosGuardados, ID.ToString()  + ".xml");
+		Manager.instance.SerializeData(this, Manager.rutaInterDatosGuardados, ID.ToString()  + ".xml");
 	}
 
 	//Añade los datos a la cola de objetos serializables
 	public void AddToColaObjetos()
 	{
-		Manager.Instance.AddToColaObjetos(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml", this);
+		Manager.instance.AddToColaObjetos(Manager.rutaInterDatosGuardados + ID.ToString()  + ".xml", this);
 	}
 }

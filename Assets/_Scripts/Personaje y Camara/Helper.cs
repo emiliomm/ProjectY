@@ -10,14 +10,14 @@ public static class Helper
 	//estructura con los 4 puntos del rectangulo de vision de la camara que vamos a calcular
 	public struct ClipPlanePoints
 	{
-		public Vector3 UpperLeft;
-		public Vector3 UpperRight;
-		public Vector3 LowerLeft;
-		public Vector3 LowerRight;
+		public Vector3 upperLeft;
+		public Vector3 upperRight;
+		public Vector3 lowerLeft;
+		public Vector3 lowerRight;
 	}
 
 	//Calcula el angulo dela camara al moverla entre el eje Y limitado entre dos valores
-	public static float ClampAngle(float angle, float min, float max)
+	public static float ClampAngle(float angle, float minAngle, float maxAngle)
 	{
 		//se ejecuta hasta que el angulo este entre -360 y 360
 		do
@@ -29,7 +29,7 @@ public static class Helper
 		}while (angle < -360 || angle > 360);
 
 		//Devuelve el valor entre el min y el max especificado
-		return Mathf.Clamp (angle, min, max);
+		return Mathf.Clamp (angle, minAngle, maxAngle);
 	}
 
 	//Calcula el rectangulo de vision basado en la posicion de la camara y del vector que le pasamos
@@ -50,21 +50,21 @@ public static class Helper
 		var height = distance * Mathf.Tan(halfFOV);
 		var width = height * aspect;
 
-		clipPlanePoints.LowerRight = pos + transform.right * width; //lo movemos a la der
-		clipPlanePoints.LowerRight -= transform.up * height; //lo movemos hacia abajo
-		clipPlanePoints.LowerRight += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+		clipPlanePoints.lowerRight = pos + transform.right * width; //lo movemos a la der
+		clipPlanePoints.lowerRight -= transform.up * height; //lo movemos hacia abajo
+		clipPlanePoints.lowerRight += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
 
-		clipPlanePoints.LowerLeft = pos - transform.right * width; //lo movemos a la izq
-		clipPlanePoints.LowerLeft -= transform.up * height; //lo movemos hacia abajo
-		clipPlanePoints.LowerLeft += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+		clipPlanePoints.lowerLeft = pos - transform.right * width; //lo movemos a la izq
+		clipPlanePoints.lowerLeft -= transform.up * height; //lo movemos hacia abajo
+		clipPlanePoints.lowerLeft += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
 
-		clipPlanePoints.UpperRight = pos + transform.right * width; //lo movemos a la der
-		clipPlanePoints.UpperRight += transform.up * height; //lo movemos hacia arriba
-		clipPlanePoints.UpperRight += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+		clipPlanePoints.upperRight = pos + transform.right * width; //lo movemos a la der
+		clipPlanePoints.upperRight += transform.up * height; //lo movemos hacia arriba
+		clipPlanePoints.upperRight += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
 
-		clipPlanePoints.UpperLeft = pos - transform.right * width; //lo movemos a la izq
-		clipPlanePoints.UpperLeft += transform.up * height; //lo movemos hacia arriba
-		clipPlanePoints.UpperLeft += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
+		clipPlanePoints.upperLeft = pos - transform.right * width; //lo movemos a la izq
+		clipPlanePoints.upperLeft += transform.up * height; //lo movemos hacia arriba
+		clipPlanePoints.upperLeft += transform.forward * distance; //Lo movemos hacia delante la distancia + 1 unidad, para que este un poco por delante de la camera
 
 		return clipPlanePoints;
 	}

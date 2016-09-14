@@ -4,48 +4,48 @@ using System.Collections.Generic;
 
 public class EventoLista{
 
-	private List<int> inter;
+	private List<int> interactuables;
 	private Evento evento;
 
-	public EventoLista(int IDInterInicial, Evento ev)
+	public EventoLista(int IDInteractuableInicial, Evento evento)
 	{
-		inter = new List<int>();
-		inter.Add(IDInterInicial);
+		interactuables = new List<int>();
+		interactuables.Add(IDInteractuableInicial);
 
-		evento = ev;
+		this.evento = evento;
 	}
 
-	public Evento devuelveEvento()
+	public Evento DevuelveEvento()
 	{
 		return evento;
 	}
 
-	public void addInter(int IDInter)
+	public void AddInteractuable(int IDInteractuable)
 	{
-		if(!interExiste(IDInter))
+		if(!InterExiste(IDInteractuable))
 		{
-			inter.Add(IDInter);
+			interactuables.Add(IDInteractuable);
 		}
 	}
 
-	public int posicionInter(int IDInter)
+	public int PosicionInteractuable(int IDInteractuable)
 	{
-		return inter.IndexOf(IDInter);
+		return interactuables.IndexOf(IDInteractuable);
 	}
 
-	public void borrarInter(int pos)
+	public void BorrarInteractuable(int pos)
 	{
-		inter.RemoveAt(pos);
+		interactuables.RemoveAt(pos);
 	}
 
-	public bool isInterEmpty()
+	public bool IsInterEmpty()
 	{
-		return inter.Count == 0;
+		return interactuables.Count == 0;
 	}
 
-	private bool interExiste(int IDInter)
+	private bool InterExiste(int IDInteractuable)
 	{
-		bool existe = posicionInter(IDInter) != -1;
+		bool existe = PosicionInteractuable(IDInteractuable) != -1;
 
 		return existe;
 	}

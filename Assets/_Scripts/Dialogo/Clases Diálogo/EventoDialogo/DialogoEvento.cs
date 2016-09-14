@@ -16,7 +16,7 @@ public class DialogoEvento{
 	{
 		bool activo = true;
 
-		Evento evento = ManagerRutinas.Instance.devuelveEvento(IDEvento);
+		Evento evento = ManagerRutinas.instance.DevuelveEvento(IDEvento);
 
 		if(evento != null)
 		{

@@ -61,7 +61,7 @@ public class Interactuable : MonoBehaviour {
 	protected virtual void Start ()
 	{
 		//Añadimos el interactuable al diccionario para tenerlo disponible
-		Manager.Instance.AddToInteractuables(ID, gameObject);
+		Manager.instance.AddToInteractuables(ID, gameObject);
 
 		//Carga la layerMask para que el rayo detecte todos las colisiones con objetos
 		//con la layer 10 (Pared), es decir, las colisiones con el objeto, que contiene esta layer
@@ -98,7 +98,7 @@ public class Interactuable : MonoBehaviour {
 	void OnDestroy()
 	{
 		//Borramos el valor del diccionario cuando el npc no existe
-		Manager.Instance.RemoveFromInteractuables(ID);
+		Manager.instance.RemoveFromInteractuables(ID);
 	}
 
 	//Rellena las listas de acciones
@@ -415,12 +415,12 @@ public class Interactuable : MonoBehaviour {
 		case State.Accionando://El cursor se está moviendo
 			if (Input.GetMouseButton(0))
 			{
-				Manager.Instance.stopNavMeshAgents();
+				Manager.instance.StopNavMeshAgents();
 				MoviendoCursorUI();
 			}
 			else if (!cursorSobreAccion)
 			{
-				Manager.Instance.resumeNavMeshAgents();
+				Manager.instance.ResumeNavMeshAgents();
 				DefaultCursorUI();
 				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
 				SetState(State.Seleccionado);
@@ -557,7 +557,7 @@ public class Interactuable : MonoBehaviour {
 	//Devuelve la lista de DatosAccion de un xml indicado en la ruta
 	public static List<DatosAccion> LoadDatosAccion(string path)
 	{
-		List<DatosAccion> datosAccion = Manager.Instance.DeserializeData<List<DatosAccion>>(path);
+		List<DatosAccion> datosAccion = Manager.instance.DeserializeData<List<DatosAccion>>(path);
 
 		return datosAccion;
 	}
@@ -565,6 +565,6 @@ public class Interactuable : MonoBehaviour {
 	//Guarda la lista de acciones en un fichero xml
 	public void GuardarAcciones()
 	{
-		Manager.Instance.SerializeData(acciones, Manager.rutaDatosAccionGuardados, ID.ToString()  + ".xml");
+		Manager.instance.SerializeData(acciones, Manager.rutaDatosAccionGuardados, ID.ToString()  + ".xml");
 	}
 }

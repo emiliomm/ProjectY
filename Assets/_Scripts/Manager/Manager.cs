@@ -16,7 +16,7 @@ using System.Text;
 public class Manager : MonoBehaviour {
 
 	//Singleton pattern
-	public static Manager Instance { get; private set; }
+	public static Manager instance { get; private set; }
 
 	//Indica el nombre de primera escena que se cargará
 	//Contiene [SerializeField] para mostrar una variable privada en el editor de Unity
@@ -31,10 +31,10 @@ public class Manager : MonoBehaviour {
 
 	private Dictionary<int, List<GameObject>> transportes; //diccionario con listas de los transportes de la escena (num_escena, lista con gameobject)
 
-	private List<ColaObjeto> ColaObjetos; //lista con los objetos por serializar
+	private List<ColaObjeto> colaObjetos; //lista con los objetos por serializar
 
-	private List<Grupo> GruposActivos; //lista grupos activos
-	private List<int> GruposAcabados; //lista con ids de los grupos acabados
+	private List<Grupo> gruposActivos; //lista grupos activos
+	private List<int> gruposAcabados; //lista con ids de los grupos acabados
 
 	private List<ObjetoReciente> objetosRecientes; //lista de objetos obtenidos recientemente
 
@@ -46,12 +46,12 @@ public class Manager : MonoBehaviour {
 		Pausa, Activo
 	}
 
-	public EstadoJuego State {get; set; }
-	public EstadoJuego PrevState {get; set; }
+	public EstadoJuego state {get; set; }
+	public EstadoJuego prevState {get; set; }
 
 	public void SetState(EstadoJuego newState) {
-		PrevState = State;
-		State = newState;
+		prevState = state;
+		state = newState;
 	}
 
 	private int escenaTransporte; //Variable usada para saber en que escena se encuentran los teletransportes (ya que el orden de ejecución de onloadlevel no es fiable)
@@ -63,16 +63,16 @@ public class Manager : MonoBehaviour {
 	public static string rutaDatosInteractuableGuardados;
 	public static string rutaTiempo;
 	public static string rutaRutinas;
-	public static string rutaAutoRutinas;
-	public static string rutaAutoRutinasGuardadas;
+	public static string rutaAutorutinas;
+	public static string rutaAutorutinasGuardadas;
 	public static string rutaEventos;
 	public static string rutaEventosGuardados;
 	public static string rutaDatosAccion;
 	public static string rutaDatosAccionGuardados;
-	public static string rutaNPCDatos;
-	public static string rutaNPCDatosGuardados;
-	public static string rutaNPCDialogos;
-	public static string rutaNPCDialogosGuardados;
+	public static string rutaInterDatos;
+	public static string rutaInterDatosGuardados;
+	public static string rutaInterDialogos;
+	public static string rutaInterDialogosGuardados;
 	public static string rutaIntros;
 	public static string rutaTemaMensajes;
 	public static string rutaMensajes;
@@ -91,14 +91,14 @@ public class Manager : MonoBehaviour {
 	void Awake()
 	{
 		// First we check if there are any other instances conflicting
-		if(Instance != null && Instance != this)
+		if(instance != null && instance != this)
 		{
 			// If that is the case, we destroy other instances
 			Destroy(gameObject);
 		}
 
 		//Singleton pattern
-		Instance = this;
+		instance = this;
 
 		DontDestroyOnLoad(gameObject); //Hacemos que el objeto no pueda ser destruido entre escenas
 
@@ -114,30 +114,30 @@ public class Manager : MonoBehaviour {
 		rutaDatosInteractuableGuardados = Application.persistentDataPath + "/DatosInteractuable/";
 		rutaTiempo = Application.persistentDataPath + "/Tiempo/";
 		rutaRutinas = Application.dataPath + "/StreamingAssets/Rutinas/";
-		rutaAutoRutinas = Application.dataPath + "/StreamingAssets/Rutinas/AutoRutinas/";
-		rutaAutoRutinasGuardadas = Application.persistentDataPath + "/AutoRutinas/";
+		rutaAutorutinas = Application.dataPath + "/StreamingAssets/Rutinas/AutoRutinas/";
+		rutaAutorutinasGuardadas = Application.persistentDataPath + "/AutoRutinas/";
 		rutaEventos = Application.dataPath + "/StreamingAssets/Eventos/";
 		rutaEventosGuardados = Application.persistentDataPath + "/Eventos/";
 		rutaDatosAccion = Application.dataPath + "/StreamingAssets/DatosAccion/";
 		rutaDatosAccionGuardados = Application.persistentDataPath + "/DatosAccion/";
-		rutaNPCDatos = Application.dataPath + "/StreamingAssets/NPCDatos/";
-		rutaNPCDatosGuardados = Application.persistentDataPath + "/NPC_Datos_Saves/";
-		rutaNPCDialogos = Application.dataPath + "/StreamingAssets/NPCDialogue/";
-		rutaNPCDialogosGuardados = Application.persistentDataPath + "/NPC_Dialogo_Saves/";
+		rutaInterDatos = Application.dataPath + "/StreamingAssets/InterDatos/";
+		rutaInterDatosGuardados = Application.persistentDataPath + "InterDatosSaves/";
+		rutaInterDialogos = Application.dataPath + "/StreamingAssets/InterDialogo/";
+		rutaInterDialogosGuardados = Application.persistentDataPath + "/InterDialogoSaves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
-		rutaTemaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/XMLTemaMensajes/";
-		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLMensajes/";
-		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/";
+		rutaTemaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLMensajes/XMLTemaMensajes/";
+		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLMensajes/";
+		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLGrupos/";
 		rutaGruposModificados = Application.persistentDataPath + "/Grupos_Modificados/";
 		rutaGruposActivos = Application.persistentDataPath + "/Grupos_Activos/";
 		rutaGruposAcabados = Application.persistentDataPath + "/Grupos_Acabados/";
-		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLGrupos/Lanzador/";
+		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLGrupos/Lanzador/";
 		rutaInventario = Application.persistentDataPath + "/Inventario/";
 		rutaObjetoInventario = Application.dataPath + "/StreamingAssets/ObjetoInventario/";
 		rutaInventarioTienda = Application.dataPath + "/StreamingAssets/Tiendas/";
 		rutaTransportes = Application.dataPath + "/StreamingAssets/Transportes/";
 
-		rutaDialogoVacio = Application.dataPath + "/StreamingAssets/NPCDialogue/-1.xml";
+		rutaDialogoVacio = rutaInterDialogos + "-1.xml";
 
 		escenaTransporte = -1;
 		nombreJugador = "Jugador"; //Nombre por defecto del jugador
@@ -148,18 +148,18 @@ public class Manager : MonoBehaviour {
 		interactuablesCercanos = new List<GameObject>();
 		navMeshAgentRutasActivas = new List<NavMeshAgent>();
 		transportes = new Dictionary<int, List<GameObject>>();
-		ColaObjetos = new List<ColaObjeto>();
-		GruposActivos = new List<Grupo>();
-		GruposAcabados = new List<int>();
+		colaObjetos = new List<ColaObjeto>();
+		gruposActivos = new List<Grupo>();
+		gruposAcabados = new List<int>();
 		objetosRecientes = new List<ObjetoReciente>();
 
 		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
 		ComprobarArchivosDirectorios();
 
 		//Carga la lista de datos interactuables usados por las rutinas
-		cargarDatosInteractuable();
+		CargarDatosInteractuable();
 
-		comprobarEventosInicio(getHoraActual());
+		ComprobarEventosInicio(GetHoraActual());
 
 		//Empieza a calcular el tiempo hasta la siguiente sección de las noticias
 		StartCoroutine(SiguienteSeccion());
@@ -173,19 +173,19 @@ public class Manager : MonoBehaviour {
 		canvasGlobal = (GameObject)Instantiate(Resources.Load("CanvasPrefab"));
 		DontDestroyOnLoad(canvasGlobal); //Hacemos que el objeto no pueda ser destruido entre escenas
 
-		GameObject Obj = (GameObject)Instantiate(Resources.Load("Text Box Manager"));
-		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
+		GameObject objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Text Box Manager"));
+		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 
-		Obj = (GameObject)Instantiate(Resources.Load("EventSystem"));
-		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
+		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("EventSystem"));
+		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 
-		Obj = new GameObject("ManagerRutinas");
-		Obj.transform.SetParent(gameObject.transform, false);
-		Obj.AddComponent<ManagerRutinas>();
+		objetoTemporalGO = new GameObject("ManagerRutinas");
+		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
+		objetoTemporalGO.AddComponent<ManagerRutinas>();
 
-		Obj = (GameObject)Instantiate(Resources.Load("Ethan"));
-		DontDestroyOnLoad(Obj); //Hacemos que el objeto no pueda ser destruido entre escenas
-		Obj.transform.position = new Vector3(7.87f, 15.809f, -9.88f);
+		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Ethan"));
+		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
+		objetoTemporalGO.transform.position = new Vector3(7.87f, 15.809f, -9.88f);
 	}
 
 	//Crea algunos directorios al inicio del juego si no están creados, así como algunos ficheros
@@ -205,9 +205,9 @@ public class Manager : MonoBehaviour {
 			CargarManagerTiempo();
 		}
 
-		if (!System.IO.Directory.Exists(rutaAutoRutinasGuardadas))
+		if (!System.IO.Directory.Exists(rutaAutorutinasGuardadas))
 		{
-			System.IO.Directory.CreateDirectory(rutaAutoRutinasGuardadas);
+			System.IO.Directory.CreateDirectory(rutaAutorutinasGuardadas);
 		}
 
 		if (!System.IO.Directory.Exists(rutaEventosGuardados))
@@ -220,15 +220,15 @@ public class Manager : MonoBehaviour {
 			System.IO.Directory.CreateDirectory(rutaDatosAccionGuardados);
 		}
 
-		if (!System.IO.Directory.Exists(rutaNPCDatosGuardados))
+		if (!System.IO.Directory.Exists(rutaInterDatosGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaNPCDatosGuardados);
+			System.IO.Directory.CreateDirectory(rutaInterDatosGuardados);
 		}
 
 		//Creamos el directorio donde guardaremos los dialogos de los NPCs si no existe ya
-		if (!System.IO.Directory.Exists(rutaNPCDialogosGuardados))
+		if (!System.IO.Directory.Exists(rutaInterDialogosGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaNPCDialogosGuardados);
+			System.IO.Directory.CreateDirectory(rutaInterDialogosGuardados);
 		}
 
 		if (!System.IO.Directory.Exists(rutaGruposModificados))
@@ -291,44 +291,44 @@ public class Manager : MonoBehaviour {
 		managerTiempo.Serialize();
 	}
 		
-	public int getHoraActual()
+	public int GetHoraActual()
 	{
-		return managerTiempo.getHora();
+		return managerTiempo.GetHora();
 	}
 
 	//Carga los datos de interactuables situados en un directorio y los añade a la rutina
-	private void cargarDatosInteractuable()
+	private void CargarDatosInteractuable()
 	{
-		Datos_Interactuable dInter;
+		DatosInteractuable datosInteractuable;
 
-		var info = new DirectoryInfo(rutaDatosInteractuable);
-		var fileInfo = info.GetFiles().ToArray();
+		DirectoryInfo directoryInfo = new DirectoryInfo(rutaDatosInteractuable);
+		FileInfo[] fileInfo = directoryInfo.GetFiles().ToArray();
 
 		for(var j = 0; j < fileInfo.Length; j++)
 		{
 			if(Path.GetExtension(fileInfo[j].Name) == ".xml")
 			{
-				dInter = null;
+				datosInteractuable = null;
 
 				if (System.IO.File.Exists(rutaDatosInteractuableGuardados + fileInfo[j].Name))
 				{
-					dInter = DeserializeData<Datos_Interactuable>(rutaDatosInteractuableGuardados + fileInfo[j].Name);
+					datosInteractuable = DeserializeData<DatosInteractuable>(rutaDatosInteractuableGuardados + fileInfo[j].Name);
 				}
 				else if(System.IO.File.Exists(rutaDatosInteractuable + fileInfo[j].Name))
 				{
-					dInter = DeserializeData<Datos_Interactuable>(rutaDatosInteractuable + fileInfo[j].Name);
+					datosInteractuable = DeserializeData<DatosInteractuable>(rutaDatosInteractuable + fileInfo[j].Name);
 				}
 
 				//Si el archivo DatosInteractuable con el ID existe, lo cargamos en el Manager
-				if(dInter != null)
-					ManagerRutinas.Instance.cargarInteractuable(dInter);
+				if(datosInteractuable != null)
+					ManagerRutinas.instance.CargarInteractuable(datosInteractuable);
 			}
 		}
 	}
 
-	private void comprobarEventosInicio(int hora_actual)
+	private void ComprobarEventosInicio(int horaActual)
 	{
-		ManagerRutinas.Instance.comprobarEventosInicio(hora_actual);
+		ManagerRutinas.instance.ComprobarEventosInicio(horaActual);
 	}
 
 	//Carga los interactuables al cargar una escena
@@ -338,151 +338,151 @@ public class Manager : MonoBehaviour {
 		GuardarTiempo();
 
 		//Cargamos los interactuables de la escena
-		ManagerRutinas.Instance.CargarEscena(level);
+		ManagerRutinas.instance.CargarEscena(level);
 	}
 
 	//Crea un interactuable en la escena con las coordenadas y rotación especificadas
-	public void crearInteractuable(int IDInter, int tipo, Vector3 coord, Quaternion rot)
+	public void CrearInteractuable(int IDInteractuable, int tipo, Vector3 coord, Quaternion rot)
 	{
-		GameObject interactuable;
+		GameObject interactuableGO;
 
 		switch(tipo)
 		{
 		default:
 		case 0: //Tipo NPC
-			interactuable = (GameObject)Instantiate(Resources.Load("InteractuableNPC"));
-			InteractuableNPC iNPC = interactuable.gameObject.GetComponent<InteractuableNPC>();
-			iNPC.ID = IDInter;
+			interactuableGO = (GameObject)Instantiate(Resources.Load("InteractuableNPC"));
+			InteractuableNPC interactuableNPC = interactuableGO.gameObject.GetComponent<InteractuableNPC>();
+			interactuableNPC.ID = IDInteractuable;
 			break;
 		case 1: //Tipo Objeto
-			interactuable = (GameObject)Instantiate(Resources.Load("InteractuableObjeto"));
-			InteractuableObjeto iObj = interactuable.gameObject.GetComponent<InteractuableObjeto>();
-			iObj.ID = IDInter;
+			interactuableGO = (GameObject)Instantiate(Resources.Load("InteractuableObjeto"));
+			InteractuableObjeto interactuableObjeto = interactuableGO.gameObject.GetComponent<InteractuableObjeto>();
+			interactuableObjeto.ID = IDInteractuable;
 			break;
 		}
 
-		interactuable.transform.position = coord;
-		interactuable.transform.rotation = rot;
+		interactuableGO.transform.position = coord;
+		interactuableGO.transform.rotation = rot;
 	}
 
 	//Crea un interactuable en la escena en un transporte que conecta con la escena anterior
-	public void moverInteractuableDesdeOtraEscena(int IDInter, int tipo, int IDEscenaAnterior, Vector3 coord, Quaternion rot)
+	public void MoverInteractuableDesdeOtraEscena(int IDInteractuable, int tipo, int IDEscenaAnterior, Vector3 coord, Quaternion rot)
 	{
-		GameObject interactuable;
+		GameObject interactuableGO;
 
 		switch(tipo)
 		{
 		default:
 		case 0: //Tipo NPC
-			interactuable = (GameObject)Instantiate(Resources.Load("InteractuableNPC"));
-			InteractuableNPC iNPC = interactuable.gameObject.GetComponent<InteractuableNPC>();
-			iNPC.ID = IDInter;
+			interactuableGO = (GameObject)Instantiate(Resources.Load("InteractuableNPC"));
+			InteractuableNPC interactuableNPC = interactuableGO.gameObject.GetComponent<InteractuableNPC>();
+			interactuableNPC.ID = IDInteractuable;
 
 			//Si el interactuable es de tipo NPC, lo creamos en un transporte
-			GameObject transporte = EncontrarTransporteEscena(IDEscenaAnterior);
+			GameObject transporteGO = EncontrarTransporteEscena(IDEscenaAnterior);
 
-			if(transporte != null)
+			if(transporteGO != null)
 			{
-				interactuable.transform.position = transporte.transform.position;
-				iNPC.SetRuta(coord);
+				interactuableGO.transform.position = transporteGO.transform.position;
+				interactuableNPC.SetRuta(coord);
 
 				GameObject rutaColliderGO = new GameObject("RutaCollider");
 				rutaColliderGO.transform.position = coord;
-				BoxCollider collider = rutaColliderGO.AddComponent<BoxCollider>();
-				collider.size =  new Vector3(3.7f, 6.68f, 1f);
-				collider.isTrigger = true;
+				BoxCollider boxCollider = rutaColliderGO.AddComponent<BoxCollider>();
+				boxCollider.size =  new Vector3(3.7f, 6.68f, 1f);
+				boxCollider.isTrigger = true;
 
-				RutaCollider rc = rutaColliderGO.AddComponent<RutaCollider>();
-				rc.setIDInteractuable(IDInter);
+				RutaCollider rutaCollider = rutaColliderGO.AddComponent<RutaCollider>();
+				rutaCollider.setIDInteractuable(IDInteractuable);
 
-				if(transporte.GetComponent<TransporteInter>().comprobarSiEsTransporteObjeto())
+				if(transporteGO.GetComponent<TransporteInter>().ComprobarSiEsTransporteObjeto())
 				{
-					transporte.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(false);
+					transporteGO.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(false);
 
-					GameObject saliendoColliderGO = new GameObject("TransporteCollider");
-					saliendoColliderGO.transform.SetParent(transporte.transform, false);
-					BoxCollider colliderSaliendo = saliendoColliderGO.AddComponent<BoxCollider>();
-					colliderSaliendo.size =  new Vector3(3.7f, 6.68f, 1f);
-					colliderSaliendo.isTrigger = true;
+					GameObject transporteColliderGO = new GameObject("TransporteCollider");
+					transporteColliderGO.transform.SetParent(transporteGO.transform, false);
+					BoxCollider boxcollider = transporteColliderGO.AddComponent<BoxCollider>();
+					boxcollider.size =  new Vector3(3.7f, 6.68f, 1f);
+					boxcollider.isTrigger = true;
 
-					SaliendoTransporteCollider saliendoCollider = saliendoColliderGO.AddComponent<SaliendoTransporteCollider>();
+					SaliendoTransporteCollider saliendoTransporteCollider = transporteColliderGO.AddComponent<SaliendoTransporteCollider>();
 
-					saliendoCollider.setIDInteractuable(IDInter);
-					saliendoCollider.setTransporte(transporte);
+					saliendoTransporteCollider.setIDInteractuable(IDInteractuable);
+					saliendoTransporteCollider.setTransporte(transporteGO);
 				}
 			}
 			else
 			{
-				interactuable.transform.position = coord;
-				interactuable.transform.rotation = rot;
+				interactuableGO.transform.position = coord;
+				interactuableGO.transform.rotation = rot;
 			}
 			break;
 		case 1: //Tipo Objeto
 			//Si el interatuable es de tipo objeto, lo creamos directamente
-			interactuable = (GameObject)Instantiate(Resources.Load("InteractuableObjeto"));
-			InteractuableObjeto iObj = interactuable.gameObject.GetComponent<InteractuableObjeto>();
-			iObj.ID = IDInter;
+			interactuableGO = (GameObject)Instantiate(Resources.Load("InteractuableObjeto"));
+			InteractuableObjeto interactuableObjeto = interactuableGO.gameObject.GetComponent<InteractuableObjeto>();
+			interactuableObjeto.ID = IDInteractuable;
 
-			interactuable.transform.position = coord;
-			interactuable.transform.rotation = rot;
+			interactuableGO.transform.position = coord;
+			interactuableGO.transform.rotation = rot;
 			break;
 		}
 	}
 
-	public void moverInteractuableEnEscena(int tipo, int IDInter, Vector3 coord, Quaternion rot)
+	public void MoverInteractuableEnEscena(int tipo, int IDInteractuable, Vector3 coord, Quaternion rot)
 	{
-		GameObject Inter = GetInteractuable(IDInter);
+		GameObject interactuable = GetInteractuable(IDInteractuable);
 
 		//Si el interactuable no es un NPC, lo movemos directamente
 		if(tipo != 0)
 		{
-			Inter.transform.position = coord;
-			Inter.transform.rotation = rot;
+			interactuable.transform.position = coord;
+			interactuable.transform.rotation = rot;
 		}
 		//Si es un NPC, establecemos la ruta que debe seguir, si el NPC no se encuentra ya en exactamente esa posición
-		else if(Inter.transform.position != coord)
+		else if(interactuable.transform.position != coord)
 		{
-			InteractuableNPC intNPC = Inter.GetComponent<InteractuableNPC>();
-			intNPC.SetRuta(coord);
+			InteractuableNPC interactuableNPC = interactuable.GetComponent<InteractuableNPC>();
+			interactuableNPC.SetRuta(coord);
 		}
 	}
 
-	public void moverInteractuableHaciaOtraEscena(int tipo, int IDInter, int IDEscena)
+	public void MoverInteractuableHaciaOtraEscena(int tipo, int IDInteractuable, int IDEscena)
 	{
-		GameObject Inter = GetInteractuable(IDInter);
+		GameObject interactuableGO = GetInteractuable(IDInteractuable);
 
 		if(tipo != 0)
 		{
-			Destroy(Inter);
+			Destroy(interactuableGO);
 		}
 		//Si es de tipo NPC, buscamos un transporte al que movernos
 		else
 		{
-			GameObject transporteMasCercano = encontrarTransporteInteractuable(Inter, IDEscena);
+			GameObject transporteMasCercano = EncontrarTransporteInteractuable(interactuableGO, IDEscena);
 
 			if(transporteMasCercano != null)
 			{
-				Inter.GetComponent<InteractuableNPC>().SetRuta(transporteMasCercano.transform.position);
+				interactuableGO.GetComponent<InteractuableNPC>().SetRuta(transporteMasCercano.transform.position);
 
 				GameObject transporteColliderGO = new GameObject("TransporteCollider");
 				transporteColliderGO.transform.SetParent(transporteMasCercano.transform, false);
-				BoxCollider collider = transporteColliderGO.AddComponent<BoxCollider>();
-				collider.size =  new Vector3(3.7f, 6.68f, 1f);
-				collider.isTrigger = true;
+				BoxCollider boxCollider = transporteColliderGO.AddComponent<BoxCollider>();
+				boxCollider.size =  new Vector3(3.7f, 6.68f, 1f);
+				boxCollider.isTrigger = true;
 
-				TransporteCollider tc = transporteColliderGO.AddComponent<TransporteCollider>();
-				tc.setIDInteractuable(IDInter);
+				TransporteCollider transporteCollider = transporteColliderGO.AddComponent<TransporteCollider>();
+				transporteCollider.setIDInteractuable(IDInteractuable);
 
-				if(transporteMasCercano.GetComponent<TransporteInter>().comprobarSiEsTransporteObjeto())
+				if(transporteMasCercano.GetComponent<TransporteInter>().ComprobarSiEsTransporteObjeto())
 				{
 					transporteMasCercano.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(false);
-					tc.setTransporte(transporteMasCercano);
+					transporteCollider.setTransporte(transporteMasCercano);
 				}
 			}
 			//si no existe un transporte que nos lleve a la escena que queremos, destruimos el interactuable
 			else
 			{
-				Destroy(Inter);
+				Destroy(interactuableGO);
 			}
 		}
 	}
@@ -494,16 +494,16 @@ public class Manager : MonoBehaviour {
 		{
 			yield return new WaitForSeconds (1f);
 
-			switch(State)
+			switch(state)
 			{
 			case EstadoJuego.Activo:
-				managerTiempo.avanzaMinutos();
+				managerTiempo.AvanzaMinutos();
 
 				//Si pasa una hora
-				if(managerTiempo.continuaHora())
+				if(managerTiempo.ContinuaHora())
 				{
 					//Aumentamos la hora
-					managerTiempo.avanzaHora();
+					managerTiempo.AvanzaHora();
 
 					//Comprobamos que rutinas avanzamos
 					ComprobarRutinas();
@@ -518,17 +518,17 @@ public class Manager : MonoBehaviour {
 	//Comprueba las rutinas en el ManagerRutinas
 	private void ComprobarRutinas()
 	{
-		ManagerRutinas.Instance.ComprobarRutinas(managerTiempo.getHora());
+		ManagerRutinas.instance.ComprobarRutinas(managerTiempo.GetHora());
 	}
 
-	public void cambiarRutina(int IDRutina)
+	public void CambiarRutina(int IDRutina)
 	{
-		ManagerRutinas.Instance.cargarRutina(IDRutina, false, false);
+		ManagerRutinas.instance.CargarRutina(IDRutina, false, false);
 	}
 
 	//MIRAR SI SE PUEDE ESTANDARIZAR, AÑADIR COSAS QUE SE LLAMAN AL USAR ESTA FUNCIÓN
 	//Establece el estado de pausa
-	public void setPausa(bool pausa)
+	public void SetPausa(bool pausa)
 	{
 		if(pausa)
 			SetState(EstadoJuego.Pausa);
@@ -544,24 +544,24 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public void AddToInteractuables(int id, GameObject gobj)
+	public void AddToInteractuables(int IDInteractuable, GameObject gameobject)
 	{
-		interactuables[id] = gobj;
+		interactuables[IDInteractuable] = gameobject;
 	}
 
-	public void RemoveFromInteractuables(int id)
+	public void RemoveFromInteractuables(int IDInteractuable)
 	{
-		interactuables.Remove(id);
+		interactuables.Remove(IDInteractuable);
 	}
 
 	//Devuelve el GameObject con el id especificado, sino existe, el gameobject devuelto es null
-	public GameObject GetInteractuable(int id)
+	public GameObject GetInteractuable(int IDInteractuable)
 	{
-		GameObject npc;
+		GameObject interactuableGO;
 
-		interactuables.TryGetValue(id,out npc);
+		interactuables.TryGetValue(IDInteractuable,out interactuableGO);
 
-		return npc;
+		return interactuableGO;
 	}
 
 	//Devuelve una lista compuesta por los elementos del diccionario interactuables
@@ -574,13 +574,13 @@ public class Manager : MonoBehaviour {
 
 	//CREAR OTRA FUNCIÓN DE ACTUALIZAR ACCIONES DONDE NO INTERVENGA EL INVENTARIO, PARA CUANDO SE ACTUALICEN LAS VARIABLES DE UN OBJETO
 
-	public void actualizarAcciones(Inventario inventario)
+	public void ActualizarAcciones(Inventario inventario)
 	{
 		foreach(var entry in interactuables.Values)
 		{
 			// do something with entry.Value or entry.Key
-			Interactuable inter = entry.GetComponent<Interactuable>() as Interactuable;
-			inter.RecargarAcciones(inventario);
+			Interactuable interactuable = entry.GetComponent<Interactuable>() as Interactuable;
+			interactuable.RecargarAcciones(inventario);
 		}
 	}
 
@@ -592,24 +592,24 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public int devuelveNumeroInteractuablesCercanos()
+	public int DevuelveNumeroInteractuablesCercanos()
 	{
 		return interactuablesCercanos.Count;
 	}
 
-	public GameObject devuelveInteractuableCercano(int num)
+	public GameObject DevuelveInteractuableCercano(int num)
 	{
 		return interactuablesCercanos[num];
 	}
 
-	public void addInteractuableCercano(GameObject gObj)
+	public void AddInteractuableCercano(GameObject gameobject)
 	{
-		interactuablesCercanos.Add(gObj);
+		interactuablesCercanos.Add(gameobject);
 	}
 
-	public void deleteInteractuableCercano(GameObject gObj)
+	public void DeleteInteractuableCercano(GameObject gameobject)
 	{
-		interactuablesCercanos.Remove(gObj);
+		interactuablesCercanos.Remove(gameobject);
 	}
 
 	/*
@@ -620,19 +620,19 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public void addNavMeshAgent(NavMeshAgent nav)
+	public void AddNavMeshAgent(NavMeshAgent navMeshAgent)
 	{
-		if(!navMeshAgentRutasActivas.Contains(nav))
-			navMeshAgentRutasActivas.Add(nav);
+		if(!navMeshAgentRutasActivas.Contains(navMeshAgent))
+			navMeshAgentRutasActivas.Add(navMeshAgent);
 	}
 
-	public void deleteNavhMeshAgent(NavMeshAgent nav)
+	public void DeleteNavhMeshAgent(NavMeshAgent navMeshAgent)
 	{
-		navMeshAgentRutasActivas.Remove(nav);
+		navMeshAgentRutasActivas.Remove(navMeshAgent);
 	}
 
 	//Pausa las navMesh de la lista de navMesh con rutas activas
-	public void stopNavMeshAgents()
+	public void StopNavMeshAgents()
 	{
 		for(int i = 0; i < navMeshAgentRutasActivas.Count; i++)
 		{
@@ -642,7 +642,7 @@ public class Manager : MonoBehaviour {
 	}
 
 	//Reanuda las navMesh de la lista de navMesh con rutas activas
-	public void resumeNavMeshAgents()
+	public void ResumeNavMeshAgents()
 	{
 		for(int i = 0; i < navMeshAgentRutasActivas.Count; i++)
 		{
@@ -659,7 +659,7 @@ public class Manager : MonoBehaviour {
 	 */
 
 	//Añadimos el transporte al diccionario de transportes
-	public void anyadirTransporte(int numEscenaTransporte, GameObject transporte, List<int> escenas)
+	public void AnyadirTransporte(int numEscenaTransporte, GameObject transporteGO, List<int> escenas)
 	{
 		//Si la escena del transporte no se corresponde a la escena del Manager, significa que hemos cambiado
 		//de escena, vaciamos el diccionario de transportes
@@ -680,13 +680,13 @@ public class Manager : MonoBehaviour {
 				transportes.Add(escenas[i], listaTransportes);
 			}
 	
-			listaTransportes.Add(transporte);
+			listaTransportes.Add(transporteGO);
 		}
 	}
 
 	//Busca el transporte más cercano del interactuable especificado hacia la IDEscena especificada
 	//Devuelve un GameObject null si no ha encontrado ninguno
-	private GameObject encontrarTransporteInteractuable(GameObject interactuable, int IDEscena)
+	private GameObject EncontrarTransporteInteractuable(GameObject interactuableGO, int IDEscena)
 	{
 		List<GameObject> listaTransportes;
 		GameObject transporteMasCercano = null;
@@ -697,7 +697,7 @@ public class Manager : MonoBehaviour {
 
 			for(int i = 0; i < listaTransportes.Count; i++)
 			{
-				float distancia = Vector3.Distance(interactuable.transform.position, listaTransportes[i].transform.position);
+				float distancia = Vector3.Distance(interactuableGO.transform.position, listaTransportes[i].transform.position);
 				if (distancia < distanciaMasCercana)
 				{
 					distanciaMasCercana = distancia;
@@ -724,10 +724,10 @@ public class Manager : MonoBehaviour {
 
 		if (transportes.TryGetValue(IDEscena, out listaTransportes))
 		{
-			System.Random rnd = new System.Random();
+			System.Random random = new System.Random();
 
 			//Cogemos un transporte aleatorio de la lista
-			transporteMasCercano = listaTransportes[rnd.Next(listaTransportes.Count-1)];
+			transporteMasCercano = listaTransportes[random.Next(listaTransportes.Count-1)];
 		}
 
 		return transporteMasCercano;
@@ -735,22 +735,22 @@ public class Manager : MonoBehaviour {
 
 	public GameObject EncontrarTransporte(int IDTransporte)
 	{
-		GameObject transporte = null;
+		GameObject transporteGO = null;
 
 		foreach(var entry in transportes.Values)
 		{
 			for(int i = 0; i < entry.Count; i++)
 			{
-				TransporteInter trans = entry[i].GetComponent<TransporteInter>();
+				TransporteInter transporteInter = entry[i].GetComponent<TransporteInter>();
 
-				if(trans.ID == IDTransporte)
+				if(transporteInter.ID == IDTransporte)
 				{
-					transporte = entry[i];
+					transporteGO = entry[i];
 				}
 			}
 		}
 
-		return transporte;
+		return transporteGO;
 	}
 
 	/*
@@ -761,73 +761,73 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public void AddToGruposActivos(Grupo g)
+	public void AddToGruposActivos(Grupo grupo)
 	{
-		GruposActivos.Add(g);
+		gruposActivos.Add(grupo);
 	}
 
-	public bool GrupoActivoExiste(int id)
+	public bool GrupoActivoExiste(int IDGrupo)
 	{
-		return GruposActivos.Any(x => x.IDGrupo == id);
+		return gruposActivos.Any(x => x.IDGrupo == IDGrupo);
 	}
 		
-	public bool GrupoAcabadoExiste(int id)
+	public bool GrupoAcabadoExiste(int IDGrupo)
 	{
-		return GruposAcabados.IndexOf(id) != -1;
+		return gruposAcabados.IndexOf(IDGrupo) != -1;
 	}
 
 	//Devuelve un grupo activo con el id especificado, null si no existe en la lista
-	public Grupo DevolverGrupoActivo(int id)
+	public Grupo DevolverGrupoActivo(int IDGrupo)
 	{
-		return GruposActivos.Find (x => x.DevolverIDGrupo () == id);
+		return gruposActivos.Find (x => x.DevolverIDGrupo () == IDGrupo);
 	}
 
 	//Elimina el grupo indicado de la lista de grupos activos
 	//y lo añade a la de grupos acabados, aunque no estuviera en los grupos activos
-	public void RemoveFromGruposActivos(int id)
+	public void RemoveFromGruposActivos(int IDGrupo)
 	{
 		//Buscamos el grupo en la lista de grupos activos
-		Grupo g = DevolverGrupoActivo(id);
+		Grupo grupo = DevolverGrupoActivo(IDGrupo);
 
-		if (g != null)
+		if (grupo != null)
 		{
-			GruposActivos.Remove (g); //lo borramos de la lista de grupos activos
+			gruposActivos.Remove (grupo); //lo borramos de la lista de grupos activos
 		}
 
 		//El grupo se añade a la lista de grupos acabados, estuviera o no en
 		//la lista de grupos activos
-		GruposAcabados.Add (id); //Añadimos la id del grupo acabado
+		gruposAcabados.Add (IDGrupo); //Añadimos la id del grupo acabado
 
 		//Buscamos si el grupo estaba en la lista de grupos modificados
 		//y lo borramos de ahí también
-		if(System.IO.File.Exists(rutaGruposModificados + id.ToString () + ".xml"))
+		if(System.IO.File.Exists(rutaGruposModificados + IDGrupo.ToString () + ".xml"))
 		{
-			System.IO.File.Delete(rutaGruposModificados + id.ToString () + ".xml");
+			System.IO.File.Delete(rutaGruposModificados + IDGrupo.ToString () + ".xml");
 		}
 	}
 
 	//Suma a una variable situada en la posicion num de la lista de variables de un grupo activo el valor
-	public void AddVariablesGrupo(int id, int num, int valor)
+	public void AddVariablesGrupo(int IDGrupo, int num, int valor)
 	{
-		int indice = GruposActivos.FindIndex(x => x.IDGrupo == id);
-		GruposActivos[indice].variables[num] += valor;
+		int indice = gruposActivos.FindIndex(x => x.IDGrupo == IDGrupo);
+		gruposActivos[indice].variables[num] += valor;
 	}
 
 	//Establece a una variable situada en la posicion num de la lista de variables de un grupo activo el valor
-	public void SetVariablesGrupo(int id, int num, int valor)
+	public void SetVariablesGrupo(int IDGrupo, int num, int valor)
 	{
-		int indice = GruposActivos.FindIndex(x => x.IDGrupo == id);
-		GruposActivos[indice].variables[num] = valor;
+		int indice = gruposActivos.FindIndex(x => x.IDGrupo == IDGrupo);
+		gruposActivos[indice].variables[num] = valor;
 	}
 
 	private void CargarGruposActivos()
 	{
-		GruposActivos = DeserializeData<List<Grupo>>(rutaGruposActivos + "GruposActivos.xml");
+		gruposActivos = DeserializeData<List<Grupo>>(rutaGruposActivos + "GruposActivos.xml");
 	}
 
 	private void CargarGruposAcabados()
 	{
-		GruposAcabados = DeserializeData<List<int>>(rutaGruposAcabados + "GruposAcabados.xml");
+		gruposAcabados = DeserializeData<List<int>>(rutaGruposAcabados + "GruposAcabados.xml");
 	}
 
 	public void GuardarGruposActivos()
@@ -835,15 +835,15 @@ public class Manager : MonoBehaviour {
 		//Antes de serializar los grupos activos, comprueba si
 		//entre ellos hay algún grupo modificado para eliminar su fichero
 		ComprobarGruposModificados();
-		SerializeData(GruposActivos, rutaGruposActivos, "GruposActivos.xml");
+		SerializeData(gruposActivos, rutaGruposActivos, "GruposActivos.xml");
 	}
 
 	//Borra los ficheros de grupos modificados que ahora son grupos activos
 	public void ComprobarGruposModificados()
 	{
-		for(int i = 0; i < GruposActivos.Count; i++)
+		for(int i = 0; i < gruposActivos.Count; i++)
 		{
-			int ID = GruposActivos[i].DevolverIDGrupo();
+			int ID = gruposActivos[i].DevolverIDGrupo();
 
 			if(System.IO.File.Exists(rutaGruposModificados + ID.ToString () + ".xml"))
 			{
@@ -854,7 +854,7 @@ public class Manager : MonoBehaviour {
 
 	public void GuardarGruposAcabados()
 	{
-		SerializeData(GruposAcabados, rutaGruposAcabados, "GruposAcabados.xml");
+		SerializeData(gruposAcabados, rutaGruposAcabados, "GruposAcabados.xml");
 	}
 
 	/*
@@ -865,23 +865,23 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public int devuelveNumeroObjetosRecientes()
+	public int DevuelveNumeroObjetosRecientes()
 	{
 		return objetosRecientes.Count;
 	}
 
 	//Devuelve un objeto reciente situado en la posición num de la lista de objetosRecientes
-	public string devuelveNombreObjetoReciente(int num)
+	public string DevuelveNombreObjetoReciente(int num)
 	{
 		return objetosRecientes[num].DevuelveObjeto().nombre;
 	}
 
-	public void addObjetoReciente(ObjetoInventario obj, int cantidad)
+	public void AddObjetoReciente(ObjetoInventario objetoInventario, int cantidad)
 	{
-		objetosRecientes.Add(new ObjetoReciente(obj, cantidad));
+		objetosRecientes.Add(new ObjetoReciente(objetoInventario, cantidad));
 	}
 
-	public void vaciarObjetosRecientes()
+	public void VaciarObjetosRecientes()
 	{
 		objetosRecientes.Clear();
 	}
@@ -894,37 +894,37 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	public void AddToColaObjetos(string path, ObjetoSerializable obj)
+	public void AddToColaObjetos(string path, ObjetoSerializable objetoSerializable)
 	{
 		//Comprobamos si ya existe el objeto indicado
 		//Si ya existe, lo eliminamos
 		if (ColaObjetoExiste(path))
 			RemoveFromColaObjetos(path);
 
-		ColaObjeto item = new ColaObjeto(obj, path);
-		ColaObjetos.Add(item);
+		ColaObjeto colaObjeto = new ColaObjeto(objetoSerializable, path);
+		colaObjetos.Add(colaObjeto);
 	}
 
 	public bool ColaObjetoExiste(string path)
 	{
-		return ColaObjetos.Any(x => x.GetRuta() == path);
+		return colaObjetos.Any(x => x.GetRuta() == path);
 	}
 
 	public ColaObjeto GetColaObjetos(string path)
 	{
-		return ColaObjetos.Find (x => x.GetRuta() == path);
+		return colaObjetos.Find (x => x.GetRuta() == path);
 	}
 
 	//Devuelve una lista con objetosSerializables solo del tipo pasado
-	public List<ObjetoSerializable> GetColaObjetosTipo(Type tip)
+	public List<ObjetoSerializable> GetColaObjetosTipo(Type tipo)
 	{
 		List<ObjetoSerializable> listaObjetos = new List<ObjetoSerializable>();
 
-		for(int i = 0; i < ColaObjetos.Count; i++)
+		for(int i = 0; i < colaObjetos.Count; i++)
 		{
-			if(ColaObjetos[i].GetObjeto().GetType() == tip)
+			if(colaObjetos[i].GetObjeto().GetType() == tipo)
 			{
-				listaObjetos.Add(ColaObjetos[i].GetObjeto());
+				listaObjetos.Add(colaObjetos[i].GetObjeto());
 			}
 		}
 
@@ -937,30 +937,30 @@ public class Manager : MonoBehaviour {
 
 		if (cobj != null)
 		{
-			ColaObjetos.Remove(cobj);
+			colaObjetos.Remove(cobj);
 		}
 	}
 
 	//Guardamos los objetos de la cola y la vaciamos
 	public void SerializarCola()
 	{
-		for(var i = 0; i < ColaObjetos.Count; i++)
+		for(var i = 0; i < colaObjetos.Count; i++)
 		{
-			string ruta = ColaObjetos[i].GetRuta();
-			ObjetoSerializable obj = ColaObjetos[i].GetObjeto();
+			string ruta = colaObjetos[i].GetRuta();
+			ObjetoSerializable objetoSerializable = colaObjetos[i].GetObjeto();
 
-			SerializeData(obj, Path.GetDirectoryName(ruta), Path.GetFileName(ruta));
+			SerializeData(objetoSerializable, Path.GetDirectoryName(ruta), Path.GetFileName(ruta));
 
 			//Si el inventario se ha actualizado, actualizamos el estado
 			//de las acciones de los interactuables
 			if(ruta == rutaInventario + "Inventario.xml")
 			{
-				Inventario inventario = obj as Inventario;
-				actualizarAcciones(inventario);
+				Inventario inventario = objetoSerializable as Inventario;
+				ActualizarAcciones(inventario);
 			}
 		}
 
-		ColaObjetos.Clear();
+		colaObjetos.Clear();
 	}
 
 	//Guarda los datos de la partida

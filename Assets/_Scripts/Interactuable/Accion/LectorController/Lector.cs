@@ -13,18 +13,18 @@ public class Lector : MonoBehaviour {
 
 	public void CargarValor(int IDObjeto, int numVariable, int valorNegativo)
 	{
-		GameObject interactuableGO = Manager.Instance.GetInteractuable(IDObjeto);
+		GameObject interactuableGO = Manager.instance.GetInteractuable(IDObjeto);
 
 		if(interactuableGO == null)
 		{
 			//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
-			if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + IDObjeto.ToString()  + ".xml"))
+			if (System.IO.File.Exists(Manager.rutaInterDatosGuardados + IDObjeto.ToString()  + ".xml"))
 			{
-				datos = ObjetoDatos.LoadInterDatos(Manager.rutaNPCDatosGuardados + IDObjeto.ToString()  + ".xml");
+				datos = ObjetoDatos.LoadInterDatos(Manager.rutaInterDatosGuardados + IDObjeto.ToString()  + ".xml");
 			}
 			else
 			{
-				datos = ObjetoDatos.LoadInterDatos(Manager.rutaNPCDatos + IDObjeto.ToString()  + ".xml");
+				datos = ObjetoDatos.LoadInterDatos(Manager.rutaInterDatos + IDObjeto.ToString()  + ".xml");
 			}
 		}
 		else
@@ -93,7 +93,7 @@ public class Lector : MonoBehaviour {
 			//CAMBIAR EN EL FUTURO
 			//Buscamos el inventario en la colaobjetos
 			Inventario inventario;
-			ColaObjeto inventarioCola = Manager.Instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
+			ColaObjeto inventarioCola = Manager.instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
 
 			//Se ha encontrado en la cola de objetos
 			if(inventarioCola != null)
@@ -114,7 +114,7 @@ public class Lector : MonoBehaviour {
 					inventario = new Inventario();
 				}
 			}
-			Manager.Instance.actualizarAcciones(inventario);
+			Manager.instance.ActualizarAcciones(inventario);
 		}
 	}
 }

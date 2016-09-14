@@ -96,11 +96,11 @@ public class TP_Controller : MonoBehaviour
 			activado = true;
 
 			GameObject InventarioManager = (GameObject)Instantiate(Resources.Load("PanelInventarioPrefab"));
-			InventarioManager.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
+			InventarioManager.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 			SetState(State.Dialogo);
-			Manager.Instance.setPausa(true);
-			Manager.Instance.stopNavMeshAgents();
+			Manager.instance.SetPausa(true);
+			Manager.instance.StopNavMeshAgents();
 			Cursor.visible = true; //Muestra el cursor del ratón
 			Camera.main.GetComponent<TP_Camera>().setObjectMode();
 		}

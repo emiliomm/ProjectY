@@ -270,33 +270,33 @@ public class TP_Camera : MonoBehaviour
 
 		//Dibujamos 4 lineas que van desde el lookAt hasta ĺos 4 puntos de la cámara
 		Debug.DrawLine(from, to + transform.forward * -Camera.main.nearClipPlane, Color.red); //linea situada detras de la camara desde el centro
-		Debug.DrawLine(from, clipPlanePoints.UpperLeft);
-		Debug.DrawLine(from, clipPlanePoints.LowerLeft);
-		Debug.DrawLine(from, clipPlanePoints.UpperRight);
-		Debug.DrawLine(from, clipPlanePoints.LowerRight);
+		Debug.DrawLine(from, clipPlanePoints.upperLeft);
+		Debug.DrawLine(from, clipPlanePoints.lowerLeft);
+		Debug.DrawLine(from, clipPlanePoints.upperRight);
+		Debug.DrawLine(from, clipPlanePoints.lowerRight);
 
 		//Dibujamos el rectángulo de visión de la cámara
-		Debug.DrawLine(clipPlanePoints.UpperLeft, clipPlanePoints.UpperRight);
-		Debug.DrawLine(clipPlanePoints.UpperRight, clipPlanePoints.LowerRight);
-		Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft);
-		Debug.DrawLine(clipPlanePoints.LowerLeft, clipPlanePoints.UpperLeft);
+		Debug.DrawLine(clipPlanePoints.upperLeft, clipPlanePoints.upperRight);
+		Debug.DrawLine(clipPlanePoints.upperRight, clipPlanePoints.lowerRight);
+		Debug.DrawLine(clipPlanePoints.lowerRight, clipPlanePoints.lowerLeft);
+		Debug.DrawLine(clipPlanePoints.lowerLeft, clipPlanePoints.upperLeft);
 
 		//Comprobamos que hemos dado a algo que no es la layermask
-		if (Physics.Linecast(from, clipPlanePoints.UpperLeft, out hitInfo, layerMask))
+		if (Physics.Linecast(from, clipPlanePoints.upperLeft, out hitInfo, layerMask))
 			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.LowerLeft, out hitInfo, layerMask))
+		if (Physics.Linecast(from, clipPlanePoints.lowerLeft, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.UpperRight, out hitInfo, layerMask))
+		if (Physics.Linecast(from, clipPlanePoints.upperRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(from, clipPlanePoints.LowerRight, out hitInfo, layerMask))
+		if (Physics.Linecast(from, clipPlanePoints.lowerRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
@@ -319,39 +319,39 @@ public class TP_Camera : MonoBehaviour
 		Helper.ClipPlanePoints clipPlanePoints2 = Helper.ClipPlaneAtNear(from); //cogemos el rectangulo de vision
 
 		//Dibujamos 4 lineas que van desde el lookAt hasta ĺos 4 puntos de la cámara
-		Debug.DrawLine(clipPlanePoints2.UpperLeft, clipPlanePoints.UpperLeft, Color.red);
-		Debug.DrawLine(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, Color.red);
-		Debug.DrawLine(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, Color.red);
-		Debug.DrawLine(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, Color.red);
+		Debug.DrawLine(clipPlanePoints2.upperLeft, clipPlanePoints.upperLeft, Color.red);
+		Debug.DrawLine(clipPlanePoints2.lowerLeft, clipPlanePoints.lowerLeft, Color.red);
+		Debug.DrawLine(clipPlanePoints2.upperRight, clipPlanePoints.upperRight, Color.red);
+		Debug.DrawLine(clipPlanePoints2.lowerRight, clipPlanePoints.lowerRight, Color.red);
 
 		//Dibujamos el rectángulo de visión de la cámara
-		Debug.DrawLine(clipPlanePoints.UpperLeft, clipPlanePoints.UpperRight, Color.red);
-		Debug.DrawLine(clipPlanePoints.UpperRight, clipPlanePoints.LowerRight, Color.red);
-		Debug.DrawLine(clipPlanePoints.LowerRight, clipPlanePoints.LowerLeft, Color.red);
-		Debug.DrawLine(clipPlanePoints.LowerLeft, clipPlanePoints.UpperLeft, Color.red);
+		Debug.DrawLine(clipPlanePoints.upperLeft, clipPlanePoints.upperRight, Color.red);
+		Debug.DrawLine(clipPlanePoints.upperRight, clipPlanePoints.lowerRight, Color.red);
+		Debug.DrawLine(clipPlanePoints.lowerRight, clipPlanePoints.lowerLeft, Color.red);
+		Debug.DrawLine(clipPlanePoints.lowerLeft, clipPlanePoints.upperLeft, Color.red);
 
 		//Dibujamos el rectángulo de visión 2 de la cámara
-		Debug.DrawLine(clipPlanePoints2.UpperLeft, clipPlanePoints2.UpperRight, Color.red);
-		Debug.DrawLine(clipPlanePoints2.UpperRight, clipPlanePoints2.LowerRight, Color.red);
-		Debug.DrawLine(clipPlanePoints2.LowerRight, clipPlanePoints2.LowerLeft, Color.red);
-		Debug.DrawLine(clipPlanePoints2.LowerLeft, clipPlanePoints2.UpperLeft, Color.red);
+		Debug.DrawLine(clipPlanePoints2.upperLeft, clipPlanePoints2.upperRight, Color.red);
+		Debug.DrawLine(clipPlanePoints2.upperRight, clipPlanePoints2.lowerRight, Color.red);
+		Debug.DrawLine(clipPlanePoints2.lowerRight, clipPlanePoints2.lowerLeft, Color.red);
+		Debug.DrawLine(clipPlanePoints2.lowerLeft, clipPlanePoints2.upperLeft, Color.red);
 
 		//Comprobamos que hemos dado a algo que no es la layermask
-		if (Physics.Linecast(clipPlanePoints2.UpperLeft, clipPlanePoints.UpperLeft, out hitInfo, layerMask))
+		if (Physics.Linecast(clipPlanePoints2.upperLeft, clipPlanePoints.upperLeft, out hitInfo, layerMask))
 			nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(clipPlanePoints2.LowerLeft, clipPlanePoints.LowerLeft, out hitInfo, layerMask))
+		if (Physics.Linecast(clipPlanePoints2.lowerLeft, clipPlanePoints.lowerLeft, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(clipPlanePoints2.UpperRight, clipPlanePoints.UpperRight, out hitInfo, layerMask))
+		if (Physics.Linecast(clipPlanePoints2.upperRight, clipPlanePoints.upperRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 
 		//Si le hemos dado a algo mas cercano, cambiamos la distancia mas cercana
-		if (Physics.Linecast(clipPlanePoints2.LowerRight, clipPlanePoints.LowerRight, out hitInfo, layerMask))
+		if (Physics.Linecast(clipPlanePoints2.lowerRight, clipPlanePoints.lowerRight, out hitInfo, layerMask))
 			if (hitInfo.distance < nearestDistance || nearestDistance == -1)
 				nearestDistance = hitInfo.distance;
 

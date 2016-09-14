@@ -15,13 +15,13 @@ public class InteractuableObjeto : Interactuable {
 		numInteractuablesEnTransito = 0;
 
 		//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
-		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaInterDatosGuardados + ID.ToString()  + ".xml"))
 		{
-			datos = ObjetoDatos.LoadInterDatos(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml");
+			datos = ObjetoDatos.LoadInterDatos(Manager.rutaInterDatosGuardados + ID.ToString()  + ".xml");
 		}
 		else
 		{
-			datos = ObjetoDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
+			datos = ObjetoDatos.LoadInterDatos(Manager.rutaInterDatos + ID.ToString()  + ".xml");
 		}
 
 		//Ejecuta el metodo del padre

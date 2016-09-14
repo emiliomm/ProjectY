@@ -13,11 +13,11 @@ public class TransporteInterObjeto : TransporteInter {
 	}
 
 	//Método de iniciación
-	public void Constructor(int ID, List<int> escenas)
+	public void Constructor(int IDTransporte, List<int> escenas)
 	{
-		this.ID = ID;
+		this.ID = IDTransporte;
 		this.escenas = escenas;
 
-		base.cargarTransporte();
+		base.CargarTransporte();
 	}
 }

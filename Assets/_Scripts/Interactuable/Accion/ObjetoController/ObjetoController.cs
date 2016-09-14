@@ -21,7 +21,7 @@ public class ObjetoController : MonoBehaviour {
 	void Start ()
 	{
 		panelObjetoPrefab = (GameObject)Instantiate(Resources.Load("PanelObjetoPrefab"));
-		panelObjetoPrefab.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
+		panelObjetoPrefab.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 		botonSalir = panelObjetoPrefab.transform.GetChild(0).gameObject;
 		botonSalir.GetComponent<Button>().onClick.AddListener(delegate { Salir();});
@@ -55,7 +55,7 @@ public class ObjetoController : MonoBehaviour {
 
 		Camera.main.GetComponent<TP_Camera>().setNormalMode();
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-		Manager.Instance.setPausa(false);
-		Manager.Instance.resumeNavMeshAgents();
+		Manager.instance.SetPausa(false);
+		Manager.instance.ResumeNavMeshAgents();
 	}
 }

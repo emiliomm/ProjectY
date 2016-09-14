@@ -110,8 +110,8 @@ public class InventarioController : MonoBehaviour {
 	private void Salir()
 	{
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-		Manager.Instance.setPausa(false);
-		Manager.Instance.resumeNavMeshAgents();
+		Manager.instance.SetPausa(false);
+		Manager.instance.ResumeNavMeshAgents();
 		Cursor.visible = false;
 		Camera.main.GetComponent<TP_Camera>().setNormalMode();
 

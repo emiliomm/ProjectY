@@ -6,7 +6,7 @@
 	<variables>
 		<int>0</int>
 	</variables>
-	<IDInter>2</IDInter>
-	<IDDialog>0</IDDialog>
+	<IDInteractuable>2</IDInteractuable>
+	<IDDialogo>0</IDDialogo>
 	<ejecutado>false</ejecutado>
 </Evento>

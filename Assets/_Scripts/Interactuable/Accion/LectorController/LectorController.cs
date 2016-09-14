@@ -29,7 +29,7 @@ public class LectorController : MonoBehaviour {
 		SetLayerRecursively(tarjeta, layerMask);
 
 		botonSalir = (GameObject)MonoBehaviour.Instantiate(Resources.Load("BotonPrefab"));
-		botonSalir.transform.SetParent(Manager.Instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
+		botonSalir.transform.SetParent(Manager.instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
 		botonSalir.GetComponentInChildren<Text>().text = "Salir";
 		botonSalir.GetComponent<Button>().onClick.AddListener(delegate { Salir(); }); //Listener del botón
 	}
@@ -49,8 +49,8 @@ public class LectorController : MonoBehaviour {
 		lector.GetComponent<Lector>().GuardarValor();
 
 		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-		Manager.Instance.setPausa(false);
-		Manager.Instance.resumeNavMeshAgents();
+		Manager.instance.SetPausa(false);
+		Manager.instance.ResumeNavMeshAgents();
 
 		Camera.main.GetComponent<TP_Camera>().setNormalMode();
 

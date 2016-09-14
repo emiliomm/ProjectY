@@ -3,14 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Lugar_Siguiente{
+public class LugarSiguiente{
 	
 	private DateTime fechaRutina; //no se serializa
 
 	public Lugar lugar;
 	public List<int> eventos;
 
-	public Lugar_Siguiente()
+	public LugarSiguiente()
 	{
 		lugar = new Lugar();
 		eventos = new List<int>();

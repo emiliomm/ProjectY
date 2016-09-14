@@ -25,7 +25,7 @@ public class InteractuableCollider : MonoBehaviour {
 	{
 		if (other.tag == "Interactuable" )
 		{
-			Manager.Instance.addInteractuableCercano(other.transform.parent.gameObject);
+			Manager.instance.AddInteractuableCercano(other.transform.parent.gameObject);
 			inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
 			inter.SetState (Interactuable.State.Accionable);
 			inter.DesactivarTextoAcciones();
@@ -37,7 +37,7 @@ public class InteractuableCollider : MonoBehaviour {
 	{
 		if (other.tag == "Interactuable")
 		{
-			Manager.Instance.deleteInteractuableCercano(other.transform.parent.gameObject);
+			Manager.instance.DeleteInteractuableCercano(other.transform.parent.gameObject);
 			inter = other.transform.parent.gameObject.GetComponent<Interactuable> ();
 			inter.SetState (Interactuable.State.Desactivado);
 			inter.OcultaCanvas();
@@ -80,9 +80,9 @@ public class InteractuableCollider : MonoBehaviour {
 			nearestInteractuable = null;
 		}
 
-		for(int i = Manager.Instance.devuelveNumeroInteractuablesCercanos() - 1; i >= 0; i--)
+		for(int i = Manager.instance.DevuelveNumeroInteractuablesCercanos() - 1; i >= 0; i--)
 		{
-			GameObject interCercano = Manager.Instance.devuelveInteractuableCercano(i);
+			GameObject interCercano = Manager.instance.DevuelveInteractuableCercano(i);
 
 			//el interactuable existe
 			if(interCercano != null)
@@ -111,12 +111,12 @@ public class InteractuableCollider : MonoBehaviour {
 			//El interactuable ya no existe, ha sido eliminado de la escena, lo eliminamos de la lista
 			else
 			{
-				Manager.Instance.deleteInteractuableCercano(interCercano);
+				Manager.instance.DeleteInteractuableCercano(interCercano);
 			}
 		}
 
 		//Si existe el más cercano, le cambiamos el estado a accionable
-		if(nearestInteractuable != null && Manager.Instance.devuelveNumeroInteractuablesCercanos() != 0)
+		if(nearestInteractuable != null && Manager.instance.DevuelveNumeroInteractuablesCercanos() != 0)
 		{
 			inter = nearestInteractuable.gameObject.GetComponent<Interactuable>();
 			inter.SetState(Interactuable.State.Seleccionado);

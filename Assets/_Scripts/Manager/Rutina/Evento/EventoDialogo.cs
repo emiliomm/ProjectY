@@ -3,8 +3,8 @@ using System.Collections;
 
 public class EventoDialogo : Evento {
 
-	public int IDInter;
-	public int IDDialog;
+	public int IDInteractuable;
+	public int IDDialogo;
 
 	public bool ejecutado; //Valor por defecto es false
 
@@ -18,10 +18,10 @@ public class EventoDialogo : Evento {
 	{
 		if(!ejecutado)
 		{
-			Interactuable inter = null;
+			Interactuable interactuable = null;
 
-			Dialogo dialog = Dialogo.BuscarDialogo(IDInter, IDDialog);
-			TextBox.instance.PrepararDialogo(inter, dialog, ID);
+			Dialogo dialogo = Dialogo.BuscarDialogo(IDInteractuable, IDDialogo);
+			TextBox.instance.PrepararDialogo(interactuable, dialogo, ID);
 			ejecutado = true;
 		}
 	}

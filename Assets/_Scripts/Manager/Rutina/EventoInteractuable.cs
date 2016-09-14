@@ -12,18 +12,18 @@ public class EventoInteractuable{
 		actualizado = true;
 	}
 
-	public int devuelveIDEvento()
+	public int DevuelveIDEvento()
 	{
 		return IDEvento;
 	}
 
-	public bool devuelveActualizado()
+	public bool DevuelveActualizado()
 	{
 		return actualizado;
 	}
 
-	public void setActualizado(bool ac)
+	public void SetActualizado(bool actualizado)
 	{
-		actualizado = ac;
+		this.actualizado = actualizado;
 	}
 }

@@ -8,7 +8,7 @@ public class ManagerRutinas: MonoBehaviour
 	//AÑADIR DIAS ¿?
 
 	//Singleton pattern
-	public static ManagerRutinas Instance { get; private set; }
+	public static ManagerRutinas instance { get; private set; }
 
 	private int escenaActual = 0;
 
@@ -20,7 +20,7 @@ public class ManagerRutinas: MonoBehaviour
 	//Se recorre cada vez que se cambia de escena, eliminando los datos con una fecha_añadido anterior a info_interactuables
 
 	//ATENCIÓN, PUEDEN ACUMULARSE CACHES ANTIGUOS DEBIDO A QUE NO ES RECORRIDO ENTERO SIEMPRE, COMO LOS OTROS, QUE HACER ¿?
-	public Dictionary<int, List<Lugar_Actual>> lugaresActuales;
+	public Dictionary<int, List<LugarActual>> lugaresActuales;
 
 	//<id_interactuable, info_interactuable>
 	//info_interactuable: tipo_interactuable --> Indica el tipo de interactuable(npc u objeto)
@@ -29,7 +29,7 @@ public class ManagerRutinas: MonoBehaviour
 	//					  eventos --> lista con los ids de la eventos actuales *Se sustituye cada vez que el interactuable cambie de lugar
 	//					  ultimaFechaCambioLugar --> indica la fecha en la que se ha cambiado el lugar por última vez *Se sustituye cada vez que el interactuable avance de lugar o cambie de rutina
 	//					  ultimaFechaCambioRutina --> indica la fecha en la que se ha cambiado la rutina por última vez *Se sustituye cada vez que el interactuable cambie de rutina
-	public Dictionary<int, Info_Interactuable> infoInteractuable;
+	public Dictionary<int, InfoInteractuable> infoInteractuables;
 
 	//<hora_cambio_lugar, lista - contenedor>
 	//hora_cambio_lugar: 0 - 23
@@ -53,57 +53,57 @@ public class ManagerRutinas: MonoBehaviour
 	void Awake()
 	{
 		// First we check if there are any other instances conflicting
-		if(Instance != null && Instance != this)
+		if(instance != null && instance != this)
 		{
 			// If that is the case, we destroy other instances
 			Destroy(gameObject);
 		}
 
 		//Singleton pattern
-		Instance = this;
+		instance = this;
 	
-		lugaresActuales = new Dictionary<int,List<Lugar_Actual>>();
-		infoInteractuable = new Dictionary<int,Info_Interactuable>();
+		lugaresActuales = new Dictionary<int,List<LugarActual>>();
+		infoInteractuables = new Dictionary<int,InfoInteractuable>();
 		contenedores = new Dictionary<int,Contenedor>();
 		listaEventos = new Dictionary<int,EventoLista>();
 	}
 
-	private void setEscenaActual(int eActual)
+	private void SetEscenaActual(int escenaActual)
 	{
-		escenaActual = eActual;
+		this.escenaActual = escenaActual;
 	}
 
 	//Carga el interactuable en el diccionario al iniciar el juego
-	public void cargarInteractuable(Datos_Interactuable dInt)
+	public void CargarInteractuable(DatosInteractuable datosInteractuable)
 	{
-		Info_Interactuable infoInter = new Info_Interactuable();
-		infoInter.setTipoInter(dInt.tipoInter);
-		infoInter.setIDRutina(dInt.IDRutinaActual);
+		InfoInteractuable infoInteractuable = new InfoInteractuable();
+		infoInteractuable.SetTipoInter(datosInteractuable.tipoInter);
+		infoInteractuable.SetIDRutina(datosInteractuable.IDRutinaActual);
 
-		infoInteractuable[dInt.IDInter] = infoInter;
+		infoInteractuables[datosInteractuable.IDInteractuable] = infoInteractuable;
 
 		//Si el interactuable tiene rutina, cargamos la rutina
-		if(dInt.IDRutinaActual != -1)
-			cargarRutina(dInt.IDRutinaActual, true, false);
+		if(datosInteractuable.IDRutinaActual != -1)
+			CargarRutina(datosInteractuable.IDRutinaActual, true, false);
 	}
 		
-	public void cargarRutina(int idRutina, bool InicioJuego, bool comprobacionRutinas)
+	public void CargarRutina(int IDRutina, bool inicioJuego, bool comprobacionRutinas)
 	{
-		Rutina rutina = Rutina.LoadRutina(Manager.rutaRutinas + idRutina.ToString() + ".xml");
-		int IDInter = rutina.posLugarSiguientes[0].lugarSiguiente.lugar.IDInter;
+		Rutina rutina = Rutina.LoadRutina(Manager.rutaRutinas + IDRutina.ToString() + ".xml");
+		int IDInteractuable = rutina.posLugarSiguientes[0].lugarSiguiente.lugar.IDInteractuable;
 
-		Info_Interactuable infoInter;
+		InfoInteractuable infoInteractuable;
 
-		if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+		if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
 		{
-			infoInter.setIDRutina(idRutina);
-			AddLugaresSiguientes(IDInter, infoInter, rutina.posLugarSiguientes, rutina.Autorutina, idRutina);
+			infoInteractuable.SetIDRutina(IDRutina);
+			AddLugaresSiguientes(IDInteractuable, infoInteractuable, rutina.posLugarSiguientes, rutina.autorutina, IDRutina);
 
 			int posRutina = CalculaPosicionRutina(rutina);
 
 			if(comprobacionRutinas)
 			{
-				if(rutina.posLugarSiguientes[posRutina].hora != Manager.Instance.getHoraActual())
+				if(rutina.posLugarSiguientes[posRutina].hora != Manager.instance.GetHoraActual())
 				{
 					AddLugarActual(rutina.posLugarSiguientes[posRutina].lugarSiguiente.lugar, rutina.posLugarSiguientes[posRutina].lugarSiguiente.eventos);
 				}
@@ -113,89 +113,89 @@ public class ManagerRutinas: MonoBehaviour
 				AddLugarActual(rutina.posLugarSiguientes[posRutina].lugarSiguiente.lugar, rutina.posLugarSiguientes[posRutina].lugarSiguiente.eventos);
 			}
 
-			if(!InicioJuego)
+			if(!inicioJuego)
 			{
-				Datos_Interactuable dInt = new Datos_Interactuable(IDInter, infoInter.devolverTipo(), idRutina);
-				dInt.Serialize();
+				DatosInteractuable datosInteractuable = new DatosInteractuable(IDInteractuable, infoInteractuable.DevolverTipo(), IDRutina);
+				datosInteractuable.Serialize();
 			}
 		}
 	}
 
-	private void MarcarEventosDesactualizados(Info_Interactuable infoInter)
+	private void MarcarEventosDesactualizados(InfoInteractuable infoInteractuable)
 	{
-		for(int i = 0; i < infoInter.devolverNumeroEventos(); i ++)
+		for(int i = 0; i < infoInteractuable.DevolverNumeroEventos(); i ++)
 		{
-			infoInter.desactualizarEvento(i);
+			infoInteractuable.DesactualizarEvento(i);
 		}
 	}
 		
-	private void AddLugaresSiguientes(int IDInter, Info_Interactuable infoInter, List<PosicionLugarSiguiente> posLugarSiguiente, bool autorutina, int IDRutina)
+	private void AddLugaresSiguientes(int IDInteractuable, InfoInteractuable infoInteractuable, List<PosicionLugarSiguiente> posLugarSiguiente, bool autorutina, int IDRutina)
 	{
 		DateTime fechaRutina = DateTime.UtcNow;
-		infoInter.setFechaCambioRutina(fechaRutina);
+		infoInteractuable.SetFechaCambioRutina(fechaRutina);
 	
 		for(int i = 0; i < posLugarSiguiente.Count; i++)
 		{
-			Contenedor cont;
+			Contenedor contenedor;
 
-			if (!contenedores.TryGetValue(posLugarSiguiente[i].hora, out cont))
+			if (!contenedores.TryGetValue(posLugarSiguiente[i].hora, out contenedor))
 			{
-				cont = new Contenedor();
-				contenedores.Add(posLugarSiguiente[i].hora, cont);
+				contenedor = new Contenedor();
+				contenedores.Add(posLugarSiguiente[i].hora, contenedor);
 			}
 				
 			posLugarSiguiente[i].lugarSiguiente.setFechaRutina(fechaRutina);
-			cont.addLugarSig(posLugarSiguiente[i].lugarSiguiente);
+			contenedor.AddLugarSig(posLugarSiguiente[i].lugarSiguiente);
 		}
 
 		if(autorutina)
-			cargarAutorutina(IDRutina, fechaRutina);
+			CargarAutorutina(IDRutina, fechaRutina);
 	}
 		
-	private void cargarAutorutina(int IDRutina, DateTime fechaRutina)
+	private void CargarAutorutina(int IDRutina, DateTime fechaRutina)
 	{
-		Autorutina autorut;
+		Autorutina autorutina;
 		int poshora;
 
-		if (System.IO.File.Exists(Manager.rutaAutoRutinasGuardadas + IDRutina.ToString() + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaAutorutinasGuardadas + IDRutina.ToString() + ".xml"))
 		{
-			autorut = Autorutina.LoadAutoRutina(Manager.rutaAutoRutinasGuardadas + IDRutina.ToString() + ".xml");
+			autorutina = Autorutina.LoadAutoRutina(Manager.rutaAutorutinasGuardadas + IDRutina.ToString() + ".xml");
 
-			poshora = autorut.posHora;
+			poshora = autorutina.posHora;
 		}
 		else
 		{
-			autorut = Autorutina.LoadAutoRutina(Manager.rutaAutoRutinas + IDRutina.ToString() + ".xml");
+			autorutina = Autorutina.LoadAutoRutina(Manager.rutaAutorutinas + IDRutina.ToString() + ".xml");
 
-			int hora = Manager.Instance.getHoraActual();
-			int numRecorridosMaximos = autorut.numHoras / 24;
+			int hora = Manager.instance.GetHoraActual();
+			int numRecorridosMaximos = autorutina.numHoras / 24;
 
-			if(autorut.numHoras % 24 != 0)
+			if(autorutina.numHoras % 24 != 0)
 				numRecorridosMaximos++;
 
-			poshora = hora + autorut.numHoras % 24;
+			poshora = hora + autorutina.numHoras % 24;
 
-			autorut.posHora = poshora;
-			autorut.numRecorridosActuales = 0;
-			autorut.numRecorridosMaximos = numRecorridosMaximos;
+			autorutina.posHora = poshora;
+			autorutina.numRecorridosActuales = 0;
+			autorutina.numRecorridosMaximos = numRecorridosMaximos;
 
-			autorut.Serialize(); //Guardamos los datos una vez se haya cargado la autorutina
+			autorutina.Serialize(); //Guardamos los datos una vez se haya cargado la autorutina
 		}
 
-		autorut.setFechaRutina(fechaRutina);
+		autorutina.SetFechaRutina(fechaRutina);
 
-		Contenedor cont;
+		Contenedor contenedor;
 
-		if (!contenedores.TryGetValue(poshora, out cont))
+		if (!contenedores.TryGetValue(poshora, out contenedor))
 		{
-			cont = new Contenedor();
-			contenedores.Add(poshora, cont);
+			contenedor = new Contenedor();
+			contenedores.Add(poshora, contenedor);
 		}
 
-		cont.addAutorutina(autorut);
+		contenedor.AddAutorutina(autorutina);
 	}
 
-	private void cargarEvento(int IDEvento, int IDInter)
+	private void CargarEvento(int IDEvento, int IDInteractuable)
 	{
 		EventoLista eventoLista;
 
@@ -215,41 +215,41 @@ public class ManagerRutinas: MonoBehaviour
 				evento = Evento.LoadEvento (Manager.rutaEventos + IDEvento.ToString () + ".xml");
 			}
 
-			eventoLista = new EventoLista(IDInter, evento);
+			eventoLista = new EventoLista(IDInteractuable, evento);
 
 			listaEventos.Add(IDEvento, eventoLista);
 		}
 		else
 		{
-			eventoLista.addInter(IDInter);
+			eventoLista.AddInteractuable(IDInteractuable);
 		}
 	}
 
-	private void AddEventoAInter(Info_Interactuable infoInter, int IDEvento)
+	private void AddEventoAInteractuable(InfoInteractuable infoInteractuable, int IDEvento)
 	{
-		infoInter.addEvento(IDEvento);
+		infoInteractuable.AddEvento(IDEvento);
 	}
 
-	private void EliminarEventosDesactualizados(int IDInter, Info_Interactuable infoInter)
+	private void EliminarEventosDesactualizados(int IDInteractuable, InfoInteractuable infoInteractuable)
 	{
-		for(int i = infoInter.devolverNumeroEventos() - 1; i >= 0; i--)
+		for(int i = infoInteractuable.DevolverNumeroEventos() - 1; i >= 0; i--)
 		{
-			if(!infoInter.devuelveEventoActualizado(i))
+			if(!infoInteractuable.DevuelveEventoActualizado(i))
 			{
-				int IDEvento = infoInter.devuelveIDEvento(i);
-				infoInter.eliminarEvento(i);
+				int IDEvento = infoInteractuable.DevuelveIDEvento(i);
+				infoInteractuable.EliminarEvento(i);
 
 				EventoLista eventoLista;
 
 				//Si existe
 				if (listaEventos.TryGetValue(IDEvento, out eventoLista))
 				{
-					int pos = eventoLista.posicionInter(IDInter);
+					int pos = eventoLista.PosicionInteractuable(IDInteractuable);
 
 					if(pos != -1)
 					{
-						eventoLista.borrarInter(pos);
-						if(eventoLista.isInterEmpty())
+						eventoLista.BorrarInteractuable(pos);
+						if(eventoLista.IsInterEmpty())
 						{
 							listaEventos.Remove(IDEvento);
 						}
@@ -261,7 +261,7 @@ public class ManagerRutinas: MonoBehaviour
 
 	private int CalculaPosicionRutina(Rutina rutina)
 	{
-		int horaActual = Manager.Instance.getHoraActual();
+		int horaActual = Manager.instance.GetHoraActual();
 		int posRutina = -1;
 
 		if(horaActual < rutina.posLugarSiguientes[0].hora)
@@ -286,155 +286,155 @@ public class ManagerRutinas: MonoBehaviour
 	{
 		DateTime fechaActual = DateTime.UtcNow;
 
-		int IDInter = lugar.IDInter;
+		int IDInteractuable = lugar.IDInteractuable;
 		int IDEscena = lugar.IDEscena;
 
-		Lugar_Actual lAct = new Lugar_Actual(lugar, fechaActual);
+		LugarActual lugarActual = new LugarActual(lugar, fechaActual);
 
-		List<Lugar_Actual> lista;
+		List<LugarActual> lista;
 		if (!lugaresActuales.TryGetValue(IDEscena, out lista))
 		{
-			lista = new List<Lugar_Actual>();
+			lista = new List<LugarActual>();
 			lugaresActuales.Add(IDEscena, lista);
 		}
 
-		lista.Add(lAct);
+		lista.Add(lugarActual);
 
-		Info_Interactuable infoInter;
-		if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+		InfoInteractuable infoInteractuable;
+		if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
 		{
-			ComprobarInteractuableEscenaActual(IDInter, infoInter.devolverTipo(), infoInter.devolverIDEscena(), IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ), new Quaternion(lugar.X, lugar.Y, lugar.Z, lugar.W));
-			infoInter.setIDEscena(IDEscena);
-			infoInter.setFechaCambioLugar(fechaActual);
+			ComprobarInteractuableEscenaActual(IDInteractuable, infoInteractuable.DevolverTipo(), infoInteractuable.DevolverIDEscena(), IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ), new Quaternion(lugar.rotX, lugar.rotY, lugar.rotZ, lugar.rotW));
+			infoInteractuable.SetIDEscena(IDEscena);
+			infoInteractuable.SetFechaCambioLugar(fechaActual);
 
-			MarcarEventosDesactualizados(infoInter);
+			MarcarEventosDesactualizados(infoInteractuable);
 
 			for(int j = 0; j < eventos.Count; j++)
 			{
-				cargarEvento(eventos[j], IDInter);
-				AddEventoAInter(infoInter, eventos[j]);
+				CargarEvento(eventos[j], IDInteractuable);
+				AddEventoAInteractuable(infoInteractuable, eventos[j]);
 			}
 
-			EliminarEventosDesactualizados(IDInter, infoInter);
+			EliminarEventosDesactualizados(IDInteractuable, infoInteractuable);
 		}
 	}
 
-	private void ComprobarInteractuableEscenaActual(int IDInter, int tipoInter, int IDEscenaAnterior, int IDEscenaActual, Vector3 coord, Quaternion rot)
+	private void ComprobarInteractuableEscenaActual(int IDInteractuable, int tipoInteractuable, int IDEscenaAnterior, int IDEscenaActual, Vector3 coord, Quaternion rot)
 	{
 		if(IDEscenaAnterior == escenaActual)
 		{
 			//El interactuable se mueve desde un punto de la escena actual a otro
 			if(IDEscenaAnterior == IDEscenaActual)
 			{
-				Manager.Instance.moverInteractuableEnEscena(tipoInter, IDInter, coord, rot);
+				Manager.instance.MoverInteractuableEnEscena(tipoInteractuable, IDInteractuable, coord, rot);
 			}
 			//El interactuable debe abandonar la escena actual hacia otra
 			else
 			{
-				Manager.Instance.moverInteractuableHaciaOtraEscena(tipoInter, IDInter, IDEscenaActual);
+				Manager.instance.MoverInteractuableHaciaOtraEscena(tipoInteractuable, IDInteractuable, IDEscenaActual);
 			}
 		}
 		//El interactuable no existe, se crea en la escena
 		else if(IDEscenaActual == escenaActual)
 		{
-			Manager.Instance.moverInteractuableDesdeOtraEscena(IDInter, tipoInter, IDEscenaAnterior, coord, rot);
+			Manager.instance.MoverInteractuableDesdeOtraEscena(IDInteractuable, tipoInteractuable, IDEscenaAnterior, coord, rot);
 		}
 	}
 		
 	public void ComprobarRutinas(int horaActual)
 	{
-		Contenedor cont;
+		Contenedor contenedor;
 
-		if (contenedores.TryGetValue(horaActual, out cont))
+		if (contenedores.TryGetValue(horaActual, out contenedor))
 		{
-			List<Autorutina> lista_autorutinas = cont.devuelveAutorutina();
+			List<Autorutina> listaAutorutinas = contenedor.DevuelveAutorutina();
 
-			if(lista_autorutinas != null)
+			if(listaAutorutinas != null)
 			{
-				comprobarAutorutinas(lista_autorutinas);
+				ComprobarAutorutinas(listaAutorutinas);
 			}
 
-			List<Lugar_Siguiente> lista_lugarsiguiente = cont.devuelveLugarSiguientes();
+			List<LugarSiguiente> listaLugarSiguiente = contenedor.DevuelveLugarSiguientes();
 
-			if(lista_lugarsiguiente != null)
+			if(listaLugarSiguiente != null)
 			{
-				comprobarLugaresSiguientes(lista_lugarsiguiente);
+				ComprobarLugaresSiguientes(listaLugarSiguiente);
 			}
 		}
 	}
 
-	public void comprobarEventosInicio(int horaActual)
+	public void ComprobarEventosInicio(int horaActual)
 	{
-		Contenedor cont;
+		Contenedor contenedor;
 
-		if (contenedores.TryGetValue(horaActual, out cont))
+		if (contenedores.TryGetValue(horaActual, out contenedor))
 		{
-			List<Lugar_Siguiente> lista_lugarsiguiente = cont.devuelveLugarSiguientes();
+			List<LugarSiguiente> listaLugarSiguiente = contenedor.DevuelveLugarSiguientes();
 
-			for(int i = lista_lugarsiguiente.Count - 1; i >= 0; i--)
+			for(int i = listaLugarSiguiente.Count - 1; i >= 0; i--)
 			{
-				int IDInter = lista_lugarsiguiente[i].lugar.IDInter;
-				Info_Interactuable infoInter;
-				if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+				int IDInteractuable = listaLugarSiguiente[i].lugar.IDInteractuable;
+				InfoInteractuable infoInteractuable;
+				if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
 				{
 					//Ejecutamos los eventos del lugar actual
-					ComprobarEventos(lista_lugarsiguiente[i].eventos);
+					ComprobarEventos(listaLugarSiguiente[i].eventos);
 				}
 			}
 		}
 	}
 
-	private void comprobarAutorutinas(List<Autorutina> lista_autorutinas)
+	private void ComprobarAutorutinas(List<Autorutina> listaAutorutinas)
 	{
-		for(int i = lista_autorutinas.Count - 1; i >= 0; i--)
+		for(int i = listaAutorutinas.Count - 1; i >= 0; i--)
 		{
-			Info_Interactuable infoInter;
-			if (infoInteractuable.TryGetValue(lista_autorutinas[i].IDInter, out infoInter))
+			InfoInteractuable infoInteractuable;
+			if (infoInteractuables.TryGetValue(listaAutorutinas[i].IDInteractuable, out infoInteractuable))
 			{
 				//Comprueba la fecha de la rutina
-				if(lista_autorutinas[i].getFechaRutina() == infoInter.getFechaCambioRutina())
+				if(listaAutorutinas[i].GetFechaRutina() == infoInteractuable.GetFechaCambioRutina())
 				{
-					if(lista_autorutinas[i].Recorrido())
+					if(listaAutorutinas[i].Recorrido())
 					{
-						cargarRutina(lista_autorutinas[i].IDSigRutina, false, true);
-						lista_autorutinas.RemoveAt(i);
+						CargarRutina(listaAutorutinas[i].IDSigRutina, false, true);
+						listaAutorutinas.RemoveAt(i);
 					}
 				}
 				//El interactuable no tiene la misma rutina que la que marca la autorutina, la destruimos
 				else
 				{
-					lista_autorutinas.RemoveAt(i);
+					listaAutorutinas.RemoveAt(i);
 				}
 			}
 			//El interactuable ya no existe, destruimos la autorutina
 			//(ESTE CASO AÚN NO SE PRODUCE)
 			else
 			{
-				lista_autorutinas.RemoveAt(i);
+				listaAutorutinas.RemoveAt(i);
 			}
 		}
 	}
 
-	private void comprobarLugaresSiguientes(List<Lugar_Siguiente> lista_lugarsiguiente)
+	private void ComprobarLugaresSiguientes(List<LugarSiguiente> listaLugarSiguiente)
 	{
-		for(int i = lista_lugarsiguiente.Count - 1; i >= 0; i--)
+		for(int i = listaLugarSiguiente.Count - 1; i >= 0; i--)
 		{
-			int IDInter = lista_lugarsiguiente[i].lugar.IDInter;
-			Info_Interactuable infoInter;
-			if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+			int IDInteractuable = listaLugarSiguiente[i].lugar.IDInteractuable;
+			InfoInteractuable infoInteractuable;
+			if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
 			{
 				//Si las fechas de rutina no coinciden, eliminamos el lugarSiguiente de la lista
-				if (infoInter.getFechaCambioRutina() != lista_lugarsiguiente[i].getFechaRutina())
+				if (infoInteractuable.GetFechaCambioRutina() != listaLugarSiguiente[i].getFechaRutina())
 				{
-					lista_lugarsiguiente.RemoveAt(i);
+					listaLugarSiguiente.RemoveAt(i);
 				}
 				else
 				{
 					//Añadimos el lugar Actual
-					AddLugarActual(lista_lugarsiguiente[i].lugar, lista_lugarsiguiente[i].eventos);
+					AddLugarActual(listaLugarSiguiente[i].lugar, listaLugarSiguiente[i].eventos);
 
 					//Ejecutamos los eventos del lugar actual
-					ComprobarEventos(lista_lugarsiguiente[i].eventos);
+					ComprobarEventos(listaLugarSiguiente[i].eventos);
 				}
 			}
 		}
@@ -442,17 +442,17 @@ public class ManagerRutinas: MonoBehaviour
 
 	private void ComprobarEventos(List<int> eventos)
 	{
-		EventoLista evLis;
-		Evento ev;
+		EventoLista eventoLista;
+		Evento evento;
 
 		for(int i = 0; i < eventos.Count; i++)
 		{
-			if (listaEventos.TryGetValue(eventos[i], out evLis))
+			if (listaEventos.TryGetValue(eventos[i], out eventoLista))
 			{
-				ev = evLis.devuelveEvento();
+				evento = eventoLista.DevuelveEvento();
 
-				if(ev.activo)
-					ev.EjecutarEvento();
+				if(evento.activo)
+					evento.EjecutarEvento();
 			}
 		}
 	}
@@ -460,26 +460,26 @@ public class ManagerRutinas: MonoBehaviour
 	public void CargarEscena(int escena)
 	{
 		//Establecemos la escena actual
-		setEscenaActual(escena);
+		SetEscenaActual(escena);
 
-		List<Lugar_Actual> lista;
-		if (lugaresActuales.TryGetValue(escena, out lista))
+		List<LugarActual> listaLugarActual;
+		if (lugaresActuales.TryGetValue(escena, out listaLugarActual))
 		{
-			for(int i = lista.Count - 1; i >= 0; i--)
+			for(int i = listaLugarActual.Count - 1; i >= 0; i--)
 			{
-				int IDInter = lista[i].getIDInter();
-				Info_Interactuable infoInter;
-				if (infoInteractuable.TryGetValue(IDInter, out infoInter))
+				int IDInteractuable = listaLugarActual[i].GetIDInteractuable();
+				InfoInteractuable infoInteractuable;
+				if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
 				{
-					if(infoInter.getFechaCambioLugar() > lista[i].getFecha())
+					if(infoInteractuable.GetFechaCambioLugar() > listaLugarActual[i].GetFecha())
 					{
-						lista.RemoveAt(i);
+						listaLugarActual.RemoveAt(i);
 					}
 					else
 					{
-						int tipo = infoInter.devolverTipo();
+						int tipo = infoInteractuable.DevolverTipo();
 
-						Manager.Instance.crearInteractuable(IDInter, tipo, lista[i].getCoordLugar(), lista[i].getCoordRotacion());
+						Manager.instance.CrearInteractuable(IDInteractuable, tipo, listaLugarActual[i].GetCoordenadasLugar(), listaLugarActual[i].GetCoordenadasRotacion());
 					}
 				}
 			}
@@ -487,35 +487,35 @@ public class ManagerRutinas: MonoBehaviour
 	}
 
 	//Devuelve un evento vacío si no es encontrado o si el evento no está activo
-	public Evento devuelveEvento(int IDEvento)
+	public Evento DevuelveEvento(int IDEvento)
 	{
-		Evento ev = null;
+		Evento evento = null;
+		EventoLista eventoListo;
 
-		EventoLista evLis;
-		if (listaEventos.TryGetValue(IDEvento, out evLis))
+		if (listaEventos.TryGetValue(IDEvento, out eventoListo))
 		{
-			ev = evLis.devuelveEvento();
-			if(!ev.activo)
-				ev = null;
+			evento = eventoListo.DevuelveEvento();
+			if(!evento.activo)
+				evento = null;
 		}
 
-		return ev;
+		return evento;
 	}
 
-	public void guardaEvento(int IDEvento)
+	public void GuardaEvento(int IDEvento)
 	{
-		EventoLista evLis;
-		Evento ev;
+		EventoLista eventoLista;
+		Evento evento;
 
-		if (listaEventos.TryGetValue(IDEvento, out evLis))
+		if (listaEventos.TryGetValue(IDEvento, out eventoLista))
 		{
-			ev = evLis.devuelveEvento();
-			ev.Serialize();
+			evento = eventoLista.DevuelveEvento();
+			evento.Serialize();
 		}
 	}
 
 	//FUNCIÓN DEBUG
-	public void recorrerLugaresActuales()
+	public void RecorrerLugaresActuales()
 	{
 //		foreach(KeyValuePair<int, List<Lugar_Actual>> entry in lugaresActuales)
 //		{

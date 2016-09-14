@@ -25,8 +25,8 @@ public class DatosAccionTienda : DatosAccion{
 	//PASAR A OBJETO TIENDA ALGUNAS DE LAS FUNCIONES
 	public override void EjecutarAccion()
 	{
-		Manager.Instance.setPausa(true);
-		Manager.Instance.stopNavMeshAgents();
+		Manager.instance.SetPausa(true);
+		Manager.instance.StopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		var objetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));

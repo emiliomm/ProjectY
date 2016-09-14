@@ -26,7 +26,7 @@ public class Lanzador{
 	//Lee el lanzador en la ruta indicada pasándole parámetros del diálogo actual
 	public static void LoadLanzador(string path, int IDInteractuable,int IDDialogoActual, int tipoDialogo, ref int numDialogo)
 	{
-		Lanzador lanzador = Manager.Instance.DeserializeData<Lanzador>(path);
+		Lanzador lanzador = Manager.instance.DeserializeData<Lanzador>(path);
 
 		lanzador.AnyadirDialogueAdd(IDInteractuable,IDDialogoActual, tipoDialogo, ref numDialogo);
 	}
@@ -44,7 +44,7 @@ public class Lanzador{
 			Intro intro = Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad);
 
 			//Si la intro forma parte de un grupo y ese grupo ya ha acabado, no es añadida
-			if(!Manager.Instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
+			if(!Manager.instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
 			{
 				Dialogo dialogo = Dialogo.BuscarDialogo(IDInter, IDDialogo);
 
@@ -82,7 +82,7 @@ public class Lanzador{
 			Mensaje mensaje = Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml");
 
 			//Si el mensaje forma parte de un grupo y ese grupo ya ha acabado, no es añadido
-			if(!Manager.Instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
+			if(!Manager.instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
 			{
 				Dialogo dialogo = Dialogo.BuscarDialogo(IDInter, IDDialogo);
 

@@ -13,13 +13,13 @@ public class TransportePlayerObjeto : TransportePlayer {
 	}
 
 	//Método de iniciación
-	public void Constructor(int ID, List<int> escenas, int IDEscena)
+	public void Constructor(int IDTransporte, List<int> escenas, int IDEscena)
 	{
-		this.ID = ID;
+		this.ID = IDTransporte;
 		this.escenas = escenas;
 		this.IDEscena = IDEscena;
 
-		base.cargarTransporte();
+		base.CargarTransporte();
 	}
 
 	protected override void OnTriggerEnter(Collider other) {

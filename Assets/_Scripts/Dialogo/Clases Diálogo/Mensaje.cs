@@ -72,7 +72,7 @@ public class Mensaje{
 	//Devuelve el mensaje de un xml indicado en la ruta
 	public static Mensaje LoadMensaje(string path)
 	{
-		Mensaje men = Manager.Instance.DeserializeData<Mensaje>(path);
+		Mensaje men = Manager.instance.DeserializeData<Mensaje>(path);
 
 		return men;
 	}

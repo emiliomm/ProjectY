@@ -16,15 +16,15 @@ public class TransporteInter : MonoBehaviour
 
 	protected virtual void Start()
 	{
-		cargarTransporte();
+		CargarTransporte();
 	}
 
-	protected virtual void cargarTransporte()
+	protected virtual void CargarTransporte()
 	{
-		Manager.Instance.anyadirTransporte(SceneManager.GetActiveScene().buildIndex, gameObject, escenas);
+		Manager.instance.AnyadirTransporte(SceneManager.GetActiveScene().buildIndex, gameObject, escenas);
 	}
 
-	public bool comprobarSiEsTransporteObjeto()
+	public bool ComprobarSiEsTransporteObjeto()
 	{
 		bool esTipoTransporte = false;
 

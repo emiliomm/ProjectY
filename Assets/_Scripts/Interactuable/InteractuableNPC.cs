@@ -11,13 +11,13 @@ public class InteractuableNPC : Interactuable {
 	protected override void Start()
 	{
 		//Carga los datos del directorio predeterminado o del de guardado si hay datos guardados
-		if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaInterDatosGuardados + ID.ToString()  + ".xml"))
 		{
-			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatosGuardados + ID.ToString()  + ".xml");
+			datos = NPCDatos.LoadInterDatos(Manager.rutaInterDatosGuardados + ID.ToString()  + ".xml");
 		}
 		else
 		{
-			datos = NPCDatos.LoadInterDatos(Manager.rutaNPCDatos + ID.ToString()  + ".xml");
+			datos = NPCDatos.LoadInterDatos(Manager.rutaInterDatos + ID.ToString()  + ".xml");
 		}
 
 		//Ejecuta el metodo del padre
@@ -38,7 +38,7 @@ public class InteractuableNPC : Interactuable {
 			agente = GetComponent<NavMeshAgent>();
 
 		//Añadimos el NavMesh a la lista del Manager con NavMeshActivos
-		Manager.Instance.addNavMeshAgent(agente);
+		Manager.instance.AddNavMeshAgent(agente);
 
 		//Activamos el agente y establecemos la ruta
 		agente.enabled = true;

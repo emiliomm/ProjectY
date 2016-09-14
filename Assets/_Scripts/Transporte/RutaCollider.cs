@@ -5,22 +5,22 @@ public class RutaCollider : MonoBehaviour {
 
 	private int IDInteractuable; //Indica el ID del inetractuable el cual debe chocar con el transporteCollider
 
-	public void setIDInteractuable(int ID)
+	public void setIDInteractuable(int IDInteractuable)
 	{
-		IDInteractuable = ID;
+		this.IDInteractuable = IDInteractuable;
 	}
 	
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Interactuable" )
 		{
-			InteractuableNPC inter = other.GetComponentInParent<InteractuableNPC>();
+			InteractuableNPC interactuableNPC = other.GetComponentInParent<InteractuableNPC>();
 
-			if(inter != null)
+			if(interactuableNPC != null)
 			{
-				if(inter.ID == IDInteractuable)
+				if(interactuableNPC.ID == IDInteractuable)
 				{
-					Manager.Instance.deleteNavhMeshAgent(inter.DevuelveNavhMeshAgent());
+					Manager.instance.DeleteNavhMeshAgent(interactuableNPC.DevuelveNavhMeshAgent());
 					Destroy(gameObject);
 				}
 			}

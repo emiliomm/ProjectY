@@ -43,7 +43,7 @@ public class TransporteController : MonoBehaviour
 
 		if(IDTransporte != -1)
 		{
-			transporte = Manager.Instance.EncontrarTransporte(IDTransporte);
+			transporte = Manager.instance.EncontrarTransporte(IDTransporte);
 		}
 
 		if(transporte != null)

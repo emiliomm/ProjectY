@@ -6,25 +6,25 @@ public class SaliendoTransporteCollider : MonoBehaviour {
 	private int IDInteractuable; //Indica el ID del interactuable el cual debe chocar con el transporteCollider
 	private GameObject transporte;
 
-	public void setIDInteractuable(int ID)
+	public void setIDInteractuable(int IDInteractuable)
 	{
-		IDInteractuable = ID;
+		this.IDInteractuable = IDInteractuable;
 	}
 
-	public void setTransporte(GameObject trans)
+	public void setTransporte(GameObject transporte)
 	{
-		transporte = trans;
+		this.transporte = transporte;
 	}
 
 	void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "Interactuable" )
 		{
-			InteractuableNPC inter = other.GetComponentInParent<InteractuableNPC>();
+			InteractuableNPC interactuableNPC = other.GetComponentInParent<InteractuableNPC>();
 
-			if(inter != null)
+			if(interactuableNPC != null)
 			{
-				if(inter.ID == IDInteractuable)
+				if(interactuableNPC.ID == IDInteractuable)
 				{
 					if(transporte != null)
 					{

@@ -17,7 +17,7 @@ public class ObjetoInventario{
 
 	public static ObjetoInventario LoadObjeto(string path)
 	{
-		ObjetoInventario objetoInventario = Manager.Instance.DeserializeData<ObjetoInventario>(path);
+		ObjetoInventario objetoInventario = Manager.instance.DeserializeData<ObjetoInventario>(path);
 
 		return objetoInventario;
 	}

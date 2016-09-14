@@ -8,7 +8,6 @@ using System.Xml.Serialization;
 [XmlInclude(typeof(EventoDialogo))]
 public class Evento
 {
-
 	public int ID;
 	public bool activo; //ACTUALMENTE NO SE USA
 	public List<int> variables;
@@ -23,13 +22,13 @@ public class Evento
 
 	public static Evento LoadEvento(string path)
 	{
-		Evento evento = Manager.Instance.DeserializeData<Evento>(path);
+		Evento evento = Manager.instance.DeserializeData<Evento>(path);
 
 		return evento;
 	}
 
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData(this, Manager.rutaEventosGuardados, ID.ToString()  + ".xml");
+		Manager.instance.SerializeData(this, Manager.rutaEventosGuardados, ID.ToString()  + ".xml");
 	}
 }

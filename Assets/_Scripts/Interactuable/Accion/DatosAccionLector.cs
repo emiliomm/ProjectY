@@ -15,8 +15,8 @@ public class DatosAccionLector : DatosAccion {
 		
 	public override void EjecutarAccion()
 	{
-		Manager.Instance.setPausa(true);
-		Manager.Instance.stopNavMeshAgents();
+		Manager.instance.SetPausa(true);
+		Manager.instance.StopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		GameObject lectorControllerGO = new GameObject("LectorController");

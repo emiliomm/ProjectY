@@ -379,7 +379,7 @@ public class Dialogo : ObjetoSerializable
 			Intro intro = Intro.LoadIntro(Manager.rutaIntros + ID.ToString() + ".xml", prioridad);
 
 			//Si la intro forma parte de un grupo y ese grupo ya ha acabado, no es añadida
-			if(!Manager.Instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
+			if(!Manager.instance.GrupoAcabadoExiste(intro.DevuelveIDGrupo()))
 			{
 				//Si nos encontramos en el diálogo el cual queremos añadir una intro
 				if(IDInteractuable == this.IDInteractuable && IDDialogo == this.ID)
@@ -413,7 +413,7 @@ public class Dialogo : ObjetoSerializable
 			Mensaje mensaje =  Mensaje.LoadMensaje(Manager.rutaMensajes + ID.ToString() + ".xml");
 
 			//Si el mensaje forma parte de un grupo y ese grupo ya ha acabado, no es añadido
-			if(!Manager.Instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
+			if(!Manager.instance.GrupoAcabadoExiste(mensaje.DevuelveIDGrupo()))
 			{
 				//Si nos encontramos en el diálogo el cual queremos añadir un mensaje
 				if(IDInteractuable == this.IDInteractuable && IDDialogo == this.ID)
@@ -439,15 +439,15 @@ public class Dialogo : ObjetoSerializable
 			int valor = node.gruposVariables[i].DevuelveValor();
 
 			//Si el grupo existe, cambiamos las variables
-			if(Manager.Instance.GrupoActivoExiste(IDGrupo))
+			if(Manager.instance.GrupoActivoExiste(IDGrupo))
 			{
 				switch(tipo)
 				{
 				case 0: //suma la cantidad
-					Manager.Instance.AddVariablesGrupo(IDGrupo, num, valor);
+					Manager.instance.AddVariablesGrupo(IDGrupo, num, valor);
 					break;
 				case 1: //establece la cantidad
-					Manager.Instance.SetVariablesGrupo(IDGrupo, num, valor);
+					Manager.instance.SetVariablesGrupo(IDGrupo, num, valor);
 					break;
 				}
 			}
@@ -455,13 +455,13 @@ public class Dialogo : ObjetoSerializable
 			else
 			{
 				//Tras comprobar que no ha sido eliminado, lo añadimos a lista de grupos modificados
-				if (!Manager.Instance.GrupoAcabadoExiste(IDGrupo))
+				if (!Manager.instance.GrupoAcabadoExiste(IDGrupo))
 				{
 					Grupo grupo;
 
 					//Comprobamos si el grupo modificado existe en la colaObjetos del Manager
 					//Buscamos en la cola de objetos
-					ColaObjeto colaObjeto = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+					ColaObjeto colaObjeto = Manager.instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 
 					//Se ha encontrado en la cola de objetos
 					if(colaObjeto != null)
@@ -507,7 +507,7 @@ public class Dialogo : ObjetoSerializable
 		if(node.DevuelveNumeroObjetos() > 0)
 		{
 			//Buscamos el inventario en la colaobjetos
-			ColaObjeto inventarioCola = Manager.Instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
+			ColaObjeto inventarioCola = Manager.instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
 
 			//Se ha encontrado en la cola de objetos
 			if(inventarioCola != null)
@@ -546,19 +546,20 @@ public class Dialogo : ObjetoSerializable
 		for(int i = 0; i < node.DevuelveNumeroNombres(); i++)
 		{
 			int IDInteractuable = node.nombres[i].DevuelveIDInteractuable();
-			int Indice = node.nombres[i].DevuelveIndiceNombre();
+			int indice = node.nombres[i].DevuelveIndiceNombre();
 
 			GameObject interactuableGO;
 
 			//El nombre a cambiar es del interactuable del cual forma parte el dialogo
 			if(IDInteractuable == -1)
 			{
-				interactuableGO = Manager.Instance.GetInteractuable(IDInteractuable);
+				Debug.Log("hujabldfkase: " + this.IDInteractuable);
+				interactuableGO = Manager.instance.GetInteractuable(this.IDInteractuable);
 			}
 			//El nombre a cambiar es de cualquier otro
 			else
 			{
-				interactuableGO = Manager.Instance.GetInteractuable(IDInteractuable);
+				interactuableGO = Manager.instance.GetInteractuable(IDInteractuable);
 			}
 
 			//El interactuable se ha encontrado en la escena
@@ -573,15 +574,17 @@ public class Dialogo : ObjetoSerializable
 
 					int indiceActual = interactuableNPC.DevuelveIndiceNombre();
 
-					if (indiceActual < Indice)
+					if (indiceActual < indice)
 					{
-						interactuableNPC.SetIndiceNombre(Indice);
+						interactuableNPC.SetIndiceNombre(indice);
+
+						Debug.Log(indice);
+
+						interactuableNPC.AddDatosToColaObjetos();
+
+						//Actualizamos el interactuable para que muestre el nombre modificado
+						interactuableNPC.SetNombre(interactuableNPC.DevuelveNombreActual());
 					}
-
-					interactuableNPC.AddDatosToColaObjetos();
-
-					//Actualizamos el interactuable para que muestre el nombre modificado
-					interactuableNPC.SetNombre(interactuableNPC.DevuelveNombreActual());
 				}
 			}
 			//El interactuable no se ha encontrado en la escena, lo buscamos en la cola de objetos o en directorios
@@ -589,7 +592,7 @@ public class Dialogo : ObjetoSerializable
 			{
 				InterDatos interDatos;
 
-				ColaObjeto colaObjeto = Manager.Instance.GetColaObjetos(Manager.rutaNPCDatosGuardados + IDInteractuable.ToString()  + ".xml");
+				ColaObjeto colaObjeto = Manager.instance.GetColaObjetos(Manager.rutaInterDatosGuardados + IDInteractuable.ToString()  + ".xml");
 
 				if(colaObjeto != null)
 				{
@@ -599,13 +602,13 @@ public class Dialogo : ObjetoSerializable
 				else
 				{
 					//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-					if (System.IO.File.Exists(Manager.rutaNPCDatosGuardados + IDInteractuable.ToString()  + ".xml"))
+					if (System.IO.File.Exists(Manager.rutaInterDatosGuardados + IDInteractuable.ToString()  + ".xml"))
 					{
-						interDatos = InterDatos.LoadInterDatos(Manager.rutaNPCDatosGuardados + IDInteractuable.ToString()  + ".xml");
+						interDatos = InterDatos.LoadInterDatos(Manager.rutaInterDatosGuardados + IDInteractuable.ToString()  + ".xml");
 					}
 					else
 					{
-						interDatos = InterDatos.LoadInterDatos(Manager.rutaNPCDatos + IDInteractuable.ToString()  + ".xml");
+						interDatos = InterDatos.LoadInterDatos(Manager.rutaInterDatos + IDInteractuable.ToString()  + ".xml");
 					}
 				}
 
@@ -615,12 +618,11 @@ public class Dialogo : ObjetoSerializable
 					NPCDatos npcDatos = interDatos as NPCDatos;
 					int indiceActual = npcDatos.DevuelveIndiceNombre();
 
-					if (indiceActual < Indice)
+					if (indiceActual < indice)
 					{
-						npcDatos.SetIndiceNombre(Indice);
+						npcDatos.SetIndiceNombre(indice);
+						npcDatos.AddToColaObjetos();
 					}
-
-					npcDatos.AddToColaObjetos();
 				}
 			}
 		}
@@ -630,7 +632,7 @@ public class Dialogo : ObjetoSerializable
 		{
 			int IDRutina = node.rutinas[i].DevuelveIDRutina();
 
-			Manager.Instance.cambiarRutina(IDRutina);
+			Manager.instance.CambiarRutina(IDRutina);
 		}
 	}
 
@@ -641,7 +643,7 @@ public class Dialogo : ObjetoSerializable
 		Dialogo dialogo = null;
 
 		//Miramos si el interactuable en la escena
-		GameObject interactuableGO = Manager.Instance.GetInteractuable(IDInteractuable);
+		GameObject interactuableGO = Manager.instance.GetInteractuable(IDInteractuable);
 
 		//Si el interactuable se ha encontrado en la escena
 		if(interactuableGO != null)
@@ -654,7 +656,7 @@ public class Dialogo : ObjetoSerializable
 		if(dialogo == null)
 		{
 			//Buscamos en la cola de objetos
-			ColaObjeto colaObjeto = Manager.Instance.GetColaObjetos(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
+			ColaObjeto colaObjeto = Manager.instance.GetColaObjetos(Manager.rutaInterDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
 
 			//Se ha encontrado en la cola de objetos
 			if(colaObjeto != null)
@@ -667,13 +669,13 @@ public class Dialogo : ObjetoSerializable
 			{
 				//Cargamos el dialogo
 				//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-				if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
+				if (System.IO.File.Exists(Manager.rutaInterDialogosGuardados + IDInteractuable.ToString()  + "-" + IDDialogo.ToString() + ".xml"))
 				{
-					dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+					dialogo = Dialogo.LoadDialogo(Manager.rutaInterDialogosGuardados + IDInteractuable.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 				}
 				else
 				{
-					dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogos + IDInteractuable.ToString()  + "-" + IDDialogo.ToString() + ".xml");
+					dialogo = Dialogo.LoadDialogo(Manager.rutaInterDialogos + IDInteractuable.ToString()  + "-" + IDDialogo.ToString() + ".xml");
 				}
 			}
 		}
@@ -684,10 +686,10 @@ public class Dialogo : ObjetoSerializable
 	private void CrearGrupo(int IDGrupo, int tipoDialogo, ref int posDialogo)
 	{
 		//Si el grupo no está activo y no está en la lista de grupos acabados, lo añadimos
-		if (!Manager.Instance.GrupoActivoExiste(IDGrupo) && !Manager.Instance.GrupoAcabadoExiste(IDGrupo))
+		if (!Manager.instance.GrupoActivoExiste(IDGrupo) && !Manager.instance.GrupoAcabadoExiste(IDGrupo))
 		{
 			//Comprobamos si el grupo se encuentra como grupo modificado en la lista colaObjetos del Manager
-			ColaObjeto colaObjeto = Manager.Instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+			ColaObjeto colaObjeto = Manager.instance.GetColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 
 			//El grupo se ha encontrado en la cola de objetos
 			if(colaObjeto != null)
@@ -697,7 +699,7 @@ public class Dialogo : ObjetoSerializable
 				Grupo.LoadGrupo(grupo, IDInteractuable, ID, tipoDialogo, ref posDialogo);
 
 				//Borramos el grupo modificado de la cola ahora que ya ha sido añadido
-				Manager.Instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
+				Manager.instance.RemoveFromColaObjetos(Manager.rutaGruposModificados + IDGrupo.ToString () + ".xml");
 			}
 			//El grupo no se ha encontrado en la cola de objetos, miramos en los directorios
 			else
@@ -719,7 +721,7 @@ public class Dialogo : ObjetoSerializable
 	private void EliminarGrupo(int IDGrupo, int tipoDialogo, int posTema, ref int posDialogo)
 	{
 		//Solo se pueden eliminar grupos activos actualmente
-		if(Manager.Instance.GrupoActivoExiste(IDGrupo))
+		if(Manager.instance.GrupoActivoExiste(IDGrupo))
 		{
 			//Empezamos destruyendo los intros/mensajes del dialogo actual
 			switch(tipoDialogo)
@@ -955,7 +957,7 @@ public class Dialogo : ObjetoSerializable
 
 			//Ahora comprobamos los dialogos de los interactuables de la cola de objetos del manager
 			List<ObjetoSerializable> listaObjetosSerializables = new List<ObjetoSerializable>();
-			listaObjetosSerializables = Manager.Instance.GetColaObjetosTipo(typeof(Dialogo));
+			listaObjetosSerializables = Manager.instance.GetColaObjetosTipo(typeof(Dialogo));
 
 			for(var j = 0; j < listaObjetosSerializables.Count; j++)
 			{
@@ -1023,7 +1025,7 @@ public class Dialogo : ObjetoSerializable
 			}
 
 			//Ahora comprobamos a los npcs de la escena actual
-			List<GameObject> listaInteractuablesGO = Manager.Instance.GetAllInteractuables();
+			List<GameObject> listaInteractuablesGO = Manager.instance.GetAllInteractuables();
 
 			//Lista de dialogos no actualizados, que será utilizada al comprobar los ficheros posteriormente
 			List<Dialogo> dialogosNoActualizados = new List<Dialogo>();
@@ -1040,7 +1042,7 @@ public class Dialogo : ObjetoSerializable
 
 					//Si el diálogo no está en la cola de objetos, miramos si hay que borrar algo
 					//Y el dialogo no es el actual
-					if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + interactuable.ID.ToString() + "-" + dialogo.ID.ToString() + ".xml") && !(IDInteractuable == interactuable.ID && ID == dialogo.ID))
+					if(!Manager.instance.ColaObjetoExiste(Manager.rutaInterDialogosGuardados + interactuable.ID.ToString() + "-" + dialogo.ID.ToString() + ".xml") && !(IDInteractuable == interactuable.ID && ID == dialogo.ID))
 					{
 						//Indica si el dialogo se ha actualizado, eliminando algún elemento
 						//Si lo ha hecho, se añade posteriormente a la cola de objetos para serializar
@@ -1107,7 +1109,7 @@ public class Dialogo : ObjetoSerializable
 			}
 
 			//Ahora recorremos los ficheros guardadados
-			DirectoryInfo directoyInfo = new DirectoryInfo(Manager.rutaNPCDialogosGuardados);
+			DirectoryInfo directoyInfo = new DirectoryInfo(Manager.rutaInterDialogosGuardados);
 			FileInfo[] fileInfo = directoyInfo.GetFiles().OrderByDescending( f => f.CreationTime).ToArray(); //los nuevos empiezan al principio de la lista
 
 			for(var j = 0; j < fileInfo.Length; j++)
@@ -1127,9 +1129,9 @@ public class Dialogo : ObjetoSerializable
 					//Buscamos en la cola de objetos
 					//Si existe, no hacemos nada
 					//Si no existe, comprobamos el dialogo
-					if(!Manager.Instance.ColaObjetoExiste(Manager.rutaNPCDialogosGuardados + IDs  + ".xml"))
+					if(!Manager.instance.ColaObjetoExiste(Manager.rutaInterDialogosGuardados + IDs  + ".xml"))
 					{
-						Dialogo dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogosGuardados + IDs  + ".xml");
+						Dialogo dialogo = Dialogo.LoadDialogo(Manager.rutaInterDialogosGuardados + IDs  + ".xml");
 
 						//Indica si el dialogo se ha actualizado, eliminando algún elemento
 						//Si lo ha hecho, se añade posteriormente a la cola de objetos para serializar
@@ -1192,7 +1194,7 @@ public class Dialogo : ObjetoSerializable
 
 		//Por último, eliminamos el grupo del Manager
 		//Si el grupo no está en la lista de grupos activos, se añade a la lista de grupos acabados y no podrá ser añadido
-		Manager.Instance.RemoveFromGruposActivos(IDGrupo);
+		Manager.instance.RemoveFromGruposActivos(IDGrupo);
 
 		//FALTA ENVIAR LOS MENSAJES/INTROS DE FINALIZACIÓN
 		//ESTOS SOLO PODRÁN SER ENVIADOS SI EL GRUPO ESTABA EN GRUPOS ACTIVOS
@@ -1201,14 +1203,14 @@ public class Dialogo : ObjetoSerializable
 	//Devuelve el dialogo de un xml indicado en la ruta
 	public static Dialogo LoadDialogo(string path)
 	{
-		Dialogo npc_dialogo = Manager.Instance.DeserializeData<Dialogo>(path);
+		Dialogo dialogo = Manager.instance.DeserializeData<Dialogo>(path);
 
-		return npc_dialogo;
+		return dialogo;
 	}
 
 	//Añade el dialogo a la cola de objetos serializables
 	public void AddToColaObjetos()
 	{
-		Manager.Instance.AddToColaObjetos (Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString() + "-" + ID.ToString()  + ".xml", this);
+		Manager.instance.AddToColaObjetos (Manager.rutaInterDialogosGuardados + IDInteractuable.ToString() + "-" + ID.ToString()  + ".xml", this);
 	}
 }

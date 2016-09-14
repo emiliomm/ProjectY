@@ -30,13 +30,13 @@ public class DatosAccionDialogo : DatosAccion{
 	public void CargaDialogo()
 	{
 		//Si existe un fichero guardado, cargamos ese fichero, sino cargamos el fichero por defecto
-		if (System.IO.File.Exists(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml"))
+		if (System.IO.File.Exists(Manager.rutaInterDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml"))
 		{
-			dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
+			dialogo = Dialogo.LoadDialogo(Manager.rutaInterDialogosGuardados + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
 		}
 		else
 		{
-			dialogo = Dialogo.LoadDialogo(Manager.rutaNPCDialogos + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
+			dialogo = Dialogo.LoadDialogo(Manager.rutaInterDialogos + IDInteractuable.ToString() + "-" + IDDialogo.ToString() + ".xml");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class DatosAccionDialogo : DatosAccion{
 	//Ejecuta el diálogo
 	public override void EjecutarAccion()
 	{
-		GameObject gameobject = Manager.Instance.GetInteractuable(IDInteractuable);
+		GameObject gameobject = Manager.instance.GetInteractuable(IDInteractuable);
 
 		if(gameobject != null)
 		{

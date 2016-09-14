@@ -6,27 +6,27 @@ public class TransporteCollider : MonoBehaviour {
 	private int IDInteractuable; //Indica el ID del inetractuable el cual debe chocar con el transporteCollider
 	private GameObject transporte;
 
-	public void setIDInteractuable(int ID)
+	public void setIDInteractuable(int IDInteractuable)
 	{
-		IDInteractuable = ID;
+		this.IDInteractuable = IDInteractuable;
 	}
 
-	public void setTransporte(GameObject trans)
+	public void setTransporte(GameObject transporteGO)
 	{
-		transporte = trans;
+		this.transporte = transporteGO;
 	}
 	
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Interactuable" )
 		{
-			InteractuableNPC inter = other.GetComponentInParent<InteractuableNPC>();
+			InteractuableNPC interactuableNPC = other.GetComponentInParent<InteractuableNPC>();
 
-			if(inter != null)
+			if(interactuableNPC != null)
 			{
-				if(inter.ID == IDInteractuable)
+				if(interactuableNPC.ID == IDInteractuable)
 				{
-					Manager.Instance.deleteNavhMeshAgent(inter.DevuelveNavhMeshAgent());
+					Manager.instance.DeleteNavhMeshAgent(interactuableNPC.DevuelveNavhMeshAgent());
 					Destroy(other.transform.parent.gameObject);
 					Destroy(gameObject);
 

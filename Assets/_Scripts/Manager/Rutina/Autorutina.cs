@@ -5,7 +5,7 @@ using System;
 public class Autorutina{
 
 	public int ID; //El ID de la autorutina es el mismo que el de la rutina que acompaña (ACTUALMENTE NO SE USA)
-	public int IDInter;
+	public int IDInteractuable;
 
 	//Número de horas que deben pasar antes de que la hora cambie
 	public int numHoras;
@@ -46,25 +46,25 @@ public class Autorutina{
 		return SigRutina;
 	}
 
-	public void setFechaRutina(DateTime fecha)
+	public void SetFechaRutina(DateTime fecha)
 	{
 		fechaRutina = fecha;
 	}
 
-	public DateTime getFechaRutina()
+	public DateTime GetFechaRutina()
 	{
 		return fechaRutina;
 	}
 
 	public static Autorutina LoadAutoRutina(string path)
 	{
-		Autorutina autorut = Manager.Instance.DeserializeData<Autorutina>(path);
+		Autorutina autorutina = Manager.instance.DeserializeData<Autorutina>(path);
 
-		return autorut;
+		return autorutina;
 	}
 		
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData(this, Manager.rutaAutoRutinasGuardadas, ID.ToString()  + ".xml");
+		Manager.instance.SerializeData(this, Manager.rutaAutorutinasGuardadas, ID.ToString()  + ".xml");
 	}
 }

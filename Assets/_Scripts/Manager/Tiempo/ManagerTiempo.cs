@@ -6,28 +6,28 @@
 public class ManagerTiempo{
 
 	//Segundos reales que tarda en cambiar de hora el juego
-	private int SegundosHora = 2;
+	private int duracionHoraEnSegundosReales = 2;
 
-	public int Dia = 0;
-	public int Hora = 0;
-	public int Minutos = 0;
+	public int dia = 0;
+	public int hora = 0;
+	public int minutos = 0;
 
 	public ManagerTiempo()
 	{
 		
 	}
 
-	public int getHora()
+	public int GetHora()
 	{
-		return Hora;
+		return hora;
 	}
 
 	//Si los Minutos han llegado al máximo de tiempo que establece SegundosHora, devuelve true
-	public bool continuaHora()
+	public bool ContinuaHora()
 	{
 		bool continua = false;
 
-		if(Minutos == SegundosHora)
+		if(minutos == duracionHoraEnSegundosReales)
 		{
 			continua = true;
 		}
@@ -35,20 +35,20 @@ public class ManagerTiempo{
 		return continua;
 	}
 
-	public void avanzaMinutos()
+	public void AvanzaMinutos()
 	{
-		Minutos++;
+		minutos++;
 	}
 
-	public void avanzaHora()
+	public void AvanzaHora()
 	{
-		Hora++;
-		Hora = Hora % 24;
+		hora++;
+		hora = hora % 24;
 
-		if(Hora == 0)
-			Dia++;
+		if(hora == 0)
+			dia++;
 
-		Minutos = 0;
+		minutos = 0;
 
 		//Guardamos el progreso de las variables del tiempo
 		Serialize();
@@ -57,7 +57,7 @@ public class ManagerTiempo{
 	//Devuelve una instancia de managertiempo de un xml indicado en la ruta
 	public static ManagerTiempo LoadManagerTiempo()
 	{
-		ManagerTiempo managerTiempo = Manager.Instance.DeserializeData<ManagerTiempo>(Manager.rutaTiempo + "Tiempo.xml");
+		ManagerTiempo managerTiempo = Manager.instance.DeserializeData<ManagerTiempo>(Manager.rutaTiempo + "Tiempo.xml");
 
 		return managerTiempo;
 	}
@@ -65,6 +65,6 @@ public class ManagerTiempo{
 	//Guarda la instancia en un fichero xml en la ruta especificada
 	public void Serialize()
 	{
-		Manager.Instance.SerializeData(this, Manager.rutaTiempo, "Tiempo.xml"); //AÑADIR A MANAGER.RUTATIEMPO TIEMPO.XML
+		Manager.instance.SerializeData(this, Manager.rutaTiempo, "Tiempo.xml"); //AÑADIR A MANAGER.RUTATIEMPO TIEMPO.XML
 	}
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Rutina{
 
 	public int ID;
-	public bool Autorutina; //Indica si la rutina tiene autorutina
+	public bool autorutina; //Indica si la rutina tiene autorutina
 
 	//Los PosicionLugarSiguiente deben estar en la lista ordenados según la hora de menor a mayor
 	public List<PosicionLugarSiguiente> posLugarSiguientes;
@@ -17,7 +17,7 @@ public class Rutina{
 		
 	public static Rutina LoadRutina(string path)
 	{
-		Rutina rutina = Manager.Instance.DeserializeData<Rutina>(path);
+		Rutina rutina = Manager.instance.DeserializeData<Rutina>(path);
 
 		return rutina;
 	}

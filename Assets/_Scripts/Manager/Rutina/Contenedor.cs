@@ -5,35 +5,35 @@ using System.Collections.Generic;
 public class Contenedor{
 
 	private List<Autorutina> autorutinas;
-	private List<Lugar_Siguiente> lugarSiguientes;
+	private List<LugarSiguiente> lugarSiguientes;
 
 	public Contenedor()
 	{
 		
 	}
 
-	public void addAutorutina(Autorutina auto)
+	public void AddAutorutina(Autorutina autorutina)
 	{
 		if(autorutinas == null)
 			autorutinas = new List<Autorutina>();
 		
-		autorutinas.Add(auto);
+		autorutinas.Add(autorutina);
 	}
 
-	public void addLugarSig(Lugar_Siguiente lSig)
+	public void AddLugarSig(LugarSiguiente lugarSig)
 	{
 		if(lugarSiguientes == null)
-			lugarSiguientes = new List<Lugar_Siguiente>();
+			lugarSiguientes = new List<LugarSiguiente>();
 		
-		lugarSiguientes.Add(lSig);
+		lugarSiguientes.Add(lugarSig);
 	}
 
-	public List<Lugar_Siguiente> devuelveLugarSiguientes()
+	public List<LugarSiguiente> DevuelveLugarSiguientes()
 	{
 		return lugarSiguientes;
 	}
 
-	public List<Autorutina> devuelveAutorutina()
+	public List<Autorutina> DevuelveAutorutina()
 	{
 		return autorutinas;
 	}

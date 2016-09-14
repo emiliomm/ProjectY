@@ -41,7 +41,7 @@ public class TiendaController : MonoBehaviour {
 		//this.fuente = fuente;
 		//this.fondo = fondo;
 
-		gameObject.transform.SetParent(Manager.Instance.canvasGlobal.transform, false);
+		gameObject.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 		contenedorMenus = gameObject.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
 		descripcion = gameObject.transform.GetChild(1).gameObject;
@@ -112,7 +112,7 @@ public class TiendaController : MonoBehaviour {
 		Inventario inventarioPropio;
 
 		//Buscamos el inventario en la colaobjetos
-		ColaObjeto inventarioCola = Manager.Instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
+		ColaObjeto inventarioCola = Manager.instance.GetColaObjetos(Manager.rutaInventario + "Inventario.xml");
 
 		//Se ha encontrado en la cola de objetos
 		if(inventarioCola != null)
@@ -147,12 +147,12 @@ public class TiendaController : MonoBehaviour {
 		if(!dialogo)
 		{
 			//Actualizamos el inventario si hemos comprado algo
-			Manager.Instance.SerializarCola();
+			Manager.instance.SerializarCola();
 
 
 			TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-			Manager.Instance.setPausa(false);
-			Manager.Instance.resumeNavMeshAgents();
+			Manager.instance.SetPausa(false);
+			Manager.instance.ResumeNavMeshAgents();
 		}
 		else
 		{
