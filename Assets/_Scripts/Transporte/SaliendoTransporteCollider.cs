@@ -6,12 +6,12 @@ public class SaliendoTransporteCollider : MonoBehaviour {
 	private int IDInteractuable; //Indica el ID del interactuable el cual debe chocar con el transporteCollider
 	private GameObject transporte;
 
-	public void setIDInteractuable(int IDInteractuable)
+	public void SetIDInteractuable(int IDInteractuable)
 	{
 		this.IDInteractuable = IDInteractuable;
 	}
 
-	public void setTransporte(GameObject transporte)
+	public void SetTransporte(GameObject transporte)
 	{
 		this.transporte = transporte;
 	}

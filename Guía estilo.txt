@@ -34,6 +34,14 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - En las acciones, las variables de un objeto que determinan si una acción se muestra no son comprobadas con InteractuablesNPC, solo con InteractuableObjeto
 - Los eventos que se ejecutan al iniciar el juego son los de la última hora guardada antes de cerrar el juego
 
+ESTILO CÓDIGO
+- El nombre de las variables empieza en minúsculas, sin espacios. Los espacios se sustituyen por mayúsculas. (Ej: holaMundo).
+- Cuando dos variables se llaman igual, se puede añadir un "_" en los espacios. (Ej: hola_Mundo).
+
+- El nombre de las funciones empieza en mayúsculas y los espacios se sustituyen por mayúsculas (Ej: HolaMundo).
+
+- Los estados se escriben totalmente en mayúsculas y con "_" sustituyendo los espacios. Lo mismo se aplica para el nombre de constantes (Ej: ESTADO_HOLA_MUNDO).
+
 LAYERS
 
 TAGS

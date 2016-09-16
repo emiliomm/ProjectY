@@ -25,6 +25,6 @@ public class DatosAccionLector : DatosAccion {
 		lectorController.CargarVariable(IDObjeto, numVariable, valorNegativo);
 
 		//Se establece el modo de la cámara en el Modo Objeto
-		Camera.main.GetComponent<TP_Camera>().setObjectMode();
+		Camera.main.GetComponent<TP_Camera>().SetObjectMode();
 	}
 }

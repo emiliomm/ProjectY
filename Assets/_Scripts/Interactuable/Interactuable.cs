@@ -405,9 +405,9 @@ public class Interactuable : MonoBehaviour {
 			MoverCanvas();
 
 			//Si pulsamos click izquierdo, significa que estamos interactuando con la UI
-			if (Input.GetMouseButton(0) && TP_Controller.Instance.CurrentState == TP_Controller.State.Normal)
+			if (Input.GetMouseButton(0) && TPController.instance.CurrentState == TPController.State.Normal)
 			{
-				TP_Controller.Instance.SetState(TP_Controller.State.Interactuables);
+				TPController.instance.SetState(TPController.State.Interactuables);
 				SetState(State.Accionando);
 				ChangeCursorUI(Resources.Load<Sprite>("cursor")); //MOVER LA REFERENCIA DEL RESOURCE AL MANAGER PARA NO TENER QUE ESTAR CARGÁNDOLA CONTINUAMENTE
 			}
@@ -422,7 +422,7 @@ public class Interactuable : MonoBehaviour {
 			{
 				Manager.instance.ResumeNavMeshAgents();
 				DefaultCursorUI();
-				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+				TPController.instance.SetState(TPController.State.Normal);
 				SetState(State.Seleccionado);
 			}
 			else
@@ -439,7 +439,7 @@ public class Interactuable : MonoBehaviour {
 	//Calcula la distancia entre el jugador y el interactuable
 	private void CalcularDistancia()
 	{
-		distance = Vector3.Distance(TP_Controller.Instance.transform.position, transform.position);
+		distance = Vector3.Distance(TPController.instance.transform.position, transform.position);
 	}
 
 	private void MuestraCanvasSinTransparencia()

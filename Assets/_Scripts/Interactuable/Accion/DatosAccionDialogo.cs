@@ -67,7 +67,7 @@ public class DatosAccionDialogo : DatosAccion{
 
 			if(interactuable != null)
 			{
-				TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+				TPController.instance.SetState(TPController.State.Normal);
 				TextBox.instance.PrepararDialogo(interactuable, dialogo, -1);
 			}
 		}

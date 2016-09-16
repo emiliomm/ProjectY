@@ -5,32 +5,32 @@
  *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
  * 	Modificada por mí
  */
-public class TP_Controller : MonoBehaviour
+public class TPController : MonoBehaviour
 {
 	//Radio cápsula de al menos 0.4
 	public static CharacterController characterController; //Nos permite lidiar con colisiones sin RigidBody
-	public static TP_Controller Instance; //Instancia propia de la clase
+	public static TPController instance; //Instancia propia de la clase
 
 	public enum State { Normal, Dialogo, Interactuables }
 
-	private State _state;
-	private State _prevState;
+	private State state;
+	private State prevState;
 
 	public State CurrentState {
-		get { return _state; } 
+		get { return state; } 
 	}
 
 	public State PrevState {
-		get { return _prevState; }
+		get { return prevState; }
 	}
 
 	public void SetState(State newState) {
-		_prevState = _state;
-		_state = newState;
+		prevState = state;
+		state = newState;
 	}
 
 	//indica si está tocando el suelo
-	public bool onGround { get { return isOnGround(); } }
+	public bool onGround { get { return IsOnGround(); } }
 
 	//Indica si el jugador está utilizando un transporte entre escenas
 	private bool transportando;
@@ -43,8 +43,10 @@ public class TP_Controller : MonoBehaviour
 		//Inicializamos el componente CharacterController
 		//Inicializamos la variable instancia
 		characterController = GetComponent<CharacterController>(); 
-		Instance = this;
+		instance = this;
 		SetState(State.Normal);
+
+		Debug.Log("Awake controller");
 
 		//creamos o buscamos una camara
 		TP_Camera.UseExistingOrCreateMainCamera();
@@ -53,7 +55,7 @@ public class TP_Controller : MonoBehaviour
 	private void Update ()
 	{
 		//Dependiendo del estado, hacemos unas cosas u otras
-		switch(_state)
+		switch(state)
 		{
 		case State.Normal:
 			//Si no hay camara, no nos movemos
@@ -67,20 +69,20 @@ public class TP_Controller : MonoBehaviour
 
 				HandleActionInput();
 
-				TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+				TPMotor.instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 				InteractuableCollider.Instance.EncontrarInteractuablesCercanos();
 			}
 			break;
 		case State.Dialogo: //También se usa en la pantalla de Inventario, de momento
 		case State.Interactuables:
 			//guardamos el valor del movevector.y ya que vamos a transformarlo a 0 despues, pero necesitamos el valor
-			TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;
+			TPMotor.instance.verticalVelocity = TPMotor.instance.moveVector.y;
 
 			//Lo igualamos a 0 para recalcularlo cada frame
-			TP_Motor.Instance.MoveVector = new Vector3(0f, -1f, 0f); //Unity necesita tener gravedad siempre activa para el CharacterController
-			TP_Animator.Instance.SetMoveDirection(TP_Animator.Direction.Stationary);
+			TPMotor.instance.moveVector = new Vector3(0f, -1f, 0f); //Unity necesita tener gravedad siempre activa para el CharacterController
+			TPAnimator.instance.SetMoveDirection(TPAnimator.Direction.Stationary);
 
-			TP_Motor.Instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+			TPMotor.instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;
 		}
 	}
@@ -102,7 +104,7 @@ public class TP_Controller : MonoBehaviour
 			Manager.instance.SetPausa(true);
 			Manager.instance.StopNavMeshAgents();
 			Cursor.visible = true; //Muestra el cursor del ratón
-			Camera.main.GetComponent<TP_Camera>().setObjectMode();
+			Camera.main.GetComponent<TP_Camera>().SetObjectMode();
 		}
 
 		return activado;
@@ -118,21 +120,21 @@ public class TP_Controller : MonoBehaviour
 		var deadZone = 0.1f;//zona muerta del controlador
 
 		//guardamos el valor del movevector.y ya que vamos a transformarlo a 0 despues, pero necesitamos el valor
-		TP_Motor.Instance.VerticalVelocity = TP_Motor.Instance.MoveVector.y;
+		TPMotor.instance.verticalVelocity = TPMotor.instance.moveVector.y;
 
 		//Lo igualamos a 0 para recalcularlo cada frame
-		TP_Motor.Instance.MoveVector = Vector3.zero;
+		TPMotor.instance.moveVector = Vector3.zero;
 
 		//Añadimos el movimiento del axis vertical si su movimiento es mayor que la zona muerta
 		if (Input.GetAxis("Vertical") > deadZone || Input.GetAxis("Vertical") < -deadZone)
-			TP_Motor.Instance.MoveVector += new Vector3( 0, 0, Input.GetAxis("Vertical"));
+			TPMotor.instance.moveVector += new Vector3( 0, 0, Input.GetAxis("Vertical"));
 
 		//Añadimos el movimiento del axis horizontal si su movimiento es mayor que la zona muerta
 		if (Input.GetAxis("Horizontal") > deadZone || Input.GetAxis("Horizontal") < -deadZone)
-			TP_Motor.Instance.MoveVector += new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+			TPMotor.instance.moveVector += new Vector3(Input.GetAxis("Horizontal"), 0, 0);
 
 		//Determinamos la direccion ahora que tenemos el vector de movimiento
-		TP_Animator.Instance.DetermineCurrentMoveDirection();
+		TPAnimator.instance.DetermineCurrentMoveDirection();
 	}
 
 	//Comprobamos si el jugador pulsa alguna tecla para realizar alguna acción, como saltar
@@ -148,22 +150,22 @@ public class TP_Controller : MonoBehaviour
 	//Aplicamos el salto
 	private void Jump()
 	{
-		if(TP_Animator.Instance.Jump()) //Ejecutamos la animación de salto
-			TP_Motor.Instance.Jump(); //Ejecutamos las operaciones de salto
+		if(TPAnimator.instance.Jump()) //Ejecutamos la animación de salto
+			TPMotor.instance.Jump(); //Ejecutamos las operaciones de salto
 	}
 
 	//Comprobamos si estamos en el suelo
-	private bool isOnGround()
+	private bool IsOnGround()
 	{
 		return characterController.isGrounded;
 	}
 
-	public void setTransportando(bool estado)
+	public void SetTransportando(bool estado)
 	{
 		transportando = estado;
 	}
 
-	public bool getTransportando()
+	public bool GetTransportando()
 	{
 		return transportando;
 	}

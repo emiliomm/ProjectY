@@ -48,11 +48,11 @@ public class LectorController : MonoBehaviour {
 	{
 		lector.GetComponent<Lector>().GuardarValor();
 
-		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+		TPController.instance.SetState(TPController.State.Normal);
 		Manager.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 
-		Camera.main.GetComponent<TP_Camera>().setNormalMode();
+		Camera.main.GetComponent<TP_Camera>().SetNormalMode();
 
 		Destroy(lector);
 		Destroy(tarjeta);

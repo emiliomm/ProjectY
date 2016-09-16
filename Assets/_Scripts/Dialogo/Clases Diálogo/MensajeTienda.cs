@@ -34,7 +34,7 @@ public class MensajeTienda : Mensaje
 		tiendaController.InicializarTienda(escaparate, numY, inventario, true);
 
 		//Se establece el modo de la cámara en el Modo Objeto
-		Camera.main.GetComponent<TP_Camera>().setObjectMode();
+		Camera.main.GetComponent<TP_Camera>().SetObjectMode();
 	}
 
 	private void CargarInventario(Inventario inventario)

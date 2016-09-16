@@ -27,11 +27,11 @@ public class TransportePlayer : TransporteInter
 
 	protected virtual void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Player" && !transportando && !TP_Controller.Instance.getTransportando())
+		if (other.tag == "Player" && !transportando && !TPController.instance.GetTransportando())
 		{
 			DontDestroyOnLoad(gameObject);
 			SceneManager.LoadScene(IDEscena, LoadSceneMode.Single);
-			TP_Controller.Instance.setTransportando(true);
+			TPController.instance.SetTransportando(true);
 			transportando = true;
 		}
 	}
@@ -61,10 +61,10 @@ public class TransportePlayer : TransporteInter
 		if(transporteGO != null)
 		{
 			//El número -1.13676f en el eje Y es la resta entre el centro del objeto del transporte y el centro del objeto del jugador, cambiar si se cambia el objeto del jugador
-			TP_Controller.Instance.transform.position = new Vector3(transporteGO.transform.position.x, transporteGO.transform.position.y - 1.13676f, transporteGO.transform.position.z);
+			TPController.instance.transform.position = new Vector3(transporteGO.transform.position.x, transporteGO.transform.position.y - 1.13676f, transporteGO.transform.position.z);
 			//MOVER CÁMARA AQUÍ EN EL FUTURO
 			transporteGO.GetComponent<TransportePlayer>().transportando = true;
-			TP_Controller.Instance.setTransportando(false);
+			TPController.instance.SetTransportando(false);
 		}
 		Destroy(gameObject);
 	}

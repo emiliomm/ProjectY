@@ -5,13 +5,13 @@
  *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
  * 	Modificada por mí
  */
-public class TP_Animator : MonoBehaviour
+public class TPAnimator : MonoBehaviour
 {
 	//Instancia de la clase (singleton)
-	public static TP_Animator Instance;
+	public static TPAnimator instance;
 
 	//Guarda el componente Animator del objeto de la clase
-	Animator animator;
+	private Animator animator;
 
 	//Estados de las direcciones del personaje
 	public enum Direction
@@ -35,17 +35,17 @@ public class TP_Animator : MonoBehaviour
 	const int WALKBACKWARDS_STATE = 5;
 
 	//propiedad que guarda nuestra direccion
-	public Direction MoveDirection {get; set; }
-	public Direction PrevMoveDirection {get; set; }
+	public Direction moveDirection {get; set; }
+	public Direction prevMoveDirection {get; set; }
 
 	public void SetMoveDirection(Direction newState) {
-		PrevMoveDirection = MoveDirection;
-		MoveDirection = newState;
+		prevMoveDirection = moveDirection;
+		moveDirection = newState;
 	}
 
 	void Awake()
 	{
-		Instance = this;
+		instance = this;
 		animator = GetComponent<Animator>();
 	}
 
@@ -57,13 +57,13 @@ public class TP_Animator : MonoBehaviour
 		var left = false;
 		var right = false;
 
-		if(TP_Motor.Instance.MoveVector.z > 0) //nos movemos hacia adelante
+		if(TPMotor.instance.moveVector.z > 0) //nos movemos hacia adelante
 			forward = true;
-		if(TP_Motor.Instance.MoveVector.z < 0) //nos movemos hacia atras
+		if(TPMotor.instance.moveVector.z < 0) //nos movemos hacia atras
 			backward = true;
-		if(TP_Motor.Instance.MoveVector.x > 0) //nos movemos hacia la derecha
+		if(TPMotor.instance.moveVector.x > 0) //nos movemos hacia la derecha
 			right = true;
-		if(TP_Motor.Instance.MoveVector.x < 0) //nos movemos hacia la izquierda
+		if(TPMotor.instance.moveVector.x < 0) //nos movemos hacia la izquierda
 			left = true;
 
 		if (forward)
@@ -93,37 +93,37 @@ public class TP_Animator : MonoBehaviour
 			SetMoveDirection(Direction.Stationary);
 	}
 
-	void Update()
+	private void Update()
 	{
 		ProcessCurrentState(DetermineCurrentState());
 	}
 
-	private bool isInIdle(int currentState)
+	private bool IsInIdle(int currentState)
 	{
 		return idleState == currentState;
 	}
 
-	private bool isInJumping(int currentState)
+	private bool IsInJumping(int currentState)
 	{
 		return jumpingState == currentState;
 	}
 
-	private bool isInLanding(int currentState)
+	private bool IsInLanding(int currentState)
 	{
 		return landingState == currentState;
 	}
 
-	private bool isInFalling(int currentState)
+	private bool IsInFalling(int currentState)
 	{
 		return fallingState == currentState;
 	}
 
-	private bool isInRunning(int currentState)
+	private bool IsInRunning(int currentState)
 	{
 		return runningState == currentState;
 	}
 
-	private bool isInWalkbackwards(int currentState)
+	private bool IsInWalkbackwards(int currentState)
 	{
 		return walkbackwardsState == currentState;
 	}
@@ -135,27 +135,27 @@ public class TP_Animator : MonoBehaviour
 
 		int estado = -1;
 
-		if(isInIdle(currentBaseState.shortNameHash))
+		if(IsInIdle(currentBaseState.shortNameHash))
 		{
 			estado = IDLE_STATE;
 		}
-		else if(isInJumping(currentBaseState.shortNameHash))
+		else if(IsInJumping(currentBaseState.shortNameHash))
 		{
 			estado = JUMPING_STATE;
 		}
-		else if(isInLanding(currentBaseState.shortNameHash))
+		else if(IsInLanding(currentBaseState.shortNameHash))
 		{
 			estado = LANDING_STATE;
 		}
-		else if(isInFalling(currentBaseState.shortNameHash))
+		else if(IsInFalling(currentBaseState.shortNameHash))
 		{
 			estado = FALLING_STATE;
 		}
-		else if(isInRunning(currentBaseState.shortNameHash))
+		else if(IsInRunning(currentBaseState.shortNameHash))
 		{
 			estado = RUNNING_STATE;
 		}
-		else if(isInWalkbackwards(currentBaseState.shortNameHash))
+		else if(IsInWalkbackwards(currentBaseState.shortNameHash))
 		{
 			estado = WALKBACKWARDS_STATE;
 		}
@@ -193,9 +193,9 @@ public class TP_Animator : MonoBehaviour
 
 	private void Idle()
 	{
-		if(TP_Controller.Instance.onGround)
+		if(TPController.instance.onGround)
 		{
-			switch(MoveDirection)
+			switch(moveDirection)
 			{
 			case Direction.Stationary:
 			case Direction.Left:
@@ -219,9 +219,9 @@ public class TP_Animator : MonoBehaviour
 
 	private void WalkBackwards()
 	{
-		if(TP_Controller.Instance.onGround)
+		if(TPController.instance.onGround)
 		{
-			switch(MoveDirection)
+			switch(moveDirection)
 			{
 			case Direction.Stationary:
 				animator.SetBool("isWalkingBackwards", false);
@@ -245,9 +245,9 @@ public class TP_Animator : MonoBehaviour
 
 	private void Running()
 	{
-		if(TP_Controller.Instance.onGround)
+		if(TPController.instance.onGround)
 		{
-			switch(MoveDirection)
+			switch(moveDirection)
 			{
 			case Direction.Stationary:
 				animator.SetBool("isRunning", false);
@@ -281,7 +281,7 @@ public class TP_Animator : MonoBehaviour
 
 	private void Jumping()
 	{
-		if(!TP_Controller.Instance.onGround)
+		if(!TPController.instance.onGround)
 		{
 			animator.SetBool("isFalling", true);
 		}
@@ -297,7 +297,7 @@ public class TP_Animator : MonoBehaviour
 		animator.SetBool("isRunning", false);
 		animator.SetBool("isWalkingBackwards", false);
 		animator.SetBool("isFalling", false);
-		if(TP_Controller.Instance.onGround)
+		if(TPController.instance.onGround)
 		{
 			animator.SetBool("isLanding", true);
 		}
@@ -316,7 +316,7 @@ public class TP_Animator : MonoBehaviour
 	{
 		bool haSaltado = false;
 
-		if(TP_Controller.Instance.onGround && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("WalkBackwards") || animator.GetCurrentAnimatorStateInfo(0).IsName("Running")))
+		if(TPController.instance.onGround && (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") || animator.GetCurrentAnimatorStateInfo(0).IsName("WalkBackwards") || animator.GetCurrentAnimatorStateInfo(0).IsName("Running")))
 		{
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isLanding", false);

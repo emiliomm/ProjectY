@@ -393,7 +393,7 @@ public class Manager : MonoBehaviour {
 				boxCollider.isTrigger = true;
 
 				RutaCollider rutaCollider = rutaColliderGO.AddComponent<RutaCollider>();
-				rutaCollider.setIDInteractuable(IDInteractuable);
+				rutaCollider.SetIDInteractuable(IDInteractuable);
 
 				if(transporteGO.GetComponent<TransporteInter>().ComprobarSiEsTransporteObjeto())
 				{
@@ -407,8 +407,8 @@ public class Manager : MonoBehaviour {
 
 					SaliendoTransporteCollider saliendoTransporteCollider = transporteColliderGO.AddComponent<SaliendoTransporteCollider>();
 
-					saliendoTransporteCollider.setIDInteractuable(IDInteractuable);
-					saliendoTransporteCollider.setTransporte(transporteGO);
+					saliendoTransporteCollider.SetIDInteractuable(IDInteractuable);
+					saliendoTransporteCollider.SetTransporte(transporteGO);
 				}
 			}
 			else
@@ -471,12 +471,12 @@ public class Manager : MonoBehaviour {
 				boxCollider.isTrigger = true;
 
 				TransporteCollider transporteCollider = transporteColliderGO.AddComponent<TransporteCollider>();
-				transporteCollider.setIDInteractuable(IDInteractuable);
+				transporteCollider.SetIDInteractuable(IDInteractuable);
 
 				if(transporteMasCercano.GetComponent<TransporteInter>().ComprobarSiEsTransporteObjeto())
 				{
 					transporteMasCercano.transform.parent.GetComponent<InteractuableObjeto>().SetNavObstacle(false);
-					transporteCollider.setTransporte(transporteMasCercano);
+					transporteCollider.SetTransporte(transporteMasCercano);
 				}
 			}
 			//si no existe un transporte que nos lleve a la escena que queremos, destruimos el interactuable

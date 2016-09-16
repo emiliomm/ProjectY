@@ -20,6 +20,7 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- La cámara no se mueve del todo fluída que me gustaría, a veces se ven pequeños "tirones", mejorar el comportamiento.
 - Poner la inicialización de los objetos en Awake() y lo demás en Start()
 - El dialogoAccion debe poner la cámara en algún sitio, sino se queda en mala posición (quizá al jugador ¿?)
 - Mirar los archivos guardados para empezar a estructurar la historia
@@ -88,7 +89,7 @@ COSAS POR HACER:
 - El radio de las acciones es igual pero al no estar centrada la posicion respecto al texto unas acciones son más dificiles de alcanzar
 - Serializar los objetoser como las acciones, sin cambiar el nombre
 - Refractorizar partes de NPC (nombres funciones, parámetros, etc.)
-- Refractorizar nombres de funciones, parámetros... Por todo el código
+	- Seguir idioma común en el código (y no inglés y español como ahora)
 - Comentar todo el código
 - Hacer que los gruposactivos y los gruposeliminados no se serialicen todo el rato, solo cuando sean modificados
 - Cuando el jugador sabe un nombre de un NPC y otro NPC nombra a ese con un nombre diferente, como implementar caminos diferentes:

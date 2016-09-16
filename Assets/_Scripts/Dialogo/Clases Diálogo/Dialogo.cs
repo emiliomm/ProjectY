@@ -553,7 +553,6 @@ public class Dialogo : ObjetoSerializable
 			//El nombre a cambiar es del interactuable del cual forma parte el dialogo
 			if(IDInteractuable == -1)
 			{
-				Debug.Log("hujabldfkase: " + this.IDInteractuable);
 				interactuableGO = Manager.instance.GetInteractuable(this.IDInteractuable);
 			}
 			//El nombre a cambiar es de cualquier otro
@@ -577,8 +576,6 @@ public class Dialogo : ObjetoSerializable
 					if (indiceActual < indice)
 					{
 						interactuableNPC.SetIndiceNombre(indice);
-
-						Debug.Log(indice);
 
 						interactuableNPC.AddDatosToColaObjetos();
 

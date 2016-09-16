@@ -5,32 +5,32 @@
  *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
  * 	Modificada por mí
  */
-public class TP_Motor : MonoBehaviour
+public class TPMotor : MonoBehaviour
 {
 	//patrón singleton
-	public static TP_Motor Instance;
+	public static TPMotor instance;
 
-	public float ForwardSpeed = 10f; //Velocidad de movimiento hacia delante
-	public float BackwardSpeed = 2f; //Velocidad de movimiento hacia atras
-	public float StrafingSpeed = 5f; //Velocidad de movimiento lateral
-	public float SlideSpeed = 10f; //Velocidad de movimiento resbaladiza
+	public float forwardSpeed = 3.2f; //Velocidad de movimiento hacia delante
+	public float backwardSpeed = 2f; //Velocidad de movimiento hacia atras
+	public float strafingSpeed = 2f; //Velocidad de movimiento lateral
+	public float slideSpeed = 3f; //Velocidad de movimiento resbaladiza
 
-	public float JumpSpeed = 10f;
-	public float Gravity = 21f;
-	public float TerminalVelocity = 20f;
-	public float SlideThreshold = 0.6f;//Limite para resbalar
-	public float MaxControllableSlideMagnitude = 0.4f;//El personaje puede controlarse al resbalar si no rebasa este parametro
+	public float jumpSpeed = 10f;
+	public float gravity = 21f;
+	public float terminalVelocity = 10f;
+	public float slideThreshold = 0.6f;//Limite para resbalar
+	public float maxControllableSlideMagnitude = 0.4f;//El personaje puede controlarse al resbalar si no rebasa este parametro
 
 	private Vector3 slideDirection;
 
-	public Vector3 MoveVector {get; set; } //Vector de movimiento
-	public float VerticalVelocity {get; set; } //Velocidad vertical
+	public Vector3 moveVector {get; set; } //Vector de movimiento
+	public float verticalVelocity {get; set; } //Velocidad vertical
 	
 	// Use this when the object is created
 	void Awake()
 	{
 		//Inicializamos la variable instancia
-		Instance = this;
+		instance = this;
 	}
 
 	public void UpdateMotor()
@@ -43,36 +43,36 @@ public class TP_Motor : MonoBehaviour
 	private void ProcessMotion()
 	{
 		//Transformamos MoveVector al espacio del mundo
-		MoveVector = transform.TransformDirection(MoveVector);
+		moveVector = transform.TransformDirection(moveVector);
 
 		//Normalizamos MoveVector si la magnitud es > 1
-		if (MoveVector.magnitude > 1)
-			MoveVector = Vector3.Normalize(MoveVector);
+		if (moveVector.magnitude > 1)
+			moveVector = Vector3.Normalize(moveVector);
 
 		//Comprobamos si resbalamos
 		ApplySlide();
 
 		//Multiplamos MoveVector por MoveSpeed
-		MoveVector *= MoveSpeed();
+		moveVector *= MoveSpeed();
 
 		//Reaplicamos la VelocidadTerminal a MoveVector.y
-		MoveVector = new Vector3(MoveVector.x, VerticalVelocity, MoveVector.z);
+		moveVector = new Vector3(moveVector.x, verticalVelocity, moveVector.z);
 
 		//Aplicamos la gravedad
 		ApplyGravity();
 
 		//Movemos el personaje en el espacio del mundo
 		//Convertimos el MoveVector(units*frame) a (units*second). Para ello, multiplicamos el MoveVector por DeltaTime
-		TP_Controller.characterController.Move(MoveVector * Time.deltaTime);
+		TPController.characterController.Move(moveVector * Time.deltaTime);
 	}
 
 	//Aplicamos la gravedad
 	public void ApplyGravity()
 	{
 		//Si no superamos la velocidad terminal, aplicamos la gravedad
-		if (MoveVector.y > -TerminalVelocity)
+		if (moveVector.y > -terminalVelocity)
 			//Restamos a y la gravedad en m/s
-			MoveVector = new Vector3(MoveVector.x, MoveVector.y - Gravity * Time.deltaTime, MoveVector.z);
+			moveVector = new Vector3(moveVector.x, moveVector.y - gravity * Time.deltaTime, moveVector.z);
 
 		//ACTUALMENTE USANDO OTRO MÉTODO
 		//Si el personaje esta tocando tierra, reseteamos la y a -1 para que no supere valores negativos mas bajos
@@ -85,7 +85,7 @@ public class TP_Motor : MonoBehaviour
 	private void ApplySlide()
 	{
 		//Si estamos en el aire, no hacemos nada
-		if(!TP_Controller.Instance.onGround)
+		if(!TPController.instance.onGround)
 			return;
 
 		slideDirection = Vector3.zero;
@@ -96,18 +96,18 @@ public class TP_Motor : MonoBehaviour
 		//El rayo esta apuntando hacia abajo
 		if(Physics.Raycast(transform.position, Vector3.down, out hitInfo))
 		{
-			if (hitInfo.normal.y < SlideThreshold) //si la normal a la que le hemos dado es menor que nuestro limite, resbalamos
+			if (hitInfo.normal.y < slideThreshold) //si la normal a la que le hemos dado es menor que nuestro limite, resbalamos
 				slideDirection = new Vector3(hitInfo.normal.x, -hitInfo.normal.y, hitInfo.normal.z); //Aplicamos la direccion del terreno que hemos tocado, invirtiendo la y, ya que nos movemos hacia abajo al resbalar
 		}
 
 		//Comprobamos la magnitud de SlideDirection para ver si nos podemos mover al resbalar
 		//Si es menor que nuestro valor maximo, podemos controlar al personaje al caer
-		if (slideDirection.magnitude < MaxControllableSlideMagnitude)
-			MoveVector += slideDirection;
+		if (slideDirection.magnitude < maxControllableSlideMagnitude)
+			moveVector += slideDirection;
 		//Si es mayor o igual, resbalamos, sin poder controlar al personaje
 		else
 		{
-			MoveVector = slideDirection;
+			moveVector = slideDirection;
 		}
 	}
 
@@ -115,17 +115,17 @@ public class TP_Motor : MonoBehaviour
 	public void Jump()
 	{
 		//Comprobamos si estamos tocamos tierra y aplicamos la velocidad de salto
-		if (TP_Controller.Instance.onGround)
-			VerticalVelocity = JumpSpeed;
+		if (TPController.instance.onGround)
+			verticalVelocity = jumpSpeed;
 	}
 
 	//CORREGIR LA DIRECCIÓN RESPECTO AL OFFSET DE LA CÁMARA
 	//Mira si el personaje se mueve, si nos movemos alinea el personaje con la camara
 	private void SnapAlignCharacterWithCamera()
 	{
-		if(TP_Camera.Instance.Distance == TP_Camera.Instance.preOccludedDistance)
+		if(TP_Camera.instance.distance == TP_Camera.instance.preOccludedDistance)
 		{
-			if(MoveVector.x != 0 || MoveVector.z != 0)
+			if(moveVector.x != 0 || moveVector.z != 0)
 			{
 				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
 				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
@@ -133,12 +133,12 @@ public class TP_Motor : MonoBehaviour
 		}
 		else
 		{
-			if((Input.GetAxis ("Mouse X") != 0 || Input.GetAxis ("Mouse Y") != 0) && (MoveVector.x != 0 || MoveVector.z != 0))
+			if((Input.GetAxis ("Mouse X") != 0 || Input.GetAxis ("Mouse Y") != 0) && (moveVector.x != 0 || moveVector.z != 0))
 			{
 				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
 				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
 			}
-			else if((MoveVector.x != 0 || MoveVector.z != 0) && TP_Animator.Instance.PrevMoveDirection == TP_Animator.Direction.Stationary)
+			else if((moveVector.x != 0 || moveVector.z != 0) && TPAnimator.instance.prevMoveDirection == TPAnimator.Direction.Stationary)
 			{
 				//Deja las coord x y z como estan y asigna la coord y del personaje a la de la camara
 				transform.rotation = Quaternion.Euler(transform.eulerAngles.x,Camera.main.transform.eulerAngles.y,transform.eulerAngles.z);
@@ -152,41 +152,41 @@ public class TP_Motor : MonoBehaviour
 	{
 		var moveSpeed = 0f;
 
-		switch(TP_Animator.Instance.MoveDirection)
+		switch(TPAnimator.instance.moveDirection)
 		{
 		//quieto
-		case TP_Animator.Direction.Stationary:
+		case TPAnimator.Direction.Stationary:
 			moveSpeed = 0;
 			break;
-		case TP_Animator.Direction.Forward:
-			moveSpeed = ForwardSpeed;
+		case TPAnimator.Direction.Forward:
+			moveSpeed = forwardSpeed;
 			break;
-		case TP_Animator.Direction.Backward:
-			moveSpeed = BackwardSpeed;
+		case TPAnimator.Direction.Backward:
+			moveSpeed = backwardSpeed;
 			break;
-		case TP_Animator.Direction.Left:
-			moveSpeed = StrafingSpeed;
+		case TPAnimator.Direction.Left:
+			moveSpeed = strafingSpeed;
 			break;
-		case TP_Animator.Direction.Right:
-			moveSpeed = StrafingSpeed;
+		case TPAnimator.Direction.Right:
+			moveSpeed = strafingSpeed;
 			break;
-		case TP_Animator.Direction.LeftForward:
-			moveSpeed = ForwardSpeed;
+		case TPAnimator.Direction.LeftForward:
+			moveSpeed = forwardSpeed;
 			break;
-		case TP_Animator.Direction.RightForward:
-			moveSpeed = ForwardSpeed;
+		case TPAnimator.Direction.RightForward:
+			moveSpeed = forwardSpeed;
 			break;
-		case TP_Animator.Direction.LeftBackward:
-			moveSpeed = BackwardSpeed;
+		case TPAnimator.Direction.LeftBackward:
+			moveSpeed = backwardSpeed;
 			break;
-		case TP_Animator.Direction.RightBackward:
-			moveSpeed = BackwardSpeed;
+		case TPAnimator.Direction.RightBackward:
+			moveSpeed = backwardSpeed;
 			break;
 		}
 
 		//Comprobamos si estamos resbalando
 		if (slideDirection.magnitude > 0)
-			moveSpeed = SlideSpeed;
+			moveSpeed = slideSpeed;
 
 		return moveSpeed;
 	}

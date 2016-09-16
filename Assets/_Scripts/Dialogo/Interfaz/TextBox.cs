@@ -102,11 +102,11 @@ public class TextBox : MonoBehaviour {
 
 	public IEnumerator PrepararDialogoCoroutine(Interactuable interactuableActual, Dialogo dialogo, int IDEvento)
 	{
-		if(TP_Controller.Instance.CurrentState != TP_Controller.State.Normal)
+		if(TPController.instance.CurrentState != TPController.State.Normal)
 		{
 			dialogosEnCola++;
 
-			while(TP_Controller.Instance.CurrentState != TP_Controller.State.Normal)
+			while(TPController.instance.CurrentState != TPController.State.Normal)
 			{
 				yield return null;
 			}
@@ -136,8 +136,8 @@ public class TextBox : MonoBehaviour {
 		this.dialogo  = dialogo;
 		this.interactuable = interactuableActual;
 
-		TP_Controller.Instance.SetState(TP_Controller.State.Dialogo);
-		TP_Camera.Instance.toDialogMode();
+		TPController.instance.SetState(TPController.State.Dialogo);
+		TP_Camera.instance.ToDialogMode();
 		Manager.instance.SetPausa(true);
 		Manager.instance.StopNavMeshAgents();
 
@@ -557,8 +557,8 @@ public class TextBox : MonoBehaviour {
 	//Desactiva el cuadro de diálogo
 	private void AcabaDialogo()
 	{
-		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
-		TP_Camera.Instance.fromDialogMode();
+		TPController.instance.SetState(TPController.State.Normal);
+		TP_Camera.instance.FromDialogMode();
 		Manager.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 
@@ -842,7 +842,7 @@ public class TextBox : MonoBehaviour {
 	private void PosicionaCamara(PosicionCamara posicionCamara)
 	{
 		if(interactuable != null)
-			TP_Camera.Instance.PosicionDialogo(posicionCamara, Manager.instance.GetInteractuable(interactuable.ID));
+			TP_Camera.instance.PosicionDialogo(posicionCamara, Manager.instance.GetInteractuable(interactuable.ID));
 	}
 
 	//Devuelve el nombre de quién habla según un entero

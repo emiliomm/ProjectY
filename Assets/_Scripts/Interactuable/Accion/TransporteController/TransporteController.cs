@@ -49,15 +49,15 @@ public class TransporteController : MonoBehaviour
 		if(transporte != null)
 		{
 			//El número -1.13676f en el eje Y es la resta entre el centro del objeto del transporte y el centro del objeto del jugador, cambiar si se cambia el objeto del jugador
-			TP_Controller.Instance.transform.position = new Vector3(transporte.transform.position.x, transporte.transform.position.y - 1.13676f, transporte.transform.position.z);
+			TPController.instance.transform.position = new Vector3(transporte.transform.position.x, transporte.transform.position.y - 1.13676f, transporte.transform.position.z);
 			//MOVER CÁMARA AQUÍ EN EL FUTURO
 		}
 		else
 		{
-			TP_Controller.Instance.transform.position = coord;
+			TPController.instance.transform.position = coord;
 		}
 
-		TP_Controller.Instance.SetState(TP_Controller.State.Normal);
+		TPController.instance.SetState(TPController.State.Normal);
 
 		Destroy(gameObject);
 	}

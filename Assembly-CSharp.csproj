@@ -124,10 +124,10 @@
      <Compile Include="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Animator.cs" />
+     <Compile Include="Assets\_Scripts\Personaje y Camara\TPAnimator.cs" />
+     <Compile Include="Assets\_Scripts\Personaje y Camara\TPController.cs" />
+     <Compile Include="Assets\_Scripts\Personaje y Camara\TPMotor.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Controller.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Motor.cs" />
      <Compile Include="Assets\_Scripts\Transporte\RutaCollider.cs" />
      <Compile Include="Assets\_Scripts\Transporte\SaliendoTransporteCollider.cs" />
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInter.cs" />
