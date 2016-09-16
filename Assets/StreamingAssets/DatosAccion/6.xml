@@ -29,8 +29,8 @@
 				<valor>0</valor>
 			</ComprobarVariable>
 		</variables>
-		<IDEscena>1</IDEscena>
-		<IDTransporte>0</IDTransporte>
+		<IDEscena>5</IDEscena>
+		<IDTransporte>1</IDTransporte>
 		<coordX>-11.47</coordX>
 		<coordY>4.12</coordY>
 		<coordZ>-17</coordZ>

@@ -101,8 +101,6 @@ public class TP_Camera : MonoBehaviour
 		GameObject targetLookAt;
 		TP_Camera myCamera;
 
-		Debug.Log("Find camera");
-
 		//Si la camara existe
 		if(Camera.main != null)
 		{
@@ -122,8 +120,6 @@ public class TP_Camera : MonoBehaviour
 		//si no hemos encontrado el gameobject targetLookAt (el objeto al que debemos mirar)
 		if (targetLookAt == null)
 		{
-			Debug.Log("Hola");
-
 			//Lo creamos y lo posicionamos en 0,0,0
 			targetLookAt = new GameObject("targetLookAt");
 			targetLookAt.transform.position = Vector3.zero;

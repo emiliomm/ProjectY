@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ObjetoTransporteInter xsi:type="xs:ObjetoTransporteInter" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ID>2</ID>
+	<escenas>
+		<int>5</int>
+	</escenas>
+	<IDEscena>5</IDEscena>
+</ObjetoTransporteInter>

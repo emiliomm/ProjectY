@@ -121,7 +121,7 @@ public class Manager : MonoBehaviour {
 		rutaDatosAccion = Application.dataPath + "/StreamingAssets/DatosAccion/";
 		rutaDatosAccionGuardados = Application.persistentDataPath + "/DatosAccion/";
 		rutaInterDatos = Application.dataPath + "/StreamingAssets/InterDatos/";
-		rutaInterDatosGuardados = Application.persistentDataPath + "InterDatosSaves/";
+		rutaInterDatosGuardados = Application.persistentDataPath + "/InterDatosSaves/";
 		rutaInterDialogos = Application.dataPath + "/StreamingAssets/InterDialogo/";
 		rutaInterDialogosGuardados = Application.persistentDataPath + "/InterDialogoSaves/";
 		rutaIntros = Application.dataPath + "/StreamingAssets/XMLDialogue/XMLIntros/";
@@ -502,17 +502,22 @@ public class Manager : MonoBehaviour {
 				//Si pasa una hora
 				if(managerTiempo.ContinuaHora())
 				{
-					//Aumentamos la hora
-					managerTiempo.AvanzaHora();
-
-					//Comprobamos que rutinas avanzamos
-					ComprobarRutinas();
+					AvanzaHora();
 				}
 				break;
 			case EstadoJuego.Pausa:
 				break;
 			}
 		}
+	}
+
+	public void AvanzaHora()
+	{
+		//Aumentamos la hora
+		managerTiempo.AvanzaHora();
+
+		//Comprobamos que rutinas avanzamos
+		ComprobarRutinas();
 	}
 
 	//Comprueba las rutinas en el ManagerRutinas

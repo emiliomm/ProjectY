@@ -46,8 +46,6 @@ public class TPController : MonoBehaviour
 		instance = this;
 		SetState(State.Normal);
 
-		Debug.Log("Awake controller");
-
 		//creamos o buscamos una camara
 		TP_Camera.UseExistingOrCreateMainCamera();
 	}

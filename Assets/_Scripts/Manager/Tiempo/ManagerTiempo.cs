@@ -3,8 +3,8 @@
 /*
  * 	Clase que se encarga de controlar el tiempo cronológico en el juego
  */
-public class ManagerTiempo{
-
+public class ManagerTiempo
+{
 	//Segundos reales que tarda en cambiar de hora el juego
 	private int duracionHoraEnSegundosReales = 2;
 

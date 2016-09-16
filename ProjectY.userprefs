@@ -1,20 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Transporte\TransporteCollider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="C:\Users\Emilio\AppData\LocalLow\EmilioCorp\ProjectY\Tiempo\Tiempo.xml">
     <Files>
-      <File FileName="Assets\_Scripts\Personaje y Camara\TPMotor.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TPController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TPAnimator.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" Line="494" Column="87" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTiempo.cs" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\Helper.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInter.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInterObjeto.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayer.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayerObjeto.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Transporte\RutaCollider.cs" Line="8" Column="32" />
-      <File FileName="Assets\_Scripts\Transporte\SaliendoTransporteCollider.cs" Line="14" Column="27" />
-      <File FileName="Assets\_Scripts\Transporte\TransporteCollider.cs" Line="14" Column="27" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\InterDatos\9.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\DatosAccion\9.xml" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" Line="1" Column="1" />
+      <File FileName="C:\Users\Emilio\AppData\LocalLow\EmilioCorp\ProjectY\Tiempo\Tiempo.xml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

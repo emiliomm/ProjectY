@@ -13,6 +13,7 @@ using System.Xml.Serialization;
 [XmlInclude(typeof(DatosAccionTienda))]
 [XmlInclude(typeof(DatosAccionLector))]
 [XmlInclude(typeof(DatosAccionTransporte))]
+[XmlInclude(typeof(DatosAccionTiempo))]
 public class DatosAccion {
 
 	public int ID; //ID que identifica a la acción (aún sin usar)

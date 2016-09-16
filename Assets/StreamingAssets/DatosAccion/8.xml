@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfDatosAccion xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<DatosAccion xsi:type="xs:DatosAccionTransporte">
+		<ID>19292</ID>
+		<nombre>Abrir</nombre>
+		<objetos/>
+		<variables/>
+		<IDEscena>4</IDEscena>
+		<IDTransporte>2</IDTransporte>
+		<coordX>-11.47</coordX>
+		<coordY>4.12</coordY>
+		<coordZ>-17</coordZ>
+	</DatosAccion>
+</ArrayOfDatosAccion>
