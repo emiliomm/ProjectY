@@ -20,19 +20,19 @@ public class TPAnimator : MonoBehaviour
 		LeftForward, RightForward, LeftBackward, RightBackward
 	}
 
-	static int idleState = Animator.StringToHash("Idle");
-	static int jumpingState = Animator.StringToHash("Jumping");
-	static int landingState = Animator.StringToHash("Landing");
-	static int fallingState = Animator.StringToHash("Falling");
-	static int runningState = Animator.StringToHash("Running");
-	static int walkbackwardsState = Animator.StringToHash("WalkBackwards");
+	private static int idleState = Animator.StringToHash("Idle");
+	private static int jumpingState = Animator.StringToHash("Jumping");
+	private static int landingState = Animator.StringToHash("Landing");
+	private static int fallingState = Animator.StringToHash("Falling");
+	private static int runningState = Animator.StringToHash("Running");
+	private static int walkbackwardsState = Animator.StringToHash("WalkBackwards");
 
-	const int IDLE_STATE = 0;
-	const int JUMPING_STATE = 1;
-	const int LANDING_STATE = 2;
-	const int FALLING_STATE = 3;
-	const int RUNNING_STATE = 4;
-	const int WALKBACKWARDS_STATE = 5;
+	private const int IDLE_STATE = 0;
+	private const int JUMPING_STATE = 1;
+	private const int LANDING_STATE = 2;
+	private const int FALLING_STATE = 3;
+	private const int RUNNING_STATE = 4;
+	private const int WALKBACKWARDS_STATE = 5;
 
 	//propiedad que guarda nuestra direccion
 	public Direction moveDirection {get; set; }

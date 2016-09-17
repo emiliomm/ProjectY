@@ -513,6 +513,7 @@ public class Interactuable : MonoBehaviour {
 	{
 		DefaultCursorUI();
 		SetState(State.Accionable);
+		ManagerTiempo.instance.GuardarTiempo();
 		acciones[accionActiva].EjecutarAccion();
 	}
 

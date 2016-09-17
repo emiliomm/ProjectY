@@ -5,13 +5,13 @@
  *  Autor clase original: Tutorial Cámara 3DBuzz (https://www.3dbuzz.com/training/view/3rd-person-character-system)
  * 	Modificada por mí
  */
-public class TP_Camera : MonoBehaviour
+public class TPCamera : MonoBehaviour
 {
 	//Patrón singleton
-	public static TP_Camera instance;
+	public static TPCamera instance;
 
 	//Variable que guarda la transformación de un objeto llamado LookAt, que será hacia donde mirará la cámara
-	public Transform targetLookAt;
+	private Transform targetLookAt;
 
 	//Valores editables de la cámara
 	public float distance = 0f;
@@ -99,7 +99,7 @@ public class TP_Camera : MonoBehaviour
 	{
 		GameObject tempCamera;
 		GameObject targetLookAt;
-		TP_Camera myCamera;
+		TPCamera myCamera;
 
 		//Si la camara existe
 		if(Camera.main != null)
@@ -113,7 +113,7 @@ public class TP_Camera : MonoBehaviour
 		}
 
 		//Guardamos el componente TP_Camera(el script) en myCamera
-		myCamera = tempCamera.GetComponent<TP_Camera>();
+		myCamera = tempCamera.GetComponent<TPCamera>();
 
 		targetLookAt = GameObject.Find("targetLookAt") as GameObject;
 

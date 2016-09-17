@@ -4,7 +4,7 @@
 	<autorutina>false</autorutina>
 	<posLugarSiguientes>
 		<PosicionLugarSiguiente>
-			<hora>1</hora>
+			<hora>6</hora>
 			<lugarSiguiente>
 				<lugar>
 					<IDInteractuable>1</IDInteractuable>

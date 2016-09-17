@@ -12,19 +12,19 @@ public class DatosAccionTiempo : DatosAccion
 
 	public override void EjecutarAccion()
 	{
-		Manager.instance.SetPausa(true);
+		ManagerTiempo.instance.SetPausa(true);
 		Manager.instance.StopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
 		for(int i = 0; i < horas; i++)
 		{
 			//Aumentamos la hora
-			Manager.instance.AvanzaHora();
+			ManagerTiempo.instance.AvanzaHora();
 		}
 
-		Camera.main.GetComponent<TP_Camera>().SetNormalMode();
+		Camera.main.GetComponent<TPCamera>().SetNormalMode();
 		TPController.instance.SetState(TPController.State.Normal);
-		Manager.instance.SetPausa(false);
+		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 		
 	}

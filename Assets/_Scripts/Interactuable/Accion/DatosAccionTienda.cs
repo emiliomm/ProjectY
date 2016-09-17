@@ -25,7 +25,7 @@ public class DatosAccionTienda : DatosAccion{
 	//PASAR A OBJETO TIENDA ALGUNAS DE LAS FUNCIONES
 	public override void EjecutarAccion()
 	{
-		Manager.instance.SetPausa(true);
+		ManagerTiempo.instance.SetPausa(true);
 		Manager.instance.StopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
@@ -39,7 +39,7 @@ public class DatosAccionTienda : DatosAccion{
 		tiendaController.InicializarTienda(escaparate, numY, inventario, false);
 
 		//Se establece el modo de la cámara en el Modo Objeto
-		Camera.main.GetComponent<TP_Camera>().SetObjectMode();
+		Camera.main.GetComponent<TPCamera>().SetObjectMode();
 	}
 
 	private void CargarInventario(Inventario inventario)

@@ -21,6 +21,8 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - En el archivo xml de las rutinas, los posicionLugarSiguiente deben estar ordenados de menor a mayor según la hora dentro de la lista posLugarSiguientes para que calcular la posición actual de la rutina al cargarla funcione correctamente
 
 *Otros
+
+**Dialogo
 - El orden en el cual los diálogos se ejecutan es el siguiente:
 	- Dialogo de EventoDialogo
 	- Dialogo a distancia
@@ -29,13 +31,21 @@ ALGUNOS DETALLES SOBRE EL FUNCIONAMIENTO DEL SISTEMA
 - Una intro añadida con la misma prioridad será colocada debajo de las iguales, es decir, como si fuera menor.
 - El dialogo actual siempre se guarda/serializa, tenga cambios o no (cambiar ¿?, ten en cuenta que en el código ya está pensado, habría que cambiar bastante)
 - Los intros/mensajes lanzados por un grupo pueden pertenecer a cualquier grupo o a ninguno, aunque lo recomendable es que pertenezcan al mismo
+
+**Grupo
 - Si un grupo está en la lista de acabados, si se quiere añadir un mensaje/intro de ese grupo a algún diálogo, este no será lanzado, ya que el grupo ya ha acabado
 - Cuando un grupo no está activado y acabamos el grupo, el grupo ya no podrá ser activado en el futuro.
+
+**Acciones
 - En las acciones, las variables de un objeto que determinan si una acción se muestra no son comprobadas con InteractuablesNPC, solo con InteractuableObjeto
+
+**Rutina
+- Al ejecutar una autorutina, el interactuable se pone en el lugar según la posición, pero los eventos que se ejecutan son solo los que corresponden con la hora en la que se ha cambiado la rutina.
 - Los eventos que se ejecutan al iniciar el juego son los de la última hora guardada antes de cerrar el juego
 
 ESTILO CÓDIGO
 - El nombre de las variables empieza en minúsculas, sin espacios. Los espacios se sustituyen por mayúsculas. (Ej: holaMundo).
+- Solo empiezan con mayúsculas cuando se trata de un ID (Ej: IDCasa).
 - Cuando dos variables se llaman igual, se puede añadir un "_" en los espacios. (Ej: hola_Mundo).
 
 - El nombre de las funciones empieza en mayúsculas y los espacios se sustituyen por mayúsculas (Ej: HolaMundo).

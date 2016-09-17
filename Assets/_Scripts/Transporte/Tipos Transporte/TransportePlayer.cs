@@ -32,6 +32,7 @@ public class TransportePlayer : TransporteInter
 			DontDestroyOnLoad(gameObject);
 			SceneManager.LoadScene(IDEscena, LoadSceneMode.Single);
 			TPController.instance.SetTransportando(true);
+			ManagerTiempo.instance.GuardarTiempo();
 			transportando = true;
 		}
 	}

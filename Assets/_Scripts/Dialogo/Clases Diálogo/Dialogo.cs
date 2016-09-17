@@ -629,7 +629,7 @@ public class Dialogo : ObjetoSerializable
 		{
 			int IDRutina = node.rutinas[i].DevuelveIDRutina();
 
-			Manager.instance.CambiarRutina(IDRutina);
+			ManagerRutina.instance.CargarRutina(IDRutina, false, false);
 		}
 	}
 

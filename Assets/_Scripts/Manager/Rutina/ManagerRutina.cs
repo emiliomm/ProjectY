@@ -3,12 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ManagerRutinas: MonoBehaviour
+public class ManagerRutina: MonoBehaviour
 {
 	//AÑADIR DIAS ¿?
 
 	//Singleton pattern
-	public static ManagerRutinas instance { get; private set; }
+	public static ManagerRutina instance { get; private set; }
 
 	private int escenaActual = 0;
 
@@ -103,7 +103,7 @@ public class ManagerRutinas: MonoBehaviour
 
 			if(comprobacionRutinas)
 			{
-				if(rutina.posLugarSiguientes[posRutina].hora != Manager.instance.GetHoraActual())
+				if(rutina.posLugarSiguientes[posRutina].hora != ManagerTiempo.instance.GetHoraActual())
 				{
 					AddLugarActual(rutina.posLugarSiguientes[posRutina].lugarSiguiente.lugar, rutina.posLugarSiguientes[posRutina].lugarSiguiente.eventos);
 				}
@@ -167,7 +167,7 @@ public class ManagerRutinas: MonoBehaviour
 		{
 			autorutina = Autorutina.LoadAutoRutina(Manager.rutaAutorutinas + IDRutina.ToString() + ".xml");
 
-			int hora = Manager.instance.GetHoraActual();
+			int hora = ManagerTiempo.instance.GetHoraActual();
 			int numRecorridosMaximos = autorutina.numHoras / 24;
 
 			if(autorutina.numHoras % 24 != 0)
@@ -261,7 +261,7 @@ public class ManagerRutinas: MonoBehaviour
 
 	private int CalculaPosicionRutina(Rutina rutina)
 	{
-		int horaActual = Manager.instance.GetHoraActual();
+		int horaActual = ManagerTiempo.instance.GetHoraActual();
 		int posRutina = -1;
 
 		if(horaActual < rutina.posLugarSiguientes[0].hora)

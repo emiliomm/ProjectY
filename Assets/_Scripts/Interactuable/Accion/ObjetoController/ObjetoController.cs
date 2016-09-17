@@ -53,9 +53,9 @@ public class ObjetoController : MonoBehaviour {
 		Destroy(panelObjetoPrefab);
 		Destroy(this);
 
-		Camera.main.GetComponent<TP_Camera>().SetNormalMode();
+		Camera.main.GetComponent<TPCamera>().SetNormalMode();
 		TPController.instance.SetState(TPController.State.Normal);
-		Manager.instance.SetPausa(false);
+		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 	}
 }

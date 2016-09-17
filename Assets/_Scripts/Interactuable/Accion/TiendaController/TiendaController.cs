@@ -151,7 +151,7 @@ public class TiendaController : MonoBehaviour {
 
 
 			TPController.instance.SetState(TPController.State.Normal);
-			Manager.instance.SetPausa(false);
+			ManagerTiempo.instance.SetPausa(false);
 			Manager.instance.ResumeNavMeshAgents();
 		}
 		else
@@ -159,7 +159,7 @@ public class TiendaController : MonoBehaviour {
 			TextBox.instance.MostrarInterfaz();
 		}
 
-		Camera.main.GetComponent<TP_Camera>().SetNormalMode();
+		Camera.main.GetComponent<TPCamera>().SetNormalMode();
 
 		Destroy(gameObject);
 	}

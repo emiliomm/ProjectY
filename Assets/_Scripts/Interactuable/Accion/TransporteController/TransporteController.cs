@@ -55,7 +55,6 @@ public class TransporteController : MonoBehaviour
 		else
 		{
 			TPController.instance.transform.position = coord;
-			Debug.Log("Hola");
 		}
 
 		TPController.instance.SetState(TPController.State.Normal);

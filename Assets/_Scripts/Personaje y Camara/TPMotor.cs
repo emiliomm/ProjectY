@@ -74,11 +74,10 @@ public class TPMotor : MonoBehaviour
 			//Restamos a y la gravedad en m/s
 			moveVector = new Vector3(moveVector.x, moveVector.y - gravity * Time.deltaTime, moveVector.z);
 
-		//ACTUALMENTE USANDO OTRO MÉTODO
 		//Si el personaje esta tocando tierra, reseteamos la y a -1 para que no supere valores negativos mas bajos
 		//Unity necesita que siempre se añada gravedad al charactercontroller
-//		if (TP_Controller.Instance.onGround)
-//			MoveVector = new Vector3(MoveVector.x, -1, MoveVector.z);
+		if (TPController.instance.onGround && moveVector.y < -1)
+			moveVector = new Vector3(moveVector.x, -1, moveVector.z);
 	}
 
 	//Miramos si el personaje resbale si la superficie es muy pronunciada
@@ -123,7 +122,7 @@ public class TPMotor : MonoBehaviour
 	//Mira si el personaje se mueve, si nos movemos alinea el personaje con la camara
 	private void SnapAlignCharacterWithCamera()
 	{
-		if(TP_Camera.instance.distance == TP_Camera.instance.preOccludedDistance)
+		if(TPCamera.instance.distance == TPCamera.instance.preOccludedDistance)
 		{
 			if(moveVector.x != 0 || moveVector.z != 0)
 			{

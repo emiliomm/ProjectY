@@ -110,10 +110,10 @@ public class InventarioController : MonoBehaviour {
 	private void Salir()
 	{
 		TPController.instance.SetState(TPController.State.Normal);
-		Manager.instance.SetPausa(false);
+		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 		Cursor.visible = false;
-		Camera.main.GetComponent<TP_Camera>().SetNormalMode();
+		Camera.main.GetComponent<TPCamera>().SetNormalMode();
 
 		Destroy(gameObject);
 	}

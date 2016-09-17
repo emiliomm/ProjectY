@@ -26,6 +26,10 @@ public class TransportePlayerObjeto : TransportePlayer {
 		base.OnTriggerEnter(other);
 	}
 
+	protected override void OnTriggerExit(Collider other) {
+		base.OnTriggerExit(other);
+	}
+
 	protected override void OnLevelWasLoaded(int level)
 	{
 		base.OnLevelWasLoaded(level);

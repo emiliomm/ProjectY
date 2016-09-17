@@ -20,6 +20,10 @@ BUGS(POR ORDEN DE PRIORIDAD)
 	* ¿Cómo solucionarlo? No se puede hasta que sea corregido por Unity
 
 COSAS POR HACER:
+- Mejorar eventosDialogo
+	- De momento los eventodialogo se ven cuando estás usando la accionTiempo, cambiar en el futuro
+	- Además no paran  el tiempo que se pasa en la accionTiempo
+	- Hacer que algunos eventoDialogo solo se puedan ejecutar en determinadas escenas
 - La cámara no se mueve del todo fluída que me gustaría, a veces se ven pequeños "tirones", mejorar el comportamiento.
 - Poner la inicialización de los objetos en Awake() y lo demás en Start()
 - El dialogoAccion debe poner la cámara en algún sitio, sino se queda en mala posición (quizá al jugador ¿?)

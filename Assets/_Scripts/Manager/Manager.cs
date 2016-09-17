@@ -23,8 +23,6 @@ public class Manager : MonoBehaviour {
 	[SerializeField]
 	private string escenaInicial;
 
-	private ManagerTiempo managerTiempo; //Controla el tiempo cronológico del juego
-
 	private Dictionary<int, GameObject> interactuables; //grupos de npcs cargados en la escena actual (id_interactuable, gameobject)
 	private List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
 	private List<NavMeshAgent> navMeshAgentRutasActivas; //lista con los navmesh agent con rutas activas
@@ -39,20 +37,6 @@ public class Manager : MonoBehaviour {
 	private List<ObjetoReciente> objetosRecientes; //lista de objetos obtenidos recientemente
 
 	public GameObject canvasGlobal; //referencia al canvas global del juego
-
-	//Estados del Manager
-	public enum EstadoJuego
-	{
-		Pausa, Activo
-	}
-
-	public EstadoJuego state {get; set; }
-	public EstadoJuego prevState {get; set; }
-
-	public void SetState(EstadoJuego newState) {
-		prevState = state;
-		state = newState;
-	}
 
 	private int escenaTransporte; //Variable usada para saber en que escena se encuentran los teletransportes (ya que el orden de ejecución de onloadlevel no es fiable)
 
@@ -88,7 +72,7 @@ public class Manager : MonoBehaviour {
 
 	public static string rutaDialogoVacio;
 
-	void Awake()
+	private void Awake()
 	{
 		// First we check if there are any other instances conflicting
 		if(instance != null && instance != this)
@@ -102,13 +86,40 @@ public class Manager : MonoBehaviour {
 
 		DontDestroyOnLoad(gameObject); //Hacemos que el objeto no pueda ser destruido entre escenas
 
-		SetState(EstadoJuego.Activo); //Estado Inicial
-
 		Cursor.visible = false; //Oculta el cursor del ratón
+
+		SetRutasArchivo();
 
 		//Cargamos los gameObject estáticos
 		CargarGameObjectsEstaticos();
 
+		escenaTransporte = -1;
+		nombreJugador = "Jugador"; //Nombre por defecto del jugador
+
+		//Inicializa algunas variables
+		interactuables = new Dictionary<int,GameObject>();
+		interactuablesCercanos = new List<GameObject>();
+		navMeshAgentRutasActivas = new List<NavMeshAgent>();
+		transportes = new Dictionary<int, List<GameObject>>();
+		colaObjetos = new List<ColaObjeto>();
+		gruposActivos = new List<Grupo>();
+		gruposAcabados = new List<int>();
+		objetosRecientes = new List<ObjetoReciente>();
+
+		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
+		ComprobarArchivosDirectorios();
+
+		//Carga la lista de datos interactuables usados por las rutinas
+		CargarDatosInteractuable();
+
+		ComprobarEventosInicio(ManagerTiempo.instance.GetHoraActual());
+
+		//Cargamos el escenario
+		SceneManager.LoadScene(escenaInicial);
+	}
+
+	private void SetRutasArchivo()
+	{
 		//Cargamos las rutas
 		rutaDatosInteractuable = Application.dataPath + "/StreamingAssets/DatosInteractuable/";
 		rutaDatosInteractuableGuardados = Application.persistentDataPath + "/DatosInteractuable/";
@@ -128,9 +139,9 @@ public class Manager : MonoBehaviour {
 		rutaTemaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLMensajes/XMLTemaMensajes/";
 		rutaMensajes = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLMensajes/";
 		rutaGrupos = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLGrupos/";
-		rutaGruposModificados = Application.persistentDataPath + "/Grupos_Modificados/";
-		rutaGruposActivos = Application.persistentDataPath + "/Grupos_Activos/";
-		rutaGruposAcabados = Application.persistentDataPath + "/Grupos_Acabados/";
+		rutaGruposModificados = Application.persistentDataPath + "/GruposModificados/";
+		rutaGruposActivos = Application.persistentDataPath + "/GruposActivos/";
+		rutaGruposAcabados = Application.persistentDataPath + "/GruposAcabados/";
 		rutaLanzadores = Application.dataPath + "/StreamingAssets/XMLDialogo/XMLGrupos/Lanzador/";
 		rutaInventario = Application.persistentDataPath + "/Inventario/";
 		rutaObjetoInventario = Application.dataPath + "/StreamingAssets/ObjetoInventario/";
@@ -138,34 +149,6 @@ public class Manager : MonoBehaviour {
 		rutaTransportes = Application.dataPath + "/StreamingAssets/Transportes/";
 
 		rutaDialogoVacio = rutaInterDialogos + "-1.xml";
-
-		escenaTransporte = -1;
-		nombreJugador = "Jugador"; //Nombre por defecto del jugador
-
-		//Inicializa algunas variables
-		managerTiempo = new ManagerTiempo();
-		interactuables = new Dictionary<int,GameObject>();
-		interactuablesCercanos = new List<GameObject>();
-		navMeshAgentRutasActivas = new List<NavMeshAgent>();
-		transportes = new Dictionary<int, List<GameObject>>();
-		colaObjetos = new List<ColaObjeto>();
-		gruposActivos = new List<Grupo>();
-		gruposAcabados = new List<int>();
-		objetosRecientes = new List<ObjetoReciente>();
-
-		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
-		ComprobarArchivosDirectorios();
-
-		//Carga la lista de datos interactuables usados por las rutinas
-		CargarDatosInteractuable();
-
-		ComprobarEventosInicio(GetHoraActual());
-
-		//Empieza a calcular el tiempo hasta la siguiente sección de las noticias
-		StartCoroutine(SiguienteSeccion());
-
-		//Cargamos el escenario
-		SceneManager.LoadScene(escenaInicial);
 	}
 
 	private void CargarGameObjectsEstaticos()
@@ -176,12 +159,23 @@ public class Manager : MonoBehaviour {
 		GameObject objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Text Box Manager"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 
+		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("PanelTiempoPrefab"));
+		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
+		objetoTemporalGO.transform.SetParent(canvasGlobal.transform, false);
+		objetoTemporalGO.SetActive(false);
+
 		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("EventSystem"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 
+		//CREAR CON PREFAB
+		objetoTemporalGO = new GameObject("ManagerTiempo");
+		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
+		objetoTemporalGO.AddComponent<ManagerTiempo>();
+
+		//CREAR CON PREFAB
 		objetoTemporalGO = new GameObject("ManagerRutinas");
 		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
-		objetoTemporalGO.AddComponent<ManagerRutinas>();
+		objetoTemporalGO.AddComponent<ManagerRutina>();
 
 		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Ethan"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
@@ -194,15 +188,6 @@ public class Manager : MonoBehaviour {
 		if (!System.IO.Directory.Exists(rutaDatosInteractuableGuardados))
 		{
 			System.IO.Directory.CreateDirectory(rutaDatosInteractuableGuardados);
-		}
-
-		if (!System.IO.Directory.Exists(rutaTiempo))
-		{
-			System.IO.Directory.CreateDirectory(rutaTiempo);
-		}
-		else if(System.IO.File.Exists(rutaTiempo + "Tiempo.xml"))
-		{
-			CargarManagerTiempo();
 		}
 
 		if (!System.IO.Directory.Exists(rutaAutorutinasGuardadas))
@@ -279,23 +264,6 @@ public class Manager : MonoBehaviour {
 	 * 
 	 */
 
-	//Carga los datos del managerTiempo de un fichero
-	private void CargarManagerTiempo()
-	{
-		managerTiempo = ManagerTiempo.LoadManagerTiempo();
-	}
-
-	//Guarda datos del managerTiempo en un fichero
-	private void GuardarTiempo()
-	{
-		managerTiempo.Serialize();
-	}
-		
-	public int GetHoraActual()
-	{
-		return managerTiempo.GetHora();
-	}
-
 	//Carga los datos de interactuables situados en un directorio y los añade a la rutina
 	private void CargarDatosInteractuable()
 	{
@@ -321,24 +289,21 @@ public class Manager : MonoBehaviour {
 
 				//Si el archivo DatosInteractuable con el ID existe, lo cargamos en el Manager
 				if(datosInteractuable != null)
-					ManagerRutinas.instance.CargarInteractuable(datosInteractuable);
+					ManagerRutina.instance.CargarInteractuable(datosInteractuable);
 			}
 		}
 	}
 
 	private void ComprobarEventosInicio(int horaActual)
 	{
-		ManagerRutinas.instance.ComprobarEventosInicio(horaActual);
+		ManagerRutina.instance.ComprobarEventosInicio(horaActual);
 	}
 
 	//Carga los interactuables al cargar una escena
 	void OnLevelWasLoaded(int level)
 	{
-		//Guardamos los datos del tiempo
-		GuardarTiempo();
-
 		//Cargamos los interactuables de la escena
-		ManagerRutinas.instance.CargarEscena(level);
+		ManagerRutina.instance.CargarEscena(level);
 	}
 
 	//Crea un interactuable en la escena con las coordenadas y rotación especificadas
@@ -485,60 +450,6 @@ public class Manager : MonoBehaviour {
 				Destroy(interactuableGO);
 			}
 		}
-	}
-
-	//Pasa a la siguiente sección de las rutinas
-	public IEnumerator SiguienteSeccion()
-	{
-		while(true)
-		{
-			yield return new WaitForSeconds (1f);
-
-			switch(state)
-			{
-			case EstadoJuego.Activo:
-				managerTiempo.AvanzaMinutos();
-
-				//Si pasa una hora
-				if(managerTiempo.ContinuaHora())
-				{
-					AvanzaHora();
-				}
-				break;
-			case EstadoJuego.Pausa:
-				break;
-			}
-		}
-	}
-
-	public void AvanzaHora()
-	{
-		//Aumentamos la hora
-		managerTiempo.AvanzaHora();
-
-		//Comprobamos que rutinas avanzamos
-		ComprobarRutinas();
-	}
-
-	//Comprueba las rutinas en el ManagerRutinas
-	private void ComprobarRutinas()
-	{
-		ManagerRutinas.instance.ComprobarRutinas(managerTiempo.GetHora());
-	}
-
-	public void CambiarRutina(int IDRutina)
-	{
-		ManagerRutinas.instance.CargarRutina(IDRutina, false, false);
-	}
-
-	//MIRAR SI SE PUEDE ESTANDARIZAR, AÑADIR COSAS QUE SE LLAMAN AL USAR ESTA FUNCIÓN
-	//Establece el estado de pausa
-	public void SetPausa(bool pausa)
-	{
-		if(pausa)
-			SetState(EstadoJuego.Pausa);
-		else
-			SetState(EstadoJuego.Activo);
 	}
 
 	/*
@@ -973,7 +884,6 @@ public class Manager : MonoBehaviour {
 	{
 		GuardarGruposActivos();
 		GuardarGruposAcabados();
-		GuardarTiempo();
 		SerializarCola();
 	}
 		

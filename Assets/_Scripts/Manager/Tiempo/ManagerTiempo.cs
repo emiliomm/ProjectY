@@ -1,70 +1,114 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-/*
- * 	Clase que se encarga de controlar el tiempo cronológico en el juego
- */
-public class ManagerTiempo
-{
-	//Segundos reales que tarda en cambiar de hora el juego
-	private int duracionHoraEnSegundosReales = 2;
+public class ManagerTiempo : MonoBehaviour {
 
-	public int dia = 0;
-	public int hora = 0;
-	public int minutos = 0;
+	//Singleton pattern
+	public static ManagerTiempo instance { get; private set; }
 
-	public ManagerTiempo()
+	private Tiempo tiempo; //Controla el tiempo cronológico del juego
+
+	//0.033 * 60 minutos = 1,98 seg por hora
+	public float duracionMinutoEnSegundosReales = 0.033f;
+
+	//Estados del Manager
+	public enum Estado
 	{
-		
+		Pausa, Activo
 	}
 
-	public int GetHora()
-	{
-		return hora;
+	public Estado state {get; set; }
+	public Estado prevState {get; set; }
+
+	public void SetState(Estado newState) {
+		prevState = state;
+		state = newState;
 	}
 
-	//Si los Minutos han llegado al máximo de tiempo que establece SegundosHora, devuelve true
-	public bool ContinuaHora()
+	private void Awake()
 	{
-		bool continua = false;
-
-		if(minutos == duracionHoraEnSegundosReales)
+		// First we check if there are any other instances conflicting
+		if(instance != null && instance != this)
 		{
-			continua = true;
+			// If that is the case, we destroy other instances
+			Destroy(gameObject);
 		}
 
-		return continua;
+		//Singleton pattern
+		instance = this;
+
+		SetState(Estado.Activo);
+
+		CargarTiempo();
 	}
 
-	public void AvanzaMinutos()
+	private void CargarTiempo()
 	{
-		minutos++;
+		tiempo = new Tiempo();
+
+		if (!System.IO.Directory.Exists(Manager.rutaTiempo))
+		{
+			System.IO.Directory.CreateDirectory(Manager.rutaTiempo);
+		}
+		else if(System.IO.File.Exists(Manager.rutaTiempo + "Tiempo.xml"))
+		{
+			tiempo = Tiempo.LoadTiempo();
+		}
+
+		StartCoroutine(AvanzaMinuto());
+	}
+
+	public int GetHoraActual()
+	{
+		return tiempo.GetHora();
+	}
+
+	public int GetMinutoActual()
+	{
+		return tiempo.GetMinuto();
+	}
+
+	public IEnumerator AvanzaMinuto()
+	{
+		while(true)
+		{
+			yield return new WaitForSeconds (duracionMinutoEnSegundosReales);
+
+			switch(state)
+			{
+			case Estado.Activo:
+				//Si pasa una hora
+				if(tiempo.AvanzaMinuto())
+				{
+					AvanzaHora();
+				}
+				break;
+			case Estado.Pausa:
+				break;
+			}
+		}
 	}
 
 	public void AvanzaHora()
 	{
-		hora++;
-		hora = hora % 24;
+		tiempo.AvanzaHora();
 
-		if(hora == 0)
-			dia++;
-
-		minutos = 0;
-
-		//Guardamos el progreso de las variables del tiempo
-		Serialize();
+		//Comprobamos que rutinas avanzamos
+		ManagerRutina.instance.ComprobarRutinas(ManagerTiempo.instance.GetHoraActual());
 	}
 
-	//Devuelve una instancia de managertiempo de un xml indicado en la ruta
-	public static ManagerTiempo LoadManagerTiempo()
+	//MIRAR SI SE PUEDE ESTANDARIZAR, AÑADIR COSAS QUE SE LLAMAN AL USAR ESTA FUNCIÓN
+	//Establece el estado de pausa
+	public void SetPausa(bool pausa)
 	{
-		ManagerTiempo managerTiempo = Manager.instance.DeserializeData<ManagerTiempo>(Manager.rutaTiempo + "Tiempo.xml");
-
-		return managerTiempo;
+		if(pausa)
+			SetState(Estado.Pausa);
+		else
+			SetState(Estado.Activo);
 	}
 
-	//Guarda la instancia en un fichero xml en la ruta especificada
-	public void Serialize()
+	public void GuardarTiempo()
 	{
-		Manager.instance.SerializeData(this, Manager.rutaTiempo, "Tiempo.xml"); //AÑADIR A MANAGER.RUTATIEMPO TIEMPO.XML
+		tiempo.Serialize();
 	}
 }

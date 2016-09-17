@@ -119,16 +119,17 @@
      <Compile Include="Assets\_Scripts\Manager\Rutina\Lugar.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\LugarActual.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\LugarSiguiente.cs" />
-     <Compile Include="Assets\_Scripts\Manager\Rutina\ManagerRutinas.cs" />
+     <Compile Include="Assets\_Scripts\Manager\Rutina\ManagerRutina.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\PosicionLugarSiguiente.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\Rutina.cs" />
      <Compile Include="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" />
+     <Compile Include="Assets\_Scripts\Manager\Tiempo\Tiempo.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\Helper.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\InteractuableCollider.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TPAnimator.cs" />
+     <Compile Include="Assets\_Scripts\Personaje y Camara\TPCamera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TPController.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TPMotor.cs" />
-     <Compile Include="Assets\_Scripts\Personaje y Camara\TP_Camera.cs" />
      <Compile Include="Assets\_Scripts\Transporte\RutaCollider.cs" />
      <Compile Include="Assets\_Scripts\Transporte\SaliendoTransporteCollider.cs" />
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInter.cs" />
@@ -136,6 +137,7 @@
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayer.cs" />
      <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayerObjeto.cs" />
      <Compile Include="Assets\_Scripts\Transporte\TransporteCollider.cs" />
+     <Compile Include="Assets\_Scripts\UI\UITiempo.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

@@ -47,7 +47,7 @@ public class TPController : MonoBehaviour
 		SetState(State.Normal);
 
 		//creamos o buscamos una camara
-		TP_Camera.UseExistingOrCreateMainCamera();
+		TPCamera.UseExistingOrCreateMainCamera();
 	}
 
 	private void Update ()
@@ -95,15 +95,29 @@ public class TPController : MonoBehaviour
 		{
 			activado = true;
 
-			GameObject InventarioManager = (GameObject)Instantiate(Resources.Load("PanelInventarioPrefab"));
-			InventarioManager.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
+			GameObject inventarioManager = (GameObject)Instantiate(Resources.Load("PanelInventarioPrefab"));
+			inventarioManager.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 			SetState(State.Dialogo);
-			Manager.instance.SetPausa(true);
+			ManagerTiempo.instance.SetPausa(true);
 			Manager.instance.StopNavMeshAgents();
 			Cursor.visible = true; //Muestra el cursor del ratón
-			Camera.main.GetComponent<TP_Camera>().SetObjectMode();
+			Camera.main.GetComponent<TPCamera>().SetObjectMode();
 		}
+
+		//MEJORAR IMPLEMENTACIÓN
+		if (Input.GetKey((KeyCode.H)) && !activado)
+		{
+			GameObject panelTiempo = Manager.instance.canvasGlobal.transform.GetChild(1).gameObject;
+			panelTiempo.GetComponent<UITiempo>().EstablecerHora(ManagerTiempo.instance.GetHoraActual(), ManagerTiempo.instance.GetMinutoActual());
+			panelTiempo.SetActive(true);
+		}
+		else
+		{
+			GameObject panelTiempo = Manager.instance.canvasGlobal.transform.GetChild(1).gameObject;
+			panelTiempo.SetActive(false);
+		}
+			
 
 		return activado;
 	}

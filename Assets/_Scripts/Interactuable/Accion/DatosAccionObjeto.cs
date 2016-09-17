@@ -21,7 +21,7 @@ public class DatosAccionObjeto : DatosAccion{
 	//PASAR A OBJETO CONTROLLER ALGUNAS DE LAS FUNCIONES
 	public override void EjecutarAccion()
 	{
-		Manager.instance.SetPausa(true);
+		ManagerTiempo.instance.SetPausa(true);
 		Manager.instance.StopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
@@ -36,6 +36,6 @@ public class DatosAccionObjeto : DatosAccion{
 		objetoController.AsignarObjeto(objeto);
 
 		//Se establece el modo de la cámara en el Modo Objeto
-		Camera.main.GetComponent<TP_Camera>().SetObjectMode();
+		Camera.main.GetComponent<TPCamera>().SetObjectMode();
 	}
 }
