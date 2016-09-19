@@ -18,10 +18,16 @@ public class Manager : MonoBehaviour {
 	//Singleton pattern
 	public static Manager instance { get; private set; }
 
+	#region EDITOR
+
 	//Indica el nombre de primera escena que se cargará
 	//Contiene [SerializeField] para mostrar una variable privada en el editor de Unity
 	[SerializeField]
 	private string escenaInicial;
+
+	public bool borrarDatosGuardados;
+
+	#endregion
 
 	private Dictionary<int, GameObject> interactuables; //grupos de npcs cargados en la escena actual (id_interactuable, gameobject)
 	private List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
@@ -106,6 +112,9 @@ public class Manager : MonoBehaviour {
 		gruposAcabados = new List<int>();
 		objetosRecientes = new List<ObjetoReciente>();
 
+		if(borrarDatosGuardados)
+			BorrarArchivosDirectorios();
+
 		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
 		ComprobarArchivosDirectorios();
 
@@ -182,50 +191,103 @@ public class Manager : MonoBehaviour {
 		objetoTemporalGO.transform.position = new Vector3(7.87f, 15.809f, -9.88f);
 	}
 
+	private void BorrarArchivosDirectorios()
+	{
+		if (Directory.Exists(rutaDatosInteractuableGuardados))
+		{
+			Directory.Delete(rutaDatosInteractuableGuardados, true);
+		}
+
+		if (Directory.Exists(rutaAutorutinasGuardadas))
+		{
+			Directory.Delete(rutaAutorutinasGuardadas, true);
+		}
+
+		if (Directory.Exists(rutaEventosGuardados))
+		{
+			Directory.Delete(rutaEventosGuardados, true);
+		}
+
+		if (Directory.Exists(rutaDatosAccionGuardados))
+		{
+			Directory.Delete(rutaDatosAccionGuardados, true);
+		}
+
+		if (Directory.Exists(rutaInterDatosGuardados))
+		{
+			Directory.Delete(rutaInterDatosGuardados, true);
+		}
+
+		if (Directory.Exists(rutaInterDialogosGuardados))
+		{
+			Directory.Delete(rutaInterDialogosGuardados, true);
+		}
+
+		if (Directory.Exists(rutaGruposModificados))
+		{
+			Directory.Delete(rutaGruposModificados, true);
+		}
+
+		if(Directory.Exists(rutaGruposActivos))
+		{    
+			Directory.Delete(rutaGruposActivos, true);
+		}
+
+		if(Directory.Exists(rutaGruposAcabados))
+		{    
+			Directory.Delete(rutaGruposAcabados, true);
+		}
+
+		if(Directory.Exists(rutaInventario))
+		{    
+			Directory.Delete(rutaInventario, true);
+		}
+	}
+
 	//Crea algunos directorios al inicio del juego si no están creados, así como algunos ficheros
 	private void ComprobarArchivosDirectorios()
 	{
-		if (!System.IO.Directory.Exists(rutaDatosInteractuableGuardados))
+		if (!Directory.Exists(rutaDatosInteractuableGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaDatosInteractuableGuardados);
+			Directory.CreateDirectory(rutaDatosInteractuableGuardados);
 		}
 
-		if (!System.IO.Directory.Exists(rutaAutorutinasGuardadas))
+		if (!Directory.Exists(rutaAutorutinasGuardadas))
 		{
-			System.IO.Directory.CreateDirectory(rutaAutorutinasGuardadas);
+			Directory.CreateDirectory(rutaAutorutinasGuardadas);
 		}
 
-		if (!System.IO.Directory.Exists(rutaEventosGuardados))
+		if (!Directory.Exists(rutaEventosGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaEventosGuardados);
+			Directory.CreateDirectory(rutaEventosGuardados);
 		}
 
-		if (!System.IO.Directory.Exists(rutaDatosAccionGuardados))
+		if (!Directory.Exists(rutaDatosAccionGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaDatosAccionGuardados);
+			Directory.CreateDirectory(rutaDatosAccionGuardados);
 		}
 
-		if (!System.IO.Directory.Exists(rutaInterDatosGuardados))
+		if (!Directory.Exists(rutaInterDatosGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaInterDatosGuardados);
+			Directory.CreateDirectory(rutaInterDatosGuardados);
 		}
 
 		//Creamos el directorio donde guardaremos los dialogos de los NPCs si no existe ya
-		if (!System.IO.Directory.Exists(rutaInterDialogosGuardados))
+		if (!Directory.Exists(rutaInterDialogosGuardados))
 		{
-			System.IO.Directory.CreateDirectory(rutaInterDialogosGuardados);
+			Directory.CreateDirectory(rutaInterDialogosGuardados);
 		}
 
-		if (!System.IO.Directory.Exists(rutaGruposModificados))
+		if (!Directory.Exists(rutaGruposModificados))
 		{
-			System.IO.Directory.CreateDirectory(rutaGruposModificados);
+			Directory.CreateDirectory(rutaGruposModificados);
 		}
 
 		// Comprobamos si existe el directorio donde se guardan los grupos activos
-		if(!System.IO.Directory.Exists(rutaGruposActivos))
+		if(!Directory.Exists(rutaGruposActivos))
 		{    
 			//if it doesn't, create it
-			System.IO.Directory.CreateDirectory(rutaGruposActivos);
+			Directory.CreateDirectory(rutaGruposActivos);
 		}
 		//Si ya existe, comprobamos si existe el fichero de gruposactivos
 		else if(System.IO.File.Exists(rutaGruposActivos + "GruposActivos.xml"))
@@ -233,10 +295,10 @@ public class Manager : MonoBehaviour {
 			CargarGruposActivos();
 		}
 
-		if(!System.IO.Directory.Exists(rutaGruposAcabados))
+		if(!Directory.Exists(rutaGruposAcabados))
 		{    
 			//if it doesn't, create it
-			System.IO.Directory.CreateDirectory(rutaGruposAcabados);
+			Directory.CreateDirectory(rutaGruposAcabados);
 		}
 		//Si ya existe, comprobamos si existe el fichero de gruposactivos
 		else if(System.IO.File.Exists(rutaGruposAcabados + "GruposAcabados.xml"))
@@ -244,10 +306,10 @@ public class Manager : MonoBehaviour {
 			CargarGruposAcabados();
 		}
 
-		if(!System.IO.Directory.Exists(rutaInventario))
+		if(!Directory.Exists(rutaInventario))
 		{    
 			//if it doesn't, create it
-			System.IO.Directory.CreateDirectory(rutaInventario);
+			Directory.CreateDirectory(rutaInventario);
 		}
 	}
 
@@ -278,11 +340,11 @@ public class Manager : MonoBehaviour {
 			{
 				datosInteractuable = null;
 
-				if (System.IO.File.Exists(rutaDatosInteractuableGuardados + fileInfo[j].Name))
+				if (File.Exists(rutaDatosInteractuableGuardados + fileInfo[j].Name))
 				{
 					datosInteractuable = DeserializeData<DatosInteractuable>(rutaDatosInteractuableGuardados + fileInfo[j].Name);
 				}
-				else if(System.IO.File.Exists(rutaDatosInteractuable + fileInfo[j].Name))
+				else if(File.Exists(rutaDatosInteractuable + fileInfo[j].Name))
 				{
 					datosInteractuable = DeserializeData<DatosInteractuable>(rutaDatosInteractuable + fileInfo[j].Name);
 				}

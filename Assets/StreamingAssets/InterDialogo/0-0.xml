@@ -114,7 +114,7 @@
 							<DialogueAddMensaje>
 								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>1</IDTema>
+								<IDTema>-1</IDTema>
 								<IDMensaje>0</IDMensaje>
 							</DialogueAddMensaje>
 						</mensajes>
@@ -165,19 +165,19 @@
 							<DialogueAddMensaje>
 								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>0</IDTema>
+								<IDTema>-1</IDTema>
 								<IDMensaje>1</IDMensaje>
 							</DialogueAddMensaje>
 							<DialogueAddMensaje>
 								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>0</IDTema>
+								<IDTema>-1</IDTema>
 								<IDMensaje>2</IDMensaje>
 							</DialogueAddMensaje>
 							<DialogueAddMensaje>
 								<IDInteractuable>0</IDInteractuable>
 								<IDDialogo>0</IDDialogo>
-								<IDTema>0</IDTema>
+								<IDTema>-1</IDTema>
 								<IDMensaje>3</IDMensaje>
 							</DialogueAddMensaje>
 						</mensajes>
@@ -237,7 +237,7 @@
 		</Intro>
 	</intros>
 	<mensajes>
-		<Mensaje xsi:type="MensajeTienda">
+<!--		<Mensaje xsi:type="MensajeTienda">
 			<ID>100000</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>
@@ -245,6 +245,6 @@
 			<IDInventario>0</IDInventario>
 			<numY>4</numY>
 			<escaparate>false</escaparate>
-		</Mensaje>
+		</Mensaje>-->
 	</mensajes>
 </ObjetoSerializable>

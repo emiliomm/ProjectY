@@ -4,7 +4,7 @@ using System;
 
 public class Autorutina{
 
-	public int ID; //El ID de la autorutina es el mismo que el de la rutina que acompaña (ACTUALMENTE NO SE USA)
+	public int ID; //El ID de la autorutina es el mismo que el de la rutina que acompaña
 	public int IDInteractuable;
 
 	//Número de horas que deben pasar antes de que la hora cambie

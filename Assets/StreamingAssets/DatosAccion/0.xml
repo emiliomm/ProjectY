@@ -12,32 +12,4 @@
 		<tamY>7</tamY>
 		<tamZ>14</tamZ>
 	</DatosAccion>
-	<DatosAccion xsi:type="xs:DatosAccionDialogo">
-		<ID>10</ID>
-		<nombre>Ha343blar</nombre>
-		<objetos/>
-		<variables/>
-		<IDInteractuable>0</IDInteractuable>
-		<IDDialogo>1</IDDialogo>
-		<aDistancia>true</aDistancia>
-		<tamX>10</tamX>
-		<tamY>7</tamY>
-		<tamZ>14</tamZ>
-	</DatosAccion>
-	<DatosAccion xsi:type="xs:DatosAccionLector">
-		<ID>50</ID>
-		<nombre>Prueba</nombre>
-		<objetos/>
-		<variables/>
-		<IDObjeto>4</IDObjeto>
-		<numVariable>0</numVariable>
-		<valorNegativo>0</valorNegativo>
-	</DatosAccion>
-	<DatosAccion xsi:type="xs:DatosAccionObjeto">
-		<ID>50</ID>
-		<nombre>Prueba2</nombre>
-		<objetos/>
-		<variables/>
-		<nombreObjecto>Cube</nombreObjecto>
-	</DatosAccion>
 </ArrayOfDatosAccion>

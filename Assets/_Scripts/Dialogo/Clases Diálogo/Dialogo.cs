@@ -17,8 +17,8 @@ using DialogueTree;
 [XmlRoot("ObjetoSerializable")]
 public class Dialogo : ObjetoSerializable
 {
-	public int ID; //ID del Dialogo
 	public int IDInteractuable; //ID del Interactuable vinculado al diálogo
+	public int ID; //ID del Dialogo
 
 	/*
 	 * NOTA: Los intros y mensajes por defecto de los npcs no pueden tener IDGrupo, ya que los

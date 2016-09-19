@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <DatosInteractuable xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<IDInteractuable>1</IDInteractuable>
+	<IDInteractuable>0</IDInteractuable>
 	<tipoInter>0</tipoInter>
-	<IDRutinaActual>1</IDRutinaActual>
+	<IDRutinaActual>0</IDRutinaActual>
 </DatosInteractuable>

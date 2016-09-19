@@ -4,7 +4,7 @@
 	<autorutina>false</autorutina>
 	<posLugarSiguientes>
 		<PosicionLugarSiguiente>
-			<hora>6</hora>
+			<hora>1</hora>
 			<lugarSiguiente>
 				<lugar>
 					<IDInteractuable>1</IDInteractuable>
@@ -18,7 +18,7 @@
 					<rotW>0.7258552</rotW>
 				</lugar>
 				<eventos>
-					<int>1</int>
+<!--					<int>1</int>-->
 				</eventos>
 			</lugarSiguiente>
 		</PosicionLugarSiguiente>

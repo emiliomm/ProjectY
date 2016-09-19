@@ -92,7 +92,6 @@
      <None Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\README.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
      <None Include="Assets\StreamingAssets\XMLDialogo\XMLMensajes\3.xml" />
-     <None Include="Assets\StreamingAssets\Rutinas\0.xml" />
      <None Include="Assets\StreamingAssets\XMLDialogo\XMLMensajes\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
      <None Include="Assets\ProCore\ProBuilder\About\changelog.txt" />
@@ -105,11 +104,9 @@
      <None Include="Assets\StreamingAssets\DatosAccion\6.xml" />
      <None Include="Assets\StreamingAssets\InterDialogo\1-0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
-     <None Include="Assets\StreamingAssets\Rutinas\3.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceRaytrace.cginc" />
      <None Include="Assets\StreamingAssets\Transportes\2.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
-     <None Include="Assets\StreamingAssets\Rutinas\2.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
      <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
@@ -133,6 +130,8 @@
      <None Include="Assets\StreamingAssets\ObjetoInventario\70.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
      <None Include="Assets\StreamingAssets\ObjetoInventario\1.xml" />
+     <None Include="Assets\StreamingAssets\Rutinas\0.xml" />
+     <None Include="Assets\StreamingAssets\DatosInteractuable\0.xml" />
      <None Include="Assets\ProCore\ProBuilder\Shader\DiffuseTextureBlend.shader" />
      <None Include="Assets\StreamingAssets\InterDialogo\0-0.xml" />
      <None Include="Assets\StreamingAssets\DatosAccion\2.xml" />
@@ -161,10 +160,10 @@
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\StreamingAssets\DatosAccion\5.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
-     <None Include="Assets\StreamingAssets\Rutinas\4.xml" />
      <None Include="Assets\_Art\Shaders\UIShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\7.xml" />
+     <None Include="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\5.xml" />
@@ -187,7 +186,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
      <None Include="Assets\StreamingAssets\XMLDialogo\XMLMensajes\4.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
-     <None Include="Assets\StreamingAssets\InterDialogo\0-1.xml" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
@@ -196,7 +194,6 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\TwirlEffect.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
-     <None Include="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />

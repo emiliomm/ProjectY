@@ -1,23 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Personaje y Camara\TPController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml">
     <Files>
-      <File FileName="Assets\_Scripts\Personaje y Camara\TPController.cs" Line="110" Column="4" />
+      <File FileName="Assets\StreamingAssets\DatosInteractuable\1.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\DatosAccion\1.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\InterDialogo\1-0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\Rutinas\1.xml" Line="1" Column="1" />
       <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Tiempo\Tiempo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\UI\UITiempo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\ManagerRutina.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTiempo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogo.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TPAnimator.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\Autorutina.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\TransporteController\TransporteController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\Evento\EventoDialogo.cs" Line="18" Column="3" />
-      <File FileName="Assets\_Scripts\Personaje y Camara\TPMotor.cs" Line="49" Column="32" />
+      <File FileName="Assets\StreamingAssets\InterDialogo\0-0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\Rutinas\0.xml" Line="3" Column="7" />
+      <File FileName="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml" Line="9" Column="16" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\Autorutina.cs" Line="7" Column="86" />
+      <File FileName="Assets\StreamingAssets\DatosInteractuable\0.xml" Line="5" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
