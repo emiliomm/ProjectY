@@ -8,7 +8,7 @@
 			<IDGrupo>-1</IDGrupo>
 			<eventos>
 				<DialogoEvento>
-					<IDEvento>1</IDEvento>
+					<IDEvento>0</IDEvento>
 					<variables/>
 				</DialogoEvento>
 			</eventos>

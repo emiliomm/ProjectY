@@ -202,7 +202,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
-     <None Include="Assets\StreamingAssets\Eventos\1.xml" />
+     <None Include="Assets\StreamingAssets\Eventos\0.xml" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_UnlitVertexColor.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\3.xml" />
      <None Include="Assets\StreamingAssets\InterDatos\2.xml" />
@@ -211,14 +211,13 @@
      <None Include="Assets\StreamingAssets\Tiendas\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\4.xml" />
-     <None Include="Assets\StreamingAssets\Eventos\0.xml" />
+     <None Include="Assets\StreamingAssets\Eventos\1.xml" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\StreamingAssets\DatosAccion\5.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\_Art\Shaders\UIShader.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\7.xml" />
-     <None Include="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
      <None Include="Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\5.xml" />

@@ -46,6 +46,13 @@ public class ManagerTiempo : MonoBehaviour {
 	{
 		tiempo = new Tiempo();
 
+		ComprobarArchivosDirectorios();
+
+		StartCoroutine(AvanzaMinuto());
+	}
+
+	private void ComprobarArchivosDirectorios()
+	{
 		if (!System.IO.Directory.Exists(Manager.rutaTiempo))
 		{
 			System.IO.Directory.CreateDirectory(Manager.rutaTiempo);
@@ -54,8 +61,6 @@ public class ManagerTiempo : MonoBehaviour {
 		{
 			tiempo = Tiempo.LoadTiempo();
 		}
-
-		StartCoroutine(AvanzaMinuto());
 	}
 
 	public int GetHoraActual()

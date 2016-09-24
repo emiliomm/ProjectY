@@ -1,17 +1,24 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionObjeto.cs">
     <Files>
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="8" Column="19" />
+      <File FileName="Assets\_Scripts\Manager\Tiempo\ManagerTiempo.cs" Line="47" Column="25" />
       <File FileName="Assets\StreamingAssets\DatosInteractuable\1.xml" Line="1" Column="1" />
       <File FileName="Assets\StreamingAssets\DatosAccion\1.xml" Line="1" Column="1" />
       <File FileName="Assets\StreamingAssets\InterDialogo\1-0.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\Rutinas\1.xml" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\InterDialogo\0-0.xml" Line="1" Column="1" />
-      <File FileName="Assets\StreamingAssets\Rutinas\0.xml" Line="3" Column="7" />
-      <File FileName="Assets\StreamingAssets\Rutinas\AutoRutinas\0.xml" Line="9" Column="16" />
-      <File FileName="Assets\_Scripts\Manager\Rutina\Autorutina.cs" Line="7" Column="86" />
+      <File FileName="Assets\StreamingAssets\Rutinas\1.xml" Line="13" Column="19" />
+      <File FileName="Assets\StreamingAssets\InterDialogo\0-0.xml" Line="183" Column="18" />
+      <File FileName="Assets\StreamingAssets\Rutinas\0.xml" Line="40" Column="12" />
+      <File FileName="Assets\_Scripts\Manager\Rutina\Autorutina.cs" Line="1" Column="1" />
       <File FileName="Assets\StreamingAssets\DatosInteractuable\0.xml" Line="5" Column="19" />
+      <File FileName="Assets\StreamingAssets\Eventos\0.xml" Line="1" Column="1" />
+      <File FileName="Assets\StreamingAssets\Eventos\1.xml" Line="4" Column="7" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogo.cs" Line="29" Column="16" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Intro.cs" Line="27" Column="32" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueNode.cs" Line="40" Column="22" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialgueOption.cs" Line="24" Column="24" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueOption\DialogueOptionObjeto.cs" Line="12" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

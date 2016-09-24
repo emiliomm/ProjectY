@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Evento xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Evento xsi:type="xs:EventoDialogo" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <!--	Titulo del evento -->
 	<ID>0</ID>
 	<activo>true</activo>
 	<variables>
 		<int>0</int>
 	</variables>
+	<IDInteractuable>2</IDInteractuable>
+	<IDDialogo>0</IDDialogo>
+	<ejecutado>false</ejecutado>
 </Evento>

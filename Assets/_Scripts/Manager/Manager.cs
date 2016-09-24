@@ -13,8 +13,8 @@ using System.Text;
 /*
  * 	Clase que se encarga de controlar diversos aspectos del juego
  */
-public class Manager : MonoBehaviour {
-
+public class Manager : MonoBehaviour
+{
 	//Singleton pattern
 	public static Manager instance { get; private set; }
 
@@ -96,9 +96,6 @@ public class Manager : MonoBehaviour {
 
 		SetRutasArchivo();
 
-		//Cargamos los gameObject estáticos
-		CargarGameObjectsEstaticos();
-
 		escenaTransporte = -1;
 		nombreJugador = "Jugador"; //Nombre por defecto del jugador
 
@@ -117,6 +114,9 @@ public class Manager : MonoBehaviour {
 
 		//Comprobamos si los directorios necesarios existen y cargamos algunos ficheros
 		ComprobarArchivosDirectorios();
+
+		//Cargamos los gameObject estáticos
+		CargarGameObjectsEstaticos();
 
 		//Carga la lista de datos interactuables usados por las rutinas
 		CargarDatosInteractuable();
@@ -241,6 +241,11 @@ public class Manager : MonoBehaviour {
 		if(Directory.Exists(rutaInventario))
 		{    
 			Directory.Delete(rutaInventario, true);
+		}
+
+		if(Directory.Exists(rutaTiempo))
+		{    
+			Directory.Delete(rutaTiempo, true);
 		}
 	}
 
