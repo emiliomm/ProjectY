@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Autorutina xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ID>1</ID>
+	<IDInteractuable>1</IDInteractuable>
+	<numHoras>3</numHoras>
+	<posHora>0</posHora>
+	<numRecorridosActuales>0</numRecorridosActuales>
+	<numRecorridosMaximos>0</numRecorridosMaximos>
+	<IDSigRutina>4</IDSigRutina>
+</Autorutina>

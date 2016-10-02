@@ -149,6 +149,7 @@
      <None Include="Assets\StreamingAssets\InterDialogo\7-0.xml" />
      <None Include="Assets\StreamingAssets\XMLDialogo\XMLMensajes\XMLTemaMensajes\0.xml" />
      <None Include="Assets\ProCore\ProBuilder\Shader\DiffuseVertexColor.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\4.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SunShaftsComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
@@ -198,6 +199,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\AutoRutinas\1.xml" />
      <None Include="Assets\StreamingAssets\Eventos\0.xml" />
      <None Include="Assets\ProCore\ProBuilder\Shader\pb_UnlitVertexColor.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\3.xml" />
@@ -220,6 +222,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\StreamingAssets\InterDatos\8.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\Bokeh34.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\3.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
      <None Include="Assets\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
@@ -253,6 +256,7 @@
      <None Include="Assets\StreamingAssets\Transportes\1.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
+     <None Include="Assets\StreamingAssets\Rutinas\2.xml" />
      <None Include="Assets\StreamingAssets\DatosAccion\7.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
      <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />

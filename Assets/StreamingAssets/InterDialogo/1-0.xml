@@ -134,7 +134,7 @@
 						<nombres/>
 						<rutinas>
 							<DialogueRutina>
-								<IDRutina>3</IDRutina>
+								<IDRutina>2</IDRutina>
 							</DialogueRutina>
 						</rutinas>
 						<options/>
@@ -223,7 +223,7 @@
 						<nombres/>
 						<rutinas>
 							<DialogueRutina>
-								<IDRutina>4</IDRutina>
+								<IDRutina>3</IDRutina>
 							</DialogueRutina>
 						</rutinas>
 						<options/>

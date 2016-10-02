@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Rutina xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<ID>1</ID>
-	<autorutina>true</autorutina>
+	<ID>2</ID>
+	<autorutina>false</autorutina>
 	<posLugarSiguientes>
 		<PosicionLugarSiguiente>
 			<hora>0</hora>
@@ -9,13 +9,13 @@
 				<lugar>
 					<IDInteractuable>1</IDInteractuable>
 					<IDEscena>3</IDEscena>
-					<coordX>0.74</coordX>
-					<coordY>16.52</coordY>
-					<coordZ>-17.36</coordZ>
+					<coordX>3.287795</coordX>
+					<coordY>11.88</coordY>
+					<coordZ>-19.37899</coordZ>
 					<rotX>0</rotX>
-					<rotY>-0.6878476</rotY>
+					<rotY>0.06130652</rotY>
 					<rotZ>0</rotZ>
-					<rotW>0.7258552</rotW>
+					<rotW>0.998119</rotW>
 				</lugar>
 				<eventos>
 <!--					<int>1</int>-->
