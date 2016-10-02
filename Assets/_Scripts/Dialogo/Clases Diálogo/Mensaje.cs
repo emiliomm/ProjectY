@@ -55,7 +55,7 @@ public class Mensaje{
 
 		for(int i = 0; i < eventos.Count; i++)
 		{
-			if(!eventos[i].EstaActivo())
+			if(!eventos[i].SeCumplenCondiciones())
 				mostrar = false;
 		}
 

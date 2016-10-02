@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class DialogoEvento{
 
 	public int IDEvento;
+	public bool activo;
 	public List<VariableEventoDialogo> variables;
 
 	public DialogoEvento()
@@ -12,25 +13,30 @@ public class DialogoEvento{
 		variables = new List<VariableEventoDialogo>();
 	}
 
-	public bool EstaActivo()
+	public bool SeCumplenCondiciones()
 	{
-		bool activo = true;
+		bool seCumplenCondiciones = true;
 
 		Evento evento = ManagerRutina.instance.DevuelveEvento(IDEvento);
 
 		if(evento != null)
 		{
-			for(int i = 0; i < variables.Count; i++)
+			if(activo)
 			{
-				if(evento.variables[variables[i].numVariable] < variables[i].valor)
-					activo = false;
+				for(int i = 0; i < variables.Count; i++)
+				{
+					if(evento.variables[variables[i].numVariable] < variables[i].valor)
+						seCumplenCondiciones = false;
+				}
 			}
+			else
+				seCumplenCondiciones = false;
 		}
 		else
 		{
-			activo = false;
+			seCumplenCondiciones = !activo;
 		}
 
-		return activo;
+		return seCumplenCondiciones;
 	}
 }

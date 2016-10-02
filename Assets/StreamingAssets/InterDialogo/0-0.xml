@@ -9,6 +9,7 @@
 			<eventos>
 				<DialogoEvento>
 					<IDEvento>0</IDEvento>
+					<activo>true</activo>
 					<variables/>
 				</DialogoEvento>
 			</eventos>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Evento xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<!--	Interactuable 1 está hablando con interactuable 3 -->
+	<ID>3</ID>
+	<activo>true</activo>
+	<variables>
+		<int>0</int>
+	</variables>
+</Evento>

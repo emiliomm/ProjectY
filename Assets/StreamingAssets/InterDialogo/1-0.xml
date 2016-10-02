@@ -9,6 +9,7 @@
 			<eventos>
 				<DialogoEvento>
 					<IDEvento>2</IDEvento>
+					<activo>true</activo>
 					<variables/>
 				</DialogoEvento>
 			</eventos>
@@ -153,6 +154,7 @@
 			<eventos>
 				<DialogoEvento>
 					<IDEvento>1</IDEvento>
+					<activo>true</activo>
 					<variables/>
 				</DialogoEvento>
 			</eventos>
