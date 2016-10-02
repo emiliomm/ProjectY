@@ -3,38 +3,16 @@
 	<IDInteractuable>2</IDInteractuable>
 	<ID>0</ID>
 	<intros>
-		<Intro>
-			<ID>701</ID>
+	</intros>
+	<mensajes>
+		<Mensaje xsi:type="MensajeTienda">
+			<ID>100000</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>
-			<prioridad>0</prioridad>
-			<dialogo>
-				<nodes>
-					<DialogueNode>
-						<nodeID>0</nodeID>
-						<posCamara>
-							<lookAt>0</lookAt>
-							<coordX>-0.5</coordX>
-							<coordY>1</coordY>
-							<coordZ>1</coordZ>
-						</posCamara>
-						<nombre>-1</nombre>
-						<siguienteNodo>0</siguienteNodo>
-						<text>Las llaves ya están disponibles para su recogida. Hablen con el recepcionista de la entrada para recibir la suya.</text>
-						<recorrido>false</recorrido>
-						<destruido>false</destruido>
-						<intros />
-						<mensajes/>
-						<grupos/>
-						<gruposVariables/>
-						<objetos/>
-						<nombres/>
-						<rutinas/>
-						<options/>
-					</DialogueNode>
-				</nodes>
-			</dialogo>
-		</Intro>
-	</intros>
-	<mensajes></mensajes>
+			<texto>Quiero comprar algo.</texto>
+			<IDInventario>0</IDInventario>
+			<numY>4</numY>
+			<escaparate>false</escaparate>
+		</Mensaje>
+	</mensajes>
 </ObjetoSerializable>

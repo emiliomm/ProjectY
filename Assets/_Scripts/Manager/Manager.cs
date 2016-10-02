@@ -369,6 +369,8 @@ public class Manager : MonoBehaviour
 	//Carga los interactuables al cargar una escena
 	void OnLevelWasLoaded(int level)
 	{
+		VaciaNavMeshAgents();
+
 		//Cargamos los interactuables de la escena
 		ManagerRutina.instance.CargarEscena(level);
 	}
@@ -617,7 +619,7 @@ public class Manager : MonoBehaviour
 	//Pausa las navMesh de la lista de navMesh con rutas activas
 	public void StopNavMeshAgents()
 	{
-		for(int i = 0; i < navMeshAgentRutasActivas.Count; i++)
+		for(int i = navMeshAgentRutasActivas.Count - 1; i >= 0; i--)
 		{
 			navMeshAgentRutasActivas[i].velocity = Vector3.zero; //Detiene el navmesh totalmente, sin desaceleración
 			navMeshAgentRutasActivas[i].Stop();
@@ -627,10 +629,16 @@ public class Manager : MonoBehaviour
 	//Reanuda las navMesh de la lista de navMesh con rutas activas
 	public void ResumeNavMeshAgents()
 	{
-		for(int i = 0; i < navMeshAgentRutasActivas.Count; i++)
+		for(int i = navMeshAgentRutasActivas.Count - 1; i >= 0; i--)
 		{
 			navMeshAgentRutasActivas[i].Resume();
 		}
+	}
+
+	private void VaciaNavMeshAgents()
+	{
+		if(navMeshAgentRutasActivas.Count != 0)
+			navMeshAgentRutasActivas = new List<NavMeshAgent>();
 	}
 
 	/*

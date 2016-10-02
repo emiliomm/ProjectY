@@ -237,14 +237,5 @@
 		</Intro>
 	</intros>
 	<mensajes>
-<!--		<Mensaje xsi:type="MensajeTienda">
-			<ID>100000</ID>
-			<IDGrupo>-1</IDGrupo>
-			<eventos/>
-			<texto>COMPRAAAAAAAAAAAAAAAAAAAAAAAAME ALGO PLS</texto>
-			<IDInventario>0</IDInventario>
-			<numY>4</numY>
-			<escaparate>false</escaparate>
-		</Mensaje>-->
 	</mensajes>
 </ObjetoSerializable>

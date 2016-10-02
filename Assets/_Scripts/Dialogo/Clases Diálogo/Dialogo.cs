@@ -637,6 +637,8 @@ public class Dialogo : ObjetoSerializable
 	//Devuelve el diálogo con los parámetros indicados
 	public static Dialogo BuscarDialogo(int IDInteractuable, int IDDialogo)
 	{
+		Debug.Log("idiNTER: " + IDInteractuable);
+
 		Dialogo dialogo = null;
 
 		//Miramos si el interactuable en la escena

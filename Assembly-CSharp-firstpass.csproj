@@ -172,6 +172,7 @@
      <None Include="Assets\_Art\Shaders\3DTextNotThroughugh.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
+     <None Include="Assets\StreamingAssets\Eventos\2.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
@@ -205,6 +206,7 @@
      <None Include="Assets\StreamingAssets\InterDatos\3.xml" />
      <None Include="Assets\StreamingAssets\InterDatos\2.xml" />
      <None Include="Assets\StreamingAssets\Rutinas\1.xml" />
+     <None Include="Assets\StreamingAssets\InterDialogo\2-0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
      <None Include="Assets\StreamingAssets\Tiendas\0.xml" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
@@ -268,7 +270,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
      <None Include="Assets\ProCore\ProBuilder\readme.txt" />
-     <None Include="Assets\StreamingAssets\InterDialogo\2-0.xml" />
+     <None Include="Assets\StreamingAssets\InterDialogo\-1-0.xml" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
      <None Include="Assets\StreamingAssets\InterDialogo\-1.xml" />

@@ -6,7 +6,12 @@
 		<Intro>
 			<ID>200</ID>
 			<IDGrupo>-1</IDGrupo>
-			<eventos/>
+			<eventos>
+				<DialogoEvento>
+					<IDEvento>2</IDEvento>
+					<variables/>
+				</DialogoEvento>
+			</eventos>
 			<autodestruye>false</autodestruye>
 			<prioridad>0</prioridad>
 			<dialogo>
@@ -147,7 +152,7 @@
 			<IDGrupo>-1</IDGrupo>
 			<eventos>
 				<DialogoEvento>
-					<IDEvento>0</IDEvento>
+					<IDEvento>1</IDEvento>
 					<variables/>
 				</DialogoEvento>
 			</eventos>

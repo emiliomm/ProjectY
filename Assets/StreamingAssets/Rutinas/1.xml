@@ -18,7 +18,7 @@
 					<rotW>0.7258552</rotW>
 				</lugar>
 				<eventos>
-<!--					<int>1</int>-->
+					<int>2</int>
 				</eventos>
 			</lugarSiguiente>
 		</PosicionLugarSiguiente>
