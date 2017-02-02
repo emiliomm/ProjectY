@@ -17,7 +17,7 @@
 				<nombre>-1</nombre>
 				<siguienteNodo>0</siguienteNodo>
 				<text>En la planta de abajo. Siga recto hasta llegar a las escaleras.</text>
-				<recorrido>false</recorrido>
+				<leido>false</leido>
 				<destruido>false</destruido>
 				<intros/>
 				<mensajes/>

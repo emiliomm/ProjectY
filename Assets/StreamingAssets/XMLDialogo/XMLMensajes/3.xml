@@ -17,7 +17,7 @@
 				<nombre>-1</nombre>
 				<siguienteNodo>0</siguienteNodo>
 				<text>El inhibidor le permite hibernar dutante la duración del viaje. No presenta ningún efecto secundario, aunque su uso es opcional, puede dormir en la cama de su habitación si desea disfrutar del viaje despierto el tiempo restante.</text>
-				<recorrido>false</recorrido>
+				<leido>false</leido>
 				<destruido>false</destruido>
 				<intros/>
 				<mensajes/>

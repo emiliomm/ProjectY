@@ -39,7 +39,7 @@ public class DatosAccionTienda : DatosAccion{
 		tiendaController.InicializarTienda(escaparate, numY, inventario, false);
 
 		//Se establece el modo de la cámara en el Modo Objeto
-		Camera.main.GetComponent<TPCamera>().SetObjectMode();
+		TPCamera.instance.GetComponent<TPCamera>().SetObjectMode();
 	}
 
 	private void CargarInventario(Inventario inventario)

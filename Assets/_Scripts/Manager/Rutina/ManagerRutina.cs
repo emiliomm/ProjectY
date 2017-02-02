@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class ManagerRutina: MonoBehaviour
 {
-	//AÑADIR DIAS ¿?
-
 	//Singleton pattern
 	public static ManagerRutina instance { get; private set; }
 
@@ -17,18 +15,29 @@ public class ManagerRutina: MonoBehaviour
 	//	     			   --> coord
 	//				 fecha_añadido --> indica la fecha en la que se ha añadido
 
-	//Se recorre cada vez que se cambia de escena, eliminando los datos con una fecha_añadido anterior a info_interactuables
+	//Guarda una lista con la posición y el id de los interactuables en la escena correspondiente actualmente
 
-	//ATENCIÓN, PUEDEN ACUMULARSE CACHES ANTIGUOS DEBIDO A QUE NO ES RECORRIDO ENTERO SIEMPRE, COMO LOS OTROS, QUE HACER ¿?
+	//Se recorre cada vez que se cambia de escena, eliminando los datos con una fecha_añadido anterior a info_interactuables
 	public Dictionary<int, List<LugarActual>> lugaresActuales;
+
+	//Se utiliza para limpiar periodicamente las listas del diccionario lugaresActuales de objetos antiguos
+	//Si numeroLugaresActuales > numeroInteractuablesConRutina*3, se ejecuta un for del diccionario al cambiar de escena que borra objetos antiguos
+	//Si numeroLugaresActuales > numeroInteractuablesConRutina*4, se ejecuta un for del diccionario inmeditamente
+
+	public int numeroInteractuablesConRutina = 0;
+	private int numeroLugaresActuales = 0;
+	private int numeroMaximoCargarEscenaLugaresActuales = 999999; //Normalmente el triple
+	private int numeroMaximoTotalLugaresActuales = 999999; //Normalmente el cuatriple
 
 	//<id_interactuable, info_interactuable>
 	//info_interactuable: tipo_interactuable --> Indica el tipo de interactuable(npc u objeto)
 	//					  id_escena --> indica el numero de escena actual del interactuable *Se sustituye cada vez que el interactuable avance de lugar o se cambie de rutina
-	//					  id_rutina --> indica la rutina actual del interactuable *Se sustituye cada vez que el interactuable cambie rutina (ACTUALMENTE NO SE USA)
+	//					  id_rutina --> indica la rutina actual del interactuable (Si es < 0, no tiene rutina) *Se sustituye cada vez que el interactuable cambie rutina (ACTUALMENTE NO SE USA)
 	//					  eventos --> lista con los ids de la eventos actuales *Se sustituye cada vez que el interactuable cambie de lugar
 	//					  ultimaFechaCambioLugar --> indica la fecha en la que se ha cambiado el lugar por última vez *Se sustituye cada vez que el interactuable avance de lugar o cambie de rutina
 	//					  ultimaFechaCambioRutina --> indica la fecha en la que se ha cambiado la rutina por última vez *Se sustituye cada vez que el interactuable cambie de rutina
+
+	//Guarda información sobre el interactuable según su id
 	public Dictionary<int, InfoInteractuable> infoInteractuables;
 
 	//<hora_cambio_lugar, lista - contenedor>
@@ -39,12 +48,16 @@ public class ManagerRutina: MonoBehaviour
 	//			   lugar --> indica el lugar sustituido arriba
 	//			   eventos --> Guarda listas de enteros con el id de los eventos del lugar
 
+	//Guarda las posiciones de los interactuables según la rutina actual
+
 	//Se recorre cada cambio de hora, eliminando los datos con id_rutina antiguos mirando en infoInteractuable
 	public Dictionary<int, Contenedor> contenedores;
 
 	//<id_evento, eventoLista>
 	//eventoLista: interactuable --> lista con las ids de los interactuable vinculados a los eventos
 	//			   evento
+
+	//Guarda los eventos de las rutinas de los interactuables
 
 	//Se recorre al cambiar de rutina, añadiendo los eventos de la nueva rutina y eliminando los eventos de la antigua rutina
 	//se elimina si el evento no está vinculado a ningun interactuable
@@ -82,9 +95,17 @@ public class ManagerRutina: MonoBehaviour
 
 		infoInteractuables[datosInteractuable.IDInteractuable] = infoInteractuable;
 
-		//Si el interactuable tiene rutina, cargamos la rutina
-		if(datosInteractuable.IDRutinaActual != -1)
+		//Si el id de rutina es positivo, significa que el interactuable tiene rutina, la cargamos
+		if(datosInteractuable.IDRutinaActual >= 0)
+		{
 			CargarRutina(datosInteractuable.IDRutinaActual, true, false);
+			numeroInteractuablesConRutina++;
+		}
+		//Si es negativo, el id indica el número de la escena/nivel con el signo cambiado
+		else
+		{
+			infoInteractuable.SetIDEscena(-datosInteractuable.IDRutinaActual);
+		}
 	}
 		
 	public void CargarRutina(int IDRutina, bool inicioJuego, bool comprobacionRutinas)
@@ -119,6 +140,12 @@ public class ManagerRutina: MonoBehaviour
 				datosInteractuable.Serialize();
 			}
 		}
+	}
+
+	public void SetNumerosMaximosLugaresActuales()
+	{
+		numeroMaximoCargarEscenaLugaresActuales = numeroInteractuablesConRutina * 3;
+		numeroMaximoTotalLugaresActuales = numeroInteractuablesConRutina * 4;
 	}
 
 	private void MarcarEventosDesactualizados(InfoInteractuable infoInteractuable)
@@ -299,6 +326,7 @@ public class ManagerRutina: MonoBehaviour
 		}
 
 		lista.Add(lugarActual);
+		SumarLugaresActuales();
 
 		InfoInteractuable infoInteractuable;
 		if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
@@ -317,6 +345,46 @@ public class ManagerRutina: MonoBehaviour
 
 			EliminarEventosDesactualizados(IDInteractuable, infoInteractuable);
 		}
+	}
+
+	private void SumarLugaresActuales()
+	{
+		numeroLugaresActuales++;
+
+		//Si supera el número máximo permitido, limpiamos el diccionario inmediatamente
+		if(numeroLugaresActuales > numeroMaximoTotalLugaresActuales)
+		{
+			EjecutarLimpiezaLugaresActuales();
+		}
+	}
+
+	private void EjecutarLimpiezaLugaresActuales()
+	{
+		foreach(var entry in lugaresActuales.Values)
+		{
+			for(int i = 0; i < entry.Count; i++)
+			{
+				int IDInteractuable = entry[i].GetIDInteractuable();
+				InfoInteractuable infoInteractuable;
+				if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
+				{
+					if(infoInteractuable.GetFechaCambioLugar() > entry[i].GetFecha())
+					{
+						entry.RemoveAt(i);
+						numeroLugaresActuales--;
+					}
+				}
+				//Si el IDInteractuable no existe, lo borramos
+				else
+				{
+					entry.RemoveAt(i);
+					numeroLugaresActuales--;
+					Debug.Log("Error: Se ha borrado un interactuable de la lista de lugares actuales porque el ID del interactuable no existía.");
+				}
+			}
+		}
+
+		Debug.Log("Limpieza del diccionario de lugaresActuales ejecutada");
 	}
 
 	private void ComprobarInteractuableEscenaActual(int IDInteractuable, int tipoInteractuable, int IDEscenaAnterior, int IDEscenaActual, Vector3 coord, Quaternion rot)
@@ -411,6 +479,7 @@ public class ManagerRutina: MonoBehaviour
 			else
 			{
 				listaAutorutinas.RemoveAt(i);
+				Debug.Log("Error: Al comprobar autorutinas, el id del interactuable no existía, por lo que se ha destruido");
 			}
 		}
 	}
@@ -474,6 +543,7 @@ public class ManagerRutina: MonoBehaviour
 					if(infoInteractuable.GetFechaCambioLugar() > listaLugarActual[i].GetFecha())
 					{
 						listaLugarActual.RemoveAt(i);
+						numeroLugaresActuales--;
 					}
 					else
 					{
@@ -482,7 +552,20 @@ public class ManagerRutina: MonoBehaviour
 						Manager.instance.CrearInteractuable(IDInteractuable, tipo, listaLugarActual[i].GetCoordenadasLugar(), listaLugarActual[i].GetCoordenadasRotacion());
 					}
 				}
+				//Si el IDInteractuable no existe, lo borramos
+				else
+				{
+					listaLugarActual.RemoveAt(i);
+					numeroLugaresActuales--;
+					Debug.Log("Error: Se ha borrado un interactuable de la lista de lugares actuales porque el ID del interactuable no existía.");
+				}
 			}
+		}
+
+		//Si supera el número máximo de lugares actuales al cargar una escena, limpiamos el diccionario
+		if(numeroLugaresActuales > numeroMaximoCargarEscenaLugaresActuales)
+		{
+			EjecutarLimpiezaLugaresActuales();
 		}
 	}
 

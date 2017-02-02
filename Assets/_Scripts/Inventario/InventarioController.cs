@@ -49,7 +49,7 @@ public class InventarioController : MonoBehaviour {
 			ActualizarVistaObjeto();
 
 			//ponemos el foco en el primer objeto
-			GameObject myEventSystem = GameObject.Find("EventSystem(Clone)");
+			GameObject myEventSystem = Manager.instance.eventSystem;
 			myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(listaObjetos.transform.GetChild(0).gameObject);
 		}
 	}
@@ -113,7 +113,7 @@ public class InventarioController : MonoBehaviour {
 		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 		Cursor.visible = false;
-		Camera.main.GetComponent<TPCamera>().SetNormalMode();
+		TPCamera.instance.SetNormalMode();
 
 		Destroy(gameObject);
 	}
@@ -121,7 +121,7 @@ public class InventarioController : MonoBehaviour {
 	private void ActualizarVistaObjeto()
 	{
 		//indice
-		GameObject myEventSystem = GameObject.Find("EventSystem(Clone)");
+		GameObject myEventSystem = Manager.instance.eventSystem;
 		myEventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(listaObjetos.transform.GetChild(indiceObjetoActual).gameObject);
 
 		//Mantiene el scroll en la posición adecuada

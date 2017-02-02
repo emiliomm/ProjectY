@@ -28,7 +28,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Hola, me llamo Marisol.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -67,7 +67,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Perdona, estoy ocupada.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>

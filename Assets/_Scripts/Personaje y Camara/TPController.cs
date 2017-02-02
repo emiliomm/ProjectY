@@ -102,7 +102,7 @@ public class TPController : MonoBehaviour
 			ManagerTiempo.instance.SetPausa(true);
 			Manager.instance.StopNavMeshAgents();
 			Cursor.visible = true; //Muestra el cursor del ratón
-			Camera.main.GetComponent<TPCamera>().SetObjectMode();
+			TPCamera.instance.SetObjectMode();
 		}
 
 		//MEJORAR IMPLEMENTACIÓN

@@ -313,7 +313,7 @@ public class Dialogo : ObjetoSerializable
 	{
 
 		//Si el nodo no ha sido recorrido nunca, ejecutamos las funciones
-		if(node.DevuelveRecorrido() != true)
+		if(node.DevuelveLeido() != true)
 		{
 			//Dependiendo del tipo, comprobamos una lista u otra
 			switch(tipo)
@@ -336,7 +336,7 @@ public class Dialogo : ObjetoSerializable
 			}
 				
 			//Marcamos el nodo como recorrido y comprobamos las funciones del nodo actual
-			node.MarcarRecorrido();
+			node.MarcarLeido();
 			ComprobarPropiedadesNodo(tipo, posTema, ref posDialogo, node);
 		}
 
@@ -637,8 +637,6 @@ public class Dialogo : ObjetoSerializable
 	//Devuelve el diálogo con los parámetros indicados
 	public static Dialogo BuscarDialogo(int IDInteractuable, int IDDialogo)
 	{
-		Debug.Log("idiNTER: " + IDInteractuable);
-
 		Dialogo dialogo = null;
 
 		//Miramos si el interactuable en la escena

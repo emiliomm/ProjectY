@@ -47,6 +47,7 @@ public class InfoInteractuable{
 		this.IDRutina = IDRutina;
 	}
 
+	//ACTUALMENTE NO SE USA
 	public int DevolverIDRutina()
 	{
 		return IDRutina;

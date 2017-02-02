@@ -41,8 +41,8 @@ public class ObjetoController : MonoBehaviour {
 			float rotacionX = Input.GetAxis("Mouse X")*XMouseSensitivity*Mathf.Deg2Rad;
 			float rotacionY = Input.GetAxis("Mouse Y")*YMouseSensitivity*Mathf.Deg2Rad;
 
-			objeto.transform.RotateAround(Camera.main.transform.up, -rotacionX);
-			objeto.transform.RotateAround(Camera.main.transform.right, rotacionY);
+			objeto.transform.RotateAround(transform.position, Camera.main.transform.up, -rotacionX);
+			objeto.transform.RotateAround(transform.position, Camera.main.transform.right, rotacionY);
 		}
 	}
 
@@ -53,7 +53,7 @@ public class ObjetoController : MonoBehaviour {
 		Destroy(panelObjetoPrefab);
 		Destroy(this);
 
-		Camera.main.GetComponent<TPCamera>().SetNormalMode();
+		TPCamera.instance.SetNormalMode();
 		TPController.instance.SetState(TPController.State.Normal);
 		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();

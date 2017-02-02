@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using  UnityEngine.AI;
 
 /*
  * 	Clase hija de Interactuable que contiene datos sobre la subclase de los interactuables llamada NPC
@@ -23,7 +24,7 @@ public class InteractuableNPC : Interactuable {
 		//Ejecuta el metodo del padre
 		base.Start();
 
-		agente = GetComponent<NavMeshAgent>();
+		agente = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
 		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());

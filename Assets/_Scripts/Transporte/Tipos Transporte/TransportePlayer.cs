@@ -45,9 +45,19 @@ public class TransportePlayer : TransporteInter
 		}
 	}
 
-	protected virtual void OnLevelWasLoaded(int level)
+	protected override void OnEnable() {
+		base.OnEnable();
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	protected override void OnDisable() {
+		base.OnDisable();
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
+
+	protected virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if(transportando && level == IDEscena)
+		if(transportando && scene.buildIndex == IDEscena)
 		{
 			StartCoroutine(Transporte());
 		}

@@ -74,7 +74,7 @@ public class Interactuable : MonoBehaviour {
 		cursorUI = canvas.transform.GetChild(1).gameObject;
 
 		//Buscamos la cámara activa y se la asignamos al canvas
-		camara = GameObject.FindWithTag("MainCamera").GetComponent<Camera> ();
+		camara = TPCamera.instance.gameObject.GetComponent<Camera> ();
 		canvas.GetComponent<Canvas>().worldCamera = camara;
 
 		//Asignamos la posicion inicial y el vector de movimientos

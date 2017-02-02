@@ -17,7 +17,7 @@
 				<nombre>-1</nombre>
 				<siguienteNodo>0</siguienteNodo>
 				<text>Estamos preparando las habitaciones. No le puedo dar un tiempo exacto, pero aproximadamente en medialogo hora como máximo.</text>
-				<recorrido>false</recorrido>
+				<leido>false</leido>
 				<destruido>false</destruido>
 				<intros/>
 				<mensajes/>

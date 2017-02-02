@@ -28,7 +28,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Ah, hola, no te había visto, estaba distraído mirando al espacio.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -50,7 +50,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Me llamo Richard, encantado de conocerte.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -89,7 +89,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>La verdad es que me apetece tomar algo, podríamos ir al bar de abajo a tomar algo, ¿qué me dices?</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>true</destruido>
 						<intros />
 						<mensajes/>
@@ -130,7 +130,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>-2</siguienteNodo>
 						<text>Sígueme</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -173,7 +173,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>¿Has visto a esa chica de ahí?¿Crees que debería hablar con ella?</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -220,7 +220,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Deséame suerte</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>

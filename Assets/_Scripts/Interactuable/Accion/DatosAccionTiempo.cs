@@ -22,7 +22,9 @@ public class DatosAccionTiempo : DatosAccion
 			ManagerTiempo.instance.AvanzaHora();
 		}
 
-		Camera.main.GetComponent<TPCamera>().SetNormalMode();
+		Debug.Log("Se ha avanzado" + horas + "horas");
+
+		TPCamera.instance.SetNormalMode();
 		TPController.instance.SetState(TPController.State.Normal);
 		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();

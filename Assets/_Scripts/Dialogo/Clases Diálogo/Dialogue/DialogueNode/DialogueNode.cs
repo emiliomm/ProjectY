@@ -27,7 +27,7 @@ namespace DialogueTree
 		public int siguienteNodo;
 
         public string text;
-		public bool recorrido; //Indica si el nodo ha sido recorrido anteriormente
+		public bool leido; //Indica si el nodo ha sido recorrido anteriormente
 		public bool destruido; //Indica si el dialogo del que forma parte el nodo va a ser destruido al acabar de leerlo
 
 		public List<DialogueAddIntro> intros; //Contiene intros a añadir a un diálogo. Puede estar vacío
@@ -76,16 +76,16 @@ namespace DialogueTree
 			return text;
 		}
 
-		public bool DevuelveRecorrido()
+		public bool DevuelveLeido()
 		{
-			return recorrido;
+			return leido;
 		}
 
-		//Marca la variable recorrido a true, indicando que el nodo ya ha sido recorrido
+		//Marca la variable leido a true, indicando que el nodo ya ha sido recorrido
 		//y no se volverán a comprobar algunas de sus funciones si se vuelve a recorrer en el futuro
-		public void MarcarRecorrido()
+		public void MarcarLeido()
 		{
-			recorrido = true;
+			leido = true;
 		}
 
 		//Devuelve un objeto dialogueoption situado en la posición indicada de la lista de opciones

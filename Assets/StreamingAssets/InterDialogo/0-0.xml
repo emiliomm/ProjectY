@@ -27,7 +27,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Hola. Veamos... A usted le toca la llave de la habitación 003.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -49,7 +49,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Aquí tiene.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>true</destruido>
 						<intros />
 						<mensajes/>
@@ -86,7 +86,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Bienvenido a la nave que le llevará hacia el planeta Quros.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros />
 						<mensajes/>
@@ -108,7 +108,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>La nave tardará unos cuantos días en llegar a su destino.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros/>
 						<mensajes>
@@ -137,7 +137,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>Le recomendamos que se tomen un tiempo para familiarizarse con el entorno. Es normal que experimenten mareos durante los primeros minutos.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros/>
 						<mensajes/>
@@ -159,7 +159,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>En breves momentos cada uno de ustedes recibirá la llave de su habitación. Dentro de ella podrá usar el inhibidor para hibernar durante la duración de todo el viaje si así lo desea.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros/>
 						<mensajes>
@@ -200,7 +200,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>0</siguienteNodo>
 						<text>También disponen de un bar en la planta inferior.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>false</destruido>
 						<intros/>
 						<mensajes/>
@@ -222,7 +222,7 @@
 						<nombre>-1</nombre>
 						<siguienteNodo>-2</siguienteNodo>
 						<text>Le deseamos un feliz viaje.</text>
-						<recorrido>false</recorrido>
+						<leido>false</leido>
 						<destruido>true</destruido>
 						<intros/>
 						<mensajes/>

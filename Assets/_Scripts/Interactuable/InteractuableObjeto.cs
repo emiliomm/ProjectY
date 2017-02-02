@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 /*
  * 	Clase hija de Interactuable que contiene datos sobre la subclase de los interactuables llamada InteractuableObjeto

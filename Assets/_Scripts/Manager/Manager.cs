@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 using System;
 using System.Collections;
@@ -29,6 +30,9 @@ public class Manager : MonoBehaviour
 
 	#endregion
 
+	public GameObject canvasGlobal; //referencia al canvas global del juego
+	public GameObject eventSystem; //referencia al eventSystem
+
 	private Dictionary<int, GameObject> interactuables; //grupos de npcs cargados en la escena actual (id_interactuable, gameobject)
 	private List<GameObject> interactuablesCercanos; //lista con los interactuables cercanos al jugador
 	private List<NavMeshAgent> navMeshAgentRutasActivas; //lista con los navmesh agent con rutas activas
@@ -41,8 +45,6 @@ public class Manager : MonoBehaviour
 	private List<int> gruposAcabados; //lista con ids de los grupos acabados
 
 	private List<ObjetoReciente> objetosRecientes; //lista de objetos obtenidos recientemente
-
-	public GameObject canvasGlobal; //referencia al canvas global del juego
 
 	private int escenaTransporte; //Variable usada para saber en que escena se encuentran los teletransportes (ya que el orden de ejecución de onloadlevel no es fiable)
 
@@ -175,6 +177,7 @@ public class Manager : MonoBehaviour
 
 		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("EventSystem"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
+		eventSystem = objetoTemporalGO;
 
 		//CREAR CON PREFAB
 		objetoTemporalGO = new GameObject("ManagerTiempo");
@@ -359,6 +362,8 @@ public class Manager : MonoBehaviour
 					ManagerRutina.instance.CargarInteractuable(datosInteractuable);
 			}
 		}
+
+		ManagerRutina.instance.SetNumerosMaximosLugaresActuales();
 	}
 
 	private void ComprobarEventosInicio(int horaActual)
@@ -366,13 +371,21 @@ public class Manager : MonoBehaviour
 		ManagerRutina.instance.ComprobarEventosInicio(horaActual);
 	}
 
+	protected virtual void OnEnable() {
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	protected virtual void OnDisable() {
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
+
 	//Carga los interactuables al cargar una escena
-	void OnLevelWasLoaded(int level)
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
 		VaciaNavMeshAgents();
 
 		//Cargamos los interactuables de la escena
-		ManagerRutina.instance.CargarEscena(level);
+		ManagerRutina.instance.CargarEscena(scene.buildIndex);
 	}
 
 	//Crea un interactuable en la escena con las coordenadas y rotación especificadas
@@ -556,9 +569,6 @@ public class Manager : MonoBehaviour
 	}
 
 	//Recarga las acciones de los interactuables de la lista
-
-	//CREAR OTRA FUNCIÓN DE ACTUALIZAR ACCIONES DONDE NO INTERVENGA EL INVENTARIO, PARA CUANDO SE ACTUALICEN LAS VARIABLES DE UN OBJETO
-
 	public void ActualizarAcciones(Inventario inventario)
 	{
 		foreach(var entry in interactuables.Values)

@@ -30,8 +30,16 @@ public class TransportePlayerObjeto : TransportePlayer {
 		base.OnTriggerExit(other);
 	}
 
-	protected override void OnLevelWasLoaded(int level)
+	protected override void OnEnable() {
+		base.OnEnable();
+	}
+
+	protected override void OnDisable() {
+		base.OnDisable();
+	}
+
+	protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		base.OnLevelWasLoaded(level);
+		base.OnSceneLoaded(scene, mode);
 	}
 }

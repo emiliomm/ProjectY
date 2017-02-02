@@ -159,7 +159,7 @@ public class TiendaController : MonoBehaviour {
 			TextBox.instance.MostrarInterfaz();
 		}
 
-		Camera.main.GetComponent<TPCamera>().SetNormalMode();
+		TPCamera.instance.SetNormalMode();
 
 		Destroy(gameObject);
 	}

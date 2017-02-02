@@ -127,6 +127,7 @@ public class TextBox : MonoBehaviour {
 		else
 			yield return StartCoroutine(EmpezarDialogo(interactuableActual, dialogo));
 
+		//El evento se guarda cuando acaba el dialogo
 		if(IDEvento != -1)
 			ManagerRutina.instance.GuardaEvento(IDEvento);
 	}

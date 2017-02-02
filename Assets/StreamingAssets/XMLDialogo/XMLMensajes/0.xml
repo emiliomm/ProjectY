@@ -17,7 +17,7 @@
 				<nombre>-1</nombre>
 				<siguienteNodo>0</siguienteNodo>
 				<text>Aproximadamente unos 2 días si no nos encontramos ningún problema por el camino.</text>
-				<recorrido>false</recorrido>
+				<leido>false</leido>
 				<destruido>false</destruido>
 				<intros/>
 				<mensajes/>

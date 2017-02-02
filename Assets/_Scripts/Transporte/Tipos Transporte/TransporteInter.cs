@@ -24,6 +24,14 @@ public class TransporteInter : MonoBehaviour
 		Manager.instance.AnyadirTransporte(SceneManager.GetActiveScene().buildIndex, gameObject, escenas);
 	}
 
+	protected virtual void OnEnable() {
+		
+	}
+
+	protected virtual void OnDisable() {
+		
+	}
+
 	public bool ComprobarSiEsTransporteObjeto()
 	{
 		bool esTipoTransporte = false;

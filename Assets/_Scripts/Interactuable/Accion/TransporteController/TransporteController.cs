@@ -27,9 +27,17 @@ public class TransporteController : MonoBehaviour
 		SceneManager.LoadScene(IDEscena, LoadSceneMode.Single);
 	}
 
-	void OnLevelWasLoaded(int level)
+	protected virtual void OnEnable() {
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	protected virtual void OnDisable() {
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
+
+	protected virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if(enTransporte && level == IDEscena)
+		if(enTransporte && scene.buildIndex == IDEscena)
 		{
 			enTransporte = false;
 			StartCoroutine(Transporte());

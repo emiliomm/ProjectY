@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 public class Evento
 {
 	public int ID;
-	public bool activo; //ACTUALMENTE NO SE USA
+	public bool activo; //Indica que el evento está activo y se ejecuta. ACTUALMENTE NO SE CAMBIA, AÑADIR UTILIDAD
 	public List<int> variables;
 
 	public Evento()
