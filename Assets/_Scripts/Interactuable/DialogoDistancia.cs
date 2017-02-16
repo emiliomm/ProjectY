@@ -36,7 +36,7 @@ public class DialogoDistancia : MonoBehaviour {
 	//Cuando el dialogo acaba, elimina el objeto
 	private IEnumerator DialogoEnCurso()
 	{
-		yield return StartCoroutine(TextBox.instance.PrepararDialogoCoroutine(interactuable, datosAccionDialogo.dialogo, -1));
+		yield return StartCoroutine(ManagerDialogo.instance.PrepararDialogoCoroutine(interactuable, datosAccionDialogo.dialogo, -1));
 
 		//Quitamos la propiedad a distancia del diálogo y actualizamos las acciones del interactuable
 		datosAccionDialogo.SetADistancia(false);

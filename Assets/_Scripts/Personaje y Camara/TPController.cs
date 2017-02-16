@@ -59,17 +59,13 @@ public class TPController : MonoBehaviour
 			//Si no hay camara, no nos movemos
 			if (Camera.main == null)
 				return;
+			
+			GetLocomotionInput();//Asignamos el movimiento del input
 
-			//Si el menú no se ha activado, continuamos
-			if(!MenuInput())
-			{
-				GetLocomotionInput();//Asignamos el movimiento del input
+			HandleActionInput();
 
-				HandleActionInput();
-
-				TPMotor.instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
-				InteractuableCollider.Instance.EncontrarInteractuablesCercanos();
-			}
+			TPMotor.instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
+			InteractuableCollider.Instance.EncontrarInteractuablesCercanos();
 			break;
 		case State.Dialogo: //También se usa en la pantalla de Inventario, de momento
 		case State.Interactuables:
@@ -83,43 +79,6 @@ public class TPController : MonoBehaviour
 			TPMotor.instance.UpdateMotor();//lo pasamos a coord del mundo, normalizando, etc...
 			break;
 		}
-	}
-
-	//Controla el input de los menus
-	//Devuelve true si se ha activado un menu
-	private bool MenuInput()
-	{
-		bool activado = false;
-
-		if (Input.GetKeyDown((KeyCode.I)))
-		{
-			activado = true;
-
-			GameObject inventarioManager = (GameObject)Instantiate(Resources.Load("PanelInventarioPrefab"));
-			inventarioManager.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
-
-			SetState(State.Dialogo);
-			ManagerTiempo.instance.SetPausa(true);
-			Manager.instance.StopNavMeshAgents();
-			Cursor.visible = true; //Muestra el cursor del ratón
-			TPCamera.instance.SetObjectMode();
-		}
-
-		//MEJORAR IMPLEMENTACIÓN
-		if (Input.GetKey((KeyCode.H)) && !activado)
-		{
-			GameObject panelTiempo = Manager.instance.canvasGlobal.transform.GetChild(1).gameObject;
-			panelTiempo.GetComponent<UITiempo>().EstablecerHora(ManagerTiempo.instance.GetHoraActual(), ManagerTiempo.instance.GetMinutoActual());
-			panelTiempo.SetActive(true);
-		}
-		else
-		{
-			GameObject panelTiempo = Manager.instance.canvasGlobal.transform.GetChild(1).gameObject;
-			panelTiempo.SetActive(false);
-		}
-			
-
-		return activado;
 	}
 
 	//Asignamos el movimiento del input

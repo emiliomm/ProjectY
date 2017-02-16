@@ -17,8 +17,17 @@ public class InventarioController : MonoBehaviour {
 	//Número del objeto en la lista que tiene el foco (teclado/ratón)
 	private int indiceObjetoActual = 0;
 
-	// Use this for initialization
-	void Start () {
+	void Awake()
+	{
+		TPController.instance.SetState(TPController.State.Dialogo);
+		ManagerTiempo.instance.SetPausa(true);
+		Manager.instance.StopNavMeshAgents();
+		Cursor.visible = true; //Muestra el cursor del ratón
+		TPCamera.instance.SetObjectMode();
+	}
+
+	void Start ()
+	{
 		
 		inventario = new Inventario();
 
@@ -100,14 +109,9 @@ public class InventarioController : MonoBehaviour {
 				ActualizarVistaObjeto();
 			}
 		}
-		
-		if (Input.GetKeyDown(KeyCode.I))
-		{
-			Salir();
-		}
 	}
 
-	private void Salir()
+	public void Salir()
 	{
 		TPController.instance.SetState(TPController.State.Normal);
 		ManagerTiempo.instance.SetPausa(false);

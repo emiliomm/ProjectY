@@ -106,10 +106,14 @@ public class ManagerTiempo : MonoBehaviour {
 	//Establece el estado de pausa
 	public void SetPausa(bool pausa)
 	{
-		if(pausa)
-			SetState(Estado.Pausa);
-		else
-			SetState(Estado.Activo);
+		if(pausa) {
+			SetState (Estado.Pausa);
+			Time.timeScale = 0.0f;
+		}
+		else {
+			SetState (Estado.Activo);
+			Time.timeScale = 1.0f;
+		}
 	}
 
 	public void GuardarTiempo()

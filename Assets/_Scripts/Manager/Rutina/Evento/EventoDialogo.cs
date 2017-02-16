@@ -23,7 +23,7 @@ public class EventoDialogo : Evento {
 			Interactuable interactuable = null;
 
 			Dialogo dialogo = Dialogo.BuscarDialogo(IDInteractuable, IDDialogo);
-			TextBox.instance.PrepararDialogo(interactuable, dialogo, ID);
+			ManagerDialogo.instance.PrepararDialogo(interactuable, dialogo, ID);
 			ejecutado = true;
 		}
 	}

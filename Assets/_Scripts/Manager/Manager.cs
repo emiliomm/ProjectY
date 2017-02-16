@@ -189,6 +189,11 @@ public class Manager : MonoBehaviour
 		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
 		objetoTemporalGO.AddComponent<ManagerRutina>();
 
+		//CREAR CON PREFAB
+		objetoTemporalGO = new GameObject("ManagerMenu");
+		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
+		objetoTemporalGO.AddComponent<ManagerMenu>();
+
 		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Ethan"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 		objetoTemporalGO.transform.position = new Vector3(7.87f, 15.809f, -9.88f);

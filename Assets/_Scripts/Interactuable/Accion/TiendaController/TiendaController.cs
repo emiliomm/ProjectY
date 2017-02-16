@@ -137,7 +137,7 @@ public class TiendaController : MonoBehaviour {
 		inventarioPropio.AddObjeto(inventario.DevolverID(num), 1);
 		inventarioPropio.AddToColaObjetos();
 
-		yield return StartCoroutine(TextBox.instance.MostrarPopupObjetos());
+		yield return StartCoroutine(UIDialogo.instance.MostrarPopupObjetos());
 
 		Destroy(popupGO);
 	}
@@ -156,7 +156,7 @@ public class TiendaController : MonoBehaviour {
 		}
 		else
 		{
-			TextBox.instance.MostrarInterfaz();
+			UIDialogo.instance.MostrarInterfaz();
 		}
 
 		TPCamera.instance.SetNormalMode();

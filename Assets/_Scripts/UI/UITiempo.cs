@@ -4,25 +4,30 @@ using System.Collections;
 
 public class UITiempo : MonoBehaviour {
 
-	private Text hora;
-	private Text minuto;
+	private Text horaText;
+	private Text minutoText;
 
 	private void Awake ()
 	{
-		hora = gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
-		minuto = gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
+		horaText = gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
+		minutoText = gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
 	}
 
-	public void EstablecerHora(int hora, int minuto)
+	void Update()
 	{
-		if(hora < 10)
-			this.hora.text = "0" + hora.ToString();
-		else
-			this.hora.text = hora.ToString();
+		MostrarHora ();
+	}
 
-		if(minuto < 10)
-			this.minuto.text = "0" + minuto.ToString();
+	public void MostrarHora()
+	{
+		if(ManagerTiempo.instance.GetHoraActual() < 10)
+			this.horaText.text = "0" + ManagerTiempo.instance.GetHoraActual().ToString();
 		else
-			this.minuto.text = minuto.ToString();
+			this.horaText.text = ManagerTiempo.instance.GetHoraActual().ToString();
+
+		if(ManagerTiempo.instance.GetMinutoActual() < 10)
+			this.minutoText.text = "0" + ManagerTiempo.instance.GetMinutoActual().ToString();
+		else
+			this.minutoText.text = ManagerTiempo.instance.GetMinutoActual().ToString();
 	}
 }

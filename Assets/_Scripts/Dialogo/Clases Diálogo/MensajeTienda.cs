@@ -22,7 +22,7 @@ public class MensajeTienda : Mensaje
 
 	public void MostrarTienda()
 	{
-		TextBox.instance.OcultarInterfaz();
+		UIDialogo.instance.OcultarInterfaz();
 
 		var ObjetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
 

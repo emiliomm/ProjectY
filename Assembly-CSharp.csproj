@@ -74,7 +74,8 @@
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeDialogo.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeTienda.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\TemaMensaje.cs" />
-     <Compile Include="Assets\_Scripts\Dialogo\Interfaz\TextBox.cs" />
+     <Compile Include="Assets\_Scripts\Dialogo\Interfaz\ManagerDialogo.cs" />
+     <Compile Include="Assets\_Scripts\Dialogo\Interfaz\UIDialogo.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\AccionObjeto.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ComprobarObjeto.cs" />
      <Compile Include="Assets\_Scripts\Interactuable\Accion\ComprobarVariable.cs" />
@@ -109,6 +110,8 @@
      <Compile Include="Assets\_Scripts\Manager\ColaObjetos\ColaObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\ColaObjetos\ObjetoSerializable.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
+     <Compile Include="Assets\_Scripts\Manager\ManagerInput.cs" />
+     <Compile Include="Assets\_Scripts\Manager\ManagerMenu.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\Autorutina.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\Contenedor.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\DatosInteractuable.cs" />
