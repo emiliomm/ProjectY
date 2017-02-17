@@ -164,13 +164,14 @@ public class Manager : MonoBehaviour
 
 	private void CargarGameObjectsEstaticos()
 	{
-		canvasGlobal = (GameObject)Instantiate(Resources.Load("CanvasPrefab"));
+		canvasGlobal = (GameObject)Instantiate(Resources.Load("UI/UIPrefab"));
 		DontDestroyOnLoad(canvasGlobal); //Hacemos que el objeto no pueda ser destruido entre escenas
 
-		GameObject objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Text Box Manager"));
+		GameObject objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Dialogo/ManagerDialogo"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
+		objetoTemporalGO.transform.SetParent(canvasGlobal.transform, false);
 
-		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("PanelTiempoPrefab"));
+		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Tiempo/UITiempoPrefab"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 		objetoTemporalGO.transform.SetParent(canvasGlobal.transform, false);
 		objetoTemporalGO.SetActive(false);

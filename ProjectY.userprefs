@@ -1,15 +1,25 @@
 ﻿<Properties StartupItem="Assembly-CSharp-firstpass.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Interactuable\DialogoDistancia.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Inventario\InventarioController.cs">
     <Files>
       <File FileName="Assets\_Scripts\Personaje y Camara\TPController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Manager\ManagerMenu.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Inventario\InventarioController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Interfaz\ManagerDialogo.cs" Line="13" Column="28" />
-      <File FileName="Assets\_Scripts\Dialogo\Interfaz\UIDialogo.cs" Line="10" Column="29" />
-      <File FileName="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeTienda.cs" Line="1" Column="1" />
-      <File FileName="Assets\_Scripts\Interactuable\DialogoDistancia.cs" Line="39" Column="1" />
+      <File FileName="Assets\_Scripts\Manager\ManagerMenu.cs" Line="38" Column="76" />
+      <File FileName="Assets\_Scripts\Inventario\InventarioController.cs" Line="58" Column="4" />
+      <File FileName="Assets\_Scripts\Dialogo\Interfaz\UIDialogo.cs" Line="37" Column="73" />
+      <File FileName="Assets\_Scripts\UI\UIPopUpObjeto.cs" Line="11" Column="73" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\TiendaController\TiendaController.cs" Line="118" Column="29" />
+      <File FileName="Assets\_Scripts\Dialogo\Clases Diálogo\MensajeTienda.cs" Line="25" Column="44" />
+      <File FileName="Assets\_Scripts\Personaje y Camara\TPCamera.cs" Line="424" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\InteractuableNPC.cs" Line="7" Column="41" />
+      <File FileName="Assets\_Scripts\Interactuable\Interactuable.cs" Line="518" Column="25" />
+      <File FileName="Assets\_Scripts\Interactuable\CursorUIDetection.cs" Line="47" Column="41" />
+      <File FileName="Assets\_Scripts\Dialogo\ManagerDialogo.cs" Line="48" Column="78" />
+      <File FileName="Assets\_Scripts\Manager\Manager.cs" Line="174" Column="71" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\LectorController\LectorController.cs" Line="31" Column="76" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\ObjetoController\ObjetoController.cs" Line="24" Column="11" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionObjeto.cs" Line="35" Column="28" />
+      <File FileName="Assets\_Scripts\UI\UITiempo.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Interactuable\Accion\DatosAccionTienda.cs" Line="30" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

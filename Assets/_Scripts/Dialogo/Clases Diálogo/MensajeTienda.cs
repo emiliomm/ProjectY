@@ -22,14 +22,13 @@ public class MensajeTienda : Mensaje
 
 	public void MostrarTienda()
 	{
-		UIDialogo.instance.OcultarInterfaz();
-
-		var ObjetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
+		UIDialogo.instance.OcultarInterfaz(true);
 
 		Inventario inventario = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
 		CargarInventario(inventario);
 
-		TiendaController tiendaController = ObjetoTienda.AddComponent<TiendaController>();
+		var ObjetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/TiendaPrefab"));
+		TiendaController tiendaController = ObjetoTienda.GetComponent<TiendaController>();
 		//		objetoController.InicializarTienda(numX, numY, fuente, inv, fondo);
 		tiendaController.InicializarTienda(escaparate, numY, inventario, true);
 

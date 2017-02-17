@@ -28,7 +28,6 @@ public class InventarioController : MonoBehaviour {
 
 	void Start ()
 	{
-		
 		inventario = new Inventario();
 
 		if(System.IO.File.Exists(Manager.rutaInventario + "Inventario.xml"))
@@ -67,7 +66,7 @@ public class InventarioController : MonoBehaviour {
 	{
 		for(int i = 0; i < inventario.DevolverNumeroObjetos(); i++)
 		{
-			GameObject botonGO = (GameObject)Instantiate(Resources.Load("BotonInventario"));
+			GameObject botonGO = (GameObject)Instantiate(Resources.Load("Inventario/BotonInventario"));
 			botonGO.transform.GetChild(0).GetComponent<Text>().text = inventario.DevolverNombre(i);
 
 			int j = i; //copia del entero para que funcione en el delegate anónimo

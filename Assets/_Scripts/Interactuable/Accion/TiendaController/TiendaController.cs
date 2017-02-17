@@ -69,7 +69,7 @@ public class TiendaController : MonoBehaviour {
 			if(i/numY != num_menu)
 			{
 				num_menu++;
-				menuGO = (GameObject)Instantiate(Resources.Load("Tienda/Menu"));
+				menuGO = (GameObject)Instantiate(Resources.Load("Tienda/UIMenuTienda"));
 				menuGO.transform.SetParent(contenedorMenus.transform, false);
 			}
 
@@ -97,7 +97,7 @@ public class TiendaController : MonoBehaviour {
 
 	private void CompraObjeto(int num)
 	{
-		var compraPopup = (GameObject)Instantiate(Resources.Load("Tienda/CompraPopup"));
+		var compraPopup = (GameObject)Instantiate(Resources.Load("Tienda/UICompraPopup"));
 		compraPopup.transform.SetParent(gameObject.transform, false);
 
 		var siGO = compraPopup.transform.GetChild(1).gameObject;
@@ -137,7 +137,7 @@ public class TiendaController : MonoBehaviour {
 		inventarioPropio.AddObjeto(inventario.DevolverID(num), 1);
 		inventarioPropio.AddToColaObjetos();
 
-		yield return StartCoroutine(UIDialogo.instance.MostrarPopupObjetos());
+		yield return StartCoroutine(UIPopUpObjeto.MostrarPopupObjetos());
 
 		Destroy(popupGO);
 	}

@@ -515,6 +515,7 @@ public class Interactuable : MonoBehaviour {
 		SetState(State.Accionable);
 		ManagerTiempo.instance.GuardarTiempo();
 		acciones[accionActiva].EjecutarAccion();
+		SetAccionActivaNull();
 	}
 
 	//Devuelve un booleano indicando si el interactuable es visible desde la cámara (el gameobject llamado Objeto)

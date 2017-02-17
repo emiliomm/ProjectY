@@ -29,12 +29,11 @@ public class DatosAccionTienda : DatosAccion{
 		Manager.instance.StopNavMeshAgents();
 		Cursor.visible = true; //Muestra el cursor del ratón
 
-		var objetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/PanelTiendaPrefab"));
-
 		Inventario inventario = Inventario.LoadInventario(Manager.rutaInventarioTienda + IDInventario.ToString() + ".xml");
 		CargarInventario(inventario);
 
-		TiendaController tiendaController = objetoTienda.AddComponent<TiendaController>();
+		var objetoTienda = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Tienda/TiendaPrefab"));
+		TiendaController tiendaController = objetoTienda.GetComponent<TiendaController>();
 //		objetoController.InicializarTienda(numX, numY, fuente, inv, fondo);
 		tiendaController.InicializarTienda(escaparate, numY, inventario, false);
 

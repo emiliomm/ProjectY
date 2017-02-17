@@ -35,7 +35,7 @@ public class ManagerMenu : MonoBehaviour {
 
 			if(estadoPanelInventario)
 			{
-				panelInventario = (GameObject)Instantiate (Resources.Load ("PanelInventarioPrefab"));
+				panelInventario = (GameObject)Instantiate (Resources.Load ("Inventario/InventarioPrefab"));
 				panelInventario.transform.SetParent (Manager.instance.canvasGlobal.transform, false);
 
 				panelTiempo.SetActive(false);

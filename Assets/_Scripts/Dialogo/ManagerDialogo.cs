@@ -45,14 +45,12 @@ public class ManagerDialogo : MonoBehaviour {
 	{
 		instance = this;
 
-		GameObject UIDialogoGO = (GameObject)Instantiate(Resources.Load("PanelDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
+		GameObject UIDialogoGO = (GameObject)Instantiate(Resources.Load("Dialogo/UIDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
 
 		//Establecemos el estado inicial
 		SetState(State.Ninguno);
 
 		dialogosEnCola = 0;
-
-		UIDialogo.instance.OcultarInterfaz();
 	}
 
 	public void PrepararDialogo(Interactuable interactuableActual, Dialogo dialogo, int IDEvento)
@@ -486,7 +484,7 @@ public class ManagerDialogo : MonoBehaviour {
 		ManagerTiempo.instance.SetPausa(false);
 		Manager.instance.ResumeNavMeshAgents();
 
-		UIDialogo.instance.OcultarInterfaz ();
+		UIDialogo.instance.OcultarInterfaz (false);
 		Cursor.visible = false; //Oculta el cursor del ratón
 	}
 
