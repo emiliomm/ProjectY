@@ -20,7 +20,7 @@ public class ObjetoController : MonoBehaviour {
 	//Inicializa algunas variables
 	void Start ()
 	{
-		panelObjetoPrefab = (GameObject)Instantiate(Resources.Load("PanelObjetoPrefab"));
+		panelObjetoPrefab = (GameObject)Instantiate(Resources.Load("Objetos/UIObjetoPrefab"));
 		panelObjetoPrefab.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 		botonSalir = panelObjetoPrefab.transform.GetChild(0).gameObject;

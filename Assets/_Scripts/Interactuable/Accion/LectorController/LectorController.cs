@@ -28,7 +28,7 @@ public class LectorController : MonoBehaviour {
 		tarjeta.transform.position += Camera.main.transform.TransformDirection(new Vector3(-0.08f, 0.5f, 0f));
 		SetLayerRecursively(tarjeta, layerMask);
 
-		botonSalir = (GameObject)MonoBehaviour.Instantiate(Resources.Load("BotonPrefab"));
+		botonSalir = (GameObject)MonoBehaviour.Instantiate(Resources.Load("Lector/BotonLectorPrefab"));
 		botonSalir.transform.SetParent(Manager.instance.canvasGlobal.transform, false); //Hacemos que la ventana sea hijo del canvas
 		botonSalir.GetComponentInChildren<Text>().text = "Salir";
 		botonSalir.GetComponent<Button>().onClick.AddListener(delegate { Salir(); }); //Listener del botón

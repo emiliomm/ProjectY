@@ -43,7 +43,7 @@ public class UIDialogo : MonoBehaviour
 			options[i] = dialogOptions.transform.GetChild(0).GetChild(i).gameObject;
 		}
 
-		OcultarInterfaz();
+		OcultarInterfaz(false);
 	}
 
 	public void MostrarInterfaz()
@@ -52,10 +52,10 @@ public class UIDialogo : MonoBehaviour
 		Cursor.visible = true; //Muestra el cursor del ratón
 	}
 
-	public void OcultarInterfaz()
+	public void OcultarInterfaz(bool utilizarCursor)
 	{
 		gameObject.SetActive(false);
-		Cursor.visible = false;
+		Cursor.visible = utilizarCursor;
 	}
 
 	public IEnumerator InterfazPopUpObjetos()
@@ -63,35 +63,9 @@ public class UIDialogo : MonoBehaviour
 		//Desactivamos la interfaz del diálogo y mostramos la interfaz de obtención de objetos
 		gameObject.SetActive(false);
 
-		yield return StartCoroutine(MostrarPopupObjetos());
+		yield return StartCoroutine(UIPopUpObjeto.MostrarPopupObjetos());
 
 		gameObject.SetActive(true);
-	}
-
-	//Muestra un popup de los objetos obtenidos
-	public IEnumerator MostrarPopupObjetos()
-	{
-		GameObject panelObjeto = (GameObject)Instantiate(Resources.Load("PanelPopupObjeto"));
-		panelObjeto.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
-
-		//Recorremos los objetos obtenidos recientemente
-		for(int i = 0; i < Manager.instance.DevuelveNumeroObjetosRecientes(); i++)
-		{
-			panelObjeto.transform.GetChild(0).GetChild(0).transform.GetComponent<Text>().text = "Has obtenido " + Manager.instance.DevuelveNombreObjetoReciente(i);
-
-			var opcion = -4;
-
-			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
-			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate
-				{ opcion = -3; }); //Listener del botón
-
-			while (opcion == -4) {
-				yield return null;
-			}
-		}
-
-		Manager.instance.VaciarObjetosRecientes();
-		Destroy(panelObjeto);
 	}
 
 	//Muestra texto del diálogo
