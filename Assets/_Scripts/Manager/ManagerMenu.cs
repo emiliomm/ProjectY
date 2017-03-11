@@ -18,7 +18,7 @@ public class ManagerMenu : MonoBehaviour {
 		estadoPanelTiempo = false;
 		activarPanelTiempo = false;
 
-		panelTiempo = Manager.instance.canvasGlobal.transform.GetChild(1).gameObject;
+		panelTiempo = Manager.instance.canvasGlobal.transform.GetChild(0).gameObject;
 	}
 		
 	void Update ()
@@ -29,44 +29,56 @@ public class ManagerMenu : MonoBehaviour {
 	//Controla el input de los menus
 	private void MenuInput()
 	{
+		PanelInventarioInput();
+
+		PanelTiempoInput();
+	}
+
+	private void PanelInventarioInput()
+	{
 		if (Input.GetKeyDown(KeyCode.I))
 		{
-			estadoPanelInventario = !estadoPanelInventario;
-
-			if(estadoPanelInventario)
+			if(!estadoPanelInventario && TPController.instance.CurrentState == TPController.State.Normal)
 			{
 				panelInventario = (GameObject)Instantiate (Resources.Load ("Inventario/InventarioPrefab"));
 				panelInventario.transform.SetParent (Manager.instance.canvasGlobal.transform, false);
 
-				panelTiempo.SetActive(false);
-				estadoPanelTiempo = false;
+				estadoPanelInventario = !estadoPanelInventario;
 			}
-			else
+			else if(estadoPanelInventario)
 			{
 				panelInventario.GetComponent<InventarioController> ().Salir();
+
+				estadoPanelInventario = !estadoPanelInventario;
 			}
 		}
-
-		if(TPController.instance.CurrentState == TPController.State.Normal)
-			PanelTiempoInput ();
 	}
 
 	private void PanelTiempoInput()
 	{
-		if(estadoPanelTiempo)
+		if(TPController.instance.CurrentState == TPController.State.Normal && !estadoPanelInventario)
 		{
-			if (!Input.GetKey(KeyCode.H))
+			if(estadoPanelTiempo)
 			{
-				activarPanelTiempo = false;
+				if (!Input.GetKey(KeyCode.H))
+				{
+					activarPanelTiempo = false;
+				}
+			}
+			else
+			{
+				if (Input.GetKey(KeyCode.H))
+				{
+					activarPanelTiempo = true;
+				}
 			}
 		}
 		else
 		{
-			if (Input.GetKey(KeyCode.H))
-			{
-				activarPanelTiempo = true;
-			}
+			activarPanelTiempo = false;
 		}
+
+		//Debug.Log(activarPanelTiempo);
 
 		if(activarPanelTiempo != estadoPanelTiempo)
 		{

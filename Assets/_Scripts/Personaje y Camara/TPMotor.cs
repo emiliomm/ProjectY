@@ -11,6 +11,7 @@ public class TPMotor : MonoBehaviour
 	public static TPMotor instance;
 
 	public float forwardSpeed = 3.2f; //Velocidad de movimiento hacia delante
+	public float forwardRunSpeed = 6.0f;
 	public float backwardSpeed = 2f; //Velocidad de movimiento hacia atras
 	public float strafingSpeed = 2f; //Velocidad de movimiento lateral
 	public float slideSpeed = 3f; //Velocidad de movimiento resbaladiza
@@ -20,6 +21,8 @@ public class TPMotor : MonoBehaviour
 	public float terminalVelocity = 10f;
 	public float slideThreshold = 0.6f;//Limite para resbalar
 	public float maxControllableSlideMagnitude = 0.4f;//El personaje puede controlarse al resbalar si no rebasa este parametro
+
+	public bool running = false;
 
 	private Vector3 slideDirection;
 
@@ -158,7 +161,10 @@ public class TPMotor : MonoBehaviour
 			moveSpeed = 0;
 			break;
 		case TPAnimator.Direction.Forward:
-			moveSpeed = forwardSpeed;
+			if(running)
+				moveSpeed = forwardRunSpeed;
+			else
+				moveSpeed = forwardSpeed;
 			break;
 		case TPAnimator.Direction.Backward:
 			moveSpeed = backwardSpeed;
@@ -170,10 +176,16 @@ public class TPMotor : MonoBehaviour
 			moveSpeed = strafingSpeed;
 			break;
 		case TPAnimator.Direction.LeftForward:
-			moveSpeed = forwardSpeed;
+			if(running)
+				moveSpeed = forwardRunSpeed;
+			else
+				moveSpeed = forwardSpeed;
 			break;
 		case TPAnimator.Direction.RightForward:
-			moveSpeed = forwardSpeed;
+			if(running)
+				moveSpeed = forwardRunSpeed;
+			else
+				moveSpeed = forwardSpeed;
 			break;
 		case TPAnimator.Direction.LeftBackward:
 			moveSpeed = backwardSpeed;

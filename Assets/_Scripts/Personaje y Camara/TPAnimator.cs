@@ -93,7 +93,7 @@ public class TPAnimator : MonoBehaviour
 			SetMoveDirection(Direction.Stationary);
 	}
 
-	private void Update()
+	private void LateUpdate()
 	{
 		ProcessCurrentState(DetermineCurrentState());
 	}
@@ -284,10 +284,12 @@ public class TPAnimator : MonoBehaviour
 		if(!TPController.instance.onGround)
 		{
 			animator.SetBool("isFalling", true);
+			animator.SetBool("isJumping", false);
 		}
 		else
 		{
 			animator.SetBool("isLanding", true);
+			animator.SetBool("isJumping", false);
 		}
 	}
 

@@ -167,11 +167,7 @@ public class Manager : MonoBehaviour
 		canvasGlobal = (GameObject)Instantiate(Resources.Load("UI/UIPrefab"));
 		DontDestroyOnLoad(canvasGlobal); //Hacemos que el objeto no pueda ser destruido entre escenas
 
-		GameObject objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Dialogo/ManagerDialogo"));
-		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
-		objetoTemporalGO.transform.SetParent(canvasGlobal.transform, false);
-
-		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Tiempo/UITiempoPrefab"));
+		GameObject objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Tiempo/UITiempoPrefab"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 		objetoTemporalGO.transform.SetParent(canvasGlobal.transform, false);
 		objetoTemporalGO.SetActive(false);
@@ -179,6 +175,10 @@ public class Manager : MonoBehaviour
 		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("EventSystem"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
 		eventSystem = objetoTemporalGO;
+
+		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Dialogo/ManagerDialogo"));
+		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
+		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
 
 		//CREAR CON PREFAB
 		objetoTemporalGO = new GameObject("ManagerTiempo");

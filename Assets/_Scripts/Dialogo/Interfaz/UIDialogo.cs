@@ -60,12 +60,7 @@ public class UIDialogo : MonoBehaviour
 
 	public IEnumerator InterfazPopUpObjetos()
 	{
-		//Desactivamos la interfaz del diálogo y mostramos la interfaz de obtención de objetos
-		gameObject.SetActive(false);
-
 		yield return StartCoroutine(UIPopUpObjeto.MostrarPopupObjetos());
-
-		gameObject.SetActive(true);
 	}
 
 	//Muestra texto del diálogo

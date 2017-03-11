@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class UIPopUpObjeto : MonoBehaviour {
+public class UIPopUpObjeto{
 
 	//Muestra un popup de los objetos obtenidos
 	public static IEnumerator MostrarPopupObjetos()
 	{
-		GameObject panelObjeto = (GameObject)Instantiate(Resources.Load("UI/UIPopupObjeto"));
+		GameObject panelObjeto = (GameObject)MonoBehaviour.Instantiate(Resources.Load("UI/UIPopupObjeto"));
 		panelObjeto.transform.SetParent(Manager.instance.canvasGlobal.transform, false);
 
 		//Recorremos los objetos obtenidos recientemente
@@ -28,6 +28,6 @@ public class UIPopUpObjeto : MonoBehaviour {
 		}
 
 		Manager.instance.VaciarObjetosRecientes();
-		Destroy(panelObjeto);
+		MonoBehaviour.Destroy(panelObjeto);
 	}
 }
