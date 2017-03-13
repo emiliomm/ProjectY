@@ -140,28 +140,6 @@ public class Interactuable : MonoBehaviour {
 
 				accionObjeto.Inicializar(ID, i);
 
-				//Si la acción es de tipo Dialogo, realizamos acciones específicas
-				if(acciones[i].GetType() == typeof(DatosAccionDialogo))
-				{
-					DatosAccionDialogo datosAccionDialogo = acciones[i] as DatosAccionDialogo;
-
-					//Si el dialogo es a distancia creamos el box collider
-					if(datosAccionDialogo.aDistancia)
-					{
-						GameObject dialogoDistanciaGO = new GameObject("Dialogo Distancia");
-						dialogoDistanciaGO.transform.position = objeto.transform.position;
-						dialogoDistanciaGO.transform.SetParent(gameObject.transform, true);
-						dialogoDistanciaGO.layer = 5;//UI
-
-						DialogoDistancia dialogoDistancia = dialogoDistanciaGO.AddComponent<DialogoDistancia>();
-						dialogoDistancia.cargarDialogo(this, datosAccionDialogo);
-
-						BoxCollider boxCollider = dialogoDistanciaGO.AddComponent<BoxCollider>();
-						boxCollider.isTrigger = true;
-						boxCollider.size = new Vector3(datosAccionDialogo.tamX, datosAccionDialogo.tamY, datosAccionDialogo.tamZ);
-					}
-				}
-
 				//Carga la acción en la lista de acciones GameObjects
 				CargaAccionGO(AccionGO, i);
 			}
@@ -171,6 +149,19 @@ public class Interactuable : MonoBehaviour {
 			{
 				DatosAccionDialogo datosAccionDialogo = acciones[i] as DatosAccionDialogo;
 				datosAccionDialogo.CargaDialogo();
+
+				Dialogo dialogo = datosAccionDialogo.DevuelveDialogo();
+
+				//Cargamos las intros a distancia de la acciónDialogo (si los tiene)
+				//Si el dialogo es a distancia creamos el box collider
+				for(int j = 0; j < dialogo.DevuelveNumeroIntros(); j++)
+				{
+					if(dialogo.IntroEsADistancia(j))
+					{
+						CrearDialogoADistanciaArea(dialogo, j);
+					}
+				}
+
 			}
 		}
 
@@ -179,6 +170,36 @@ public class Interactuable : MonoBehaviour {
 
 		//Ocultamos el texto de las acciones
 		DesactivarTextoAcciones();
+	}
+
+	public void CrearDialogoADistanciaArea(Dialogo dialogo, int pos)
+	{
+		GameObject dialogoDistanciaGO = new GameObject("Dialogo Distancia");
+		dialogoDistanciaGO.transform.position = objeto.transform.position;
+		dialogoDistanciaGO.transform.SetParent(gameObject.transform, true);
+		dialogoDistanciaGO.layer = 5;//UI
+
+		DialogoDistancia dialogoDistancia = dialogoDistanciaGO.AddComponent<DialogoDistancia>();
+		dialogoDistancia.cargarDialogo(this, dialogo, dialogo.DevuelveIntro(pos));
+
+		BoxCollider boxCollider = dialogoDistanciaGO.AddComponent<BoxCollider>();
+		boxCollider.isTrigger = true;
+		boxCollider.size = dialogo.DevuelveTamanyoDialogoDistancia(pos);
+	}
+
+	public void CrearDialogoADistanciaArea(Dialogo dialogo, Intro intro)
+	{
+		GameObject dialogoDistanciaGO = new GameObject("Dialogo Distancia");
+		dialogoDistanciaGO.transform.position = objeto.transform.position;
+		dialogoDistanciaGO.transform.SetParent(gameObject.transform, true);
+		dialogoDistanciaGO.layer = 5;//UI
+
+		DialogoDistancia dialogoDistancia = dialogoDistanciaGO.AddComponent<DialogoDistancia>();
+		dialogoDistancia.cargarDialogo(this, dialogo, intro);
+
+		BoxCollider boxCollider = dialogoDistanciaGO.AddComponent<BoxCollider>();
+		boxCollider.isTrigger = true;
+		boxCollider.size = intro.DevuelveTamanyoDialogoDistancia();
 	}
 
 	//Elimina o añade acciones que dependen de los objetos disponibles en el inventario
@@ -565,6 +586,7 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	//Guarda la lista de acciones en un fichero xml
+	//ACTUALMENTE NO SE USA
 	public void GuardarAcciones()
 	{
 		Manager.instance.SerializeData(acciones, Manager.rutaDatosAccionGuardados, ID.ToString()  + ".xml");

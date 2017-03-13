@@ -7,10 +7,6 @@
 		<variables/>
 		<IDInteractuable>7</IDInteractuable>
 		<IDDialogo>0</IDDialogo>
-		<aDistancia>false</aDistancia>
-		<tamX>14</tamX>
-		<tamY>14</tamY>
-		<tamZ>14</tamZ>
 	</DatosAccion>
 	<DatosAccion xsi:type="xs:DatosAccionLector">
 		<ID>3465</ID>

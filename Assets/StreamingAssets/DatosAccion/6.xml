@@ -13,10 +13,6 @@
 		</variables>
 		<IDInteractuable>5</IDInteractuable>
 		<IDDialogo>0</IDDialogo>
-		<aDistancia>false</aDistancia>
-		<tamX>14</tamX>
-		<tamY>14</tamY>
-		<tamZ>14</tamZ>
 	</DatosAccion>
 	<DatosAccion xsi:type="xs:DatosAccionTransporte">
 		<ID>1992</ID>

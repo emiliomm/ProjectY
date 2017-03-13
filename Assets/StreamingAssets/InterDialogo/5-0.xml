@@ -7,6 +7,7 @@
 			<ID>500</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>
+			<aDistancia>false</aDistancia>
 			<prioridad>0</prioridad>
 			<dialogo>
 				<nodes>

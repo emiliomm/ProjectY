@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /*
  * 	Clase que indica si un dialogo es a distancia. Activa el dialogo al colisionar con el jugador
@@ -7,13 +8,15 @@ using System.Collections;
 public class DialogoDistancia : MonoBehaviour {
 
 	private Interactuable interactuable; //Interactuable al cual pertecene el dialogo
-	private DatosAccionDialogo datosAccionDialogo; //DatosAccion del dialogo
+	private Dialogo dialogo; 
+	private Intro intro;
 
 	//Establece las variables
-	public void cargarDialogo(Interactuable interactuable, DatosAccionDialogo datosAccionDialogo)
+	public void cargarDialogo(Interactuable interactuable, Dialogo dialogo, Intro intro)
 	{
-		this.datosAccionDialogo = datosAccionDialogo;
+		this.dialogo = dialogo;
 		this.interactuable = interactuable;
+		this.intro = intro;
 	}
 
 	//Comprueba si se ha colisionado con el jugador
@@ -22,7 +25,8 @@ public class DialogoDistancia : MonoBehaviour {
 	{
 		if (other.tag == "Player")
 		{
-			IniciaDialogo();
+			if(intro.SeMuestra())
+				IniciaDialogo();
 		}
 	}
 
@@ -36,12 +40,13 @@ public class DialogoDistancia : MonoBehaviour {
 	//Cuando el dialogo acaba, elimina el objeto
 	private IEnumerator DialogoEnCurso()
 	{
-		yield return StartCoroutine(ManagerDialogo.instance.PrepararDialogoCoroutine(interactuable, datosAccionDialogo.dialogo, -1));
+		yield return StartCoroutine(ManagerDialogo.instance.PrepararDialogoCoroutine(interactuable, dialogo, -1));
 
 		//Quitamos la propiedad a distancia del diálogo y actualizamos las acciones del interactuable
-		datosAccionDialogo.SetADistancia(false);
-		interactuable.GuardarAcciones();
+		//datosAccionDialogo.SetADistancia(false);
+		//interactuable.GuardarAcciones();
 
-		Destroy(gameObject);
+		if(intro.DevuelveAutodestruye())
+			Destroy(gameObject);
 	}
 }

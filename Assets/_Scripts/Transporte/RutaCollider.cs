@@ -20,7 +20,7 @@ public class RutaCollider : MonoBehaviour {
 			{
 				if(interactuableNPC.ID == IDInteractuable)
 				{
-					Manager.instance.DeleteNavhMeshAgent(interactuableNPC.DevuelveNavhMeshAgent());
+					Manager.instance.DeleteNavMeshAgent(interactuableNPC.DevuelveNavhMeshAgent());
 					Destroy(gameObject);
 				}
 			}

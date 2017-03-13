@@ -33,6 +33,7 @@ public class Dialogo : ObjetoSerializable
 	public Dialogo()
 	{
 		intros = new List<Intro>();
+		temaMensajes = new List<TemaMensaje>();
 		mensajes = new List<Mensaje>();
 	}
 
@@ -118,6 +119,11 @@ public class Dialogo : ObjetoSerializable
 		return mensajes[pos].EstadoVisible();
 	}
 
+	public Intro DevuelveIntro(int pos)
+	{
+		return intros[pos];
+	}
+
 	//Devuelve el temamensaje de la lista con la posición indicada
 	public TemaMensaje DevuelveTemaMensaje(int pos)
 	{
@@ -185,15 +191,28 @@ public class Dialogo : ObjetoSerializable
 	}
 
 	//Añade la intro al dialogo
-	public void AnyadirIntro(Intro intro)
+	public bool AnyadirIntro(Intro intro)
 	{
+		bool anyadida = false;
+
 		//Si la intro con el ID especificado no existe en el dialogo, la añadimos
 		if(!IntroExiste (intro.ID))
+		{
 			intros.Add (intro);
+			anyadida = true;
+		}
 
 		//Ordena las intros por prioridad de mayor a menor, manteniendo el orden de los elementos con la misma prioridad
 		//Una intro añadida con la misma prioridad será colocada abajo de los iguales, es decir, como si fuera menor.
 		intros = intros.OrderByDescending(x => x.prioridad).ToList();
+
+		return anyadida;
+	}
+
+	public void EliminaIntro(int pos)
+	{
+		intros [pos].ActivarAutodestruye(); //Por si hay una referencia a la intro en un dialogo a distancia
+		intros.RemoveAt(pos);
 	}
 
 	//Comprueba si la intro con el id especificado existe en el diálogo
@@ -203,17 +222,32 @@ public class Dialogo : ObjetoSerializable
 		return intros.Any(x => x.ID == IDIntro);
 	}
 
+	public bool IntroEsADistancia(int pos)
+	{
+		return intros[pos].DevuelveADistancia();
+	}
+
+	public Vector3 DevuelveTamanyoDialogoDistancia(int pos)
+	{
+		return intros[pos].DevuelveTamanyoDialogoDistancia();
+	}
+
 	//Añade el mensaje indicado al diálogo con el idTema especificado
 	//id_tema = -1: el mensaje se añade a la lista de mensajes sin tema
 	//id_tema =  x: se añade al tema x
-	public void AnyadirMensaje(int IDTema, Mensaje mensaje)
+	public bool AnyadirMensaje(int IDTema, Mensaje mensaje)
 	{
+		bool anyadido = false;
+
 		//Si el idtema es -1, el mensaje no pertence a ningún temamensaje, intentamos añadir el mensaje a la lista de mensajes
 		if(IDTema == -1)
 		{
 			//Si el mensaje con el ID especificado no existe, lo añadimos
 			if(!MensajeExiste (IDTema, mensaje.ID))
+			{
+				anyadido = true;
 				mensajes.Add(mensaje);
+			}
 		}
 		//El mensaje tiene idtema perteneciente al temamensaje
 		else
@@ -228,6 +262,7 @@ public class Dialogo : ObjetoSerializable
 				TemaMensaje temaMensaje = TemaMensaje.LoadTemaMensaje(Manager.rutaTemaMensajes + IDTema.ToString() + ".xml");
 				temaMensaje.AddMensaje(mensaje);
 				this.AnyadirTemaMensaje(temaMensaje);
+				anyadido = true;
 			}
 			//El tema mensaje existe, comprobamos si el mensaje ya existía anteriormente
 			else
@@ -236,9 +271,12 @@ public class Dialogo : ObjetoSerializable
 				if(!MensajeExiste(indice, mensaje.ID))
 				{
 					temaMensajes[indice].mensajes.Add(mensaje);
+					anyadido = true;
 				}
 			}
 		}
+
+		return anyadido;
 	}
 
 	/*
@@ -390,14 +428,33 @@ public class Dialogo : ObjetoSerializable
 						posDialogo++;
 					}
 
-					AnyadirIntro(intro);
+					if(AnyadirIntro(intro))
+					{
+						if(intro.aDistancia)
+						{
+							GameObject interactuableGO = Manager.instance.GetInteractuable(IDInteractuable);
+
+							if(interactuableGO != null)
+								interactuableGO.GetComponent<Interactuable>().CrearDialogoADistanciaArea(this, intro);
+						}
+					}
 				}
 				else
 				{
 					Dialogo dialogo = BuscarDialogo(IDInteractuable, IDDialogo);
 
-					dialogo.AnyadirIntro(intro);
-					dialogo.AddToColaObjetos();
+					if(dialogo.AnyadirIntro(intro))
+					{
+						dialogo.AddToColaObjetos();
+
+						if(intro.aDistancia)
+						{
+							GameObject interactuableGO = Manager.instance.GetInteractuable(IDInteractuable);
+
+							if(interactuableGO != null)
+								interactuableGO.GetComponent<Interactuable>().CrearDialogoADistanciaArea(dialogo, intro);
+						}
+					}
 				}
 			}
 		}
@@ -424,8 +481,8 @@ public class Dialogo : ObjetoSerializable
 				{
 					Dialogo dialogo = BuscarDialogo(IDInteractuable, IDDialogo);
 
-					dialogo.AnyadirMensaje(IDTema, mensaje);
-					dialogo.AddToColaObjetos();
+					if(dialogo.AnyadirMensaje(IDTema, mensaje))
+						dialogo.AddToColaObjetos();
 				}
 			}
 		}
@@ -734,7 +791,7 @@ public class Dialogo : ObjetoSerializable
 						//Mantenemos el indice en una posicion correcta
 						if (j < posDialogo)
 						{
-							this.intros.RemoveAt(j);
+							EliminaIntro(j);
 							posDialogo--;
 						}
 						//Si la intro a destruir es el actual, lo destruimos al acabar el diálogo de la intro (activando la autodestruccion)
@@ -744,7 +801,7 @@ public class Dialogo : ObjetoSerializable
 						}
 						else if(j > posDialogo)
 						{
-							this.intros.RemoveAt(j);
+							EliminaIntro(j);
 						}
 					}
 				}
@@ -794,7 +851,7 @@ public class Dialogo : ObjetoSerializable
 				{
 					if(this.intros[j].IDGrupo == IDGrupo)
 					{
-						this.intros.RemoveAt(j);
+						EliminaIntro(j);
 					}
 				}
 
@@ -856,7 +913,7 @@ public class Dialogo : ObjetoSerializable
 				{
 					if(this.intros[j].IDGrupo == IDGrupo)
 					{
-						this.intros.RemoveAt(j);
+						EliminaIntro(j);
 					}
 				}
 
@@ -970,7 +1027,7 @@ public class Dialogo : ObjetoSerializable
 				{
 					if(dialogo.intros[k].IDGrupo == IDGrupo)
 					{
-						dialogo.intros.RemoveAt(k);
+						dialogo.EliminaIntro(k);
 						actualizado = true;
 					}
 				}
@@ -1050,7 +1107,7 @@ public class Dialogo : ObjetoSerializable
 						{
 							if(dialogo.intros[k].IDGrupo == IDGrupo)
 							{
-								dialogo.intros.RemoveAt(k);
+								dialogo.EliminaIntro(k);
 								actualizado = true;
 							}
 						}
@@ -1138,7 +1195,7 @@ public class Dialogo : ObjetoSerializable
 						{
 							if(dialogo.intros[k].IDGrupo == IDGrupo)
 							{
-								dialogo.intros.RemoveAt(k);
+								dialogo.EliminaIntro(k);
 								actualizado = true;
 							}
 						}

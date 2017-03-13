@@ -131,7 +131,7 @@ public class ManagerDialogo : MonoBehaviour {
 		else
 		{
 			dialogo  = Dialogo.LoadDialogo(Manager.rutaDialogoVacio);
-			dialogue = dialogo.intros[0].DevuelveDialogo();
+			dialogue = dialogo.DevuelveDialogoIntro(0);
 		}
 
 		//Bucle que controla la conversación

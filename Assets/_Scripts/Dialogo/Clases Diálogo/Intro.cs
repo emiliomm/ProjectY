@@ -13,10 +13,18 @@ public class Intro{
 	//-1 --> Sin grupo, otro --> con grupo
 	public int IDGrupo;
 
+	//Los eventos que determinan si se muestra o no la intro
 	public List<DialogoEvento> eventos;
+
+	public bool aDistancia;
+	public int tamX;
+	public int tamY;
+	public int tamZ;
 
 	// 0 --> falso, 1 --> verdadero
 	//Indica si la intro se va a destruir al acabar de recorrerla
+	//También indica si una intro ha sido eliminada de un dialogo, para destruir el DialogoDistancia
+	//asignado a la intro en el caso de que lo hubiera
 	private bool autodestruye;
 
 	public int prioridad; //mayor prioridad, aparece primero en el diálogo
@@ -46,6 +54,16 @@ public class Intro{
 	public bool DevuelveAutodestruye()
 	{
 		return autodestruye;
+	}
+
+	public bool DevuelveADistancia()
+	{
+		return aDistancia;
+	}
+
+	public Vector3 DevuelveTamanyoDialogoDistancia()
+	{
+		return new Vector3(tamX, tamY, tamZ);
 	}
 
 	public void ActivarAutodestruye()

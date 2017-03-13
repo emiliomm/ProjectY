@@ -49,25 +49,34 @@ public class Lanzador{
 				Dialogo dialogo = Dialogo.BuscarDialogo(IDInter, IDDialogo);
 
 				//Añadimos la intro
-				dialogo.AnyadirIntro(intro);
-
-				//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
-				//Comprobamos si tenemos que cambiar el indice de dialogo actual
-				if(IDInteractuable == IDInter && IDDialogoActual == IDDialogo)
+				if(dialogo.AnyadirIntro(intro))
 				{
-					//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
-					//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
-					if(prioridad > dialogo.intros[numDialogo].DevuelvePrioridad() && tipoDialogo == 0)
+					//Si el NPC al que vamos a añadir la intro es el mismo que el del dialogo actual y estamos en una intro en el dialogo
+					//Comprobamos si tenemos que cambiar el indice de dialogo actual
+					if(IDInteractuable == IDInter && IDDialogoActual == IDDialogo)
 					{
-						numDialogo++;
+						//Una vez que sabemos que el NPC es el mismo, podemos comprobar la prioridad del intro actual
+						//Si la prioridad de la intro a añadir es mayor que la actual, movemos el indice
+						if(prioridad > dialogo.intros[numDialogo].DevuelvePrioridad() && tipoDialogo == 0)
+						{
+							numDialogo++;
+						}
+						//No añadimos el diálogo a la cola de objetos, ya que el dialogo actual se serializa al final de la conversación actual
 					}
-					//No añadimos el diálogo a la cola de objetos, ya que el dialogo actual se serializa al final de la conversación actual
-				}
-				//Si el diálogo de la intro a añadir no es el del diálogo actual
-				//Añadimos el dialogo a la cola
-				else
-				{
-					dialogo.AddToColaObjetos();
+					//Si el diálogo de la intro a añadir no es el del diálogo actual
+					//Añadimos el dialogo a la cola
+					else
+					{
+						dialogo.AddToColaObjetos();
+					}
+
+					if(intro.aDistancia)
+					{
+						GameObject interactuableGO = Manager.instance.GetInteractuable(IDInteractuable);
+
+						if(interactuableGO != null)
+							interactuableGO.GetComponent<Interactuable>().CrearDialogoADistanciaArea(dialogo, intro);
+					}
 				}
 			}
 		}
@@ -86,13 +95,14 @@ public class Lanzador{
 			{
 				Dialogo dialogo = Dialogo.BuscarDialogo(IDInter, IDDialogo);
 
-				dialogo.AnyadirMensaje(IDTema, mensaje);
-
-				//Si el dialogo del cual hemos añadido el mensaje no es el actual, añadimos el dialogo a la cola
-				//ya que el dialogo actual se serializa al final de la conversación
-				if(!(IDInteractuable == IDInter && IDDialogoActual == IDDialogo))
+				if(dialogo.AnyadirMensaje(IDTema, mensaje))
 				{
-					dialogo.AddToColaObjetos();
+					//Si el dialogo del cual hemos añadido el mensaje no es el actual, añadimos el dialogo a la cola
+					//ya que el dialogo actual se serializa al final de la conversación
+					if(!(IDInteractuable == IDInter && IDDialogoActual == IDDialogo))
+					{
+						dialogo.AddToColaObjetos();
+					}
 				}
 			}
 		}

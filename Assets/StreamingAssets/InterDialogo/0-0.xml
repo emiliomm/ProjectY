@@ -13,6 +13,7 @@
 					<variables/>
 				</DialogoEvento>
 			</eventos>
+			<aDistancia>false</aDistancia>
 			<prioridad>0</prioridad>
 			<dialogo>
 				<nodes>
@@ -72,6 +73,10 @@
 			<ID>100</ID>
 			<IDGrupo>-1</IDGrupo>
 			<eventos/>
+			<aDistancia>true</aDistancia>
+			<tamX>10</tamX>
+			<tamY>7</tamY>
+			<tamZ>14</tamZ>
 			<prioridad>0</prioridad>
 			<dialogo>
 				<nodes>

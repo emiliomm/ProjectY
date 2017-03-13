@@ -14,13 +14,6 @@ public class DatosAccionDialogo : DatosAccion{
 	public int IDInteractuable; //ID del Interactuable que inicia el diálogo
 	public int IDDialogo; //ID del dialogo
 
-	//Indica si el diálogo se puede ejecutar a distancia. Si es true, los parámetros tam indican el tamaño
-	//del prisma rectangular con el cual, el jugador al colisionar inicia el diálogo
-	public bool aDistancia;
-	public int tamX;
-	public int tamY;
-	public int tamZ;
-
 	public DatosAccionDialogo()
 	{
 		dialogo = new Dialogo();
@@ -48,12 +41,6 @@ public class DatosAccionDialogo : DatosAccion{
 	public Dialogo DevuelveDialogo()
 	{
 		return dialogo;
-	}
-
-	//Modifica si el diálogo se puede ejecutar a distancia o no
-	public void SetADistancia(bool valor)
-	{
-		aDistancia = valor;
 	}
 
 	//Ejecuta el diálogo

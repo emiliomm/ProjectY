@@ -13,6 +13,7 @@
 					<variables/>
 				</DialogoEvento>
 			</eventos>
+			<aDistancia>false</aDistancia>
 			<autodestruye>false</autodestruye>
 			<prioridad>0</prioridad>
 			<dialogo>

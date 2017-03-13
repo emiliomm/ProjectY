@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-using  UnityEngine.AI;
+using UnityEngine.AI;
+
+using System.Collections;
 
 /*
  * 	Clase hija de Interactuable que contiene datos sobre la subclase de los interactuables llamada NPC
@@ -44,6 +46,33 @@ public class InteractuableNPC : Interactuable {
 		//Activamos el agente y establecemos la ruta
 		agente.enabled = true;
 		agente.SetDestination(ruta);// para mover el interactuable al lugar indicado
+
+		StartCoroutine(ComprobarSiHaLLegadoAlDestino());
+	}
+
+	private IEnumerator ComprobarSiHaLLegadoAlDestino()
+	{
+		bool hasArrived = false;
+
+		do
+		{
+			if (!agente.pathPending)
+			{
+				if (agente.remainingDistance <= agente.stoppingDistance)
+				{
+					if (!agente.hasPath || agente.velocity.sqrMagnitude == 0f)
+					{
+						hasArrived = true;
+					}
+				}
+			}
+
+			yield return null;
+
+		}while(!hasArrived);
+
+		Manager.instance.DeleteNavMeshAgent(agente);
+		agente.enabled = false;
 	}
 
 	public NavMeshAgent DevuelveNavhMeshAgent()

@@ -7,9 +7,9 @@
 		<variables/>
 		<IDInteractuable>0</IDInteractuable>
 		<IDDialogo>0</IDDialogo>
-		<aDistancia>true</aDistancia>
+<!--		<aDistancia>true</aDistancia>
 		<tamX>10</tamX>
 		<tamY>7</tamY>
-		<tamZ>14</tamZ>
+		<tamZ>14</tamZ>-->
 	</DatosAccion>
 </ArrayOfDatosAccion>

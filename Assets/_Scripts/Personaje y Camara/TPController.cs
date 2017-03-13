@@ -35,6 +35,10 @@ public class TPController : MonoBehaviour
 	//Indica si el jugador está utilizando un transporte entre escenas
 	private bool transportando;
 
+	private RaycastHit hit;
+	private static Vector3 direction = new Vector3(0, -1, 0);
+	private static float distance = 1f;
+
 	// Use this when the object is created
 	private void Awake ()
 	{
@@ -135,17 +139,14 @@ public class TPController : MonoBehaviour
 			TPMotor.instance.Jump(); //Ejecutamos las operaciones de salto
 	}
 
-	RaycastHit hit;
+
 
 	//Comprobamos si estamos en el suelo
 	private bool IsOnGround()
-	{
-		float dist = 1f;
-		Vector3 dir = new Vector3(0,-1,0);
-			
-		Debug.DrawRay(transform.position + new Vector3(0f, 0.05f, 0f),dir*dist,Color.green);
+	{		
+		Debug.DrawRay(transform.position + new Vector3(0f, 0.05f, 0f),direction*distance,Color.green);
 
-		return Physics.Raycast(transform.position + new Vector3(0f, 0.05f, 0f),dir,out hit,dist) || characterController.isGrounded;
+		return Physics.Raycast(transform.position + new Vector3(0f, 0.05f, 0f), direction, out hit, distance) || characterController.isGrounded;
 	}
 
 	public void SetTransportando(bool estado)

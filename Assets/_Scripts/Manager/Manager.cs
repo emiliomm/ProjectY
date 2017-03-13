@@ -627,7 +627,7 @@ public class Manager : MonoBehaviour
 			navMeshAgentRutasActivas.Add(navMeshAgent);
 	}
 
-	public void DeleteNavhMeshAgent(NavMeshAgent navMeshAgent)
+	public void DeleteNavMeshAgent(NavMeshAgent navMeshAgent)
 	{
 		navMeshAgentRutasActivas.Remove(navMeshAgent);
 	}
