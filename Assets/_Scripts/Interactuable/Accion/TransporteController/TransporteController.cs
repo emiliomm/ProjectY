@@ -3,6 +3,7 @@ using System.Collections;
 
 using UnityEngine.SceneManagement;
 
+//Usada en DatosAccionTransporte
 public class TransporteController : MonoBehaviour
 {
 	private bool enTransporte;
@@ -24,7 +25,8 @@ public class TransporteController : MonoBehaviour
 
 		DontDestroyOnLoad(gameObject);
 		enTransporte = true;
-		SceneManager.LoadScene(IDEscena, LoadSceneMode.Single);
+		ManagerEscenas.instance.CargarEscenaDirectamente(IDEscena);
+		//SceneManager.LoadScene(IDEscena, LoadSceneMode.Single);
 	}
 
 	protected virtual void OnEnable() {

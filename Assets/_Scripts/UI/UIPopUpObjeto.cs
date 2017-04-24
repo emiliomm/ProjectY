@@ -14,12 +14,12 @@ public class UIPopUpObjeto{
 		//Recorremos los objetos obtenidos recientemente
 		for(int i = 0; i < Manager.instance.DevuelveNumeroObjetosRecientes(); i++)
 		{
-			panelObjeto.transform.GetChild(0).GetChild(0).transform.GetComponent<Text>().text = "Has obtenido " + Manager.instance.DevuelveNombreObjetoReciente(i);
+			panelObjeto.transform.GetChild(1).GetChild(0).transform.GetComponent<Text>().text = "Has obtenido " + Manager.instance.DevuelveNombreObjetoReciente(i);
 
 			var opcion = -4;
 
-			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
-			panelObjeto.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate
+			panelObjeto.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+			panelObjeto.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate
 				{ opcion = -3; }); //Listener del botón
 
 			while (opcion == -4) {

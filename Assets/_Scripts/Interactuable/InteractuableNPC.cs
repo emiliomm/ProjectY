@@ -26,7 +26,9 @@ public class InteractuableNPC : Interactuable {
 		//Ejecuta el metodo del padre
 		base.Start();
 
-		agente = GetComponent<UnityEngine.AI.NavMeshAgent>();
+		agente = GetComponent<NavMeshAgent>();
+
+		//Debug.Log("Añadido de inter: " + ID);
 
 		//Establece el nombre del interactuable
 		SetNombre(datos.DevuelveNombreActual());
@@ -50,6 +52,8 @@ public class InteractuableNPC : Interactuable {
 		StartCoroutine(ComprobarSiHaLLegadoAlDestino());
 	}
 
+	//AÑADIR UN TIPO DE LIMITE PARA QUE NO SE ENGANCHE
+	//EN VEZ DE NULL QUE SEA UNOS SEGUNDOS, PARA QUE NO COMPRUEBE TAN CONTINUAMENTE
 	private IEnumerator ComprobarSiHaLLegadoAlDestino()
 	{
 		bool hasArrived = false;
@@ -68,11 +72,19 @@ public class InteractuableNPC : Interactuable {
 			}
 
 			yield return null;
-
 		}while(!hasArrived);
 
 		Manager.instance.DeleteNavMeshAgent(agente);
 		agente.enabled = false;
+	}
+
+	protected override void OnDestroy()
+	{
+		//Ejecuta el metodo del padre
+		base.OnDestroy();
+
+		if(agente.enabled)
+			Manager.instance.DeleteNavMeshAgent(agente);
 	}
 
 	public NavMeshAgent DevuelveNavhMeshAgent()

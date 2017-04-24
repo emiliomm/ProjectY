@@ -43,6 +43,13 @@ public class ManagerDialogo : MonoBehaviour {
 		
 	void Awake ()
 	{
+		// First we check if there are any other instances conflicting
+		if(instance != null && instance != this)
+		{
+			// If that is the case, we destroy other instances
+			Destroy(gameObject);
+		}
+
 		instance = this;
 
 		GameObject UIDialogoGO = (GameObject)Instantiate(Resources.Load("Dialogo/UIDialogoPrefab")); //Cargamos el prefab de la ventana de dialogo
@@ -133,6 +140,8 @@ public class ManagerDialogo : MonoBehaviour {
 			dialogo  = Dialogo.LoadDialogo(Manager.rutaDialogoVacio);
 			dialogue = dialogo.DevuelveDialogoIntro(0);
 		}
+
+		dialogo.SetModificado(false);
 
 		//Bucle que controla la conversación
 		while(conversacionActiva)
@@ -491,8 +500,10 @@ public class ManagerDialogo : MonoBehaviour {
 	//Serializa determinados objetos cambiados durante el diálogo
 	private void GuardarDialogo()
 	{
-		//El dialogo actual se añade al acabar la conversación, en ningún momento durante esta
-		dialogo.AddToColaObjetos();
+		//El dialogo actual se añade al acabar la conversación, en ningún momento durante esta,
+		//si ha sido modificado
+		if(dialogo.GetModificado())
+			dialogo.AddToColaObjetos();
 
 		Manager.instance.ActualizarDatos();
 	}

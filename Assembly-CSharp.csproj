@@ -50,6 +50,7 @@
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
      <Compile Include="Assets\ProCore\ProBuilder\API Examples\Runtime Editing\RuntimeEdit.cs" />
+     <Compile Include="Assets\Prueba.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogo.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\Dialogue.cs" />
      <Compile Include="Assets\_Scripts\Dialogo\Clases Diálogo\Dialogue\DialogueNode\DialogueAddIntro.cs" />
@@ -110,6 +111,7 @@
      <Compile Include="Assets\_Scripts\Manager\ColaObjetos\ColaObjeto.cs" />
      <Compile Include="Assets\_Scripts\Manager\ColaObjetos\ObjetoSerializable.cs" />
      <Compile Include="Assets\_Scripts\Manager\Manager.cs" />
+     <Compile Include="Assets\_Scripts\Manager\ManagerEscenas.cs" />
      <Compile Include="Assets\_Scripts\Manager\ManagerInput.cs" />
      <Compile Include="Assets\_Scripts\Manager\ManagerMenu.cs" />
      <Compile Include="Assets\_Scripts\Manager\Rutina\Autorutina.cs" />
@@ -134,13 +136,14 @@
      <Compile Include="Assets\_Scripts\Personaje y Camara\TPCamera.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TPController.cs" />
      <Compile Include="Assets\_Scripts\Personaje y Camara\TPMotor.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\RutaCollider.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\SaliendoTransporteCollider.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInter.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransporteInterObjeto.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayer.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\Tipos Transporte\TransportePlayerObjeto.cs" />
-     <Compile Include="Assets\_Scripts\Transporte\TransporteCollider.cs" />
+     <Compile Include="Assets\_Scripts\TransporteInteractuable\RutaCollider.cs" />
+     <Compile Include="Assets\_Scripts\TransporteInteractuable\SaliendoTransporteCollider.cs" />
+     <Compile Include="Assets\_Scripts\TransporteInteractuable\Tipos Transporte\TransporteInter.cs" />
+     <Compile Include="Assets\_Scripts\TransporteInteractuable\Tipos Transporte\TransporteInterObjeto.cs" />
+     <Compile Include="Assets\_Scripts\TransporteInteractuable\TransporteCollider.cs" />
+     <Compile Include="Assets\_Scripts\TransporteJugador\ManejoEscena.cs" />
+     <Compile Include="Assets\_Scripts\TransporteJugador\PuertaEscena.cs" />
+     <Compile Include="Assets\_Scripts\TransporteJugador\TransporteJugador.cs" />
      <Compile Include="Assets\_Scripts\UI\UIPopUpObjeto.cs" />
      <Compile Include="Assets\_Scripts\UI\UITiempo.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />

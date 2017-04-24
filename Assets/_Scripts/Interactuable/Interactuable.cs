@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 /*
  * 	Clase que almacena datos sobre un interactuable, que almacena objetos los cuales permiten al jugador realizar determinadas acciones
@@ -63,6 +64,9 @@ public class Interactuable : MonoBehaviour {
 		//Añadimos el interactuable al diccionario para tenerlo disponible
 		Manager.instance.AddToInteractuables(ID, gameObject);
 
+		//Asignamos el interactuable a la escena actual
+		SceneManager.MoveGameObjectToScene(gameObject, ManagerEscenas.instance.GetEscenaActual());
+
 		//Carga la layerMask para que el rayo detecte todos las colisiones con objetos
 		//con la layer 10 (Pared), es decir, las colisiones con el objeto, que contiene esta layer
 		layerMask = 1 << 10;
@@ -95,10 +99,12 @@ public class Interactuable : MonoBehaviour {
 	}
 
 	//Al destruirse esta instancia, lo borramos de la lista del Manager que almacena los interactuables de la escena actual
-	void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		//Borramos el valor del diccionario cuando el npc no existe
 		Manager.instance.RemoveFromInteractuables(ID);
+
+		//Debug.Log("Destruido de inter: " + ID);
 	}
 
 	//Rellena las listas de acciones

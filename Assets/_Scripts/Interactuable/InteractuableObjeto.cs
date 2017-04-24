@@ -90,13 +90,6 @@ public class InteractuableObjeto : Interactuable {
 			TransporteInterObjeto transporteInterObjeto = transporteGO.AddComponent<TransporteInterObjeto>();
 			transporteInterObjeto.Constructor(objetoTransporteInter.ID, objetoTransporteInter.escenas);
 		}
-		else if(objetoTransporteInter.GetType() == typeof(ObjetoTransportePlayer))
-		{
-			ObjetoTransportePlayer objetoTransportePlayer = objetoTransporteInter as ObjetoTransportePlayer;
-
-			TransportePlayerObjeto transportePlayerObjeto = transporteGO.AddComponent<TransportePlayerObjeto>();
-			transportePlayerObjeto.Constructor(objetoTransportePlayer.ID, objetoTransportePlayer.escenas, objetoTransportePlayer.IDEscena);
-		}
 	}
 
 	public void SetNavObstacle(bool estado)

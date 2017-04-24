@@ -21,10 +21,9 @@ public class Manager : MonoBehaviour
 
 	#region EDITOR
 
-	//Indica el nombre de primera escena que se cargará
 	//Contiene [SerializeField] para mostrar una variable privada en el editor de Unity
 	[SerializeField]
-	private string escenaInicial;
+	private int escenaInicial;
 
 	public bool borrarDatosGuardados;
 
@@ -44,6 +43,7 @@ public class Manager : MonoBehaviour
 	private List<Grupo> gruposActivos; //lista grupos activos
 	private List<int> gruposAcabados; //lista con ids de los grupos acabados
 
+	//CONVERTIR A COLA
 	private List<ObjetoReciente> objetosRecientes; //lista de objetos obtenidos recientemente
 
 	private int escenaTransporte; //Variable usada para saber en que escena se encuentran los teletransportes (ya que el orden de ejecución de onloadlevel no es fiable)
@@ -126,7 +126,8 @@ public class Manager : MonoBehaviour
 		ComprobarEventosInicio(ManagerTiempo.instance.GetHoraActual());
 
 		//Cargamos el escenario
-		SceneManager.LoadScene(escenaInicial);
+		//SceneManager.LoadScene(escenaInicial);
+		ManagerEscenas.instance.CargarEscenaDirectamente(escenaInicial);
 	}
 
 	private void SetRutasArchivo()
@@ -194,6 +195,11 @@ public class Manager : MonoBehaviour
 		objetoTemporalGO = new GameObject("ManagerMenu");
 		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
 		objetoTemporalGO.AddComponent<ManagerMenu>();
+
+		//CREAR CON PREFAB
+		objetoTemporalGO = new GameObject("ManagerEscenas");
+		objetoTemporalGO.transform.SetParent(gameObject.transform, false);
+		objetoTemporalGO.AddComponent<ManagerEscenas>();
 
 		objetoTemporalGO = (GameObject)Instantiate(Resources.Load("Ethan"));
 		DontDestroyOnLoad(objetoTemporalGO); //Hacemos que el objeto no pueda ser destruido entre escenas
@@ -384,11 +390,14 @@ public class Manager : MonoBehaviour
 	protected virtual void OnDisable() {
 		SceneManager.sceneLoaded -= OnSceneLoaded;
 	}
-
+		
 	//Carga los interactuables al cargar una escena
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		VaciaNavMeshAgents();
+		//VaciaNavMeshAgents();
+
+		//Debug.Log("Esceba caragda");
+		//Debug.Log(scene.buildIndex);
 
 		//Cargamos los interactuables de la escena
 		ManagerRutina.instance.CargarEscena(scene.buildIndex);

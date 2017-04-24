@@ -30,11 +30,25 @@ public class Dialogo : ObjetoSerializable
 	public List<TemaMensaje> temaMensajes; //Agrupan mensajes con los mismos temas
 	public List<Mensaje> mensajes; //Diálogos que se muestran como opciones al finalizar las intros
 
+	//Indica si el dialogo se ha modificado. Cuando un nodo ha sido leido por primera vez, el dialogo se considera modificado
+	//Si se ha modificado, el dialogo se serializa al acabar la conversación, sino no
+	public bool modificado;
+
 	public Dialogo()
 	{
 		intros = new List<Intro>();
 		temaMensajes = new List<TemaMensaje>();
 		mensajes = new List<Mensaje>();
+	}
+
+	public void SetModificado(bool modificado)
+	{
+		this.modificado = modificado;
+	}
+
+	public bool GetModificado()
+	{
+		return modificado;
 	}
 
 	public int DevuelveNumeroIntros()
@@ -375,6 +389,7 @@ public class Dialogo : ObjetoSerializable
 				
 			//Marcamos el nodo como recorrido y comprobamos las funciones del nodo actual
 			node.MarcarLeido();
+			modificado = true;
 			ComprobarPropiedadesNodo(tipo, posTema, ref posDialogo, node);
 		}
 

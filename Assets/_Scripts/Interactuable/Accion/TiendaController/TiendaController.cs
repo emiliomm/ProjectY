@@ -100,8 +100,8 @@ public class TiendaController : MonoBehaviour {
 		var compraPopup = (GameObject)Instantiate(Resources.Load("Tienda/UICompraPopup"));
 		compraPopup.transform.SetParent(gameObject.transform, false);
 
-		var siGO = compraPopup.transform.GetChild(1).gameObject;
-		var noGO = compraPopup.transform.GetChild(2).gameObject;
+		var siGO = compraPopup.transform.GetChild(2).gameObject;
+		var noGO = compraPopup.transform.GetChild(3).gameObject;
 
 		siGO.GetComponent<Button>().onClick.AddListener(delegate { StartCoroutine(AddObjeto(num, compraPopup)); }); //Listener del botón
 		noGO.GetComponent<Button>().onClick.AddListener(delegate { Destroy(compraPopup); }); //Listener del botón

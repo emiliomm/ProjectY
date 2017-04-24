@@ -8,7 +8,7 @@ public class ManagerRutina: MonoBehaviour
 	//Singleton pattern
 	public static ManagerRutina instance { get; private set; }
 
-	private int escenaActual = 0;
+	//private int escenaActual = 0;
 
 	//<id_escena, lista - lugar_actual>
 	//lugar_actual : lugar --> id_interactuable
@@ -81,10 +81,10 @@ public class ManagerRutina: MonoBehaviour
 		listaEventos = new Dictionary<int,EventoLista>();
 	}
 
-	private void SetEscenaActual(int escenaActual)
+	/*private void SetEscenaActual(int escenaActual)
 	{
 		this.escenaActual = escenaActual;
-	}
+	}*/
 
 	//Carga el interactuable en el diccionario al iniciar el juego
 	public void CargarInteractuable(DatosInteractuable datosInteractuable)
@@ -331,7 +331,10 @@ public class ManagerRutina: MonoBehaviour
 		InfoInteractuable infoInteractuable;
 		if (infoInteractuables.TryGetValue(IDInteractuable, out infoInteractuable))
 		{
-			ComprobarInteractuableEscenaActual(IDInteractuable, infoInteractuable.DevolverTipo(), infoInteractuable.DevolverIDEscena(), IDEscena, new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ), new Quaternion(lugar.rotX, lugar.rotY, lugar.rotZ, lugar.rotW));
+			ComprobarInteractuableEscenaActual(IDInteractuable, infoInteractuable.DevolverTipo(), infoInteractuable.DevolverIDEscena(), IDEscena,
+				new Vector3(lugar.coordX, lugar.coordY, lugar.coordZ),
+				new Quaternion(lugar.rotX, lugar.rotY, lugar.rotZ, lugar.rotW));
+			
 			infoInteractuable.SetIDEscena(IDEscena);
 			infoInteractuable.SetFechaCambioLugar(fechaActual);
 
@@ -387,26 +390,80 @@ public class ManagerRutina: MonoBehaviour
 		Debug.Log("Limpieza del diccionario de lugaresActuales ejecutada");
 	}
 
-	private void ComprobarInteractuableEscenaActual(int IDInteractuable, int tipoInteractuable, int IDEscenaAnterior, int IDEscenaActual, Vector3 coord, Quaternion rot)
+	private void ComprobarInteractuableEscenaActual(int IDInteractuable, int tipoInteractuable, int IDEscenaActual, int IDEscenaSiguiente, Vector3 coord, Quaternion rot)
 	{
-		if(IDEscenaAnterior == escenaActual)
+		/*
+		Debug.Log("Comprobando escena actual interactuables");
+		Debug.Log(IDInteractuable);
+		Debug.Log(ManagerEscenas.instance.GetNumeroEscenaActual());
+		Debug.Log(ManagerEscenas.instance.GetNumeroEscenaCargada());
+		Debug.Log(IDEscenaActual);
+		Debug.Log(IDEscenaSiguiente);
+		*/
+
+		if(ManagerEscenas.instance.GetNumeroEscenaCargada() != -1)
+		{
+			if(IDEscenaActual == ManagerEscenas.instance.GetNumeroEscenaActual() || IDEscenaActual == ManagerEscenas.instance.GetNumeroEscenaCargada())
+			{
+				//El interactuable se mueve desde un punto de la escena actual a otro
+				if(IDEscenaSiguiente == ManagerEscenas.instance.GetNumeroEscenaActual() || IDEscenaSiguiente == ManagerEscenas.instance.GetNumeroEscenaCargada())
+				{
+					Manager.instance.MoverInteractuableEnEscena(tipoInteractuable, IDInteractuable, coord, rot);
+				}
+				//El interactuable debe abandonar la escena actual hacia otra
+				else
+				{
+					Manager.instance.MoverInteractuableHaciaOtraEscena(tipoInteractuable, IDInteractuable, IDEscenaSiguiente);
+				}
+			}
+			//El interactuable no existe, se crea en la escena
+			else if(IDEscenaSiguiente == ManagerEscenas.instance.GetNumeroEscenaActual() || IDEscenaSiguiente == ManagerEscenas.instance.GetNumeroEscenaCargada())
+			{
+				Manager.instance.MoverInteractuableDesdeOtraEscena(IDInteractuable, tipoInteractuable, IDEscenaActual, coord, rot);
+			}
+		}
+		else
+		{
+			if(IDEscenaActual == ManagerEscenas.instance.GetNumeroEscenaActual())
+			{
+				//El interactuable se mueve desde un punto de la escena actual a otro
+				if(IDEscenaSiguiente == ManagerEscenas.instance.GetNumeroEscenaActual())
+				{
+					Manager.instance.MoverInteractuableEnEscena(tipoInteractuable, IDInteractuable, coord, rot);
+				}
+				//El interactuable debe abandonar la escena actual hacia otra
+				else
+				{
+					Manager.instance.MoverInteractuableHaciaOtraEscena(tipoInteractuable, IDInteractuable, IDEscenaSiguiente);
+				}
+			}
+			//El interactuable no existe, se crea en la escena
+			else if(IDEscenaSiguiente == ManagerEscenas.instance.GetNumeroEscenaActual())
+			{
+				Manager.instance.MoverInteractuableDesdeOtraEscena(IDInteractuable, tipoInteractuable, IDEscenaActual, coord, rot);
+			}
+		}
+
+		/*
+		if(IDEscenaActual == escenaActual)
 		{
 			//El interactuable se mueve desde un punto de la escena actual a otro
-			if(IDEscenaAnterior == IDEscenaActual)
+			if(IDEscenaActual == IDEscenaSiguiente)
 			{
 				Manager.instance.MoverInteractuableEnEscena(tipoInteractuable, IDInteractuable, coord, rot);
 			}
 			//El interactuable debe abandonar la escena actual hacia otra
 			else
 			{
-				Manager.instance.MoverInteractuableHaciaOtraEscena(tipoInteractuable, IDInteractuable, IDEscenaActual);
+				Manager.instance.MoverInteractuableHaciaOtraEscena(tipoInteractuable, IDInteractuable, IDEscenaSiguiente);
 			}
 		}
 		//El interactuable no existe, se crea en la escena
-		else if(IDEscenaActual == escenaActual)
+		else if(IDEscenaSiguiente == escenaActual)
 		{
-			Manager.instance.MoverInteractuableDesdeOtraEscena(IDInteractuable, tipoInteractuable, IDEscenaAnterior, coord, rot);
+			Manager.instance.MoverInteractuableDesdeOtraEscena(IDInteractuable, tipoInteractuable, IDEscenaActual, coord, rot);
 		}
+		*/
 	}
 		
 	public void ComprobarRutinas(int horaActual)
@@ -529,7 +586,7 @@ public class ManagerRutina: MonoBehaviour
 	public void CargarEscena(int escena)
 	{
 		//Establecemos la escena actual
-		SetEscenaActual(escena);
+		//SetEscenaActual(escena);
 
 		List<LugarActual> listaLugarActual;
 		if (lugaresActuales.TryGetValue(escena, out listaLugarActual))
