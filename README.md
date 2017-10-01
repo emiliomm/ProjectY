@@ -8,3 +8,5 @@ A 3rd person controller Prototype made by Unity.
   - Dialogue system (Dialogue tree with XML files, XML load/save, multiple options and choices).
   - NPCs time routine system.
   - Open level loading (load/unload scenes by player proximity).
+ 
+Visit the [wiki](https://github.com/emiliomm/ProjectY/wiki) to view some images.
